@@ -29,12 +29,10 @@ public class Player : MonoBehaviour
     }
 
     private void SetPlayerVelocity() {
-        _smoothedMovementInput = Vector2.SmoothDamp(
-            _smoothedMovementInput,
-            _movementInput,
-            ref _movementInputSmoothVelocity, 0.1f
-        );
-        _rigidbody.velocity = _smoothedMovementInput * _speed;
+
+        Vector2 nextVec = _movementInput * _speed * Time.fixedDeltaTime;
+        _rigidbody.MovePosition(_rigidbody.position + nextVec );
+        _rigidbody.velocity = Vector2.zero;
     }
 
     private void RotateInDirectionOfInput() {
