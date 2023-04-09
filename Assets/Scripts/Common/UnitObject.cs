@@ -8,7 +8,6 @@ public class UnitObject : ScriptableObject
 {
     public List<UnitList> unitList = new List<UnitList>(); //Output
 
-    public int numberOfCardsInDatabase; // total amount of cards in Awake not including 0***
 }
 
 
