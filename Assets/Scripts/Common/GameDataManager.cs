@@ -9,6 +9,8 @@ namespace nightmareHunter {
     {
         public static GameDataManager instance;
 
+        UnitObject unitObject = new UnitObject();
+        StateMonsterBatch stateMonsterBatch = new StateMonsterBatch();
 
         private void Awake() {
             if (instance == null) {
@@ -53,7 +55,6 @@ namespace nightmareHunter {
 
             PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
 
-            UnitObject unitObject = new UnitObject();
 
             for(int i = 0; i < unitObject.unitList.Count; i++) {
                 if (unitObject.unitList[i].unitType == 0) {
@@ -68,5 +69,13 @@ namespace nightmareHunter {
 
             return playerInfo;
         }
+
+        
+        public UnitObject MonsterWave() {
+            
+
+            return stateMonsterBatch;
+        }
+
     }
 }

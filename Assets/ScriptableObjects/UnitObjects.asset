@@ -57,5 +57,4 @@ MonoBehaviour:
     lev_move: 1
     attackSpeed: 0
     lev_attackSpeed: 1
-    spritesName: wanderer
-  numberOfCardsInDatabase: 0
+    spritesName: teller

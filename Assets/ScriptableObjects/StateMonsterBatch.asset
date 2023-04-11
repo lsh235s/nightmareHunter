@@ -12,4 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 950d4593eb1997246950b4620c05b38e, type: 3}
   m_Name: StateMonsterBatch
   m_EditorClassIdentifier: 
-  stateMonsterList: []
+  stateMonsterList:
+  - id: 0
+    level: 1
+    monsterId: 1
+    moveType: 0
+  - id: 1
+    level: 1
+    monsterId: 2
+    moveType: 0
+  - id: 2
+    level: 1
+    monsterId: 1
+    moveType: 1
+  - id: 3
+    level: 1
+    monsterId: 1
+    moveType: 1
