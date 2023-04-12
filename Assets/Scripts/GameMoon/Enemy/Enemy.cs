@@ -19,6 +19,8 @@ namespace nightmareHunter {
 
         public PlayerInfo _playerinfo;
 
+        public float _speed = 0f;
+
         private void Awake() {
             isLive = true;
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -28,6 +30,15 @@ namespace nightmareHunter {
             {
                 _waypointList.Add(childTransform);
             }   
+
+        }
+
+        public void initState(PlayerInfo inPlayerinfo) {
+            _playerinfo = inPlayerinfo;
+            _playerinfo.move = inPlayerinfo.move;
+            _speed = _playerinfo.move;
+
+            Debug.Log("initState:///"+_playerinfo.move);
         }
 
         private void FixedUpdate() {
@@ -43,7 +54,7 @@ namespace nightmareHunter {
         //    _rigidbody.velocity = Vector2.zero;
 
             if(waypointIndex < _waypointList.Count) {
-                transform.position = Vector2.MoveTowards (transform.position, _waypointList[waypointIndex].transform.position, _playerinfo.attackSpeed * Time.fixedDeltaTime);
+                transform.position = Vector2.MoveTowards (transform.position, _waypointList[waypointIndex].transform.position, _playerinfo.move * Time.fixedDeltaTime);
             
                 if(transform.position == _waypointList[waypointIndex].transform.position) {
                     waypointIndex += 1;

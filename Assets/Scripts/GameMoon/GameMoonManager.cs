@@ -51,7 +51,6 @@ namespace nightmareHunter {
 
         public GameObject Get(StateMonster stateMonster) {
             GameObject select = null;
-            Debug.Log(wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject);
 
             foreach (GameObject item in _monsterList[stateMonster.monsterId])
             {
@@ -59,7 +58,7 @@ namespace nightmareHunter {
                     item.GetComponent<Enemy>()._target = _playGameObject.GetComponent<Rigidbody2D>();
                     item.GetComponent<Enemy>().waypoints = wayPointList[stateMonster.moveType];
                     item.transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
-                    item.GetComponent<Enemy>()._playerinfo = gameDataManager.LoadMonsterInfo(_unitObject,stateMonster); 
+                    item.GetComponent<Enemy>().initState(gameDataManager.LoadMonsterInfo(_unitObject,stateMonster)); 
                     select = item;
                     break;
                 }
@@ -69,9 +68,9 @@ namespace nightmareHunter {
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>()._target = _playGameObject.GetComponent<Rigidbody2D>();
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypoints = wayPointList[stateMonster.moveType];
                 _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>()._playerinfo = gameDataManager.LoadMonsterInfo(_unitObject,stateMonster); 
+                _monsters[stateMonster.monsterId].GetComponent<Enemy>().initState(gameDataManager.LoadMonsterInfo(_unitObject,stateMonster)); 
                 select = Instantiate(_monsters[stateMonster.monsterId]);
-                _monsterList[stateMonster.index].Add(select);
+                _monsterList[stateMonster.monsterId].Add(select);
             }
 
             return select;

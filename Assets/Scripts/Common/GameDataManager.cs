@@ -65,9 +65,9 @@ namespace nightmareHunter {
             return playerInfo;
         }
 
-        public PlayerInfo LoadMonsterInfo(UnitObject unitObject, StateMonster stateMonster) {
+        public PlayerInfo LoadMonsterInfo( UnitObject unitObject, StateMonster stateMonster) {
             PlayerInfo playerInfo = new PlayerInfo();
-            playerInfo.level = stateMonster.level;
+            playerInfo.playerLevel = stateMonster.level;
             
             for(int i = 0; i < unitObject.unitList.Count; i++) {
                 if (unitObject.unitList[i].unitType == 1 && unitObject.unitList[i].id == stateMonster.monsterId) {
@@ -79,6 +79,7 @@ namespace nightmareHunter {
                     playerInfo.spritesName = unitObject.unitList[i].spritesName;
                 }
             }
+            Debug.Log("LoadMonsterInfo"+playerInfo.move);
             return playerInfo;
         }
 

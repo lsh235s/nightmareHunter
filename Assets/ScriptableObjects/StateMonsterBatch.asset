@@ -15,17 +15,17 @@ MonoBehaviour:
   stateMonsterList:
   - id: 0
     level: 1
-    monsterId: 1
+    monsterId: 0
     moveType: 0
   - id: 1
     level: 1
-    monsterId: 2
+    monsterId: 1
     moveType: 0
   - id: 2
     level: 1
-    monsterId: 1
+    monsterId: 0
     moveType: 1
   - id: 3
     level: 1
-    monsterId: 1
+    monsterId: 0
     moveType: 1

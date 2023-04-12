@@ -69,10 +69,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95728c9848af4574793042d81231729b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 2
   _target: {fileID: 0}
   waypoints: {fileID: 0}
   _animator: {fileID: 3314214647874090235}
+  _speed: 3
 --- !u!114 &3314214647269054761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +184,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 0
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &3314214647874090235
