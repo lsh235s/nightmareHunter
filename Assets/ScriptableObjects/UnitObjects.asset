@@ -28,7 +28,7 @@ MonoBehaviour:
     attackSpeed: 3
     lev_attackSpeed: 1
     spritesName: hunter
-  - id: 1
+  - id: 0
     unitType: 1
     unitName: wanderer
     level: 1
@@ -43,7 +43,7 @@ MonoBehaviour:
     attackSpeed: 3
     lev_attackSpeed: 1
     spritesName: wanderer
-  - id: 2
+  - id: 1
     unitType: 1
     unitName: teller
     level: 1

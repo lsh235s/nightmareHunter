@@ -9,9 +9,6 @@ namespace nightmareHunter {
     {
         public static GameDataManager instance;
 
-        UnitObject unitObject = new UnitObject();
-        StateMonsterBatch stateMonsterBatch = new StateMonsterBatch();
-
         private void Awake() {
             if (instance == null) {
                 instance = this;
@@ -38,15 +35,14 @@ namespace nightmareHunter {
 
         public void SavePlayerInfo(PlayerInfo playerInfo) {
             string json = JsonConvert.SerializeObject(playerInfo);
-            Debug.Log(json);
 
             string fileName = "PlayerInfo.json";
             string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
-            Debug.Log(filePath);
+
             System.IO.File.WriteAllText(filePath, json);
         }
 
-        public PlayerInfo LoadPlayerInfo() {
+        public PlayerInfo LoadPlayerInfo(UnitObject unitObject) {
             string fileName = "PlayerInfo.json";
             string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
 
@@ -54,7 +50,6 @@ namespace nightmareHunter {
             string jsonString = File.ReadAllText(filePath);
 
             PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
-
 
             for(int i = 0; i < unitObject.unitList.Count; i++) {
                 if (unitObject.unitList[i].unitType == 0) {
@@ -70,11 +65,21 @@ namespace nightmareHunter {
             return playerInfo;
         }
 
-        
-        public UnitObject MonsterWave() {
+        public PlayerInfo LoadMonsterInfo(UnitObject unitObject, StateMonster stateMonster) {
+            PlayerInfo playerInfo = new PlayerInfo();
+            playerInfo.level = stateMonster.level;
             
-
-            return stateMonsterBatch;
+            for(int i = 0; i < unitObject.unitList.Count; i++) {
+                if (unitObject.unitList[i].unitType == 1 && unitObject.unitList[i].id == stateMonster.monsterId) {
+                    playerInfo.health = unitObject.unitList[i].health + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_health);
+                    playerInfo.attack = unitObject.unitList[i].attack + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attack);
+                    playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
+                    playerInfo.move = unitObject.unitList[i].move + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_move);
+                    playerInfo.attackSpeed = unitObject.unitList[i].attackSpeed + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackSpeed);
+                    playerInfo.spritesName = unitObject.unitList[i].spritesName;
+                }
+            }
+            return playerInfo;
         }
 
     }

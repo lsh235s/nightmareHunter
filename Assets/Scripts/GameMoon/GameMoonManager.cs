@@ -6,20 +6,27 @@ namespace nightmareHunter {
     public class GameMoonManager : MonoBehaviour
     {
         // Start is called before the first frame update
+        [SerializeField]
         GameObject _playGameObject; 
 
+        [SerializeField]
+        GameObject[] wayPointList; 
+
+        private List<GameObject>[] _monsterList;
         public GameObject[] _monsters;
-        List<GameObject>[] _monsterList;
-        
+  
         GameDataManager gameDataManager = new GameDataManager();
+
+        public UnitObject _unitObject;
+        public StateMonsterBatch _stateMonsterBatch ;
 
         void Start()
         {
+            //몬스터 배치
             monsterInit();
 
-            _playGameObject = GameObject.Find("Player");
-
-            _playGameObject.GetComponent<Player>()._playerinfo = gameDataManager.LoadPlayerInfo(); 
+            //플레이어 능력치 load
+            _playGameObject.GetComponent<Player>()._playerinfo = gameDataManager.LoadPlayerInfo(_unitObject); 
 
         }
 
@@ -36,26 +43,35 @@ namespace nightmareHunter {
                 _monsterList[i] = new List<GameObject>();
             }
 
-
-            UnitObject stateMonsterBatch = gameDataManager.MonsterWave();
-            Debug.Log("stateMonsterBatch://"+stateMonsterBatch.unitList.Count);
+            for (int i = 0; i < _stateMonsterBatch.stateMonsterList.Count; i++) {
+                Get(_stateMonsterBatch.stateMonsterList[i]);
+            }
 
         }
 
-        public GameObject Get(int index) {
+        public GameObject Get(StateMonster stateMonster) {
             GameObject select = null;
+            Debug.Log(wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject);
 
-            foreach (GameObject item in _monsterList[index])
+            foreach (GameObject item in _monsterList[stateMonster.monsterId])
             {
                 if (!item.activeSelf) {
+                    item.GetComponent<Enemy>()._target = _playGameObject.GetComponent<Rigidbody2D>();
+                    item.GetComponent<Enemy>().waypoints = wayPointList[stateMonster.moveType];
+                    item.transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
+                    item.GetComponent<Enemy>()._playerinfo = gameDataManager.LoadMonsterInfo(_unitObject,stateMonster); 
                     select = item;
                     break;
                 }
             }
 
             if (!select) {
-                select = Instantiate(_monsters[index]);
-                _monsterList[index].Add(select);
+                _monsters[stateMonster.monsterId].GetComponent<Enemy>()._target = _playGameObject.GetComponent<Rigidbody2D>();
+                _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypoints = wayPointList[stateMonster.moveType];
+                _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
+                _monsters[stateMonster.monsterId].GetComponent<Enemy>()._playerinfo = gameDataManager.LoadMonsterInfo(_unitObject,stateMonster); 
+                select = Instantiate(_monsters[stateMonster.monsterId]);
+                _monsterList[stateMonster.index].Add(select);
             }
 
             return select;

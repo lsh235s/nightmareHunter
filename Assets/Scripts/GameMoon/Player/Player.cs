@@ -15,7 +15,6 @@ namespace nightmareHunter {
 
         public PlayerInfo _playerinfo;
 
-
         private Rigidbody2D _rigidbody;
         private Vector2 _movementInput;
         private Vector2 _smoothedMovementInput;
