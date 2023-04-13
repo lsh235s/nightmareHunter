@@ -79,7 +79,6 @@ namespace nightmareHunter {
                     playerInfo.spritesName = unitObject.unitList[i].spritesName;
                 }
             }
-            Debug.Log("LoadMonsterInfo"+playerInfo.move);
             return playerInfo;
         }
 

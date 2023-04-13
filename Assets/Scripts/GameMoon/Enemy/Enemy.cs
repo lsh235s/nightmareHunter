@@ -10,6 +10,7 @@ namespace nightmareHunter {
 
         List<Transform> _waypointList = new List<Transform>();
         bool isLive;
+        string activateStatus = "stop";
         int waypointIndex = 0;
 
         [SerializeField]
@@ -17,9 +18,9 @@ namespace nightmareHunter {
 
         private Rigidbody2D _rigidbody;
 
-        public PlayerInfo _playerinfo;
 
-        public float _speed = 0f;
+        // 몬스터 능력치 
+        public float _speed;
 
         private void Awake() {
             isLive = true;
@@ -33,33 +34,33 @@ namespace nightmareHunter {
 
         }
 
-        public void initState(PlayerInfo inPlayerinfo) {
-            _playerinfo = inPlayerinfo;
-            _playerinfo.move = inPlayerinfo.move;
-            _speed = _playerinfo.move;
+        public void initState(PlayerInfo playerinfo) {
+            activateStatus = "move";
 
-            Debug.Log("initState:///"+_playerinfo.move);
+            _speed = playerinfo.move;
+
+            Debug.Log(_speed);
         }
 
         private void FixedUpdate() {
             if(!isLive)
                 return;
 
-            _animator.SetFloat("move", 1f);
-        //     //(방향을 알수 있음)위치 = 타켓 위치 - 나의위치
-        //    Vector2 dirVec = _target.position - _rigidbody.position;
-        //    //다음에 가야할 위치 = 방향벡터 * 속도 * 시간
-        //    Vector2 nextVec = dirVec.normalized  * _speed * Time.fixedDeltaTime;
-        //    _rigidbody.MovePosition(_rigidbody.position + nextVec);
-        //    _rigidbody.velocity = Vector2.zero;
+            monsterMoveProcess();
+        }
 
-            if(waypointIndex < _waypointList.Count) {
-                transform.position = Vector2.MoveTowards (transform.position, _waypointList[waypointIndex].transform.position, _playerinfo.move * Time.fixedDeltaTime);
+        void monsterMoveProcess() {
+            //if("move".Equals(activateStatus)) {
+                _animator.SetFloat("move", 1f);
+     
+                if(waypointIndex < _waypointList.Count) {
+                    transform.position = Vector2.MoveTowards (transform.position, _waypointList[waypointIndex].transform.position, _speed * Time.fixedDeltaTime);
             
-                if(transform.position == _waypointList[waypointIndex].transform.position) {
-                    waypointIndex += 1;
+                    if(transform.position == _waypointList[waypointIndex].transform.position) {
+                        waypointIndex += 1;
+                    }
                 }
-            }
+            //}
         }
 
         private void LateUpdate() {
