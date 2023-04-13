@@ -21,6 +21,10 @@ namespace nightmareHunter {
 
         // 몬스터 능력치 
         public float _speed;
+        public float _hp;
+        public float _attack;
+        public float _attackSpeed;
+        public float _attackRange;
 
         private void Awake() {
             isLive = true;
@@ -38,8 +42,11 @@ namespace nightmareHunter {
             activateStatus = "move";
 
             _speed = playerinfo.move;
+            _hp = playerinfo.health;
+            _attack = playerinfo.attack;
+            _attackSpeed = playerinfo.attackSpeed;
+            _attackRange = playerinfo.attackRange;
 
-            Debug.Log(_speed);
         }
 
         private void FixedUpdate() {

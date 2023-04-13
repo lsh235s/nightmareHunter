@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace nightmareHunter {
 public class Bullet : MonoBehaviour
-{
-    private void OnTriggerEnter2D(Collider2D collision) {
-        // if(collision.GetComponent<Enemy>()) {
-        //     Destroy(collision.gameObject);
-        //     Destroy(gameObject);
-        // }
+    {
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if(collision.GetComponent<Enemy>()) {
+                Destroy(collision.gameObject);
+                Destroy(gameObject);
+            }
+        }
     }
 }

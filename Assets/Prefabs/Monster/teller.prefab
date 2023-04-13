@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3340696490623419485}
   - component: {fileID: 3340696490623419487}
   - component: {fileID: 3340696490623419486}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grapics
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -82,7 +82,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 0
+  m_SortingLayer: 5
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &3340696490623419487
@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 3340696491319737205}
   - component: {fileID: 3340696491319737206}
   - component: {fileID: 3340696491319737207}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: teller
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,6 +219,10 @@ MonoBehaviour:
   waypoints: {fileID: 0}
   _animator: {fileID: 3340696490623419487}
   _speed: 5
+  _hp: 100
+  _attack: 0
+  _attackSpeed: 0
+  _attackRange: 1
 --- !u!114 &3340696491319737206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,7 +246,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.5}

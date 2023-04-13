@@ -48,7 +48,7 @@ public class PlayerShoot : MonoBehaviour
         _fireContinuously = inputValue.isPressed;
 
         if(inputValue.isPressed) {
-        //    _fireSingle = true;
+            _fireSingle = true;
         }
     }
 }
