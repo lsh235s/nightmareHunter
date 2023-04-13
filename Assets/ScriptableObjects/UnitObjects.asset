@@ -12,5 +12,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03c373d10f0364f40bc3437ae11c3560, type: 3}
   m_Name: UnitObjects
   m_EditorClassIdentifier: 
-  unitList: []
-  numberOfCardsInDatabase: 0
+  unitList:
+  - id: 0
+    unitType: 0
+    unitName: player
+    level: 1
+    health: 100
+    lev_health: 1
+    attack: 2
+    lev_attack: 1
+    attackRange: 10
+    lev_attackRange: 1
+    move: 5
+    lev_move: 1
+    attackSpeed: 3
+    lev_attackSpeed: 1
+    spritesName: hunter
+  - id: 0
+    unitType: 1
+    unitName: wanderer
+    level: 1
+    health: 500
+    lev_health: 1
+    attack: 5
+    lev_attack: 1
+    attackRange: 1
+    lev_attackRange: 1
+    move: 3
+    lev_move: 1
+    attackSpeed: 3
+    lev_attackSpeed: 1
+    spritesName: wanderer
+  - id: 1
+    unitType: 1
+    unitName: teller
+    level: 1
+    health: 100
+    lev_health: 1
+    attack: 0
+    lev_attack: 1
+    attackRange: 1
+    lev_attackRange: 1
+    move: 5
+    lev_move: 1
+    attackSpeed: 0
+    lev_attackSpeed: 1
+    spritesName: teller
