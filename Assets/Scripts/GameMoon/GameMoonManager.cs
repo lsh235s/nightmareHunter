@@ -24,9 +24,8 @@ namespace nightmareHunter {
         {
             //몬스터 배치
             monsterInit();
-
             //플레이어 능력치 load
-            _playGameObject.GetComponent<Player>()._playerinfo = gameDataManager.LoadPlayerInfo(_unitObject); 
+            playerInit();
 
         }
 
@@ -34,6 +33,10 @@ namespace nightmareHunter {
         void Update()
         {
             
+        }
+
+        void playerInit() {
+            _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo(_unitObject)); 
         }
 
         void monsterInit() {

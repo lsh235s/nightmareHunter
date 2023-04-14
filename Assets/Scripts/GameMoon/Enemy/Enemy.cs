@@ -41,7 +41,10 @@ namespace nightmareHunter {
         public void initState(PlayerInfo playerinfo) {
             activateStatus = "move";
 
-            _speed = playerinfo.move;
+            _speed = 10 - playerinfo.move;
+            if(_speed <= 0) {
+                _speed = 1.0f;
+            }
             _hp = playerinfo.health;
             _attack = playerinfo.attack;
             _attackSpeed = playerinfo.attackSpeed;
@@ -53,10 +56,10 @@ namespace nightmareHunter {
             if(!isLive)
                 return;
 
-            monsterMoveProcess();
+            MonsterMoveProcess();
         }
 
-        void monsterMoveProcess() {
+        void MonsterMoveProcess() {
             //if("move".Equals(activateStatus)) {
                 _animator.SetFloat("move", 1f);
      
@@ -80,6 +83,15 @@ namespace nightmareHunter {
                 transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         
+        }
+
+        public void DamageProcess(float damage) {
+            Debug.Log(_hp +"/"+damage);
+            _hp = _hp - damage;
+
+            if(_hp <= 0) {
+                Destroy(gameObject);
+            }
         }
     }
 }
