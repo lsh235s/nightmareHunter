@@ -86,7 +86,6 @@ namespace nightmareHunter {
         }
 
         public void DamageProcess(float damage) {
-            Debug.Log(_hp +"/"+damage);
             _hp = _hp - damage;
 
             if(_hp <= 0) {

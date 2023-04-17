@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using Spine.Unity;
+using TMPro;
 
 namespace nightmareHunter {
     public class Player : MonoBehaviour
@@ -41,7 +42,9 @@ namespace nightmareHunter {
         [SerializeField]
         private Image HpCanvas;
         [SerializeField]
-        private Text HpText;
+        private TextMeshProUGUI HpText;
+
+        private float maxHp;
 
 
 
@@ -59,6 +62,7 @@ namespace nightmareHunter {
             }
             if (HpText != null)
             {
+                maxHp = _playerinfo.health;
                 HpText.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
             }
         }
@@ -157,13 +161,38 @@ namespace nightmareHunter {
         }
 
 
-        private void OnTriggerEnter2D(Collider2D collision) {
-            Debug.Log(collision);
-            if(collision.GetComponent<Enemy>()) {
-                Debug.Log("/"+collision.GetComponent<Enemy>()._attack);
-                Debug.Log(_playerinfo.health+"/");
+        private void OnCollisionEnter2D(Collision2D collision) {
+
+            Collider2D otherCollider = collision.collider;
+
+            if(otherCollider.GetComponent<Enemy>()) {
+                _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
+                if(_playerinfo.health < 0) {
+                    _playerinfo.health = 0;
+                }
+
+                float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+
+                
+
+                if(hpRate > 80 && hpRate == 100.0f) {
+                    HpCanvas.sprite = HpHeartImage[0];
+                } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                    HpCanvas.sprite = HpHeartImage[1];
+                } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                    HpCanvas.sprite = HpHeartImage[2];
+                } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                    HpCanvas.sprite = HpHeartImage[3];
+                } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                    HpCanvas.sprite = HpHeartImage[4];
+                } else if (hpRate <= 0.0f) {
+                    HpCanvas.sprite = HpHeartImage[5];
+                    _animator.SetBool("die",true);
+                }
+                HpText.text = _playerinfo.health.ToString(); 
             }
         }
+
 
     }
 }
