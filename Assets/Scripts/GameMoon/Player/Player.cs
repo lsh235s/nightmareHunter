@@ -9,6 +9,9 @@ using TMPro;
 namespace nightmareHunter {
     public class Player : MonoBehaviour
     {
+        [SerializeField]
+        private string playerState;
+
          //총알 프리팹
         [SerializeField]
         private GameObject _bulletPrefab;
@@ -45,8 +48,6 @@ namespace nightmareHunter {
         private TextMeshProUGUI HpText;
 
         private float maxHp;
-
-
 
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -152,12 +153,15 @@ namespace nightmareHunter {
 
         // 공격 키 이벤트
         private void OnFire(InputValue inputValue) {
-            _fireContinuously = inputValue.isPressed;
+            if(!"wait".Equals(playerState) ) {
+                _fireContinuously = inputValue.isPressed;
 
-            if(inputValue.isPressed) {
-                initialPosition = transform.position;
-                _fireSingle = true;
+                if(inputValue.isPressed) {
+                    initialPosition = transform.position;
+                    _fireSingle = true;
+                }
             }
+          
         }
 
 
