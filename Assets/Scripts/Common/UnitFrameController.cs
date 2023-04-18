@@ -52,7 +52,7 @@ public class UnitFrameController : MonoBehaviour
 
     public void OnMouseBeginDrag()
     {
-        if(summers != null) {
+        if(summers != null && existSummers == null) {
             // 마우스 좌표를 월드 좌표로 변환
             Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -63,6 +63,8 @@ public class UnitFrameController : MonoBehaviour
             // Cube 오브젝트 생성
             existSummers = Instantiate(summers);
 
+            existSummers.GetComponent<Collider2D>().isTrigger = true;
+            
             // 생성한 Cube 오브젝트 활성화
             existSummers.SetActive(true);
         }
@@ -70,15 +72,16 @@ public class UnitFrameController : MonoBehaviour
 
     public void OnMouseEndDrag()
     {
-        Debug.Log("드래그 완료");
+        existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+        existSummers.GetComponent<Collider2D>().isTrigger = false;
     }
 
     public void OnMouseDrag()
     {
-        
         // 마우스 좌표를 월드 좌표로 변환
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(mousePosition);
+        existSummers.GetComponent<Collider2D>().isTrigger = true;
+        existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
         // 생성한 Cube 오브젝트 위치 변경
         existSummers.transform.position = mousePosition;
     }
