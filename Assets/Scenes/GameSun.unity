@@ -992,6 +992,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -1008,6 +1009,7 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
+  m_CursorLockBehavior: 0
 --- !u!114 &320436157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1732,6 +1734,7 @@ MonoBehaviour:
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
@@ -3385,7 +3388,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85171621
-  m_SortingLayer: 0
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1191489979
@@ -4765,7 +4768,7 @@ PrefabInstance:
     - target: {fileID: 6147749317616737553, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4008cd655bf4f2a4abb2d934479d20db, type: 3}
+      objectReference: {fileID: 21300000, guid: afda536f773bf4507be0d9580d3beffa, type: 3}
     m_RemovedComponents:
     - {fileID: 2694321318843341542, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: cfaa6aea2da385342b75108b7935816e, type: 3}

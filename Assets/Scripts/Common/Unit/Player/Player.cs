@@ -176,9 +176,7 @@ namespace nightmareHunter {
                 }
 
                 float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
-
                 
-
                 if(hpRate > 80 && hpRate == 100.0f) {
                     HpCanvas.sprite = HpHeartImage[0];
                 } else if (hpRate > 50.0f && hpRate <= 80.0f) {

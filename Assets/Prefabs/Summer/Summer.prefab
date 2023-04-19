@@ -38,7 +38,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.6079547, y: 2.3948865}
+  m_AnchoredPosition: {x: 0.21792994, y: 1.4594718}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &5557243652296972030
@@ -99,10 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   summerStatus: 
-  scanRange: 100
+  scanRange: 1.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 192
   nearestTarget: {fileID: 0}
 --- !u!1 &5557243652805149989
 GameObject:
@@ -193,7 +193,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1758054653
-  m_SortingLayer: 0
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &5557243652805149994
