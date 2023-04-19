@@ -16,6 +16,8 @@ namespace nightmareHunter {
         private Image loadImage;
         [SerializeField]
         private GameObject _storyPanel;
+        [SerializeField]
+        private Animator _backGroundAnimation;
 
         // Start is called before the first frame update
         void Start()
@@ -38,7 +40,9 @@ namespace nightmareHunter {
             _storyPanel.SetActive(false);
         }
         public void startOnClick() {
-            SceneMoveManager.SceneMove("GameSun");
+            _backGroundAnimation.SetBool("start",true);
+            Invoke("pageMoveGameSun", 1.5f);
+            
         }    
         public void ContinueOnClick() {
             SceneMoveManager.SceneMove("GameMoon");
@@ -48,6 +52,11 @@ namespace nightmareHunter {
         }    
         public void ExitOnClick() {
             Debug.Log("Exit");
+        }
+
+
+        void pageMoveGameSun() {
+            SceneMoveManager.SceneMove("GameSun");
         }
         
 
