@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace nightmareHunter {
-    public class Summer : MonoBehaviour
+    public class Summer : TopManager
     {
         public string summerStatus;
         public float scanRange;
@@ -18,17 +18,21 @@ namespace nightmareHunter {
         {
             _playerinfo = new PlayerInfo();
             _playerinfo.playerLevel = 1;
-            _playerinfo.health = 100;
+            _playerinfo.health = 10;
             _playerinfo.attack = 5;
             _playerinfo.attackRange = 1;
             _playerinfo.move = 1;
             _playerinfo.attackSpeed =1;
         }
 
+        public void playerDataLoad(PlayerInfo inPlayerinfo) {
+            _playerinfo = inPlayerinfo;
+        }
+
         // Start is called before the first frame update
         void FixedUpdate()
         {
-            if(!"sun".Equals(summerStatus)) {
+            if(topSystemValue.sceneMode == 1) { // 저녁시간에만 몬스터 스캔
                 scanRadar();
                 targetsAttack();
             }

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace nightmareHunter {
-    public class InitController : MonoBehaviour
+    public class InitController : TopManager
     {
         Button SkipButton;
         Button StartButton;

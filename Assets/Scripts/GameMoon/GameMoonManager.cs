@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace nightmareHunter {
-    public class GameMoonManager : MonoBehaviour
+    public class GameMoonManager : TopManager
     {
         // Start is called before the first frame update
         [SerializeField]
@@ -15,7 +15,7 @@ namespace nightmareHunter {
         private List<GameObject>[] _monsterList;
         public GameObject[] _monsters;
   
-        GameDataManager gameDataManager = new GameDataManager();
+
 
         public UnitObject _unitObject;
         public StateMonsterBatch _stateMonsterBatch ;

@@ -3,14 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace nightmareHunter {
-    public class GameSunManager : MonoBehaviour
+    public class GameSunManager : TopManager
     {
         [SerializeField]
         GameObject _playGameObject; 
         
-
-        
-        GameDataManager gameDataManager = new GameDataManager();
 
         public UnitObject _unitObject;
         // Start is called before the first frame update

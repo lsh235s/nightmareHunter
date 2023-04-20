@@ -7,7 +7,7 @@ using Spine.Unity;
 using TMPro;
 
 namespace nightmareHunter {
-    public class Player : MonoBehaviour
+    public class Player : TopManager
     {
         [SerializeField]
         private string playerState;

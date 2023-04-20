@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 namespace nightmareHunter {
-    public class UnitFrameController : MonoBehaviour
+    public class UnitFrameController : TopManager
     {
         
         [SerializeField]
@@ -18,6 +19,14 @@ namespace nightmareHunter {
 
         private int frameName = 1;
         private GameObject existSummers;
+
+        UnitObject _unitObject;
+
+        void Start() {
+            if(topSystemValue.sceneMode == 0 && summers != null) {
+                _unitObject = GameObject.Find("Canvas").GetComponent<GameSunManager>()._unitObject;
+            }
+        }
 
         void Update()
         {
@@ -39,49 +48,60 @@ namespace nightmareHunter {
     
         public void OnMouseEnter()
         {
-            _isChange = true;
+            if(topSystemValue.sceneMode == 0) {
+                _isChange = true;
+            }
         }
 
         public void OnMouseExit()
         {
-            _isChange = false;
-            string unitImage = "ui/1";
-            frameImage.sprite = Resources.Load<Sprite>(unitImage);
-            _changeTime = 0.5f;
+            if(topSystemValue.sceneMode == 0) {
+                _isChange = false;
+                string unitImage = "ui/1";
+                frameImage.sprite = Resources.Load<Sprite>(unitImage);
+                _changeTime = 0.5f;
+            }
         }
 
 
         public void OnMouseBeginDrag()
         {
-            if(summers != null && existSummers == null) {
-                // 마우스 좌표를 월드 좌표로 변환
-                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if(topSystemValue.sceneMode == 0) {
+                if(summers != null && existSummers == null) {
+                    // 마우스 좌표를 월드 좌표로 변환
+                    Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                // 오브젝트의 위치 설정
-                summers.transform.position = mousePosition;
+                    // 오브젝트의 위치 설정
+                    summers.transform.position = mousePosition;
 
-                // Cube 오브젝트 생성
-                existSummers = Instantiate(summers);
-                existSummers.GetComponent<Summer>().summerStatus = "sun";
-                existSummers.GetComponent<Collider2D>().isTrigger = true;
-                
-                // 생성한 Cube 오브젝트 활성화
-                existSummers.SetActive(true);
+                    // Cube 오브젝트 생성
+                    existSummers = Instantiate(summers);
+                    existSummers.GetComponent<Summer>().summerStatus = "Exorcist";
+                    existSummers.GetComponent<Summer>().playerDataLoad(gameDataManager.LoadSummerInfo("Exorcist",_unitObject)); 
+                    existSummers.GetComponent<Collider2D>().isTrigger = true;
+                    
+                    // 생성한 Cube 오브젝트 활성화
+                    existSummers.SetActive(true);
+                }
             }
         }
 
         public void OnMouseEndDrag()
         {
-            existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+            if(topSystemValue.sceneMode == 0) {
+                existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+            }
         }
 
         public void OnMouseDrag()
         {
-            // 마우스 좌표를 월드 좌표로 변환
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
-            // 생성한 Cube 오브젝트 위치 변경
-            existSummers.transform.position = mousePosition;
+            if(topSystemValue.sceneMode == 0) {
+                // 마우스 좌표를 월드 좌표로 변환
+                Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                // 생성한 Cube 오브젝트 위치 변경
+                existSummers.transform.position = mousePosition;
+            }
         }
     }
 }
