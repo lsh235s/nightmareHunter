@@ -76,8 +76,8 @@ namespace nightmareHunter {
 
                     // Cube 오브젝트 생성
                     existSummers = Instantiate(summers);
-                    existSummers.GetComponent<Summer>().summerStatus = "Exorcist";
                     existSummers.GetComponent<Summer>().playerDataLoad(gameDataManager.LoadSummerInfo("Exorcist",_unitObject)); 
+                  
                     existSummers.GetComponent<Collider2D>().isTrigger = true;
                     
                     // 생성한 Cube 오브젝트 활성화
@@ -90,6 +90,8 @@ namespace nightmareHunter {
         {
             if(topSystemValue.sceneMode == 0) {
                 existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                existSummers.GetComponent<Summer>()._playerinfo.positionInfo = existSummers.transform.position.ToString();
+                gameDataManager.SaveSummerInfo("Exorcist",existSummers.GetComponent<Summer>()._playerinfo);
             }
         }
 

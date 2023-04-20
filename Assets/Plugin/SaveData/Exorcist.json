@@ -1,3 +1,1 @@
-{"summerList":
-    {"playerLevel":1,"health":100.0,"attack":10.0,"attackRange":1.0,"move":5.0,"attackSpeed":1.0,"positionInfo":"","spritesName":"exorcist"}
-}
+{"playerLevel":1,"health":10.0,"attack":5.0,"attackRange":1.0,"move":1.0,"attackSpeed":1.0,"positionInfo":"(-2.15, 1.14, 0.00)","spritesName":null}

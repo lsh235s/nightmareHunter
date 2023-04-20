@@ -5,13 +5,13 @@ using UnityEngine;
 namespace nightmareHunter {
     public class Summer : TopManager
     {
-        public string summerStatus;
         public float scanRange;
         public LayerMask targetLayer;
         public RaycastHit2D[] targets;
         public Transform nearestTarget;
 
         public PlayerInfo _playerinfo;
+        public Vector2 bathPosition; 
 
 
         void Start()
