@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace nightmareHunter {
-    public class Summer : TopManager
+    public class Summons : TopManager
     {
         public float scanRange;
         public LayerMask targetLayer;

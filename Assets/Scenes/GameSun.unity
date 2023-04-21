@@ -992,7 +992,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
   m_MoveRepeatDelay: 0.5
   m_MoveRepeatRate: 0.1
   m_XRTrackingOrigin: {fileID: 0}
@@ -1009,7 +1008,6 @@ MonoBehaviour:
   m_TrackedDeviceOrientationAction: {fileID: 7970375526676320489, guid: ca9f5fa95ffab41fb9a615ab714db018, type: 3}
   m_DeselectOnBackgroundClick: 1
   m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
 --- !u!114 &320436157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1734,7 +1732,6 @@ MonoBehaviour:
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
-  m_AlphaBlendOnOverlap: 0
   m_OverlapOperation: 0
   m_NormalMapDistance: 3
   m_NormalMapQuality: 2
@@ -2478,6 +2475,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0437519763a6a40db96ccc6df32ca51e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  topSystemValue:
+    sceneMode: 0
   _playGameObject: {fileID: 1238256973}
   _unitObject: {fileID: 11400000, guid: 753805215d89171498f843ffc791aa0c, type: 2}
 --- !u!1 &910178126
@@ -3388,7 +3387,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85171621
-  m_SortingLayer: 4
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &1191489979
@@ -3569,6 +3568,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cd0ab28dd9d5774082b410235ca2f1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  topSystemValue:
+    sceneMode: 0
   playerState: wait
   _bulletPrefab: {fileID: 6245671512966488181, guid: 69473e95ce309ff41bcf86da8774d955, type: 3}
   _animator: {fileID: 1191489976}
@@ -4657,6 +4658,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 178625162}
     m_Modifications:
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: summon
+      value: 
+      objectReference: {fileID: 5557243652296972026, guid: d64665cdbad6a4f609a456e6bd0414b5, type: 3}
     - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: summers
       value: 

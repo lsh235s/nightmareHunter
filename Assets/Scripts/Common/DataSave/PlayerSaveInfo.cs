@@ -18,6 +18,7 @@ namespace nightmareHunter {
         public float attackSpeed { get; set; }
         public string positionInfo { get; set; }
         public string spritesName { get; set; }
+        public bool summonsExit { get; set; }
    
     }
 }

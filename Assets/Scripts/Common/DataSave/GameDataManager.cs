@@ -8,6 +8,7 @@ namespace nightmareHunter {
     public class GameDataManager : MonoBehaviour
     {
         public static GameDataManager instance;
+        List<string> summonList = new List<string>();
 
         private void Awake() {
             if (instance == null) {
@@ -17,6 +18,8 @@ namespace nightmareHunter {
             else {
                 Destroy(gameObject);
             }
+
+            summonList.Add("Exorcist");
         }
         
         public void PlayerInitTest() {
@@ -63,6 +66,17 @@ namespace nightmareHunter {
             }
 
             return playerInfo;
+        }
+
+        public void SummerListLoad() {
+            for(int i = 0; i < summonList.Count; i++) {
+                string fileName = summonList[i] + ".json";
+                string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
+
+                string jsonString = File.ReadAllText(filePath);
+                PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
+                
+            }
         }
 
         public void SaveSummerInfo(string intPlayerInfo, PlayerInfo playerInfo) {

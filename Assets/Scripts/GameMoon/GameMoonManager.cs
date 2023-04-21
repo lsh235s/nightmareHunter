@@ -14,8 +14,9 @@ namespace nightmareHunter {
 
         private List<GameObject>[] _monsterList;
         public GameObject[] _monsters;
-  
 
+        private List<GameObject>[] _summonerList;
+        public GameObject[] _summoner;
 
         public UnitObject _unitObject;
         public StateMonsterBatch _stateMonsterBatch ;
@@ -24,21 +25,29 @@ namespace nightmareHunter {
         {
             //몬스터 배치
             monsterInit();
+            //소환수 배치
+            summonerInit();
             //플레이어 능력치 load
             playerInit();
+        }         
 
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-            
-        }
-
+        // 플레이어 배치 관련
         void playerInit() {
             _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo(_unitObject)); 
         }
 
+        // 소환수 배치 관련
+        void summonerInit() {
+            _summonerList = new List<GameObject>[_summoner.Length];
+
+            for (int i = 0; i < _summonerList.Length; i++) {
+                _summonerList[i] = new List<GameObject>();
+            }
+
+            gameDataManager.LoadPlayerInfo(_unitObject)
+        }
+
+        // 몬스터 배치 관련
         void monsterInit() {
             _monsterList = new List<GameObject>[_monsters.Length];
 

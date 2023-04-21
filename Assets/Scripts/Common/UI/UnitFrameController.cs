@@ -12,18 +12,18 @@ namespace nightmareHunter {
         [SerializeField]
         private Image frameImage;
         [SerializeField]
-        private GameObject summers;
+        private GameObject summon;
 
         private bool _isChange = false;
         private float _changeTime = 0.3f;
 
         private int frameName = 1;
-        private GameObject existSummers;
+        private GameObject existSummon;
 
         UnitObject _unitObject;
 
         void Start() {
-            if(topSystemValue.sceneMode == 0 && summers != null) {
+            if(topSystemValue.sceneMode == 0 && summon != null) {
                 _unitObject = GameObject.Find("Canvas").GetComponent<GameSunManager>()._unitObject;
             }
         }
@@ -67,21 +67,21 @@ namespace nightmareHunter {
         public void OnMouseBeginDrag()
         {
             if(topSystemValue.sceneMode == 0) {
-                if(summers != null && existSummers == null) {
+                if(summon != null && existSummon == null) {
                     // 마우스 좌표를 월드 좌표로 변환
                     Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
                     // 오브젝트의 위치 설정
-                    summers.transform.position = mousePosition;
+                    summon.transform.position = mousePosition;
 
                     // Cube 오브젝트 생성
-                    existSummers = Instantiate(summers);
-                    existSummers.GetComponent<Summer>().playerDataLoad(gameDataManager.LoadSummerInfo("Exorcist",_unitObject)); 
+                    existSummon = Instantiate(summon);
+                    existSummon.GetComponent<Summons>().playerDataLoad(gameDataManager.LoadSummerInfo("Exorcist",_unitObject)); 
                   
-                    existSummers.GetComponent<Collider2D>().isTrigger = true;
+                    existSummon.GetComponent<Collider2D>().isTrigger = true;
                     
                     // 생성한 Cube 오브젝트 활성화
-                    existSummers.SetActive(true);
+                    existSummon.SetActive(true);
                 }
             }
         }
@@ -89,9 +89,9 @@ namespace nightmareHunter {
         public void OnMouseEndDrag()
         {
             if(topSystemValue.sceneMode == 0) {
-                existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
-                existSummers.GetComponent<Summer>()._playerinfo.positionInfo = existSummers.transform.position.ToString();
-                gameDataManager.SaveSummerInfo("Exorcist",existSummers.GetComponent<Summer>()._playerinfo);
+                existSummon.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                existSummon.GetComponent<Summons>()._playerinfo.positionInfo = existSummon.transform.position.ToString();
+                gameDataManager.SaveSummerInfo("Exorcist",existSummon.GetComponent<Summons>()._playerinfo);
             }
         }
 
@@ -100,9 +100,9 @@ namespace nightmareHunter {
             if(topSystemValue.sceneMode == 0) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                existSummers.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                existSummon.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
-                existSummers.transform.position = mousePosition;
+                existSummon.transform.position = mousePosition;
             }
         }
     }
