@@ -37,11 +37,11 @@ MonoBehaviour:
     attack: 5
     lev_attack: 1
     attackRange: 2
-    lev_attackRange: 1
+    lev_attackRange: 0
     move: 3
     lev_move: 0
     attackSpeed: 5
-    lev_attackSpeed: 1
+    lev_attackSpeed: 0
     spritesName: Exorcist
   - id: 0
     unitType: 1

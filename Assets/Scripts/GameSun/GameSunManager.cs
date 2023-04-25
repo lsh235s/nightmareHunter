@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace nightmareHunter {
-    public class GameSunManager : TopManager
+    public class GameSunManager : MonoBehaviour
     {
         [SerializeField]
         GameObject _playGameObject; 
         
+        public UiController _uiController;
 
-        public UnitObject _unitObject;
         // Start is called before the first frame update
         void Start()
         {
-            playerInit();
+            _uiController = GameObject.Find("Canvas").GetComponent<UiController>();
         }
 
         // Update is called once per frame
@@ -22,8 +22,6 @@ namespace nightmareHunter {
             
         }
 
-        void playerInit() {
-            _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo(_unitObject)); 
-        }
+      
     }
 }

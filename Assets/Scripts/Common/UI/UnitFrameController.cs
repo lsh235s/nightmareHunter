@@ -4,28 +4,49 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace nightmareHunter {
-    public class UnitFrameController : TopManager
+    public class UnitFrameController : MonoBehaviour
     {
         
         [SerializeField]
         private Image frameImage;
         [SerializeField]
         private GameObject summon;
+        [SerializeField]
+        private TextMeshProUGUI priceText;
+
+        [SerializeField]
+        private Button priceButton;
+
+        [SerializeField]
+        private int price;
 
         private bool _isChange = false;
         private float _changeTime = 0.3f;
 
         private int frameName = 1;
-        private GameObject existSummon;
 
-        UnitObject _unitObject;
+
+        UiController _uiController;
+
+        PlayerInfo NowSummonInfo;
+
+        int objectIndex;
 
         void Start() {
-            if(topSystemValue.sceneMode == 0 && summon != null) {
-                _unitObject = GameObject.Find("Canvas").GetComponent<GameSunManager>()._unitObject;
-            }
+            priceButton.onClick.AddListener(summonEnforce);
+
+            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+
+            _uiController = GameObject.Find("Canvas").GetComponent<UiController>();
+
+            priceText.text = price.ToString();
+                
+            objectIndex = transform.GetSiblingIndex();
+            //현재 세팅된 유닛의 저장된 능력치를 가져온다
+            NowSummonInfo = _uiController.gameDataManager.LoadSummerInfo(objectIndex ,_uiController._unitObject);
         }
 
         void Update()
@@ -48,14 +69,14 @@ namespace nightmareHunter {
     
         public void OnMouseEnter()
         {
-            if(topSystemValue.sceneMode == 0) {
+            if(_uiController.sceneMode == 0) {
                 _isChange = true;
             }
         }
 
         public void OnMouseExit()
         {
-            if(topSystemValue.sceneMode == 0) {
+            if(_uiController.sceneMode == 0) {
                 _isChange = false;
                 string unitImage = "ui/1";
                 frameImage.sprite = Resources.Load<Sprite>(unitImage);
@@ -66,8 +87,8 @@ namespace nightmareHunter {
 
         public void OnMouseBeginDrag()
         {
-            if(topSystemValue.sceneMode == 0) {
-                if(summon != null && existSummon == null) {
+            if(_uiController.sceneMode == 0) {
+                if(summon != null && _uiController._summoner[objectIndex] == null) {
                     // 마우스 좌표를 월드 좌표로 변환
                     Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
@@ -75,35 +96,50 @@ namespace nightmareHunter {
                     summon.transform.position = mousePosition;
 
                     // Cube 오브젝트 생성
-                    existSummon = Instantiate(summon);
-                    existSummon.GetComponent<Summons>().playerDataLoad(gameDataManager.LoadSummerInfo("Exorcist",_unitObject)); 
+                    _uiController._summoner[objectIndex] = Instantiate(summon);
+
+                    _uiController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
+                    _uiController._summoner[objectIndex].GetComponent<Summons>().nowStatgeTime = _uiController.sceneMode;
                   
-                    existSummon.GetComponent<Collider2D>().isTrigger = true;
+                    _uiController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                     
                     // 생성한 Cube 오브젝트 활성화
-                    existSummon.SetActive(true);
+                    _uiController._summoner[objectIndex].SetActive(true);
                 }
             }
         }
 
         public void OnMouseEndDrag()
         {
-            if(topSystemValue.sceneMode == 0) {
-                existSummon.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
-                existSummon.GetComponent<Summons>()._playerinfo.positionInfo = existSummon.transform.position.ToString();
-                gameDataManager.SaveSummerInfo("Exorcist",existSummon.GetComponent<Summons>()._playerinfo);
+            if(_uiController.sceneMode == 0) {
+                _uiController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiController._summoner[objectIndex].transform.position.ToString();
+                _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
+                _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = "Exorcist";
+                _uiController.gameDataManager.SaveSummerInfo("Exorcist",_uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
             }
         }
 
         public void OnMouseDrag()
         {
-            if(topSystemValue.sceneMode == 0) {
+            if(_uiController.sceneMode == 0) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                existSummon.transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                _uiController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
-                existSummon.transform.position = mousePosition;
+                _uiController._summoner[objectIndex].transform.position = mousePosition;
             }
+        }
+
+        public void summonEnforce() {
+            _uiController.goldUseSet(price);
+            NowSummonInfo.playerLevel += 1;
+
+            _uiController.gameDataManager.SaveSummerInfo("Exorcist",NowSummonInfo);
+            NowSummonInfo = _uiController.gameDataManager.LoadSummerInfo(objectIndex ,_uiController._unitObject);
+
+            _uiController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
+
         }
     }
 }

@@ -10,6 +10,7 @@ namespace nightmareHunter {
     [System.Serializable]
     public class PlayerInfo
     {
+        public int id { get; set; }
         public int playerLevel { get; set; }
         public float health { get; set; }
         public float attack { get; set; }
@@ -18,7 +19,7 @@ namespace nightmareHunter {
         public float attackSpeed { get; set; }
         public string positionInfo { get; set; }
         public string spritesName { get; set; }
-        public bool summonsExit { get; set; }
+        public bool summonsExist { get; set; }
    
     }
 }

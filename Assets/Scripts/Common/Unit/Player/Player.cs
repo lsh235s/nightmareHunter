@@ -7,7 +7,7 @@ using Spine.Unity;
 using TMPro;
 
 namespace nightmareHunter {
-    public class Player : TopManager
+    public class Player : MonoBehaviour
     {
         [SerializeField]
         private string playerState;
@@ -43,11 +43,10 @@ namespace nightmareHunter {
         [SerializeField]
         private Sprite[] HpHeartImage;
         [SerializeField]
-        private Image HpCanvas;
-        [SerializeField]
-        private TextMeshProUGUI HpText;
+        private UiController HpCanvas;
 
         private float maxHp;
+
 
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -57,36 +56,38 @@ namespace nightmareHunter {
             _playerinfo = inPlayerinfo;
 
             _timeBetweenShots = _playerinfo.attackSpeed;
-            if (HpCanvas != null && HpHeartImage[0] != null)
+            if (HpCanvas._imagePlayHp != null && HpHeartImage[0] != null)
             {
-                HpCanvas.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
+                HpCanvas._imagePlayHp.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
             }
-            if (HpText != null)
+            if (HpCanvas._playerHp.text != null)
             {
                 maxHp = _playerinfo.health;
-                HpText.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
+                HpCanvas._playerHp.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
             }
         }
 
         private void FixedUpdate() {
-            // 공격 타이밍 계산
-            if(_fireContinuously || _fireSingle) {
-                float timeSinceLastFire = Time.time - _lastFireTime;
+            if(!"die".Equals(playerState) ) {
+                // 공격 타이밍 계산
+                if(_fireContinuously || _fireSingle) {
+                    float timeSinceLastFire = Time.time - _lastFireTime;
 
-                if(timeSinceLastFire >= _timeBetweenShots) {
-                    FireBullet();
+                    if(timeSinceLastFire >= _timeBetweenShots) {
+                        FireBullet();
+                    
+                        _lastFireTime = Time.time;
+                        _fireSingle = false;
+                    }
+
                 
-                    _lastFireTime = Time.time;
-                    _fireSingle = false;
                 }
 
-            
+                // 유닛의 이동 관련 처리
+                SetPlayerVelocity();
+                // 좌우 방향 확인
+                RotateInDirectionOfInput();
             }
-
-            // 유닛의 이동 관련 처리
-            SetPlayerVelocity();
-            // 좌우 방향 확인
-            RotateInDirectionOfInput();
         }
 
 
@@ -168,30 +169,32 @@ namespace nightmareHunter {
         private void OnCollisionEnter2D(Collision2D collision) {
 
             Collider2D otherCollider = collision.collider;
+            if(!"die".Equals(playerState) ) {
+                if(otherCollider.GetComponent<Enemy>()) {
+                    _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
+                    if(_playerinfo.health < 0) {
+                        _playerinfo.health = 0;
+                    }
 
-            if(otherCollider.GetComponent<Enemy>()) {
-                _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
-                if(_playerinfo.health < 0) {
-                    _playerinfo.health = 0;
+                    float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+                    
+                    if(hpRate > 80 && hpRate == 100.0f) {
+                        HpCanvas._imagePlayHp.sprite = HpHeartImage[0];
+                    } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                        HpCanvas._imagePlayHp.sprite = HpHeartImage[1];
+                    } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                        HpCanvas._imagePlayHp.sprite = HpHeartImage[2];
+                    } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                        HpCanvas._imagePlayHp.sprite = HpHeartImage[3];
+                    } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                        HpCanvas._imagePlayHp.sprite = HpHeartImage[4];
+                    } else if (hpRate <= 0.0f) {
+                        HpCanvas._imagePlayHp.sprite = HpHeartImage[5];
+                        _animator.SetTrigger("die");
+                        playerState = "die";
+                    }
+                    HpCanvas._playerHp.text = _playerinfo.health.ToString(); 
                 }
-
-                float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
-                
-                if(hpRate > 80 && hpRate == 100.0f) {
-                    HpCanvas.sprite = HpHeartImage[0];
-                } else if (hpRate > 50.0f && hpRate <= 80.0f) {
-                    HpCanvas.sprite = HpHeartImage[1];
-                } else if (hpRate > 25.0f && hpRate <= 50.0f) {
-                    HpCanvas.sprite = HpHeartImage[2];
-                } else if (hpRate > 10.0f && hpRate <= 25.0f) {
-                    HpCanvas.sprite = HpHeartImage[3];
-                } else if (hpRate > 0.0f && hpRate <= 10.0f) {
-                    HpCanvas.sprite = HpHeartImage[4];
-                } else if (hpRate <= 0.0f) {
-                    HpCanvas.sprite = HpHeartImage[5];
-                    _animator.SetBool("die",true);
-                }
-                HpText.text = _playerinfo.health.ToString(); 
             }
         }
 
