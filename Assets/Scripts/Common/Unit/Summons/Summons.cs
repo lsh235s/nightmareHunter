@@ -39,8 +39,8 @@ namespace nightmareHunter {
         void FixedUpdate()
         {
             if(nowStatgeTime == 1) { // 저녁시간에만 몬스터 스캔
-                scanRadar();
-                targetsAttack();
+             //   scanRadar();
+             //   targetsAttack();
             }
         }
 
