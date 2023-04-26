@@ -1902,7 +1902,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 519420028}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bdaa9721492ea19459555dac96c2588c, type: 3}
+  m_Script: {fileID: 11500000, guid: 175c76cd078461d48b8e83ba8ab91865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraSpeed: 5
@@ -2025,7 +2025,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -112, y: -62.634}
+  m_AnchoredPosition: {x: -62, y: -50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &608068046
@@ -3803,8 +3803,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 108.5, y: -78}
-  m_SizeDelta: {x: 208, y: 130}
+  m_AnchoredPosition: {x: 84, y: -79}
+  m_SizeDelta: {x: 169, y: 117}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &971758941
 MonoBehaviour:
@@ -8245,7 +8245,6 @@ MonoBehaviour:
   _monsters:
   - {fileID: 3314214647269054760, guid: 38d619f915ad9c844a1389e00c25b3d0, type: 3}
   - {fileID: 3340696491319737192, guid: ebaf56f66b72e714d85ae32e9b9778cf, type: 3}
-  _uiController: {fileID: 0}
 --- !u!1 &2061251211
 GameObject:
   m_ObjectHideFlags: 0
