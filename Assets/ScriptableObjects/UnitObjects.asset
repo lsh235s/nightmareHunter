@@ -21,13 +21,28 @@ MonoBehaviour:
     lev_health: 1
     attack: 2
     lev_attack: 1
-    attackRange: 10
+    attackRange: 2
     lev_attackRange: 1
-    move: 5
+    move: 1
     lev_move: 1
     attackSpeed: 3
     lev_attackSpeed: 1
     spritesName: hunter
+  - id: 0
+    unitType: 2
+    unitName: exorcist
+    level: 1
+    health: 100
+    lev_health: 1
+    attack: 5
+    lev_attack: 1
+    attackRange: 2
+    lev_attackRange: 0
+    move: 1
+    lev_move: 0
+    attackSpeed: 5
+    lev_attackSpeed: 0
+    spritesName: Exorcist
   - id: 0
     unitType: 1
     unitName: wanderer
@@ -38,7 +53,7 @@ MonoBehaviour:
     lev_attack: 1
     attackRange: 1
     lev_attackRange: 1
-    move: 3
+    move: 0.3
     lev_move: 1
     attackSpeed: 3
     lev_attackSpeed: 1
@@ -53,7 +68,7 @@ MonoBehaviour:
     lev_attack: 1
     attackRange: 1
     lev_attackRange: 1
-    move: 5
+    move: 0.5
     lev_move: 1
     attackSpeed: 0
     lev_attackSpeed: 1

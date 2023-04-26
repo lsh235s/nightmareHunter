@@ -13,9 +13,11 @@ namespace nightmareHunter {
         Button ExitButton;
 
         [SerializeField]
-        private Image loadImage;
+        private GameObject loadImage;
         [SerializeField]
         private GameObject _storyPanel;
+        [SerializeField]
+        private Animator _backGroundAnimation;
 
         // Start is called before the first frame update
         void Start()
@@ -38,8 +40,9 @@ namespace nightmareHunter {
             _storyPanel.SetActive(false);
         }
         public void startOnClick() {
-            SceneMoveManager.SceneMove("GameSun");
+            _backGroundAnimation.SetBool("start",true);
         }    
+
         public void ContinueOnClick() {
             SceneMoveManager.SceneMove("GameMoon");
         }    
@@ -49,12 +52,15 @@ namespace nightmareHunter {
         public void ExitOnClick() {
             Debug.Log("Exit");
         }
-        
+
+        public void pageMoveGameSun() {
+            SceneMoveManager.SceneMove("GameSun");
+        }
 
             //페이드 아웃
         private IEnumerator FadeInStart()
         {
-            GameObject.Find("Canvas").transform.Find("Load").gameObject.SetActive(true);
+           loadImage.SetActive(true);
             for (float f = 1f; f > 0; f -= 0.005f)
             {
                 Color c = loadImage.GetComponent<Image>().color;
@@ -63,7 +69,7 @@ namespace nightmareHunter {
                 yield return null;
             }
             
-            GameObject.Find("Canvas/Load").SetActive(false);
+            loadImage.SetActive(false);
             yield return new WaitForSeconds(1);
             _storyPanel.SetActive(false);
         }

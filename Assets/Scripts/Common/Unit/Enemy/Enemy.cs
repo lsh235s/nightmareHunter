@@ -41,7 +41,7 @@ namespace nightmareHunter {
         public void initState(PlayerInfo playerinfo) {
             activateStatus = "move";
 
-            _speed = 10 - playerinfo.move;
+            _speed = playerinfo.move;
             if(_speed <= 0) {
                 _speed = 1.0f;
             }
