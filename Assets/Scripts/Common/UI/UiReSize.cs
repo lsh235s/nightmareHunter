@@ -14,23 +14,32 @@ public class UiReSize : MonoBehaviour
 
 
     void Awake() {
-        BaseCanvsWidth("Canvas/ChatGroup");
-        BaseCanvsWidth("Canvas/ChatGroup/HunterTalk");
-        FitImageAspectRatio("Canvas/ChatGroup/ChatWindow");
-        FitImageAspectRatio("Canvas/ChatGroup/HunterTalk/HunterLTalk");
+        
+        GameObject[] dynamicLayers = GameObject.FindGameObjectsWithTag("DynamicLayer");
+        GameObject[] dynamicImages = GameObject.FindGameObjectsWithTag("DynamicImage");
+
+        foreach (GameObject obj in dynamicLayers)
+        {
+            BaseCanvsWidth(obj);
+        }
+
+        foreach (GameObject obj in dynamicImages)
+        {
+            FitImageAspectRatio(obj);
+        }
     }
 
-    void BaseCanvsWidth(string objectName) {
-        rectTransform = GameObject.Find(objectName).GetComponent<RectTransform>();
+    void BaseCanvsWidth(GameObject objectName) {
+        rectTransform = objectName.GetComponent<RectTransform>();
 
         float rateWidth = (float)Screen.width / baseWidth;
 
         rectTransform.sizeDelta = new Vector2(Screen.width, rectTransform.sizeDelta.y);
     }
 
-    void FitImageAspectRatio(string objectName)
+    void FitImageAspectRatio(GameObject objectName)
     {
-        rectTransform = GameObject.Find(objectName).GetComponent<RectTransform>();
+        rectTransform = objectName.GetComponent<RectTransform>();
 
         float rateWidth = (float)Screen.width / baseWidth;
         float rateHeight = (float)Screen.height / baseHeight;
@@ -45,17 +54,7 @@ public class UiReSize : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
         rectTransform.anchoredPosition = new Vector2(imageX, imageY);
 
-
     }
 
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

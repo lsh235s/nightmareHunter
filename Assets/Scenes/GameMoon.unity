@@ -8136,7 +8136,7 @@ MonoBehaviour:
   _playerHp: {fileID: 0}
   _imageClientHp: {fileID: 0}
   _clientHp: {fileID: 0}
-  _unitObject: {fileID: 11400000, guid: 753805215d89171498f843ffc791aa0c, type: 2}
+  _unitObject: {fileID: 11400000, guid: 45eb9385d1f8e5141ace1bc9e8418d2b, type: 2}
   _stateMonsterBatch: {fileID: 11400000, guid: b91cdc9b451a928428e3b9403fa6aff9, type: 2}
   sceneMode: 1
   gameDataManager: {fileID: 0}

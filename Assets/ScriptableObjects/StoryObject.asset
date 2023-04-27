@@ -1,0 +1,267 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a139b80a0a775b4479ff8c37c2ac880d, type: 3}
+  m_Name: StoryObject
+  m_EditorClassIdentifier: 
+  storyContentList:
+  - stage_id: 0
+    event_stage_id: 0
+    content: "\u2026\u2026"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle
+  - stage_id: 0
+    event_stage_id: 0
+    content: "\uD5E4\uC774 \uB9AC\uCC28\uB4DC. \uADF8\uB9CC \uB4E4\uC5B4\uC640 \uBCF4\uB77C\uACE0.
+      \uC65C \uC548\uB4E4\uC5B4\uC640? Wasd\uB97C \uC78A\uC740\uAC70\uC57C?"
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 0
+    content: "\uC548\uB0B4 \uBA58\uD2B8 \u201C WASD\uB97C \uC774\uC6A9\uD558\uC5EC
+      \uAC74\uBB3C \uC548\uC73C\uB85C \uC774\uB3D9\uD558\uC138\uC694.\u201D Wasd\uB97C
+      \uC774\uC6A9\uD558\uC5EC \uAC00\uAC8C \uC785\uAD6C\uB85C \uC774\uB3D9. \uAC74\uBB3C
+      \uC548\uC73C\uB85C \uBC14\uB01C "
+    contentType: system
+    leftCharacter: 
+    rightCharacter: 
+    characterAnimation: 
+  - stage_id: 0
+    event_stage_id: 1
+    content: "\uB2F9\uC2E0\uC774 \uCC3E\uB358 \uC0AC\uB78C\uC744 \uCC3E\uC740 \uAC70
+      \uAC19\uC544. \uC774\uB7F0 \uC77C\uC774 \uC815\uB9D0 \uB610 \uC77C\uC5B4\uB0A0
+      \uC904\uC774\uC57C\u2026"
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 1
+    content: "\uC794\uB9D0 \uB9D0\uACE0 \uC5B4\uB514\uC778\uC9C0\uB098 \uB9D0\uD574\uBD10.
+      \uC5B4\uB514\uC5D0 \uADF8 \uB188\uB4E4\uC774 \uB098\uD0C0\uB0AC\uB2E4\uB294\uAC70\uC57C?"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 1
+    content: "\uC5EC\uAE30 \uC8FC\uC18C\uAC00 \uC788\uC5B4. 14\uC138 \uC18C\uB144\uC778\uAC00\uBD10.
+      \uC544\uC9C1 \uADF8\uB4E4\uC774 \uCC3E\uC544\uC624\uC9C4 \uC54A\uC558\uC5B4.
+      \uADF8\uB7F0\uB370 \uD45C\uC2DD\uC774 \uC0DD\uACBC\uB2E4\uB354\uAD70. \uADF8
+      \uD45C\uC2DD\uC744 \uB530\uB77C \uC774\uC81C \uADF8\uAC83\uB4E4\uC774 \uC624\uACA0\uC9C0\u2026
+      \uC5EC\uAE30 \uD45C\uC2DD\uC758 \uC0AC\uC9C4."
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 1
+    content: "\u2026.. \uC11C\uB458\uB7EC\uC57C\uACA0\uAD70. \uD45C\uC2DD\uC774 \uAC70\uC758
+      \uC644\uC131\uB41C \uAC83 \uAC19\uC544. "
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 1
+    content: "\uC88B\uC544. \uADF8\uB7FC \uC124\uBA85\uD574 \uC904\uAED8. \uC774
+      \uCD1D\uC54C\uC774 \uB0B4\uAC00 \uB9D0\uD55C \uADF8\uAC83\uB4E4\uC744 \uC644\uC804\uD788
+      \uC8FD\uC77C \uC218 \uC788\uB294 \uCD1D\uC54C\uC774\uC57C.  \uADF8\uB9AC\uACE0
+      \uC774 \uCD1D\uC774 \uC774 \uCD1D\uC54C\uB4E4\uC744 \uBC1C\uC0AC \uC2DC\uD0AC
+      \uC218 \uC788\uB294 \uC720\uC77C\uD55C \uCD1D\uC774\uACE0. \uD604\uC7AC\uB85C\uC11C\uB294
+      \uB9D0\uC774\uC57C.  \uC774\uB807\uAC8C \uC7A5\uC804\uC744 \uD558\uACE0 \uC3D8\uBA74
+      \uB3FC. \uC790 \uD574\uBD10. \uB9C8\uC6B0\uC2A4 \uC67C\uCABD\uBC84\uD2BC\uC744
+      \uB20C\uB7EC\uC11C \uC3D8\uBA74 \uB41C\uB2E4\uACE0. \uC800\uAE30 \uC800 \uAE61\uD1B5\uC744
+      \uB9DE\uCDB0\uBD10 "
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC5ED\uC2DC \uBA85\uC0AC\uC218\uAD6C\uB9CC.  \uC88B\uC544. \uB0B4\uAC00
+      \uC804\uC5D0 \uB9D0\uD588\uB4EF\uC774 \uC790\uB124\uB294 \uADF8\uAC83\uB4E4\uC744
+      \uC8FD\uC774\uACE0 \uC815\uC218\uB97C \uAC00\uC9C0\uACE0 \uB098\uC5D0\uAC8C
+      \uC624\uBA74 \uB3FC. \uADF8\uB9AC\uACE0\u2026 "
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: Smile
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC804\uC5D0 \uB9D0\uD588\uB358 \uB098\uB97C \uB3C4\uC640\uC904 \uC0AC\uB78C\uB4E4\uC740
+      \uC5B4\uB514\uC788\uC9C0?"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uADF8\uB798\uC11C \uC815\uC218\uB97C \uAC00\uC838\uC640\uC57C \uD55C\uB2E4\uACE0
+      \uB9D0\uD588\uC790\uB098. \uC790\uB124\uAC00 \uC815\uC218\uB97C \uAC00\uC838\uC624\uBA74
+      \uACE8\uB4DC\uB97C \uC904\uAC70\uC57C. \uADF8 \uACE8\uB4DC\uB85C \uADF8\uB4E4\uC744
+      \uACE0\uC6A9\uD574\uC57C \uD55C\uB2E4\uACE0. \uD074\uB77D! \uC9C0\uAE08\uC740
+      \uC790\uBCF8\uC0AC\uD68C\uB2C8 \uC5B4\uCA54 \uC218 \uC5C6\uB2E4\uB2C8\uAE50?"
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC54C\uACA0\uC5B4. \uC54C\uC558\uC73C\uB2C8\uAE50 \uB610 \uB0B4\uAC00
+      \uC54C\uC544\uC57C \uD560 \uAC83\uC774\uB098 \uC54C\uB824\uC918"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC74C\u2026 \uC790\uB124\uB97C \uB3C4\uC640\uC904 \uC0AC\uB78C\uB4E4\uC740
+      \uC601\uC801 \uB2A5\uB825\uC790\uB4E4\uC774\uC57C. \uADF8\uB798\uC11C \uC815\uC218\uB85C
+      \uADF8\uB4E4\uC744 \uAC15\uD558\uAC8C \uB9CC\uB4E4 \uC218 \uC788\uC9C0\u2026
+      \uB9CC\uC57D \uADF8\uAC83\uB4E4\uC774 \uB108\uBB34 \uC384\uB2E4\uBA74 \uBC24\uC5D0
+      \uC815\uC218\uB97C \uC0AC\uC6A9\uD574\uBD10. \uC601\uC801 \uB2A5\uB825\uC790\uB4E4\uC758
+      \uB2A5\uB825\uC744 \uAC15\uD558\uAC8C \uD574\uC904 \uD14C\uB2C8\uAE50 \uB9D0\uC774\uC57C."
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uBC24\uC5D0?"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uADF8\uB798. \uC545\uB839\uB4E4\uC5D0\uAC8C\uC11C \uB098\uC628 \uC815\uC218\uB77C
+      \uADF8\uB7F0\uC9C0 \uB0AE\uC5D0\uB294 \uADF8\uB0E5 \uB3CC\uB369\uC774\uC77C
+      \uBFD0\uC774\uB354\uB77C\uACE0. \uD558\uC9C0\uB9CC \uC815\uC218\uB97C \uB2E4
+      \uC368\uBC84\uB9AC\uBA74 \uACE8\uB4DC\uB97C \uC5BB\uC744 \uAE38\uC774 \uC5C6\uC73C\uB2C8
+      \uC798 \uC0DD\uAC01\uD574\uC57C\uACA0\uC9C0?"
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uBB50\uAC00 \uC774\uB9AC \uBCF5\uC7A1\uD574? \uB0AE\uC5D0\uB294 \uC65C
+      \uB610 \uC548\uB418\uACE0 \uB09C\uB9AC\uC778\uAC70\uC57C?"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC790 \uC798\uB4E4\uC5B4 \uAC04\uB2E8\uD788 \uC124\uBA85\uD574 \uC904\uD14C\uB2C8.
+      \uB0B4\uAC00 \uC790\uB124\uB97C \uCC3E\uC544\uAC08\uD14C\uB2C8 \uB0AE\uC5D0\uB294
+      \uC815\uC218\uB97C \uB098\uC5D0\uAC8C \uAC00\uC838\uC640. \uADF8\uB9AC\uACE0
+      \uC815\uC218\uB97C \uD310 \uACE8\uB4DC\uB85C \uC790\uB124\uB97C \uB3C4\uC640\uC904
+      \uC0AC\uB78C\uB4E4\uC744 \uC120\uD0DD\uD558\uAC8C.  \uBC24\uC5D0\uB294 \uADF8\uAC83\uB4E4\uC774
+      \uBAB0\uB824\uC624\uB294 \uAC83\uC744 \uB9C9\uC544. \uB188\uB4E4\uC774 \uC384\uB2E4\uBA74
+      \uC815\uC218\uB97C \uC0AC\uC6A9\uD574\uC11C \uC601\uC801 \uB2A5\uB825\uC790\uB4E4\uC744
+      \uAC15\uD654\uD558\uACE0. \uB2E8, \uC815\uC218\uB97C \uB2E4 \uC368\uBC84\uB9AC\uBA74
+      \uACE8\uB4DC\uB97C \uC5BB\uC9C0 \uBABB\uD558\uB2C8 \uC798 \uC0DD\uAC01\uD558\uBA74\uC11C
+      \uD558\uACE0. \uAC04\uB2E8\uD558\uC9C0? "
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\u2026 \uB300\uCDA9 \uC54C\uACA0\uC5B4. \uC2DC\uAC04\uC774 \uC5C6\uC73C\uB2C8
+      \uCD9C\uBC1C\uD574\uC57C\uACA0\uAD70."
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC790\uB124 \uC124\uB9C8 \uC644\uC804\uD788 \uC774\uD574 \uBABB\uD588\uB294\uB370
+      \uB610 \uBB34\uC791\uC815 \uAC00\uC11C \uBAB8\uC73C\uB85C \uBC30\uC6B0\uB824\uB294\uAC74
+      \uC544\uB2C8\uC9C0?"
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: Smile
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\u2026 \uAC08\uAED8. "
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uB9DE\uAD6C\uB9CC\u2026 \uB098\uB3C4 \uBE68\uB9AC \uB188\uB4E4\uC5D0
+      \uB300\uD55C \uC790\uB8CC\uB97C \uCC3E\uC544\uC11C \uAC08\uD14C\uB2C8\uAE50
+      \uC5B4\uB514 \uC790\uB124 \uBC29\uC2DD\uB300\uB85C \uD574\uBD10.  \uCC38. \uB0B4\uAC00
+      \uC790\uB8CC\uB97C \uCC3E\uC544\uAC08 \uAC83\uC774\uAE34 \uD55C\uB370\u2026
+      \uC911\uC694\uD55C \uC815\uBCF4\uB294 \uB098\uB3C4 \uB3C8\uC744 \uC8FC\uACE0
+      \uC5BB\uC5B4\uC640\uC57C\uD574. \uACE0\uAE09 \uC815\uBCF4\uB97C \uC5BB\uACE0
+      \uC2F6\uC73C\uBA74 \uACE8\uB4DC\uB97C \uC9C0\uBD88\uD574\uC57C \uD55C\uB2E4\uB294\uAC70
+      \uC54C\uC544\uB450\uACE0. "
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: Smile
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uCCC7\u2026 \uAE50\uAE50\uD558\uAD6C\uB9CC."
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "\uC774\uD574\uD574\uC918. \uC790\uBCF8\uC0AC\uD68C\uB77C\uB2C8\uAE50.
+      \uC6B0\uC120\uC740 \uBA3C\uC800 \uCD9C\uBC1C\uD574\uC11C \uC0C1\uD669 \uD30C\uC545
+      \uC880 \uD558\uACE0 \uC788\uC73C\uB77C\uACE0. \uADF8\uB9CC\uD22C\uB35C\uAC70\uB9AC\uACE0.
+      \uADF8\uB9AC\uACE0 \uC774\uAC74 \uB0B4 \uC120\uBB3C."
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle_talk
+  - stage_id: 0
+    event_stage_id: 2
+    content: "100\uACE8\uB4DC \uCD94\uAC00"
+    contentType: system
+    leftCharacter: 
+    rightCharacter: 
+    characterAnimation: 
+  - stage_id: 0
+    event_stage_id: 3
+    content: "\uC774\uAC74 \uBB50\uC57C? \uC790\uBCF8\uC8FC\uC758 Hayward\uC528?"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 0
+    event_stage_id: 3
+    content: "\uADF8\uAC74 \uBE44\uC988\uB2C8\uC2A4\uAC00 \uC544\uB2CC \uAC1C\uC778\uC801\uC778
+      \uC120\uBB3C.(\uCC21\uB057)"
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: Smile
+  - stage_id: 0
+    event_stage_id: 3
+    content: "\uC9D5\uADF8\uB7FD\uAD6C\uB9CC\u2026\uC544\uBB34\uD2BC \uACE0\uB9C8\uC6CC.
+      \uBA3C\uC800 \uCD9C\uBC1C\uD560\uAED8"
+    contentType: story
+    leftCharacter: Richard
+    rightCharacter: 
+    characterAnimation: smile

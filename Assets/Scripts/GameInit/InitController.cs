@@ -13,11 +13,12 @@ namespace nightmareHunter {
         Button ExitButton;
 
         [SerializeField]
-        private GameObject loadImage;
-        [SerializeField]
         private GameObject _storyPanel;
         [SerializeField]
         private Animator _backGroundAnimation;
+
+        [SerializeField]
+        LoadingControl _loadingControl;
 
         // Start is called before the first frame update
         void Start()
@@ -33,7 +34,9 @@ namespace nightmareHunter {
             ContinueButton.onClick.AddListener(ContinueOnClick);
             SettingButton.onClick.AddListener(SettingOnClick);
             ExitButton.onClick.AddListener(ExitOnClick);
-            StartCoroutine(FadeInStart()); 
+
+            StartCoroutine(_loadingControl.FadeInStart());
+            StartCoroutine(storyPanelStop()); 
         }
 
         public void skipOnClick() {
@@ -57,21 +60,12 @@ namespace nightmareHunter {
             SceneMoveManager.SceneMove("GameSun");
         }
 
-            //페이드 아웃
-        private IEnumerator FadeInStart()
-        {
-           loadImage.SetActive(true);
-            for (float f = 1f; f > 0; f -= 0.005f)
-            {
-                Color c = loadImage.GetComponent<Image>().color;
-                c.a = f;
-                loadImage.GetComponent<Image>().color = c;
-                yield return null;
-            }
-            
-            loadImage.SetActive(false);
-            yield return new WaitForSeconds(1);
+        private IEnumerator storyPanelStop() {
+       
+            yield return new WaitForSeconds(2);
             _storyPanel.SetActive(false);
         }
+
+
     }
 }
