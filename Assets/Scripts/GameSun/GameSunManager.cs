@@ -29,9 +29,20 @@ namespace nightmareHunter {
 
         // Start is called before the first frame update
         void Start()
-        {
-            StartCoroutine(_loadingControl.FadeInStart());
-            stroyStage = PlayerPrefs.GetInt("FirstTimeLaunch", 0);
+        {     
+            stroyStage = PlayerPrefs.GetInt("FirstTimeLaunch", 0); //최종 진행된 스토리 스테이지
+
+            canvasInit();
+           
+            if(stroyStage > -1) {
+                storyStart(stroyStage);
+            } else {
+                _ChatGroup.SetActive(false);
+            }
+        }
+
+        void canvasInit() {
+            _loadingControl.FadeActive();
 
             _uiController = GameObject.Find("Canvas").GetComponent<UiController>();
             _talkObject = GameObject.Find("Canvas/ChatGroup/LeftSet").GetComponent<Transform>();
@@ -48,13 +59,8 @@ namespace nightmareHunter {
                     _tailkGraphicList[_talkObject.GetChild(i).name].SetActive(false);
                 }
             }
-            
-           
-            if(stroyStage > -1) {
-                storyStart(stroyStage);
-            } else {
-                _ChatGroup.SetActive(false);
-            }
+
+            StartCoroutine(_loadingControl.FadeInStart());
         }
 
         void skipButton() {

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UiReSize : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class UiReSize : MonoBehaviour
         
         GameObject[] dynamicLayers = GameObject.FindGameObjectsWithTag("DynamicLayer");
         GameObject[] dynamicImages = GameObject.FindGameObjectsWithTag("DynamicImage");
+        GameObject[] dynamicFont = GameObject.FindGameObjectsWithTag("DynamicFont");
 
         foreach (GameObject obj in dynamicLayers)
         {
@@ -27,6 +29,23 @@ public class UiReSize : MonoBehaviour
         {
             FitImageAspectRatio(obj);
         }
+
+        foreach (GameObject obj in dynamicFont)
+        {
+            FitFontSize(obj);
+        }
+    }
+
+    void FitFontSize(GameObject objectName) {
+        TextMeshProUGUI text = objectName.GetComponent<TextMeshProUGUI>();
+        Debug.Log(text.fontSize);
+Debug.Log(Screen.width);
+        float rateWidth = (float)Screen.width / baseWidth;
+Debug.Log(rateWidth);
+        float fontSize = (float)rateWidth * text.fontSize;
+Debug.Log(fontSize);
+        text.fontSize = (int)fontSize;
+        FitImageAspectRatio(objectName);
     }
 
     void BaseCanvsWidth(GameObject objectName) {
