@@ -34,7 +34,7 @@ MonoBehaviour:
       \uAC74\uBB3C \uC548\uC73C\uB85C \uC774\uB3D9\uD558\uC138\uC694.\u201D Wasd\uB97C
       \uC774\uC6A9\uD558\uC5EC \uAC00\uAC8C \uC785\uAD6C\uB85C \uC774\uB3D9. \uAC74\uBB3C
       \uC548\uC73C\uB85C \uBC14\uB01C "
-    contentType: system
+    contentType: tutorial
     leftCharacter: 
     rightCharacter: 
     characterAnimation: 
@@ -85,7 +85,7 @@ MonoBehaviour:
       \uB3FC. \uC790 \uD574\uBD10. \uB9C8\uC6B0\uC2A4 \uC67C\uCABD\uBC84\uD2BC\uC744
       \uB20C\uB7EC\uC11C \uC3D8\uBA74 \uB41C\uB2E4\uACE0. \uC800\uAE30 \uC800 \uAE61\uD1B5\uC744
       \uB9DE\uCDB0\uBD10 "
-    contentType: story
+    contentType: tutorial
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle_talk
@@ -238,7 +238,7 @@ MonoBehaviour:
   - stage_id: 0
     event_stage_id: 2
     content: "100\uACE8\uB4DC \uCD94\uAC00"
-    contentType: system
+    contentType: tutorial
     leftCharacter: 
     rightCharacter: 
     characterAnimation: 

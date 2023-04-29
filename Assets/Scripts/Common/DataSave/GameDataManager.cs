@@ -143,5 +143,27 @@ namespace nightmareHunter {
             return playerInfo;
         }
 
+
+        public void SaveSummerInfo(SystemSaveInfo systemSaveInfo) {
+            string json = JsonConvert.SerializeObject(systemSaveInfo);
+
+            string fileName = "SystemData.json";
+            string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
+
+            System.IO.File.WriteAllText(filePath, json);
+        }
+
+        
+        public SystemSaveInfo LoadSystemSaveInfo() {
+            SystemSaveInfo systemSaveInfo = new SystemSaveInfo();
+            
+            string fileName = "SystemData.json";
+            string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
+
+            string jsonString = File.ReadAllText(filePath);
+            systemSaveInfo = JsonConvert.DeserializeObject<SystemSaveInfo>(jsonString);
+            return systemSaveInfo;
+        }
+
     }
 }
