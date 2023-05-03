@@ -88,41 +88,52 @@ namespace nightmareHunter {
         public void OnMouseBeginDrag()
         {
             if(_uiController.sceneMode == 0) {
-                if(summon != null && _uiController._summoner[objectIndex] == null) {
-                    // 마우스 좌표를 월드 좌표로 변환
-                    Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                Debug.Log(_uiController._summoner[objectIndex].tag);
+                if(summon != null && !"Summon".Equals(_uiController._summoner[objectIndex].tag)) {
+                    if(price <= int.Parse(_uiController._gold.text)) {
+                        _uiController.systemSaveInfo.money = int.Parse(_uiController._gold.text) - price;
+                        _uiController._gold.text = _uiController.systemSaveInfo.money.ToString();
+                        _uiController.SystemDataSave();
 
-                    // 오브젝트의 위치 설정
-                    summon.transform.position = mousePosition;
+                        // 마우스 좌표를 월드 좌표로 변환
+                        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-                    // Cube 오브젝트 생성
-                    _uiController._summoner[objectIndex] = Instantiate(summon);
+                        // 오브젝트의 위치 설정
+                        summon.transform.position = mousePosition;
 
-                    _uiController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
-                    _uiController._summoner[objectIndex].GetComponent<Summons>().nowStatgeTime = _uiController.sceneMode;
-                  
-                    _uiController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
+                        // Cube 오브젝트 생성
+                        _uiController._summoner[objectIndex] = Instantiate(summon);
+
+                        _uiController._summoner[objectIndex].tag = "Summon";
+                        _uiController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
+                        _uiController._summoner[objectIndex].GetComponent<Summons>().nowStatgeTime = _uiController.sceneMode;
                     
-                    // 생성한 Cube 오브젝트 활성화
-                    _uiController._summoner[objectIndex].SetActive(true);
+                        _uiController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
+                        
+                        // 생성한 Cube 오브젝트 활성화
+                        _uiController._summoner[objectIndex].SetActive(true);
+                    }
                 }
             }
         }
 
         public void OnMouseEndDrag()
         {
-            if(_uiController.sceneMode == 0) {
+            if(_uiController.sceneMode == 0 && "Summon".Equals(_uiController._summoner[objectIndex].tag)) {
                 _uiController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiController._summoner[objectIndex].transform.position.ToString();
                 _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
+                _uiController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = false;
                 _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = "Exorcist";
                 _uiController.gameDataManager.SaveSummerInfo("Exorcist",_uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
+
+             
             }
         }
 
         public void OnMouseDrag()
         {
-            if(_uiController.sceneMode == 0) {
+            if(_uiController.sceneMode == 0 && "Summon".Equals(_uiController._summoner[objectIndex].tag)) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 _uiController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);

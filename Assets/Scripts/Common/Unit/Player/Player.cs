@@ -9,8 +9,7 @@ using TMPro;
 namespace nightmareHunter {
     public class Player : MonoBehaviour
     {
-        [SerializeField]
-        private string playerState;
+        public string playerState;
 
          //총알 프리팹
         [SerializeField]
@@ -68,7 +67,7 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
-            if(!"die".Equals(playerState) ) {
+            if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
                 if(_fireContinuously || _fireSingle) {
                     float timeSinceLastFire = Time.time - _lastFireTime;
@@ -100,8 +99,6 @@ namespace nightmareHunter {
         private void RotateInDirectionOfInput() {
             float horizontalInput = Input.GetAxisRaw("Horizontal") +Input.GetAxisRaw("Vertical");
             _animator.SetFloat("move", Mathf.Abs(horizontalInput));
-
-
 
             if (_movementInput != Vector2.zero) {
                 // // 좌우 방향에 따라 이동 방향 벡터를 설정합니다.
@@ -154,7 +151,7 @@ namespace nightmareHunter {
 
         // 공격 키 이벤트
         private void OnFire(InputValue inputValue) {
-            if(!"wait".Equals(playerState) ) {
+            if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 _fireContinuously = inputValue.isPressed;
 
                 if(inputValue.isPressed) {

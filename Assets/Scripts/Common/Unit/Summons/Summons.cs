@@ -29,18 +29,14 @@ namespace nightmareHunter {
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
             _playerinfo = inPlayerinfo;
-
-            Debug.Log(_playerinfo.playerLevel);
-            Debug.Log(_playerinfo.health);
-            Debug.Log(_playerinfo.attack);
         }
 
         // Start is called before the first frame update
         void FixedUpdate()
         {
             if(nowStatgeTime == 1) { // 저녁시간에만 몬스터 스캔
-             //   scanRadar();
-             //   targetsAttack();
+                scanRadar();
+                targetsAttack();
             }
         }
 

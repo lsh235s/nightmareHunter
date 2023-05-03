@@ -38,12 +38,8 @@ public class UiReSize : MonoBehaviour
 
     void FitFontSize(GameObject objectName) {
         TextMeshProUGUI text = objectName.GetComponent<TextMeshProUGUI>();
-        Debug.Log(text.fontSize);
-Debug.Log(Screen.width);
         float rateWidth = (float)Screen.width / baseWidth;
-Debug.Log(rateWidth);
         float fontSize = (float)rateWidth * text.fontSize;
-Debug.Log(fontSize);
         text.fontSize = (int)fontSize;
         FitImageAspectRatio(objectName);
     }

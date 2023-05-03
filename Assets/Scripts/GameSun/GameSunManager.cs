@@ -27,16 +27,32 @@ namespace nightmareHunter {
 
         int stroyStage; // 스토리 스테이지
 
+        public bool eventFlag = false; // 이벤트 플래그
+
+        public GameObject _tutory; // 튜토리얼 도착지점
+        public GameObject _tutory2; // 튜토리얼 표적
+        public GameObject _tutory3; // 소환수 배치
+
+        GameObject _unitFrame; // 유닛 프레임 오브젝트
+
         // Start is called before the first frame update
         void Start()
         {     
-            stroyStage = PlayerPrefs.GetInt("FirstTimeLaunch", 0); //최종 진행된 스토리 스테이지
-
             canvasInit();
+
+            stroyStage = _uiController.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
            
             if(stroyStage > -1) {
+                _uiController.timePause = false;
                 storyStart(stroyStage);
+                if(stroyStage < 9) {
+                    _playGameObject.transform.position = new Vector2(-3f, 0.7f);
+                }
+                if(stroyStage >= 40) {
+                    _unitFrame.SetActive(true);
+                }
             } else {
+                _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
             }
         }
@@ -49,6 +65,7 @@ namespace nightmareHunter {
             _ChatGroup = GameObject.Find("Canvas/ChatGroup");
             _chatWindowText = GameObject.Find("Canvas/ChatGroup/ChatWindow/StoryText").GetComponent<TextMeshProUGUI>();
             _chatArrowBtn = GameObject.Find("Canvas/ChatGroup/LeftSet/ChatArrowBtn").GetComponent<Button>();
+            _unitFrame = GameObject.Find("Canvas/Mercenary");
             _chatArrowBtn.onClick.AddListener(skipButton);
 
             for (int i = 0; i < _talkObject.childCount; i++)
@@ -60,17 +77,26 @@ namespace nightmareHunter {
                 }
             }
 
+            _unitFrame.SetActive(false);
+
             StartCoroutine(_loadingControl.FadeInStart());
         }
 
-        void skipButton() {
-            stroyStage++;
+        public void skipButton() {
+            
             foreach (KeyValuePair<string, GameObject> entry in _tailkGraphicList)
             {
                 entry.Value.SetActive(false);
             }
-            PlayerPrefs.SetInt("FirstTimeLaunch", stroyStage);
-            storyStart(stroyStage);
+            if(!eventFlag) {      
+                _playGameObject.GetComponent<Player>().playerState = "tutorial";
+                _ChatGroup.SetActive(true);
+                stroyStage++;
+
+                _uiController.systemSaveInfo.storyNum = stroyStage;
+                _uiController.SystemDataSave();
+                storyStart(stroyStage);
+            }
         }
 
         void storyStart(int inStroyStage) {
@@ -78,12 +104,22 @@ namespace nightmareHunter {
             //hunterGraphic.initialFlipX = true;  좌우반전 
             //hunterGraphic.Initialize(true); 재시작
 
-            if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
-                _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
-                _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
+            if(storyObject.storyContentList.Count > inStroyStage) {
+                _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
+                if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
+                    if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
+                        _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
+                        _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
+                    }
+                } else if("tutorial".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
+                    eventFlag = true;
+
+                    evnetAction(storyObject.storyContentList[inStroyStage].event_stage_id);
+                }
+            } else {
+                _playGameObject.GetComponent<Player>().playerState = "wait";
+               _ChatGroup.SetActive(false);
             }
-            
-            _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
         }
 
         // 대화 이미지 오브젝트 좌우 변경
@@ -100,6 +136,41 @@ namespace nightmareHunter {
             }
         }
 
+        void evnetAction(int stageId) {
+            switch  (stageId) {
+                case 1 :
+                    _tutory.SetActive(true);
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                break;
+                case 2 :
+                    _tutory2.SetActive(true);
+                    _playGameObject.GetComponent<Player>().playerState = "active";
+                break;
+                case 3 :
+                    _uiController.systemSaveInfo.money = 100;
+                    _uiController._gold.text = _uiController.systemSaveInfo.money.ToString();
+                    _uiController.SystemDataSave();
+                    eventFlag = false;
+                break;
+                case 4 :
+                    _loadingControl.FadeActive();
+                    _playGameObject.transform.position = new Vector2(2.3f, 0.3f);
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    eventFlag = false;
+                    skipButton();
+                break;
+                case 5 :
+                    _tutory3.SetActive(true);
+                    _unitFrame.SetActive(true);
+                break;
+                case 6 :
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _ChatGroup.SetActive(false);
+                    _uiController.skipTime();
+                    _uiController.timePause = true;
+                break;
+            }
+        }
       
     }
 }
