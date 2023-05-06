@@ -96,6 +96,12 @@ namespace nightmareHunter {
                 _uiController.systemSaveInfo.storyNum = stroyStage;
                 _uiController.SystemDataSave();
                 storyStart(stroyStage);
+            } else {
+                if(_uiController.systemSaveInfo.storyNum == 7)
+                {
+                    _playGameObject.GetComponent<Player>().playerState = "active";
+                }
+                _ChatGroup.SetActive(false);
             }
         }
 
@@ -144,7 +150,6 @@ namespace nightmareHunter {
                 break;
                 case 2 :
                     _tutory2.SetActive(true);
-                    _playGameObject.GetComponent<Player>().playerState = "active";
                 break;
                 case 3 :
                     _uiController.systemSaveInfo.money = 100;
