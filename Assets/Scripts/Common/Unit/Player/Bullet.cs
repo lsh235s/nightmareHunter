@@ -23,6 +23,10 @@ namespace nightmareHunter {
                 collision.GetComponent<Enemy>().DamageProcess(attack);
                 Destroy(gameObject);
             }
+
+            if(collision.gameObject.tag == "Tutorial") {
+                Destroy(gameObject);
+            }
         }
     }
 }

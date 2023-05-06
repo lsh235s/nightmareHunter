@@ -13,7 +13,7 @@ namespace nightmareHunter {
         public GameObject[] _monsters;
 
 
-        public UiController _uiController;
+        UiController _uiController;
 
         void Start()
         {

@@ -1023,7 +1023,7 @@ GameObject:
   - component: {fileID: 796613804}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: mainCanvas
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1384,11 +1384,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 539ac1c19c29bcb478b78ef97dba5261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topSystemValue:
-    sceneMode: 0
-  loadImage: {fileID: 1292831737}
   _storyPanel: {fileID: 1210034607}
   _backGroundAnimation: {fileID: 953746834}
+  _loadingControl: {fileID: 1292831741}
 --- !u!1 &961739749
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,6 +1677,7 @@ GameObject:
   - component: {fileID: 1292831740}
   - component: {fileID: 1292831739}
   - component: {fileID: 1292831738}
+  - component: {fileID: 1292831741}
   m_Layer: 5
   m_Name: Load
   m_TagString: Untagged
@@ -1744,6 +1743,18 @@ RectTransform:
   m_AnchoredPosition: {x: -0.25, y: 0.125}
   m_SizeDelta: {x: 0.5, y: -0.25}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1292831741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292831737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9029087f11e8bf24d81957bf36a6a9aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1353810737
 GameObject:
   m_ObjectHideFlags: 0

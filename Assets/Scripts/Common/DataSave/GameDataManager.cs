@@ -9,8 +9,6 @@ namespace nightmareHunter {
     {
         string[] summonList = new string[] {"Exorcist"};
 
- 
-        
         public void PlayerInitTest() {
             PlayerInfo playerInfo = new PlayerInfo();
 
@@ -61,16 +59,11 @@ namespace nightmareHunter {
             List<PlayerInfo> existTargetInfo = new List<PlayerInfo>();
             for(int i = 0; i < summonList.Length; i++) {
                 string fileName = summonList[i] + ".json";
-                Debug.Log(fileName);
                 string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
 
 
                 string jsonString = File.ReadAllText(filePath);
-                Debug.Log(jsonString);
                 PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
-
-                Debug.Log(playerInfo.summonsExist);
-                Debug.Log(playerInfo.spritesName);
 
                 for(int j = 0; j < unitObject.unitList.Count; j++) {
                     if (unitObject.unitList[j].unitType == 2 && summonList[i].Equals(unitObject.unitList[j].spritesName)) {
@@ -148,6 +141,28 @@ namespace nightmareHunter {
                 }
             }
             return playerInfo;
+        }
+
+
+        public void SaveSummerInfo(SystemSaveInfo systemSaveInfo) {
+            string json = JsonConvert.SerializeObject(systemSaveInfo);
+
+            string fileName = "SystemData.json";
+            string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
+
+            System.IO.File.WriteAllText(filePath, json);
+        }
+
+        
+        public SystemSaveInfo LoadSystemSaveInfo() {
+            SystemSaveInfo systemSaveInfo = new SystemSaveInfo();
+            
+            string fileName = "SystemData.json";
+            string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
+
+            string jsonString = File.ReadAllText(filePath);
+            systemSaveInfo = JsonConvert.DeserializeObject<SystemSaveInfo>(jsonString);
+            return systemSaveInfo;
         }
 
     }
