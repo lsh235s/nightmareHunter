@@ -19,6 +19,7 @@ public class UiReSize : MonoBehaviour
         GameObject[] dynamicLayers = GameObject.FindGameObjectsWithTag("DynamicLayer");
         GameObject[] dynamicImages = GameObject.FindGameObjectsWithTag("DynamicImage");
         GameObject[] dynamicFont = GameObject.FindGameObjectsWithTag("DynamicFont");
+        GameObject[] dynamicGrid = GameObject.FindGameObjectsWithTag("DynamicGrid");
 
         foreach (GameObject obj in dynamicLayers)
         {
@@ -34,6 +35,30 @@ public class UiReSize : MonoBehaviour
         {
             FitFontSize(obj);
         }
+
+        foreach (GameObject obj in dynamicGrid)
+        {
+            FitGridSize(obj);
+        }
+    }
+
+
+    void FitGridSize(GameObject objectName) {
+        FitImageAspectRatio(objectName);
+
+        GridLayoutGroup _gridLayoutGroup = objectName.GetComponent<GridLayoutGroup>();
+
+        float rateWidth = (float)Screen.width / baseWidth;
+        float rateHeight = (float)Screen.height / baseHeight;
+
+        float gridWidth = (float)rateWidth * _gridLayoutGroup.cellSize.x;
+        float gridHeight = (float)rateHeight * _gridLayoutGroup.cellSize.y;
+
+        float gridSpaceX = (float)rateWidth * _gridLayoutGroup.spacing.x;
+        float gridSpaceY = (float)rateHeight * _gridLayoutGroup.spacing.y;
+
+        _gridLayoutGroup.cellSize = new Vector2(gridWidth, gridHeight);
+        _gridLayoutGroup.spacing = new Vector2(gridSpaceX, gridSpaceY);
     }
 
     void FitFontSize(GameObject objectName) {
@@ -64,7 +89,6 @@ public class UiReSize : MonoBehaviour
         
         float imageX = (float)rateWidth * rectTransform.anchoredPosition.x;
         float imageY = (float)rateHeight * rectTransform.anchoredPosition.y;
-
 
         rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
         rectTransform.anchoredPosition = new Vector2(imageX, imageY);
