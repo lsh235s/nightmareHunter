@@ -64,12 +64,12 @@ MonoBehaviour:
     level: 1
     health: 100
     lev_health: 1
-    attack: 0
+    attack: 1
     lev_attack: 1
     attackRange: 1
     lev_attackRange: 1
     move: 0.5
     lev_move: 1
-    attackSpeed: 0
+    attackSpeed: 10
     lev_attackSpeed: 1
     spritesName: teller

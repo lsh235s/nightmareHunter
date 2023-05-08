@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,6 +60,7 @@ public class UiReSize : MonoBehaviour
 
         _gridLayoutGroup.cellSize = new Vector2(gridWidth, gridHeight);
         _gridLayoutGroup.spacing = new Vector2(gridSpaceX, gridSpaceY);
+        _gridLayoutGroup.padding.top = (int)Math.Ceiling(rateHeight *_gridLayoutGroup.padding.top);
     }
 
     void FitFontSize(GameObject objectName) {

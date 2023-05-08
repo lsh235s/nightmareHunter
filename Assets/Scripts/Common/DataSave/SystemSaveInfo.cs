@@ -12,6 +12,8 @@ namespace nightmareHunter {
     public class SystemSaveInfo 
     {
         public int money { get; set; }
+        public int integer { get; set; }
+        public int targetHP { get; set; }
         public int storyNum { get; set; }
     }
 }

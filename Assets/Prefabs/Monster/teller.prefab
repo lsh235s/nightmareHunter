@@ -220,9 +220,10 @@ MonoBehaviour:
   _animator: {fileID: 3340696490623419487}
   _speed: 0.5
   _hp: 100
-  _attack: 0
+  _attack: 1
   _attackSpeed: 0
   _attackRange: 1
+  _positionInfo: {x: 0, y: 0}
 --- !u!114 &3340696491319737206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +247,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.010720253, y: 0.1462462}

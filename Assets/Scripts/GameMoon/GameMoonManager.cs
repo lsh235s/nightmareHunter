@@ -18,6 +18,8 @@ namespace nightmareHunter {
         void Start()
         {
             _uiController = GameObject.Find("Canvas").GetComponent<UiController>();
+
+            AudioManager.Instance.BackGroundPlay("bgm_game");
             //몬스터 배치
             monsterInit();
 

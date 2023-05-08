@@ -35,9 +35,12 @@ namespace nightmareHunter {
             SettingButton.onClick.AddListener(SettingOnClick);
             ExitButton.onClick.AddListener(ExitOnClick);
 
+            AudioManager.Instance.BackGroundPlay("bgm_title");
+
             StartCoroutine(_loadingControl.FadeInStart());
             StartCoroutine(storyPanelStop()); 
         }
+
 
         public void skipOnClick() {
             _storyPanel.SetActive(false);

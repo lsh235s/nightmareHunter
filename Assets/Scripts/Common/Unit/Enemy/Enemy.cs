@@ -25,6 +25,9 @@ namespace nightmareHunter {
         public float _attack;
         public float _attackSpeed;
         public float _attackRange;
+        public Vector2 _positionInfo;
+
+        private Coroutine damageCoroutine;
 
         private void Awake() {
             isLive = true;
@@ -90,6 +93,32 @@ namespace nightmareHunter {
 
             if(_hp <= 0) {
                 Destroy(gameObject);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if(collision.GetComponent<Target>()) {
+                activateStatus = "attack";
+                StartCoroutine(ApplyDamage(collision.gameObject));
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if(collision.GetComponent<Target>()) 
+            {
+                activateStatus = "move";
+                StopCoroutine(damageCoroutine);
+            }
+        }
+
+
+        private IEnumerator ApplyDamage(GameObject collisionObject)
+        {
+            while ("attack".Equals(activateStatus))
+            {
+                yield return new WaitForSeconds(_attackSpeed);
+                collisionObject.GetComponent<Target>().DamageProcess(_attack);
             }
         }
     }

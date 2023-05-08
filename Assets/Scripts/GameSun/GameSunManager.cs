@@ -57,6 +57,7 @@ namespace nightmareHunter {
             }
         }
 
+
         void canvasInit() {
             _loadingControl.FadeActive();
 
@@ -78,6 +79,8 @@ namespace nightmareHunter {
             }
 
             _unitFrame.SetActive(false);
+
+            AudioManager.Instance.BackGroundPlay("bgm_game");
 
             StartCoroutine(_loadingControl.FadeInStart());
         }

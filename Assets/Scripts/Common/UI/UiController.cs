@@ -13,7 +13,9 @@ namespace nightmareHunter {
         public Image _imagePlayHp;
         public TextMeshProUGUI _playerHp;
         public Image _imageClientHp;
+        public Sprite[] _clientHpImage;
         public TextMeshProUGUI _clientHp;
+        int maxTargetHp;
 
         
         // 저장 데이터
@@ -98,6 +100,9 @@ namespace nightmareHunter {
             // 재화 시나리오 전개
             systemSaveInfo = gameDataManager.LoadSystemSaveInfo();
             _gold.text = systemSaveInfo.money.ToString();
+            maxTargetHp = systemSaveInfo.targetHP;
+            _clientHp.text = systemSaveInfo.targetHP.ToString();
+            TargetHP(0);
         }
 
         public void SystemDataSave() {
@@ -156,6 +161,29 @@ namespace nightmareHunter {
                 int nowGold = int.Parse(_gold.text) - useGold;
                 _gold.text = nowGold.ToString();
             }
+        }
+
+
+        // 타겟 체력 관련
+        public void TargetHP(float nowHp) {
+            float hpDiff = (int.Parse(_clientHp.text) - nowHp) ;
+            float hpRate = hpDiff / (float)maxTargetHp * 100;
+            Debug.Log("attak : " + nowHp + "/total:"+maxTargetHp +"/now:"+ hpDiff + "/rate:"+hpRate);
+
+            if(hpRate > 80 && hpRate == 100.0f) {
+                _imageClientHp.sprite = _clientHpImage[0];
+            } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                _imageClientHp.sprite = _clientHpImage[1];
+            } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                _imageClientHp.sprite = _clientHpImage[2];
+            } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                _imageClientHp.sprite = _clientHpImage[3];
+            } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                _imageClientHp.sprite = _clientHpImage[4];
+            } else if (hpRate <= 0.0f) {
+                _imageClientHp.sprite = _clientHpImage[5];
+            }
+            _clientHp.text = hpDiff.ToString(); 
         }
     }
 }
