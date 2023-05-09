@@ -29,7 +29,7 @@ namespace nightmareHunter {
         private int frameName = 1;
 
 
-        UiController _uiController;
+        UnitController _uiItController;
 
         PlayerInfo NowSummonInfo;
 
@@ -40,13 +40,13 @@ namespace nightmareHunter {
 
             string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
 
-            _uiController = GameObject.Find("Canvas").GetComponent<UiController>();
+            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
             priceText.text = price.ToString();
                 
             objectIndex = transform.GetSiblingIndex();
             //현재 세팅된 유닛의 저장된 능력치를 가져온다
-            NowSummonInfo = _uiController.gameDataManager.LoadSummerInfo(objectIndex ,_uiController._unitObject);
+            NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
         }
 
         void Update()
@@ -69,14 +69,14 @@ namespace nightmareHunter {
     
         public void OnMouseEnter()
         {
-            if(_uiController.sceneMode == 0) {
+            if(UiController.Instance.sceneMode == 0) {
                 _isChange = true;
             }
         }
 
         public void OnMouseExit()
         {
-            if(_uiController.sceneMode == 0) {
+            if(UiController.Instance.sceneMode == 0) {
                 _isChange = false;
                 string unitImage = "ui/1";
                 frameImage.sprite = Resources.Load<Sprite>(unitImage);
@@ -87,13 +87,12 @@ namespace nightmareHunter {
 
         public void OnMouseBeginDrag()
         {
-            if(_uiController.sceneMode == 0) {
-                Debug.Log(_uiController._summoner[objectIndex].tag);
-                if(summon != null && !"Summon".Equals(_uiController._summoner[objectIndex].tag)) {
-                    if(price <= int.Parse(_uiController._gold.text)) {
-                        _uiController.systemSaveInfo.money = int.Parse(_uiController._gold.text) - price;
-                        _uiController._gold.text = _uiController.systemSaveInfo.money.ToString();
-                        _uiController.SystemDataSave();
+            if(UiController.Instance.sceneMode == 0) {
+                Debug.Log(_uiItController._summoner[objectIndex].tag);
+                
+                if(summon != null && !"Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
+                    if(price <= int.Parse(UiController.Instance._gold.text)) {
+                        UiController.Instance.goldUseSet(price);
 
                         // 마우스 좌표를 월드 좌표로 변환
                         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -102,16 +101,16 @@ namespace nightmareHunter {
                         summon.transform.position = mousePosition;
 
                         // Cube 오브젝트 생성
-                        _uiController._summoner[objectIndex] = Instantiate(summon);
+                        _uiItController._summoner[objectIndex] = Instantiate(summon);
 
-                        _uiController._summoner[objectIndex].tag = "Summon";
-                        _uiController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
-                        _uiController._summoner[objectIndex].GetComponent<Summons>().nowStatgeTime = _uiController.sceneMode;
+                        _uiItController._summoner[objectIndex].tag = "Summon";
+                        _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
+                        _uiItController._summoner[objectIndex].GetComponent<Summons>().nowStatgeTime = UiController.Instance.sceneMode;
                     
-                        _uiController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
+                        _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                         
                         // 생성한 Cube 오브젝트 활성화
-                        _uiController._summoner[objectIndex].SetActive(true);
+                        _uiItController._summoner[objectIndex].SetActive(true);
                     }
                 }
             }
@@ -119,37 +118,37 @@ namespace nightmareHunter {
 
         public void OnMouseEndDrag()
         {
-            if(_uiController.sceneMode == 0 && "Summon".Equals(_uiController._summoner[objectIndex].tag)) {
-                _uiController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
-                _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiController._summoner[objectIndex].transform.position.ToString();
-                _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
-                _uiController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = false;
-                _uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = "Exorcist";
-                _uiController.gameDataManager.SaveSummerInfo("Exorcist",_uiController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
+            if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
+                _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiItController._summoner[objectIndex].transform.position.ToString();
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
+                _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = false;
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = "Exorcist";
+                _uiItController.gameDataManager.SaveSummerInfo("Exorcist",_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
 
-             
             }
         }
 
         public void OnMouseDrag()
         {
-            if(_uiController.sceneMode == 0 && "Summon".Equals(_uiController._summoner[objectIndex].tag)) {
+            if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _uiController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+                _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
-                _uiController._summoner[objectIndex].transform.position = mousePosition;
+                _uiItController._summoner[objectIndex].transform.position = mousePosition;
             }
         }
 
         public void summonEnforce() {
-            _uiController.goldUseSet(price);
+            UiController.Instance.goldUseSet(price);
+            
             NowSummonInfo.playerLevel += 1;
 
-            _uiController.gameDataManager.SaveSummerInfo("Exorcist",NowSummonInfo);
-            NowSummonInfo = _uiController.gameDataManager.LoadSummerInfo(objectIndex ,_uiController._unitObject);
+            _uiItController.gameDataManager.SaveSummerInfo("Exorcist",NowSummonInfo);
+            NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
 
-            _uiController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
+            _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
 
         }
     }

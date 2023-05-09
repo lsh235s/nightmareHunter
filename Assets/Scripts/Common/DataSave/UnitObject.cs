@@ -29,6 +29,7 @@ public class UnitList
     public float lev_move;
     public float attackSpeed;
     public float lev_attackSpeed;
+    public int reward;
     
 
     
@@ -42,7 +43,7 @@ public class UnitList
 
     }
 
-    public UnitList(int Id,float UnitType,string UnitName,int Level,float Health,float Lev_health,float Attack,float Lev_attack,float AttackRange,float Lev_attackRange,float Move,float Lev_move,float AttackSpeed,float Lev_attackSpeed,string SpritesName)
+    public UnitList(int Id,float UnitType,string UnitName,int Level,float Health,float Lev_health,float Attack,float Lev_attack,float AttackRange,float Lev_attackRange,float Move,float Lev_move,float AttackSpeed,float Lev_attackSpeed,string SpritesName,int Reward)
     {
         id = Id;
         unitType = UnitType;
@@ -59,6 +60,7 @@ public class UnitList
         attackSpeed = AttackSpeed;
         lev_attackSpeed = Lev_attackSpeed;
         spritesName = SpritesName; 
+        reward = Reward;
        
     }
 }

@@ -41,8 +41,6 @@ namespace nightmareHunter {
 
         [SerializeField]
         private Sprite[] HpHeartImage;
-        [SerializeField]
-        private UiController HpCanvas;
 
         private float maxHp;
 
@@ -55,14 +53,14 @@ namespace nightmareHunter {
             _playerinfo = inPlayerinfo;
 
             _timeBetweenShots = _playerinfo.attackSpeed;
-            if (HpCanvas._imagePlayHp != null && HpHeartImage[0] != null)
+            if (UiController.Instance._imagePlayHp != null && HpHeartImage[0] != null)
             {
-                HpCanvas._imagePlayHp.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
             }
-            if (HpCanvas._playerHp.text != null)
+            if (UiController.Instance._playerHp.text != null)
             {
                 maxHp = _playerinfo.health;
-                HpCanvas._playerHp.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
+                UiController.Instance._playerHp.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
             }
         }
 
@@ -176,21 +174,21 @@ namespace nightmareHunter {
                     float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
                     
                     if(hpRate > 80 && hpRate == 100.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[0];
+                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
                     } else if (hpRate > 50.0f && hpRate <= 80.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[1];
+                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
                     } else if (hpRate > 25.0f && hpRate <= 50.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[2];
+                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
                     } else if (hpRate > 10.0f && hpRate <= 25.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[3];
+                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
                     } else if (hpRate > 0.0f && hpRate <= 10.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[4];
+                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
                     } else if (hpRate <= 0.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[5];
+                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
                         _animator.SetTrigger("die");
                         playerState = "die";
                     }
-                    HpCanvas._playerHp.text = _playerinfo.health.ToString(); 
+                    UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
                 }
             }
         }

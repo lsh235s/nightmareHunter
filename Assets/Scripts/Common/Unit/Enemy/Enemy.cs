@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 namespace nightmareHunter {
     public class Enemy : MonoBehaviour
     {
         public Rigidbody2D _target;
         public GameObject waypoints;
+
 
         List<Transform> _waypointList = new List<Transform>();
         bool isLive;
@@ -25,9 +27,11 @@ namespace nightmareHunter {
         public float _attack;
         public float _attackSpeed;
         public float _attackRange;
+        public int _integer;
         public Vector2 _positionInfo;
 
         private Coroutine damageCoroutine;
+
 
         private void Awake() {
             isLive = true;
@@ -52,8 +56,10 @@ namespace nightmareHunter {
             _attack = playerinfo.attack;
             _attackSpeed = playerinfo.attackSpeed;
             _attackRange = playerinfo.attackRange;
-
+            _integer = playerinfo.reward;
         }
+
+ 
 
         private void FixedUpdate() {
             if(!isLive)
@@ -92,6 +98,8 @@ namespace nightmareHunter {
             _hp = _hp - damage;
 
             if(_hp <= 0) {
+                activateStatus = "dead";
+                UiController.Instance.integerAddSet(_integer);
                 Destroy(gameObject);
             }
         }
@@ -105,10 +113,14 @@ namespace nightmareHunter {
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if(collision.GetComponent<Target>()) 
-            {
-                activateStatus = "move";
-                StopCoroutine(damageCoroutine);
+            if(!"dead".Equals(activateStatus)) {    
+                if(collision.GetComponent<Target>()) 
+                {
+                    activateStatus = "move";
+                    if(activateStatus != null) {
+                        StopCoroutine(damageCoroutine);
+                    }
+                }
             }
         }
 

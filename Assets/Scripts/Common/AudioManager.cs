@@ -22,9 +22,6 @@ public class AudioManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
-        // 병경 음악 정리
-        string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-        
     }
 
     public void BackGroundPlay(string newAudioName)

@@ -137,6 +137,7 @@ namespace nightmareHunter {
                     playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
                     playerInfo.move = unitObject.unitList[i].move + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_move);
                     playerInfo.attackSpeed = unitObject.unitList[i].attackSpeed + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackSpeed);
+                    playerInfo.reward = unitObject.unitList[i].reward;
                     playerInfo.spritesName = unitObject.unitList[i].spritesName;
                 }
             }

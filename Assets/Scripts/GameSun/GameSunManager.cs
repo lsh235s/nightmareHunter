@@ -17,7 +17,6 @@ namespace nightmareHunter {
         LoadingControl _loadingControl; // 로딩 컨트롤
         
 
-        UiController _uiController; // UI 컨트롤러
         Transform _talkObject; // 대화 캐릭터 오브젝트 대화 좌우 반전용
         GameObject _ChatGroup; // 대화 창 오브젝트
         Dictionary<string,GameObject> _tailkGraphicList = new Dictionary<string, GameObject>(); // 대화 그래픽 리스트
@@ -36,14 +35,19 @@ namespace nightmareHunter {
         GameObject _unitFrame; // 유닛 프레임 오브젝트
 
         // Start is called before the first frame update
+        void Awake() {
+            
+        }
+
         void Start()
         {     
+            UiController.Instance.LoadStart();
             canvasInit();
 
-            stroyStage = _uiController.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
+            stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
            
             if(stroyStage > -1) {
-                _uiController.timePause = false;
+                UiController.Instance.timePause = false;
                 storyStart(stroyStage);
                 if(stroyStage < 9) {
                     _playGameObject.transform.position = new Vector2(-3f, 0.7f);
@@ -61,7 +65,6 @@ namespace nightmareHunter {
         void canvasInit() {
             _loadingControl.FadeActive();
 
-            _uiController = GameObject.Find("Canvas").GetComponent<UiController>();
             _talkObject = GameObject.Find("Canvas/ChatGroup/LeftSet").GetComponent<Transform>();
             _ChatGroup = GameObject.Find("Canvas/ChatGroup");
             _chatWindowText = GameObject.Find("Canvas/ChatGroup/ChatWindow/StoryText").GetComponent<TextMeshProUGUI>();
@@ -96,11 +99,11 @@ namespace nightmareHunter {
                 _ChatGroup.SetActive(true);
                 stroyStage++;
 
-                _uiController.systemSaveInfo.storyNum = stroyStage;
-                _uiController.SystemDataSave();
+                UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                UiController.Instance.SystemDataSave();
                 storyStart(stroyStage);
             } else {
-                if(_uiController.systemSaveInfo.storyNum == 7)
+                if(UiController.Instance.systemSaveInfo.storyNum == 7)
                 {
                     _playGameObject.GetComponent<Player>().playerState = "active";
                 }
@@ -155,9 +158,9 @@ namespace nightmareHunter {
                     _tutory2.SetActive(true);
                 break;
                 case 3 :
-                    _uiController.systemSaveInfo.money = 100;
-                    _uiController._gold.text = _uiController.systemSaveInfo.money.ToString();
-                    _uiController.SystemDataSave();
+                    UiController.Instance.systemSaveInfo.money = 100;
+                    UiController.Instance._gold.text = UiController.Instance.systemSaveInfo.money.ToString();
+                    UiController.Instance.SystemDataSave();
                     eventFlag = false;
                 break;
                 case 4 :
@@ -174,8 +177,8 @@ namespace nightmareHunter {
                 case 6 :
                     _playGameObject.GetComponent<Player>().playerState = "wait";
                     _ChatGroup.SetActive(false);
-                    _uiController.skipTime();
-                    _uiController.timePause = true;
+                    UiController.Instance.skipTime();
+                    UiController.Instance.timePause = true;
                 break;
             }
         }

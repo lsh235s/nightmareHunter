@@ -27,6 +27,7 @@ MonoBehaviour:
     lev_move: 1
     attackSpeed: 3
     lev_attackSpeed: 1
+    reward: 0
     spritesName: hunter
   - id: 0
     unitType: 2
@@ -42,12 +43,13 @@ MonoBehaviour:
     lev_move: 0
     attackSpeed: 5
     lev_attackSpeed: 0
+    reward: 0
     spritesName: Exorcist
   - id: 0
     unitType: 1
     unitName: wanderer
     level: 1
-    health: 500
+    health: 50
     lev_health: 1
     attack: 5
     lev_attack: 1
@@ -57,12 +59,13 @@ MonoBehaviour:
     lev_move: 1
     attackSpeed: 3
     lev_attackSpeed: 1
+    reward: 50
     spritesName: wanderer
   - id: 1
     unitType: 1
     unitName: teller
     level: 1
-    health: 100
+    health: 10
     lev_health: 1
     attack: 1
     lev_attack: 1
@@ -72,4 +75,5 @@ MonoBehaviour:
     lev_move: 1
     attackSpeed: 10
     lev_attackSpeed: 1
+    reward: 100
     spritesName: teller

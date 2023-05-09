@@ -219,10 +219,11 @@ MonoBehaviour:
   waypoints: {fileID: 0}
   _animator: {fileID: 3340696490623419487}
   _speed: 0.5
-  _hp: 100
+  _hp: 10
   _attack: 1
-  _attackSpeed: 0
+  _attackSpeed: 10
   _attackRange: 1
+  _integer: 100
   _positionInfo: {x: 0, y: 0}
 --- !u!114 &3340696491319737206
 MonoBehaviour:
