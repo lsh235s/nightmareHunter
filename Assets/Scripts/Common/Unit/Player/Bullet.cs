@@ -19,6 +19,11 @@ namespace nightmareHunter {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
+            if(collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player") {
+                Debug.Log(collision.gameObject.tag);
+                Destroy(gameObject);
+            }
+
             if(collision.GetComponent<Enemy>()) {
                 collision.GetComponent<Enemy>().DamageProcess(attack);
                 Destroy(gameObject);

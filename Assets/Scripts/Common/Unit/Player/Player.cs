@@ -34,8 +34,7 @@ namespace nightmareHunter {
 
         public float _timeBetweenShots; // 딜레이 타임
 
-        private bool _fireContinuously;
-        private bool _fireSingle;
+        private bool _waitFire;
         private float _lastFireTime;
 
 
@@ -67,17 +66,13 @@ namespace nightmareHunter {
         private void FixedUpdate() {
             if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
-                if(_fireContinuously || _fireSingle) {
+                if(_waitFire) {
                     float timeSinceLastFire = Time.time - _lastFireTime;
 
                     if(timeSinceLastFire >= _timeBetweenShots) {
-                        FireBullet();
-                    
                         _lastFireTime = Time.time;
-                        _fireSingle = false;
+                        _waitFire = false;
                     }
-
-                
                 }
 
                 // 유닛의 이동 관련 처리
@@ -150,11 +145,13 @@ namespace nightmareHunter {
         // 공격 키 이벤트
         private void OnFire(InputValue inputValue) {
             if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
-                _fireContinuously = inputValue.isPressed;
-
                 if(inputValue.isPressed) {
-                    initialPosition = transform.position;
-                    _fireSingle = true;
+                    if(!_waitFire) {
+                        initialPosition = transform.position;
+                        FireBullet();
+                        _waitFire = true;
+                    }
+                    
                 }
             }
           

@@ -25,7 +25,7 @@ MonoBehaviour:
     lev_attackRange: 1
     move: 1
     lev_move: 1
-    attackSpeed: 3
+    attackSpeed: 1
     lev_attackSpeed: 1
     reward: 0
     spritesName: hunter
