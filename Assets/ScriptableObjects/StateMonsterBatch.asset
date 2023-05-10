@@ -29,3 +29,7 @@ MonoBehaviour:
     level: 1
     monsterId: 0
     moveType: 1
+  - id: 4
+    level: 1
+    monsterId: 1
+    moveType: 1

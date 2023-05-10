@@ -105,7 +105,6 @@ namespace nightmareHunter {
 
                         _uiItController._summoner[objectIndex].tag = "Summon";
                         _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
-                        _uiItController._summoner[objectIndex].GetComponent<Summons>().nowStatgeTime = UiController.Instance.sceneMode;
                     
                         _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                         
@@ -122,7 +121,7 @@ namespace nightmareHunter {
                 _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiItController._summoner[objectIndex].transform.position.ToString();
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
-                _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = false;
+                _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = "Exorcist";
                 _uiItController.gameDataManager.SaveSummerInfo("Exorcist",_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
 

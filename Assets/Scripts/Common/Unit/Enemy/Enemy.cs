@@ -28,9 +28,11 @@ namespace nightmareHunter {
         public float _attackSpeed;
         public float _attackRange;
         public int _integer;
+        public string _spritesName;
         public Vector2 _positionInfo;
 
         private Coroutine damageCoroutine;
+
 
 
         private void Awake() {
@@ -42,6 +44,7 @@ namespace nightmareHunter {
             {
                 _waypointList.Add(childTransform);
             }   
+
 
         }
 
@@ -57,6 +60,7 @@ namespace nightmareHunter {
             _attackSpeed = playerinfo.attackSpeed;
             _attackRange = playerinfo.attackRange;
             _integer = playerinfo.reward;
+            _spritesName = playerinfo.spritesName;
         }
 
  
@@ -97,6 +101,8 @@ namespace nightmareHunter {
         public void DamageProcess(float damage) {
             _hp = _hp - damage;
 
+            gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
+            gameObject.GetComponent<AudioSource>().Play();
             if(_hp <= 0) {
                 activateStatus = "dead";
                 UiController.Instance.integerAddSet(_integer);
@@ -107,7 +113,7 @@ namespace nightmareHunter {
         private void OnTriggerEnter2D(Collider2D collision) {
             if(collision.GetComponent<Target>()) {
                 activateStatus = "attack";
-                StartCoroutine(ApplyDamage(collision.gameObject));
+                damageCoroutine = StartCoroutine(ApplyDamage(collision.gameObject));
             }
         }
 

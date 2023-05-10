@@ -160,7 +160,7 @@ namespace nightmareHunter {
             if(_clientHpImage != null) {
                 float hpDiff = (int.Parse(_clientHp.text) - nowHp) ;
                 float hpRate = hpDiff / (float)maxTargetHp * 100;
-                Debug.Log("attak : " + nowHp + "/total:"+maxTargetHp +"/now:"+ hpDiff + "/rate:"+hpRate);
+                //Debug.Log("attak : " + nowHp + "/total:"+maxTargetHp +"/now:"+ hpDiff + "/rate:"+hpRate);
 
                 if(hpRate > 80 && hpRate == 100.0f) {
                     _imageClientHp.sprite = _clientHpImage[0];

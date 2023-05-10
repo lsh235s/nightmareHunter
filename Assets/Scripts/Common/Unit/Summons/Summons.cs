@@ -10,47 +10,71 @@ namespace nightmareHunter {
         public RaycastHit2D[] targets;
         public Transform nearestTarget;
 
+
         public PlayerInfo _playerinfo;
-        public Vector2 bathPosition; 
+        // 소환수 능력치 
+        string activateStatus = "stop";
+        public float _speed;
+        public float _hp;
+        public float _attack;
+        public float _attackSpeed;
+        public float _attackRange;
+        public int _integer;
+        public string _positionString;
+        public Vector2 _positionInfo;
+        public bool summonsExist;
+        public string summonsName;
 
-        public int nowStatgeTime;
+        private Coroutine damageCoroutine;
 
-
-        void Start()
-        {
-            _playerinfo = new PlayerInfo();
-            _playerinfo.playerLevel = 1;
-            _playerinfo.health = 10;
-            _playerinfo.attack = 5;
-            _playerinfo.attackRange = 1;
-            _playerinfo.move = 1;
-            _playerinfo.attackSpeed =1;
-        }
+     
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
+            activateStatus = "move";
+
+            _speed = inPlayerinfo.move;
+            if(_speed <= 0) {
+                _speed = 1.0f;
+            }
+            _hp = inPlayerinfo.health;
+            _attack = inPlayerinfo.attack;
+            _attackSpeed = inPlayerinfo.attackSpeed;
+            _attackRange = inPlayerinfo.attackRange;
+            _integer = inPlayerinfo.reward;
+            _positionString = inPlayerinfo.positionInfo;
             _playerinfo = inPlayerinfo;
         }
 
         // Start is called before the first frame update
         void FixedUpdate()
         {
-            if(nowStatgeTime == 1) { // 저녁시간에만 몬스터 스캔
+            if(UiController.Instance.sceneMode == 1) { // 저녁시간에만 몬스터 스캔
                 scanRadar();
-                targetsAttack();
+              //  targetsAttack();
             }
         }
 
-        void targetsAttack() {
-            if(nearestTarget != null) {
-                gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                nearestTarget = null;
-            }
-        }
+
+        // 물리 판정이 아닌 단순 거리 계산 공격
+        // void targetsAttack() {
+        //     if(nearestTarget != null) {
+        //         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+        //         nearestTarget = null;
+        //     }
+        // }
 
         // 타겟 대상 스캔
         void scanRadar() {
             targets = Physics2D.CircleCastAll(transform.position, scanRange, Vector2.zero, 0,targetLayer);
             nearestTarget = GetNearest();
+
+            if(nearestTarget != null) {
+                if(nearestTarget.position.x < transform.GetComponent<Rigidbody2D>().position.x) {
+                    transform.rotation = Quaternion.Euler(0, 180f, 0);
+                } else {
+                    transform.rotation = Quaternion.Euler(0, 0, 0);
+                }
+            }
         }
         
         Transform GetNearest() {
@@ -73,9 +97,36 @@ namespace nightmareHunter {
             return result;
         }
 
+
         private void OnTriggerEnter2D(Collider2D collision) {
-            if(collision.GetComponent<Enemy>()) {
-                collision.GetComponent<Enemy>().DamageProcess(_playerinfo.attack);
+            if(nearestTarget != null) {
+                activateStatus = "attack";
+                damageCoroutine = StartCoroutine(ApplyDamage(nearestTarget.gameObject));
+            }
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if(!"dead".Equals(activateStatus)) {    
+                 if(collision.GetComponent<Enemy>()) {
+                    activateStatus = "move";
+                    if(activateStatus != null) {
+                        StopCoroutine(damageCoroutine);
+                    }
+                }
+            }
+        }
+
+        private IEnumerator ApplyDamage(GameObject collisionObject)
+        {
+            while ("attack".Equals(activateStatus))
+            {
+                yield return new WaitForSeconds(_attackSpeed);
+                gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
+                
+                Debug.Log("attack/"+_attackSpeed+"/"+_attack);
+                nearestTarget = null;
             }
         }
 

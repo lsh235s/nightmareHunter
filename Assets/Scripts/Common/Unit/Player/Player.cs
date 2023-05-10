@@ -33,7 +33,6 @@ namespace nightmareHunter {
         private Vector3 initialPosition; // 초기 위치
 
         public float _timeBetweenShots; // 딜레이 타임
-
         private bool _waitFire;
         private float _lastFireTime;
 
@@ -42,6 +41,10 @@ namespace nightmareHunter {
         private Sprite[] HpHeartImage;
 
         private float maxHp;
+
+        // 사운드
+        [SerializeField]
+        private AudioClip[] playSound;
 
 
         private void Awake() {
@@ -148,6 +151,9 @@ namespace nightmareHunter {
                 if(inputValue.isPressed) {
                     if(!_waitFire) {
                         initialPosition = transform.position;
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("sword",true);
+                        gameObject.GetComponent<AudioSource>().clip = playSound[0];
+                        gameObject.GetComponent<AudioSource>().Play();
                         FireBullet();
                         _waitFire = true;
                     }
@@ -158,12 +164,11 @@ namespace nightmareHunter {
         }
 
 
-        private void OnCollisionEnter2D(Collision2D collision) {
+        private void OnTriggerEnter2D(Collider2D collision) {
 
-            Collider2D otherCollider = collision.collider;
             if(!"die".Equals(playerState) ) {
-                if(otherCollider.GetComponent<Enemy>()) {
-                    _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
+                if(collision.GetComponent<Enemy>()) {
+                    _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
                     if(_playerinfo.health < 0) {
                         _playerinfo.health = 0;
                     }
@@ -189,6 +194,39 @@ namespace nightmareHunter {
                 }
             }
         }
+
+
+        // private void OnTriggerEnter2D(Collider2D collision) {
+
+        //     Collider2D otherCollider = collision.GetComponent<Collider>();
+        //     if(!"die".Equals(playerState) ) {
+        //         if(otherCollider.GetComponent<Enemy>()) {
+        //             _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
+        //             if(_playerinfo.health < 0) {
+        //                 _playerinfo.health = 0;
+        //             }
+
+        //             float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+                    
+        //             if(hpRate > 80 && hpRate == 100.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
+        //             } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
+        //             } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
+        //             } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
+        //             } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
+        //             } else if (hpRate <= 0.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
+        //                 _animator.SetTrigger("die");
+        //                 playerState = "die";
+        //             }
+        //             UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
+        //         }
+        //     }
+        // }
 
 
     }

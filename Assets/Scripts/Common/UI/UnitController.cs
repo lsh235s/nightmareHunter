@@ -19,6 +19,7 @@ namespace nightmareHunter {
 
         // Start is called before the first frame update
         public GameObject _playGameObject; 
+        public GameObject _targetGameObject;
 
         
         // Start is called before the first frame update
@@ -60,6 +61,7 @@ namespace nightmareHunter {
           
             _summoner[PlayerInfo.id] = Instantiate(select);   
             _summoner[PlayerInfo.id].tag = "Summon";
+            _summoner[PlayerInfo.id].GetComponent<Collider2D>().isTrigger = true;
             _summoner[PlayerInfo.id].transform.position = vector;
          
         }

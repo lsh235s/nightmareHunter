@@ -7,6 +7,10 @@ public class AudioManager : MonoBehaviour
     public static AudioManager Instance { get; private set; }
     private AudioSource _audioSource;
 
+    
+    // 몬스터 사운드
+    public Dictionary<string, AudioClip> playSound = new Dictionary<string, AudioClip> ();
+
     void Awake()
     {
         // 이미 인스턴스가 있는지 확인합니다.
@@ -21,6 +25,19 @@ public class AudioManager : MonoBehaviour
             // 중복되는 인스턴스가 있는 경우, 이 게임 객체를 파괴합니다.
             Destroy(this.gameObject);
         }
+
+    }
+
+    void Start() {
+        for(int i =0 ; i< 1; i++) {
+            soundAdd("teller",i);
+            soundAdd("wanderer",i);
+        }
+    }
+
+    void soundAdd(string spritesName, int soundIndex) {
+        string wavName = "wav/monster/"+spritesName+"/"+soundIndex;
+        playSound.Add(spritesName+"_"+soundIndex.ToString(), Resources.Load<AudioClip>(wavName));
 
     }
 
