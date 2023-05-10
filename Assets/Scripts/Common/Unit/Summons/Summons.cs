@@ -123,7 +123,9 @@ namespace nightmareHunter {
             {
                 yield return new WaitForSeconds(_attackSpeed);
                 gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
+                if(collisionObject.GetComponent<Enemy>() != null) {
+                    collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
+                }
                 
                 Debug.Log("attack/"+_attackSpeed+"/"+_attack);
                 nearestTarget = null;
