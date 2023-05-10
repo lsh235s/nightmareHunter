@@ -43,28 +43,34 @@ namespace nightmareHunter {
 
 
         public void skipOnClick() {
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _storyPanel.SetActive(false);
         }
         public void startOnClick() {
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
         }    
 
         public void ContinueOnClick() {
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             SceneMoveManager.SceneMove("GameMoon");
         }    
         public void SettingOnClick() {
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
            // GameObject.Find("Canvas/StoryPanel").SetActive(false);
         }    
         public void ExitOnClick() {
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             Debug.Log("Exit");
         }
 
         public void pageMoveGameSun() {
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             SceneMoveManager.SceneMove("GameSun");
         }
 
         private IEnumerator storyPanelStop() {
-       
+            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             yield return new WaitForSeconds(2);
             _storyPanel.SetActive(false);
         }

@@ -11,6 +11,8 @@ public class AudioManager : MonoBehaviour
     // 몬스터 사운드
     public Dictionary<string, AudioClip> playSound = new Dictionary<string, AudioClip> ();
 
+    public AudioClip buttonSound;
+
     void Awake()
     {
         // 이미 인스턴스가 있는지 확인합니다.
@@ -29,6 +31,7 @@ public class AudioManager : MonoBehaviour
     }
 
     void Start() {
+        buttonSound = Resources.Load<AudioClip>("wav/background/button_push");
         for(int i =0 ; i< 1; i++) {
             soundAdd("teller",i);
             soundAdd("wanderer",i);
@@ -38,7 +41,6 @@ public class AudioManager : MonoBehaviour
     void soundAdd(string spritesName, int soundIndex) {
         string wavName = "wav/monster/"+spritesName+"/"+soundIndex;
         playSound.Add(spritesName+"_"+soundIndex.ToString(), Resources.Load<AudioClip>(wavName));
-
     }
 
     public void BackGroundPlay(string newAudioName)
@@ -49,5 +51,11 @@ public class AudioManager : MonoBehaviour
         this._audioSource.clip = clip;
         this._audioSource.loop = true;
         this._audioSource.Play();
+    }
+
+    public void playSoundEffect(AudioClip clip, AudioSource inAudioSource)
+    {
+        inAudioSource.clip = clip;
+        inAudioSource.Play();
     }
 }
