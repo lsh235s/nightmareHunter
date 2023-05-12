@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Spine.Unity;
 using TMPro;
 
 namespace nightmareHunter {
@@ -9,16 +11,19 @@ namespace nightmareHunter {
         public Rigidbody2D _target;
         public GameObject waypoints;
 
+        [SerializeField]
+        private GameObject _skeletonObject;
+
 
         List<Transform> _waypointList = new List<Transform>();
         bool isLive;
         string activateStatus = "stop";
         int waypointIndex = 0;
-
-        [SerializeField]
-        private Animator _animator;
-
         private Rigidbody2D _rigidbody;
+
+        
+        private SkeletonMecanim skeletonMecanim;
+        private Animator _animator;
 
 
         // 몬스터 능력치 
@@ -33,12 +38,15 @@ namespace nightmareHunter {
 
         private Coroutine damageCoroutine;
 
-
+        bool isFalling = false;
 
         private void Awake() {
             isLive = true;
             _rigidbody = GetComponent<Rigidbody2D>();
             Transform parentTransform = waypoints.transform;
+
+            skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
+            _animator = _skeletonObject.GetComponent<Animator>();
 
             foreach (Transform childTransform in parentTransform)
             {
@@ -68,6 +76,11 @@ namespace nightmareHunter {
         private void FixedUpdate() {
             if(!isLive)
                 return;
+
+            if (isFalling)
+            {  
+                StartCoroutine(damageShake());
+            }    
 
             MonsterMoveProcess();
         }
@@ -101,8 +114,10 @@ namespace nightmareHunter {
         public void DamageProcess(float damage) {
             _hp = _hp - damage;
 
+            isFalling = true;
             gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
             gameObject.GetComponent<AudioSource>().Play();
+
             if(_hp <= 0) {
                 activateStatus = "dead";
                 UiController.Instance.integerAddSet(_integer);
@@ -138,6 +153,45 @@ namespace nightmareHunter {
                 yield return new WaitForSeconds(_attackSpeed);
                 collisionObject.GetComponent<Target>().DamageProcess(_attack);
             }
+        }
+
+        private IEnumerator damageShake() {
+            skeletonMecanim.transform.position  += new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            Color endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  -= new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  -= new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  += new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  -= new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  += new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  += new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            skeletonMecanim.transform.position  -= new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+
+            isFalling = false;
+
+            yield return null;
         }
     }
 }

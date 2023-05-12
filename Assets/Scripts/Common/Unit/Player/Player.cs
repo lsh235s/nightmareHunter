@@ -15,9 +15,6 @@ namespace nightmareHunter {
         [SerializeField]
         private GameObject _bulletPrefab;
 
-        // 주인공 애니메이션
-        [SerializeField]
-        private Animator _animator;
 
         // 능력치
         public PlayerInfo _playerinfo;
@@ -37,6 +34,10 @@ namespace nightmareHunter {
         private float _lastFireTime;
 
 
+        // 주인공 스켈레톤
+        [SerializeField]
+        private GameObject _skeletonObject;
+
         [SerializeField]
         private Sprite[] HpHeartImage;
 
@@ -46,9 +47,17 @@ namespace nightmareHunter {
         [SerializeField]
         private AudioClip[] playSound;
 
+        bool isFalling = false;
+
+        private SkeletonMecanim skeletonMecanim;
+        private Animator _animator;
+
 
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
+
+            skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
+            _animator = _skeletonObject.GetComponent<Animator>();
         }
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
@@ -67,6 +76,11 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
+            if (isFalling)
+            {  
+                StartCoroutine(damageShake());
+            } 
+
             if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
                 if(_waitFire) {
@@ -151,7 +165,7 @@ namespace nightmareHunter {
                 if(inputValue.isPressed) {
                     if(!_waitFire) {
                         initialPosition = transform.position;
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("sword",true);
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
                         gameObject.GetComponent<AudioSource>().clip = playSound[0];
                         gameObject.GetComponent<AudioSource>().Play();
                         FireBullet();
@@ -168,7 +182,12 @@ namespace nightmareHunter {
 
             if(!"die".Equals(playerState) ) {
                 if(collision.GetComponent<Enemy>()) {
+                    Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
+                    _rigidbody.AddRelativeForce(pushDirection * 300f);
+
+                    isFalling = true;
                     _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
+                    
                     if(_playerinfo.health < 0) {
                         _playerinfo.health = 0;
                     }
@@ -191,6 +210,7 @@ namespace nightmareHunter {
                         playerState = "die";
                     }
                     UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
+
                 }
             }
         }
@@ -228,6 +248,42 @@ namespace nightmareHunter {
         //     }
         // }
 
-
+        private IEnumerator damageShake() {
+            _skeletonObject.transform.localPosition  += new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            Color endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  += new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  += new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  += new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            isFalling = false;
+            _skeletonObject.transform.localPosition = new Vector3(0, 0, 0);
+            yield return null;
+        }
     }
 }

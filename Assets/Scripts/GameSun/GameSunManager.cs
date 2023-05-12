@@ -33,17 +33,18 @@ namespace nightmareHunter {
         public GameObject _tutory3; // 소환수 배치
 
         GameObject _unitFrame; // 유닛 프레임 오브젝트
+        UnitController _uiItController;
 
         // Start is called before the first frame update
         void Awake() {
-            
+            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
         }
 
         void Start()
         {     
             UiController.Instance.LoadStart();
             canvasInit();
-
+            _uiItController.GameStart();
             stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
            
             if(stroyStage > -1) {

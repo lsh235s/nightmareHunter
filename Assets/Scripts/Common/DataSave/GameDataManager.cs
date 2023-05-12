@@ -7,7 +7,7 @@ using System.IO;
 namespace nightmareHunter {
     public class GameDataManager : MonoBehaviour
     {
-        string[] summonList = new string[] {"Exorcist"};
+        string[] summonList = new string[] {"Hunter","Exorcist"};
 
         public void PlayerInitTest() {
             PlayerInfo playerInfo = new PlayerInfo();

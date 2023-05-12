@@ -9,6 +9,10 @@ namespace nightmareHunter {
     {
         public static UiController Instance { get; private set; }
 
+        
+        // 튜토리얼 포인트 이미지
+        public Sprite[] _pointSprite; 
+
         // 왼쪽 상단 재화
         public TextMeshProUGUI _timerText;
         public TextMeshProUGUI _gold;
@@ -56,12 +60,12 @@ namespace nightmareHunter {
         }
 
         public void LoadStart() {
-            _timerText = GameObject.Find("Canvas/UIGroup/Pause/PauseValue/Timer").GetComponent<TextMeshProUGUI>(); 
-            _gold = GameObject.Find("Canvas/UIGroup/Gold/GoldValue/Text").GetComponent<TextMeshProUGUI>(); 
-            _integer = GameObject.Find("Canvas/UIGroup/Integer/IntegerValue/Text").GetComponent<TextMeshProUGUI>(); 
-            _playerHp = GameObject.Find("Canvas/UIGroup/Hp/HpValue/Text").GetComponent<TextMeshProUGUI>(); 
+            _timerText = GameObject.Find("Canvas/UIGroup/Pause/Timer").GetComponent<TextMeshProUGUI>(); 
+            _gold = GameObject.Find("Canvas/UIGroup/Gold/Text").GetComponent<TextMeshProUGUI>(); 
+            _integer = GameObject.Find("Canvas/UIGroup/Integer/Text").GetComponent<TextMeshProUGUI>(); 
+            _playerHp = GameObject.Find("Canvas/UIGroup/Hp/Text").GetComponent<TextMeshProUGUI>(); 
             _imagePlayHp = GameObject.Find("Canvas/UIGroup/Hp/HpImage").GetComponent<Image>(); 
-            _clientHp = GameObject.Find("Canvas/UIGroup/Client/ClientValue/Text").GetComponent<TextMeshProUGUI>(); 
+            _clientHp = GameObject.Find("Canvas/UIGroup/Client/Text").GetComponent<TextMeshProUGUI>(); 
             _imageClientHp = GameObject.Find("Canvas/UIGroup/Client/ClientImage").GetComponent<Image>(); 
 
             // 현재 게임 도드 정리

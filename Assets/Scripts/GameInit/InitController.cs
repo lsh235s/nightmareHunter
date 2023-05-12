@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace nightmareHunter {
     public class InitController : MonoBehaviour
@@ -12,6 +13,8 @@ namespace nightmareHunter {
         Button SettingButton;
         Button ExitButton;
 
+        TextMeshProUGUI _skipText;
+
         [SerializeField]
         private GameObject _storyPanel;
         [SerializeField]
@@ -19,6 +22,7 @@ namespace nightmareHunter {
 
         [SerializeField]
         LoadingControl _loadingControl;
+
 
         // Start is called before the first frame update
         void Start()
@@ -28,6 +32,7 @@ namespace nightmareHunter {
             ContinueButton = GameObject.Find("Canvas/MainPanel/ButtonList/ContinueButton").GetComponent<Button>();
             SettingButton = GameObject.Find("Canvas/MainPanel/ButtonList/SettingButton").GetComponent<Button>();
             ExitButton = GameObject.Find("Canvas/MainPanel/ButtonList/ExitButton").GetComponent<Button>();
+            _skipText = GameObject.Find("Canvas/StoryPanel/SkipButton/SkipText").GetComponent<TextMeshProUGUI>();
 
             SkipButton.onClick.AddListener(skipOnClick);
             StartButton.onClick.AddListener(startOnClick);
@@ -39,6 +44,15 @@ namespace nightmareHunter {
 
             StartCoroutine(_loadingControl.FadeInStart());
             StartCoroutine(storyPanelStop()); 
+        }
+
+
+        void Update() {
+            if(_skipText != null) {
+                float alpha = Mathf.PingPong(Time.time * 3f, 1);
+                _skipText.color = new Color(_skipText.color.r, _skipText.color.g, _skipText.color.b, alpha);
+
+            }
         }
 
 
