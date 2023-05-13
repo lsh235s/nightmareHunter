@@ -130,10 +130,16 @@ namespace nightmareHunter {
                     } else {
                         _Hour=0;
                         _Min=0;
-                        SceneMoveManager.SceneMove("GameSun");
+                        stageClear();
                     }
                 }
             }
+        }
+
+        public void stageClear() {
+            systemSaveInfo.stageId++;
+            SystemDataSave();
+            SceneMoveManager.SceneMove("GameSun");
         }
 
         public void skipTime() {

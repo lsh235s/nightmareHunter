@@ -18,6 +18,8 @@ namespace nightmareHunter {
 
         UnitController _uiItController;
 
+        bool stageClear = false;
+
         void Awake() {
             UiController.Instance.LoadStart();
             
@@ -34,6 +36,36 @@ namespace nightmareHunter {
             //몬스터 배치
             monsterInit();
         }         
+
+        void Update() {
+            if(!stageClear) {
+                if(AreAllMonstersDead(_monsterList)) {
+                    stageClear = true;
+                    UiController.Instance.stageClear();
+                }
+            } 
+        }
+
+        bool AreAllMonstersDead(List<GameObject>[] monsterGroups)
+        {
+            foreach (List<GameObject> monsterGroup in monsterGroups)
+            {
+                foreach (GameObject monster in monsterGroup)
+                {
+                    if(monster != null) {
+                        Enemy monsterScript = monster.GetComponent<Enemy>();
+                        
+                        if (monsterScript != null && monsterScript.isDead == false)
+                        {
+                            // 하나라도 살아있는 몬스터가 있다면, 모두 죽지 않았다고 반환합니다.
+                            return false;
+                        }
+                    }
+                }
+            }
+            // 모든 몬스터 그룹의 모든 몬스터를 확인했는데, 모두 죽었다면 true를 반환합니다.
+            return true;
+        }
 
         // 몬스터 배치 관련
         void monsterInit() {

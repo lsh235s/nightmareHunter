@@ -19,7 +19,7 @@ MonoBehaviour:
     level: 1
     health: 100
     lev_health: 1
-    attack: 2
+    attack: 10
     lev_attack: 1
     attackRange: 2
     lev_attackRange: 1
@@ -49,7 +49,7 @@ MonoBehaviour:
     unitType: 1
     unitName: wanderer
     level: 1
-    health: 50
+    health: 15
     lev_health: 1
     attack: 5
     lev_attack: 1

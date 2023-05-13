@@ -50,10 +50,13 @@ namespace nightmareHunter {
             if(stroyStage > -1) {
                 UiController.Instance.timePause = false;
                 storyStart(stroyStage);
-                if(stroyStage < 9) {
+                if(stroyStage < 10 && UiController.Instance.systemSaveInfo.stageId == 0) {
                     _playGameObject.transform.position = new Vector2(-3f, 0.7f);
                 }
-                if(stroyStage >= 40) {
+                if(stroyStage >= 31 && UiController.Instance.systemSaveInfo.stageId == 0) {
+                    _playGameObject.transform.position = new Vector2(2.3f, 0.3f);
+                }
+                if(stroyStage >= 43) {
                     _unitFrame.SetActive(true);
                 }
             } else {
@@ -104,7 +107,7 @@ namespace nightmareHunter {
                 UiController.Instance.SystemDataSave();
                 storyStart(stroyStage);
             } else {
-                if(UiController.Instance.systemSaveInfo.storyNum == 7)
+                if(UiController.Instance.systemSaveInfo.storyNum == 8)
                 {
                     _playGameObject.GetComponent<Player>().playerState = "active";
                 }
@@ -117,7 +120,7 @@ namespace nightmareHunter {
             //hunterGraphic.initialFlipX = true;  좌우반전 
             //hunterGraphic.Initialize(true); 재시작
 
-            if(storyObject.storyContentList.Count > inStroyStage) {
+            if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
                 _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
                 if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
                     if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
@@ -178,6 +181,10 @@ namespace nightmareHunter {
                 case 6 :
                     _playGameObject.GetComponent<Player>().playerState = "wait";
                     _ChatGroup.SetActive(false);
+                    
+                    stroyStage++;
+                    UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    UiController.Instance.SystemDataSave();
                     UiController.Instance.skipTime();
                     UiController.Instance.timePause = true;
                 break;

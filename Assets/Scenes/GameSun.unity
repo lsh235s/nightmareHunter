@@ -1642,7 +1642,7 @@ GameObject:
   - component: {fileID: 499103506}
   - component: {fileID: 499103505}
   m_Layer: 0
-  m_Name: Hayward
+  m_Name: Hunter
   m_TagString: DynamicImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2318,6 +2318,7 @@ RectTransform:
   - {fileID: 786665260}
   - {fileID: 499103504}
   - {fileID: 1867740863}
+  - {fileID: 1653591950}
   m_Father: {fileID: 1656573}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3426,7 +3427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -391, y: 89}
+  m_AnchoredPosition: {x: -142.8, y: 122.51}
   m_SizeDelta: {x: 44.6049, y: 38.9715}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &967279282
@@ -6896,6 +6897,108 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1653591949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1653591950}
+  - component: {fileID: 1653591952}
+  - component: {fileID: 1653591951}
+  m_Layer: 0
+  m_Name: Richard
+  m_TagString: DynamicImage
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1653591950
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653591949}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 641257943}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -178.34, y: -195.39}
+  m_SizeDelta: {x: 259.9, y: 1616.3037}
+  m_Pivot: {x: 0.48331487, y: 0.37911588}
+--- !u!114 &1653591951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653591949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d85b887af7e6c3f45a2e2d2920d641bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 2100000, guid: b66cf7a186d13054989b33a5c90044e4, type: 2}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  skeletonDataAsset: {fileID: 11400000, guid: 628ecbcc1aba8eb47aa4ec8b87aa0ad0, type: 2}
+  additiveMaterial: {fileID: 2100000, guid: 2e8245019faeb8c43b75f9ca3ac8ee34, type: 2}
+  multiplyMaterial: {fileID: 2100000, guid: e74a1f8978a7da348a721508d0d58834, type: 2}
+  screenMaterial: {fileID: 2100000, guid: bab24c479f34eec45be6ea8595891569, type: 2}
+  initialSkinName: default
+  initialFlipX: 0
+  initialFlipY: 0
+  startingAnimation: idle
+  startingLoop: 1
+  timeScale: 1
+  freeze: 0
+  layoutScaleMode: 3
+  referenceSize: {x: 1376.679, y: 2919.2954}
+  referenceScale: 1
+  rectTransformSize: {x: 1376.679, y: 2919.2954}
+  editReferenceRect: 0
+  updateWhenInvisible: 3
+  allowMultipleCanvasRenderers: 0
+  canvasRenderers: []
+  separatorSlotNames: []
+  enableSeparatorSlots: 0
+  separatorParts: []
+  updateSeparatorPartLocation: 1
+  disableMeshAssignmentOnOverride: 1
+  meshGenerator:
+    settings:
+      useClipping: 1
+      zSpacing: 0
+      pmaVertexColors: 1
+      tintBlack: 0
+      canvasGroupTintBlack: 0
+      calculateTangents: 0
+      addNormals: 0
+      immutableTriangles: 0
+  updateTiming: 1
+  unscaledTime: 0
+--- !u!222 &1653591952
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1653591949}
+  m_CullTransparentMesh: 0
 --- !u!1001 &1677839509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7716,7 +7819,7 @@ GameObject:
   - component: {fileID: 1867740865}
   - component: {fileID: 1867740864}
   m_Layer: 0
-  m_Name: Richard
+  m_Name: Hayward
   m_TagString: DynamicImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7769,7 +7872,7 @@ MonoBehaviour:
   initialSkinName: default
   initialFlipX: 1
   initialFlipY: 0
-  startingAnimation: 
+  startingAnimation: idle
   startingLoop: 1
   timeScale: 1
   freeze: 0

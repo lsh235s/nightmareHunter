@@ -138,7 +138,6 @@ namespace nightmareHunter {
                 bulletDirection = -transform.right; // 좌측 방향으로 설정
             }
 
-
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;

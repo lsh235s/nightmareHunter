@@ -35,6 +35,7 @@ namespace nightmareHunter {
         public int _integer;
         public string _spritesName;
         public Vector2 _positionInfo;
+        public bool isDead = false;
 
         private Coroutine damageCoroutine;
 
@@ -119,7 +120,7 @@ namespace nightmareHunter {
             gameObject.GetComponent<AudioSource>().Play();
 
             if(_hp <= 0) {
-                activateStatus = "dead";
+                isDead = true;
                 UiController.Instance.integerAddSet(_integer);
                 Destroy(gameObject);
             }
