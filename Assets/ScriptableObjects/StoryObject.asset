@@ -459,7 +459,15 @@ MonoBehaviour:
     content: "\uACE8\uB4DC\uAC00 \uBAA8\uC774\uBA74 \uADF8\uB4E4\uC744 \uC18C\uD658\uD560
       \uC218 \uC788\uC5B4. \uD55C\uAC00\uC9C0 \uC54C\uC544 \uB458 \uAC83\uC740 \uADF8\uB4E4\uACFC\uC758
       \uACC4\uC57D\uC5D0\uB294 \uC77C\uC885\uC758 \uC0DD\uBA85\uC218\uB2F9\uB3C4
-      \uD3EC\uD568\uB418\uC5B4 \uC788\uB2E4\uB294 \uAC70\uC57C. \uADF8\uB4E4\uC774
+      \uD3EC\uD568\uB418\uC5B4 \uC788\uB2E4\uB294 \uAC70\uC57C. "
+    contentType: story
+    leftCharacter: Hayward
+    rightCharacter: 
+    characterAnimation: idle2_talk
+  - stage_id: 45
+    scenario_stage_id: 0
+    event_stage_id: 0
+    content: "\uADF8\uB4E4\uC774
       \uC0B4\uC544\uC11C \uC774 \uC9D1\uC744 \uB098\uAC04\uB2E4\uBA74 \uADF8 \uB3C8\uC740
       \uC790\uB124\uC5D0\uAC8C \uB2E4\uC2DC \uB3CC\uB824\uC904 \uAC83\uC774\uC9C0\uB9CC
       \uADF8\uB4E4\uC774 \uC0B4\uC544\uB098\uAC00\uC9C0 \uBABB\uD55C\uB2E4\uBA74
@@ -468,7 +476,7 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
-  - stage_id: 45
+  - stage_id: 46
     scenario_stage_id: 0
     event_stage_id: 0
     content: "\uC989 \uBB34\uC0AC\uD788 \uC77C\uC744 \uB9C8\uCE5C\uB2E4\uBA74 \uB2E4\uC74C
@@ -482,7 +490,7 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
-  - stage_id: 46
+  - stage_id: 47
     scenario_stage_id: 0
     event_stage_id: 0
     content: "\uC54C\uACA0\uB124. \uC790 \uADF8\uB7FC \uC900\uBE44\uD574 \uBCFC\uAE4C?
@@ -491,7 +499,7 @@ MonoBehaviour:
     leftCharacter: Richard
     rightCharacter: 
     characterAnimation: idle_talk
-  - stage_id: 47
+  - stage_id: 48
     scenario_stage_id: 0
     event_stage_id: 0
     content: "\uADF8\uB798 \uACE7\uC774\uAD70. \uD589\uC6B4\uC744 \uBE44\uB124. \uADF8\uB7F0\uB370\u2026\uBA70\uCE60\uC774\uB098
@@ -500,7 +508,7 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
-  - stage_id: 48
+  - stage_id: 49
     scenario_stage_id: 0
     event_stage_id: 0
     content: "\uBB38\uC591\uC774 \uC644\uC131\uB418\uACE0 6\uC77C \uC774\uC5C8\uB124.
@@ -510,7 +518,7 @@ MonoBehaviour:
     leftCharacter: Richard
     rightCharacter: 
     characterAnimation: idle_talk
-  - stage_id: 49
+  - stage_id: 50
     scenario_stage_id: 0
     event_stage_id: 0
     content: "\uADF8\uB807\uAD6C\uB9CC\u2026\uC54C\uACA0\uB124. \uC774\uBC88\uC5D4
@@ -521,7 +529,7 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
-  - stage_id: 50
+  - stage_id: 51
     scenario_stage_id: 0
     event_stage_id: 6
     content: 
@@ -529,7 +537,15 @@ MonoBehaviour:
     leftCharacter: 
     rightCharacter: 
     characterAnimation: 
-  - stage_id: 51
+  - stage_id: 52
+    scenario_stage_id: 1
+    event_stage_id: 7
+    content: 
+    contentType: tutorial
+    leftCharacter: 
+    rightCharacter: 
+    characterAnimation: 
+  - stage_id: 53
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uD574\uB0C8\uAD70!!"
@@ -537,7 +553,7 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
-  - stage_id: 52
+  - stage_id: 54
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uADF8\uB798\u2026\uC624\uB298 \uC544\uCE68\uB9CC\uC744 \uAE30\uB2E4\uB838\uB2E4\uACE0\u2026"
@@ -545,7 +561,7 @@ MonoBehaviour:
     leftCharacter: Richard
     rightCharacter: 
     characterAnimation: idle_talk
-  - stage_id: 53
+  - stage_id: 55
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uC640\uC6B0. \uC544\uCE68\uD574\uAC00 \uC774\uB807\uAC8C \uC544\uB984\uB2E4\uC6E0\uC5C8\uB098?
@@ -554,7 +570,7 @@ MonoBehaviour:
     leftCharacter: Hunter
     rightCharacter: 
     characterAnimation: idle_talk
-  - stage_id: 54
+  - stage_id: 56
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uC544\uC800\uC528\u2026\uC800 \uAD1C\uCC2E\uC740 \uAC74\uAC00\uC694? "
@@ -562,7 +578,7 @@ MonoBehaviour:
     leftCharacter: 
     rightCharacter: 
     characterAnimation: 
-  - stage_id: 55
+  - stage_id: 57
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uADF8\uB798, \uD1A0\uBBF8. \uC774\uC81C \uBAA8\uB450 \uB05D\uB0AC\uC5B4.
@@ -572,7 +588,7 @@ MonoBehaviour:
     leftCharacter: Richard
     rightCharacter: 
     characterAnimation: idle_talk
-  - stage_id: 56
+  - stage_id: 58
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uAC10\uC0AC\uD569\uB2C8\uB2E4. \uC544\uC800\uC528. \uC815\uB9D0\u2026\uC815\uB9D0
@@ -581,7 +597,7 @@ MonoBehaviour:
     leftCharacter: 
     rightCharacter: 
     characterAnimation: 
-  - stage_id: 57
+  - stage_id: 59
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uD074\uB77D. \uC6B0\uC120\uC740 \uC880 \uC26C\uB77C\uACE0. \uC5B8\uC81C
@@ -591,7 +607,7 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
-  - stage_id: 58
+  - stage_id: 60
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uADF8\uB798 \uC54C\uACA0\uB124. \uAF34\uC774 \uB9D0\uC774 \uC544\uB2C8\uAD6C\uB9CC\u2026
@@ -600,7 +616,7 @@ MonoBehaviour:
     leftCharacter: Richard
     rightCharacter: 
     characterAnimation: idle_talk
-  - stage_id: 59
+  - stage_id: 61
     scenario_stage_id: 1
     event_stage_id: 0
     content: "\uADF8\uB798. \uD479 \uC26C\uACE0 \uB0B4\uC77C \uBCF4\uC790\uACE0."
@@ -608,3 +624,11 @@ MonoBehaviour:
     leftCharacter: Hayward
     rightCharacter: 
     characterAnimation: idle2_talk
+  - stage_id: 62
+    scenario_stage_id: 1
+    event_stage_id: 8
+    content: 
+    contentType: tutorial
+    leftCharacter: 
+    rightCharacter: 
+    characterAnimation: 

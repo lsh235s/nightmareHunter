@@ -10,6 +10,7 @@ namespace nightmareHunter {
         public float range; // 사거리
         public Vector3 initialPosition; // 초기 위치
 
+        private int targetCount = 0; // 타겟 카운트
 
         void Update (){
              if (Vector3.Distance(transform.position, initialPosition) >= range)
@@ -24,7 +25,10 @@ namespace nightmareHunter {
             }
 
             if(collision.GetComponent<Enemy>()) {
-                collision.GetComponent<Enemy>().DamageProcess(attack);
+                if(targetCount == 0) {
+                    collision.GetComponent<Enemy>().DamageProcess(attack);
+                    targetCount++;
+                }
                 Destroy(gameObject);
             }
 

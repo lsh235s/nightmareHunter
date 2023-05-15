@@ -5,7 +5,6 @@ using UnityEngine;
 namespace nightmareHunter {
     public class Summons : MonoBehaviour
     {
-        public float scanRange;
         public LayerMask targetLayer;
         public RaycastHit2D[] targets;
         public Transform nearestTarget;
@@ -25,7 +24,8 @@ namespace nightmareHunter {
         public bool summonsExist;
         public string summonsName;
 
-        private Coroutine damageCoroutine;
+
+        private float nextTime = 0.0f;  // 다음 공격 시간
 
      
 
@@ -50,22 +50,33 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 1) { // 저녁시간에만 몬스터 스캔
                 scanRadar();
-              //  targetsAttack();
+                if(nearestTarget != null) {
+                    activateStatus = "attack";
+                    nextTime = nextTime + Time.deltaTime;
+                    if(nextTime > _attackSpeed) {
+                        ApplyDamage(nearestTarget.gameObject);
+                        nextTime = 0.0F;
+                        nearestTarget = null;
+                    }
+                } else {
+                    activateStatus = "move";
+                }
             }
         }
 
 
         // 물리 판정이 아닌 단순 거리 계산 공격
-        // void targetsAttack() {
-        //     if(nearestTarget != null) {
-        //         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-        //         nearestTarget = null;
-        //     }
-        // }
+        void targetsAttack() {
+            if(nearestTarget != null) {
+                gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                nearestTarget = null;
+            }
+        }
 
         // 타겟 대상 스캔
         void scanRadar() {
-            targets = Physics2D.CircleCastAll(transform.position, scanRange, Vector2.zero, 0,targetLayer);
+            targets = Physics2D.CircleCastAll(transform.position, _attackRange, Vector2.zero, 0,targetLayer);
+ 
             nearestTarget = GetNearest();
 
             if(nearestTarget != null) {
@@ -79,7 +90,7 @@ namespace nightmareHunter {
         
         Transform GetNearest() {
             Transform result = null;
-            float diff = 1.5f;
+            float diff = _attackRange;
 
             foreach (RaycastHit2D target in targets)
             {
@@ -98,36 +109,31 @@ namespace nightmareHunter {
         }
 
 
-        private void OnTriggerEnter2D(Collider2D collision) {
-            if(nearestTarget != null) {
-                activateStatus = "attack";
-                damageCoroutine = StartCoroutine(ApplyDamage(nearestTarget.gameObject));
-            }
-        }
+        // private void OnTriggerEnter2D(Collider2D collision) {
+        //     if(nearestTarget != null) {
+        //         activateStatus = "attack";
+        //         damageCoroutine = StartCoroutine(ApplyDamage(nearestTarget.gameObject));
+        //     }
+        // }
 
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if(!"dead".Equals(activateStatus)) {    
-                 if(collision.GetComponent<Enemy>()) {
-                    activateStatus = "move";
-                    if(activateStatus != null) {
-                        StopCoroutine(damageCoroutine);
-                    }
-                }
-            }
-        }
+        // private void OnTriggerExit2D(Collider2D collision)
+        // {
+        //     if(!"dead".Equals(activateStatus)) {    
+        //          if(collision.GetComponent<Enemy>()) {
+        //             activateStatus = "move";
+        //             if(activateStatus != null) {
+        //                 StopCoroutine(damageCoroutine);
+        //             }
+        //         }
+        //     }
+        // }
 
-        private IEnumerator ApplyDamage(GameObject collisionObject)
+        private void ApplyDamage(GameObject collisionObject)
         {
-            while ("attack".Equals(activateStatus))
-            {
-                yield return new WaitForSeconds(_attackSpeed);
+            if(collisionObject.GetComponent<Enemy>() != null) {
                 gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                if(collisionObject.GetComponent<Enemy>() != null) {
-                    collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
-                }
-                
-                Debug.Log("attack/"+_attackSpeed+"/"+_attack);
+                Debug.Log("공격:/"+ _attack);
+                collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
                 nearestTarget = null;
             }
         }

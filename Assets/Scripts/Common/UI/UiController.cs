@@ -103,7 +103,7 @@ namespace nightmareHunter {
         }
 
         public void SystemDataSave() {
-            gameDataManager.SaveSummerInfo(systemSaveInfo);
+            gameDataManager.SaveSystemInfo(systemSaveInfo);
         }
 
 

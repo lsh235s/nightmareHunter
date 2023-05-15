@@ -159,13 +159,14 @@ MonoBehaviour:
   waypoints: {fileID: 0}
   _skeletonObject: {fileID: 3314214647874090232}
   _speed: 0.3
-  _hp: 50
+  _hp: 15
   _attack: 5
   _attackSpeed: 3
   _attackRange: 1
   _integer: 50
   _spritesName: wanderer
   _positionInfo: {x: 0, y: 0}
+  isDead: 0
 --- !u!114 &3314214647269054761
 MonoBehaviour:
   m_ObjectHideFlags: 0

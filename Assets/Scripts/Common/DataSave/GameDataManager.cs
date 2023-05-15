@@ -9,18 +9,24 @@ namespace nightmareHunter {
     {
         string[] summonList = new string[] {"Hunter","Exorcist"};
 
-        public void PlayerInitTest() {
+        public void HunterInit() {
             PlayerInfo playerInfo = new PlayerInfo();
 
-            playerInfo.playerLevel = 1;
-            playerInfo.health = 100;
-            playerInfo.attack = 10;
-            playerInfo.attackRange = 1;
-            playerInfo.move = 5;
-            playerInfo.attackSpeed = 1;
-            playerInfo.spritesName = "hunter";
 
-            SavePlayerInfo(playerInfo);
+            playerInfo.id = 0;
+            playerInfo.playerLevel = 0;
+            playerInfo.health = 0;
+            playerInfo.attack = 0;
+            playerInfo.attackRange = 0;
+            playerInfo.move = 0;
+            playerInfo.attackSpeed = 0;
+            playerInfo.positionInfo = "";
+            playerInfo.spritesName = "Hunter";
+            playerInfo.reward = 0;
+            playerInfo.summonsExist = false;
+
+
+            SaveSummerInfo("Hunter",playerInfo);
         }
 
         public void SavePlayerInfo(PlayerInfo playerInfo) {
@@ -145,7 +151,7 @@ namespace nightmareHunter {
         }
 
 
-        public void SaveSummerInfo(SystemSaveInfo systemSaveInfo) {
+        public void SaveSystemInfo(SystemSaveInfo systemSaveInfo) {
             string json = JsonConvert.SerializeObject(systemSaveInfo);
 
             string fileName = "SystemData.json";

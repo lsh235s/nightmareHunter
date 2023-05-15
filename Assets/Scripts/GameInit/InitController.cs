@@ -61,13 +61,26 @@ namespace nightmareHunter {
             _storyPanel.SetActive(false);
         }
         public void startOnClick() {
+            SystemSaveInfo systemSaveInfo = new SystemSaveInfo(); 
+            systemSaveInfo.integer = 0;
+            systemSaveInfo.money = 0;
+            systemSaveInfo.stageId = 0;
+            systemSaveInfo.storyNum = 0;
+            systemSaveInfo.targetHP = 1000;
+
+            GameDataManager gameDataManager = new GameDataManager();
+            gameDataManager.SaveSystemInfo(systemSaveInfo);
+
+            gameDataManager.HunterInit();
+
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
         }    
 
         public void ContinueOnClick() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
-            SceneMoveManager.SceneMove("GameMoon");
+            _backGroundAnimation.SetBool("start",true);
+            //SceneMoveManager.SceneMove("GameMoon");
         }    
         public void SettingOnClick() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
@@ -75,7 +88,11 @@ namespace nightmareHunter {
         }    
         public void ExitOnClick() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
-            Debug.Log("Exit");
+            #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+            #else
+                Application.Quit();
+            #endif
         }
 
         public void pageMoveGameSun() {

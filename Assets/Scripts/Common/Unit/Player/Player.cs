@@ -53,6 +53,7 @@ namespace nightmareHunter {
         private Animator _animator;
 
 
+
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -207,6 +208,7 @@ namespace nightmareHunter {
                         UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
                         _animator.SetTrigger("die");
                         playerState = "die";
+                        StartCoroutine(gameEnd()); 
                     }
                     UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
 
@@ -283,6 +285,11 @@ namespace nightmareHunter {
             isFalling = false;
             _skeletonObject.transform.localPosition = new Vector3(0, 0, 0);
             yield return null;
+        }
+
+        private IEnumerator gameEnd() {
+            yield return new WaitForSeconds(2.0f);
+            SceneMoveManager.SceneMove("GameInits");
         }
     }
 }

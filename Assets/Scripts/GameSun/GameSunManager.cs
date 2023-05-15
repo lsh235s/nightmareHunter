@@ -23,6 +23,7 @@ namespace nightmareHunter {
         TextMeshProUGUI _chatWindowText;  // 대화창 텍스트
 
         Button _chatArrowBtn; // 대화창 화살표 버튼
+        AudioSource _chatArrowSound; // 대화창 효과음
 
         int stroyStage; // 스토리 스테이지
 
@@ -32,8 +33,12 @@ namespace nightmareHunter {
         public GameObject _tutory2; // 튜토리얼 표적
         public GameObject _tutory3; // 소환수 배치
 
+        public GameObject endStoryPanel; // 엔딩 스토리
+        public TextMeshProUGUI _skipText; // 스킵 텍스트 임시
+
         GameObject _unitFrame; // 유닛 프레임 오브젝트
         UnitController _uiItController;
+
 
         // Start is called before the first frame update
         void Awake() {
@@ -51,10 +56,10 @@ namespace nightmareHunter {
                 UiController.Instance.timePause = false;
                 storyStart(stroyStage);
                 if(stroyStage < 10 && UiController.Instance.systemSaveInfo.stageId == 0) {
-                    _playGameObject.transform.position = new Vector2(-3f, 0.7f);
+                    _playGameObject.transform.position = new Vector2(-3.1f, 0.9f);
                 }
                 if(stroyStage >= 31 && UiController.Instance.systemSaveInfo.stageId == 0) {
-                    _playGameObject.transform.position = new Vector2(2.3f, 0.3f);
+                    _playGameObject.transform.position = new Vector2(2f, 0.5f);
                 }
                 if(stroyStage >= 43) {
                     _unitFrame.SetActive(true);
@@ -62,6 +67,15 @@ namespace nightmareHunter {
             } else {
                 _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
+            }
+        }
+
+        
+        void Update() {
+            if(_skipText != null) {
+                float alpha = Mathf.PingPong(Time.time * 3f, 1);
+                _skipText.color = new Color(_skipText.color.r, _skipText.color.g, _skipText.color.b, alpha);
+
             }
         }
 
@@ -73,6 +87,7 @@ namespace nightmareHunter {
             _ChatGroup = GameObject.Find("Canvas/ChatGroup");
             _chatWindowText = GameObject.Find("Canvas/ChatGroup/ChatWindow/StoryText").GetComponent<TextMeshProUGUI>();
             _chatArrowBtn = GameObject.Find("Canvas/ChatGroup/LeftSet/ChatArrowBtn").GetComponent<Button>();
+            _chatArrowSound = GameObject.Find("Canvas/ChatGroup/LeftSet/ChatArrowBtn").GetComponent<AudioSource>();
             _unitFrame = GameObject.Find("Canvas/Mercenary");
             _chatArrowBtn.onClick.AddListener(skipButton);
 
@@ -85,6 +100,7 @@ namespace nightmareHunter {
                 }
             }
 
+            endStoryPanel.SetActive(false);
             _unitFrame.SetActive(false);
 
             AudioManager.Instance.BackGroundPlay("bgm_game");
@@ -113,12 +129,22 @@ namespace nightmareHunter {
                 }
                 _ChatGroup.SetActive(false);
             }
+            if(_chatArrowSound != null && _chatArrowSound.clip != null) {
+                AudioManager.Instance.playSoundEffect(_chatArrowSound.clip,_chatArrowSound);
+            }
         }
 
         void storyStart(int inStroyStage) {
             //스켈레톤 사용법
             //hunterGraphic.initialFlipX = true;  좌우반전 
             //hunterGraphic.Initialize(true); 재시작
+
+            if(storyObject.storyContentList[inStroyStage].scenario_stage_id != UiController.Instance.systemSaveInfo.stageId) {
+                inStroyStage = 51;
+                UiController.Instance.systemSaveInfo.storyNum = 51;
+                UiController.Instance.SystemDataSave();
+            }
+            Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
 
             if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
                 _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
@@ -169,7 +195,7 @@ namespace nightmareHunter {
                 break;
                 case 4 :
                     _loadingControl.FadeActive();
-                    _playGameObject.transform.position = new Vector2(2.3f, 0.3f);
+                    _playGameObject.transform.position = new Vector2(1.8f, 0.3f);
                     StartCoroutine(_loadingControl.FadeInStart());
                     eventFlag = false;
                     skipButton();
@@ -188,7 +214,19 @@ namespace nightmareHunter {
                     UiController.Instance.skipTime();
                     UiController.Instance.timePause = true;
                 break;
+                case 7 :
+                    _playGameObject.transform.position = new Vector2(1.7f, 0.7f);
+                    eventFlag =false;
+                    skipButton();
+                break;
+                case 8 :
+                    endStoryPanel.SetActive(true);
+                break;
             }
+        }
+
+        public void EndStoryBtn() {
+            SceneMoveManager.SceneMove("GameInits");
         }
       
     }
