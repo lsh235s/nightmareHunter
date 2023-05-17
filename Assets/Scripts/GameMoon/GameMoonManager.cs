@@ -74,11 +74,15 @@ namespace nightmareHunter {
             for (int i = 0; i < _monsterList.Length; i++) {
                 _monsterList[i] = new List<GameObject>();
             }
+            StartCoroutine(MonsterBuild());
+        }
 
-            for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+        IEnumerator MonsterBuild() {
+           for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                int randomInt = Random.Range(1, 2);
                 MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+                yield return new WaitForSeconds((float)randomInt);
             }
-
         }
 
 
@@ -92,8 +96,9 @@ namespace nightmareHunter {
                 {
                     if (!item.activeSelf) {
                         item.GetComponent<Enemy>()._target = _uiItController._targetGameObject.GetComponent<Rigidbody2D>();
-                        item.GetComponent<Enemy>().waypoints = wayPointList[stateMonster.moveType];
+                        item.GetComponent<Enemy>().waypointType = stateMonster.moveType;
                         item.transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
+                        item.GetComponent<Enemy>().wayPointBaseList = wayPointList;
                         item.GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster)); 
                         select = item;
                         break;
@@ -102,8 +107,9 @@ namespace nightmareHunter {
 
                 if (!select) {
                     _monsters[stateMonster.monsterId].GetComponent<Enemy>()._target = _uiItController._targetGameObject.GetComponent<Rigidbody2D>();
-                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypoints = wayPointList[stateMonster.moveType];
+                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
                     _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
+                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;
                     _monsters[stateMonster.monsterId].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
                     select = Instantiate(_monsters[stateMonster.monsterId]);
                     _monsterList[stateMonster.monsterId].Add(select);

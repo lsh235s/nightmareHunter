@@ -31,6 +31,7 @@ namespace nightmareHunter {
                 canvas.GetComponent<GameSunManager>().eventFlag = false;
                 canvas.GetComponent<GameSunManager>()._tutory3.SetActive(false);
                 canvas.GetComponent<GameSunManager>().skipButton();
+                collision.gameObject.transform.transform.position = new Vector2(2.3f, 0.7f);
                 player.GetComponent<Player>().playerState = "tutorial";
             }
             

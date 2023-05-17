@@ -12,6 +12,7 @@ namespace nightmareHunter {
         
         // 튜토리얼 포인트 이미지
         public Sprite[] _pointSprite; 
+        public GameObject[] DamageEffect;
 
         // 왼쪽 상단 재화
         public TextMeshProUGUI _timerText;

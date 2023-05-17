@@ -70,3 +70,6 @@ TagManager:
   - name: Lighting
     uniqueID: 1439412681
     locked: 0
+  - name: Effect
+    uniqueID: 1389389755
+    locked: 0

@@ -182,36 +182,38 @@ namespace nightmareHunter {
 
             if(!"die".Equals(playerState) ) {
                 if(collision.GetComponent<Enemy>()) {
-                    Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
-                    _rigidbody.AddRelativeForce(pushDirection * 300f);
+                    if(!"die".Equals(collision.GetComponent<Enemy>().activateStatus)) {
+                        collision.GetComponent<Enemy>().MonsterAttackProcess();
+                        Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
+                        _rigidbody.AddRelativeForce(pushDirection * 300f);
 
-                    isFalling = true;
-                    _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
-                    
-                    if(_playerinfo.health < 0) {
-                        _playerinfo.health = 0;
+                        isFalling = true;
+                        _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
+                        
+                        if(_playerinfo.health < 0) {
+                            _playerinfo.health = 0;
+                        }
+
+                        float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+                        
+                        if(hpRate > 80 && hpRate == 100.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
+                        } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
+                        } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
+                        } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
+                        } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
+                        } else if (hpRate <= 0.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
+                            _animator.SetTrigger("die");
+                            playerState = "die";
+                            StartCoroutine(gameEnd()); 
+                        }
+                        UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
                     }
-
-                    float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
-                    
-                    if(hpRate > 80 && hpRate == 100.0f) {
-                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
-                    } else if (hpRate > 50.0f && hpRate <= 80.0f) {
-                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
-                    } else if (hpRate > 25.0f && hpRate <= 50.0f) {
-                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
-                    } else if (hpRate > 10.0f && hpRate <= 25.0f) {
-                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
-                    } else if (hpRate > 0.0f && hpRate <= 10.0f) {
-                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
-                    } else if (hpRate <= 0.0f) {
-                        UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
-                        _animator.SetTrigger("die");
-                        playerState = "die";
-                        StartCoroutine(gameEnd()); 
-                    }
-                    UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
-
                 }
             }
         }

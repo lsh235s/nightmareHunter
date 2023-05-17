@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
 
 namespace nightmareHunter {
     public class InitController : MonoBehaviour
@@ -14,6 +15,7 @@ namespace nightmareHunter {
         Button ExitButton;
 
         TextMeshProUGUI _skipText;
+        public TextMeshProUGUI testText;
 
         [SerializeField]
         private GameObject _storyPanel;
@@ -22,6 +24,7 @@ namespace nightmareHunter {
 
         [SerializeField]
         LoadingControl _loadingControl;
+        bool isSkip = false;
 
 
         // Start is called before the first frame update
@@ -44,6 +47,7 @@ namespace nightmareHunter {
 
             StartCoroutine(_loadingControl.FadeInStart());
             StartCoroutine(storyPanelStop()); 
+            testText.text = Path.Combine(Application.persistentDataPath, "/Plugin/SaveData/SystemData.json")+"//"+Application.dataPath; 
         }
 
 
@@ -57,8 +61,10 @@ namespace nightmareHunter {
 
 
         public void skipOnClick() {
-            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
-            _storyPanel.SetActive(false);
+            if(isSkip) {
+                AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
+                _storyPanel.SetActive(false);
+            }
         }
         public void startOnClick() {
             SystemSaveInfo systemSaveInfo = new SystemSaveInfo(); 
@@ -102,7 +108,9 @@ namespace nightmareHunter {
 
         private IEnumerator storyPanelStop() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
-            yield return new WaitForSeconds(2);
+            yield return new WaitForSeconds(7);
+            isSkip = true;
+            yield return new WaitForSeconds(3);
             _storyPanel.SetActive(false);
         }
 

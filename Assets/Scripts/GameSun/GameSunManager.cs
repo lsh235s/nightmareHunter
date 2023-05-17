@@ -19,6 +19,7 @@ namespace nightmareHunter {
 
         Transform _talkObject; // 대화 캐릭터 오브젝트 대화 좌우 반전용
         GameObject _ChatGroup; // 대화 창 오브젝트
+        GameObject _uiGroup; // UI 오브젝트
         Dictionary<string,GameObject> _tailkGraphicList = new Dictionary<string, GameObject>(); // 대화 그래픽 리스트
         TextMeshProUGUI _chatWindowText;  // 대화창 텍스트
 
@@ -28,6 +29,7 @@ namespace nightmareHunter {
         int stroyStage; // 스토리 스테이지
 
         public bool eventFlag = false; // 이벤트 플래그
+        bool storyFlag = false; // 스토리 플래그
 
         public GameObject _tutory; // 튜토리얼 도착지점
         public GameObject _tutory2; // 튜토리얼 표적
@@ -56,7 +58,10 @@ namespace nightmareHunter {
                 UiController.Instance.timePause = false;
                 storyStart(stroyStage);
                 if(stroyStage < 10 && UiController.Instance.systemSaveInfo.stageId == 0) {
-                    _playGameObject.transform.position = new Vector2(-3.1f, 0.9f);
+                    _playGameObject.transform.position = new Vector2(-3.1f, 1.0f);
+                }
+                if(stroyStage >= 26) {
+                    _uiGroup.SetActive(true);
                 }
                 if(stroyStage >= 31 && UiController.Instance.systemSaveInfo.stageId == 0) {
                     _playGameObject.transform.position = new Vector2(2f, 0.5f);
@@ -67,6 +72,7 @@ namespace nightmareHunter {
             } else {
                 _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
+                _uiGroup.SetActive(true);
             }
         }
 
@@ -85,10 +91,12 @@ namespace nightmareHunter {
 
             _talkObject = GameObject.Find("Canvas/ChatGroup/LeftSet").GetComponent<Transform>();
             _ChatGroup = GameObject.Find("Canvas/ChatGroup");
+            _uiGroup = GameObject.Find("Canvas/UIGroup");
             _chatWindowText = GameObject.Find("Canvas/ChatGroup/ChatWindow/StoryText").GetComponent<TextMeshProUGUI>();
             _chatArrowBtn = GameObject.Find("Canvas/ChatGroup/LeftSet/ChatArrowBtn").GetComponent<Button>();
             _chatArrowSound = GameObject.Find("Canvas/ChatGroup/LeftSet/ChatArrowBtn").GetComponent<AudioSource>();
             _unitFrame = GameObject.Find("Canvas/Mercenary");
+            
             _chatArrowBtn.onClick.AddListener(skipButton);
 
             for (int i = 0; i < _talkObject.childCount; i++)
@@ -102,11 +110,21 @@ namespace nightmareHunter {
 
             endStoryPanel.SetActive(false);
             _unitFrame.SetActive(false);
+            _uiGroup.SetActive(false);
 
             AudioManager.Instance.BackGroundPlay("bgm_game");
 
             StartCoroutine(_loadingControl.FadeInStart());
         }
+        
+
+        public void canvasSkipButton() {
+            if(storyFlag) {
+                skipButton();
+            }
+        }
+
+
 
         public void skipButton() {
             
@@ -148,9 +166,11 @@ namespace nightmareHunter {
 
             if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
                 _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
+                storyFlag = true;
                 if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
                     if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
                         _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
+                        
                         _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
                     }
                 } else if("tutorial".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
@@ -158,8 +178,10 @@ namespace nightmareHunter {
 
                     evnetAction(storyObject.storyContentList[inStroyStage].event_stage_id);
                 }
+                
             } else {
                 _playGameObject.GetComponent<Player>().playerState = "wait";
+                storyFlag = false;
                _ChatGroup.SetActive(false);
             }
         }
@@ -188,6 +210,7 @@ namespace nightmareHunter {
                     _tutory2.SetActive(true);
                 break;
                 case 3 :
+                    _uiGroup.SetActive(true);
                     UiController.Instance.systemSaveInfo.money = 100;
                     UiController.Instance._gold.text = UiController.Instance.systemSaveInfo.money.ToString();
                     UiController.Instance.SystemDataSave();
@@ -195,7 +218,7 @@ namespace nightmareHunter {
                 break;
                 case 4 :
                     _loadingControl.FadeActive();
-                    _playGameObject.transform.position = new Vector2(1.8f, 0.3f);
+                    _playGameObject.transform.position = new Vector2(2.0f, 0.6f);
                     StartCoroutine(_loadingControl.FadeInStart());
                     eventFlag = false;
                     skipButton();
