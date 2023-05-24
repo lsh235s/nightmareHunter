@@ -105,6 +105,7 @@ namespace nightmareHunter {
                         
                         // 생성한 Cube 오브젝트 활성화
                         _uiItController._summoner[objectIndex].SetActive(true);
+                        _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(true);
                     }
                 }
             }
@@ -118,6 +119,7 @@ namespace nightmareHunter {
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
                 _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = _spritesName;
+                _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
                 _uiItController.gameDataManager.SaveSummerInfo(_spritesName,_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
 
 

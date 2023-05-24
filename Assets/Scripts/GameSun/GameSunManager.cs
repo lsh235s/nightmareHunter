@@ -66,7 +66,7 @@ namespace nightmareHunter {
                 if(stroyStage >= 31 && UiController.Instance.systemSaveInfo.stageId == 0) {
                     _playGameObject.transform.position = new Vector2(2f, 0.5f);
                 }
-                if(stroyStage >= 43) {
+                if(stroyStage >= 44) {
                     _unitFrame.SetActive(true);
                 }
             } else {
@@ -158,8 +158,8 @@ namespace nightmareHunter {
             //hunterGraphic.Initialize(true); 재시작
 
             if(storyObject.storyContentList[inStroyStage].scenario_stage_id != UiController.Instance.systemSaveInfo.stageId) {
-                inStroyStage = 51;
-                UiController.Instance.systemSaveInfo.storyNum = 51;
+                inStroyStage = 52;
+                UiController.Instance.systemSaveInfo.storyNum = 52;
                 UiController.Instance.SystemDataSave();
             }
             Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);

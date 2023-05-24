@@ -109,6 +109,7 @@ namespace nightmareHunter {
         private IEnumerator storyPanelStop() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             yield return new WaitForSeconds(7);
+            _skipText.text = "건너뛰기..";
             isSkip = true;
             yield return new WaitForSeconds(3);
             _storyPanel.SetActive(false);

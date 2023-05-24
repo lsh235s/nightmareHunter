@@ -26,6 +26,10 @@ namespace nightmareHunter {
 
 
         private float nextTime = 0.0f;  // 다음 공격 시간
+     
+
+        public CircleCollider2D collider2D;
+        public GameObject rangeObject;
 
      
 
@@ -43,6 +47,13 @@ namespace nightmareHunter {
             _integer = inPlayerinfo.reward;
             _positionString = inPlayerinfo.positionInfo;
             _playerinfo = inPlayerinfo;
+
+            collider2D.radius = _attackRange;
+         
+            float spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
+            Debug.Log("spriteScale : " + spriteScale);
+            rangeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(spriteScale, spriteScale, 1f); // 스케일 값을 적용
+            
         }
 
         // Start is called before the first frame update
@@ -132,7 +143,6 @@ namespace nightmareHunter {
         {
             if(collisionObject.GetComponent<Enemy>() != null) {
                 gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                Debug.Log("공격:/"+ _attack);
                 collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
                 nearestTarget = null;
             }
