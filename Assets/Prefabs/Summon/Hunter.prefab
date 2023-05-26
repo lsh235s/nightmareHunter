@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3796880210613587738}
   - component: {fileID: 4385385785904732047}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Shadow2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2614644795405342743}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.003, y: -0.091, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,13 +95,14 @@ GameObject:
   - component: {fileID: 1667812853172638319}
   - component: {fileID: 3850896279026015254}
   - component: {fileID: 4953419291214135553}
-  m_Layer: 0
+  - component: {fileID: 1587228905503333585}
+  m_Layer: 7
   m_Name: AttackRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1667812853172638319
 RectTransform:
   m_ObjectHideFlags: 0
@@ -111,7 +112,7 @@ RectTransform:
   m_GameObject: {fileID: 4317107440222803780}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4.4, y: 4.4, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7339930761215339306}
@@ -182,6 +183,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1587228905503333585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4317107440222803780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a1cd8803a9e96f4eae3e547d2aecca4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteScale: 4.4
 --- !u!1 &5557243652296972026
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,8 +208,8 @@ GameObject:
   - component: {fileID: 5557243652296972030}
   - component: {fileID: 764770423608795576}
   - component: {fileID: 6601857614735978077}
-  - component: {fileID: 8855444518694602225}
-  m_Layer: 0
+  - component: {fileID: 9036490235501581029}
+  m_Layer: 3
   m_Name: Hunter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -222,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.155572, y: -0.7533806}
+  m_AnchoredPosition: {x: 1.1746193, y: -0.7663326}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &5557243652296972030
@@ -266,6 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e894f57e7b0044380b8a91f9ce488bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  summonerId: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -276,14 +291,13 @@ MonoBehaviour:
   _attackSpeed: 2
   _attackRange: 0.4
   _integer: 0
-  _positionString: (2.50, 0.6, 0.00)
+  _positionString: (2.31, 0.61, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
   summonsName: 
-  collider2D: {fileID: 8855444518694602225}
   rangeObject: {fileID: 4317107440222803780}
---- !u!58 &8855444518694602225
-CircleCollider2D:
+--- !u!70 &9036490235501581029
+CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -292,12 +306,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.4
+  m_Offset: {x: -0.014038086, y: 0.03591919}
+  m_Size: {x: 0.2097168, y: 0.2662964}
+  m_Direction: 0
 --- !u!1 &6064299263966843662
 GameObject:
   m_ObjectHideFlags: 0
@@ -311,7 +325,7 @@ GameObject:
   - component: {fileID: 8985061499613027145}
   - component: {fileID: 2598555319250358742}
   - component: {fileID: 8905593765503564080}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hunter_dot
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,10 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine.Unity;
 
 namespace nightmareHunter {
     public class Summons : MonoBehaviour
     {
+        public int summonerId;
+        //소환수 모션
+        private SkeletonMecanim skeletonMecanim;
         public LayerMask targetLayer;
         public RaycastHit2D[] targets;
         public Transform nearestTarget;
@@ -27,11 +31,23 @@ namespace nightmareHunter {
 
         private float nextTime = 0.0f;  // 다음 공격 시간
      
-
-        public CircleCollider2D collider2D;
+        // 소환수 공격 범위
+        private float RangeNextTime = 0.0f;  // 범위 표시시간
+        float spriteScale; // 스케일 값
         public GameObject rangeObject;
 
-     
+        UnitController _uiItController;
+
+        void Start() {
+
+            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
+            skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
+
+            _playerinfo = _uiItController.gameDataManager.LoadSummerInfo(summonerId , _uiItController._unitObject);
+            playerDataLoad(_playerinfo);
+
+        }
+
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
             activateStatus = "move";
@@ -48,12 +64,10 @@ namespace nightmareHunter {
             _positionString = inPlayerinfo.positionInfo;
             _playerinfo = inPlayerinfo;
 
-            collider2D.radius = _attackRange;
-         
-            float spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
-            Debug.Log("spriteScale : " + spriteScale);
-            rangeObject.GetComponent<SpriteRenderer>().transform.localScale = new Vector3(spriteScale, spriteScale, 1f); // 스케일 값을 적용
-            
+            spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
+
+            rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
+           
         }
 
         // Start is called before the first frame update
@@ -120,31 +134,32 @@ namespace nightmareHunter {
         }
 
 
-        // private void OnTriggerEnter2D(Collider2D collision) {
-        //     if(nearestTarget != null) {
-        //         activateStatus = "attack";
-        //         damageCoroutine = StartCoroutine(ApplyDamage(nearestTarget.gameObject));
-        //     }
-        // }
-
-        // private void OnTriggerExit2D(Collider2D collision)
-        // {
-        //     if(!"dead".Equals(activateStatus)) {    
-        //          if(collision.GetComponent<Enemy>()) {
-        //             activateStatus = "move";
-        //             if(activateStatus != null) {
-        //                 StopCoroutine(damageCoroutine);
-        //             }
-        //         }
-        //     }
-        // }
-
         private void ApplyDamage(GameObject collisionObject)
         {
             if(collisionObject.GetComponent<Enemy>() != null) {
                 gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                 collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
                 nearestTarget = null;
+            }
+        }
+
+        
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            Debug.Log(collision);
+            Debug.Log("OnTriggerExit2D");
+            Color endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+        }
+
+        // 배치시 소환수 위치 설정
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if("Wall".Equals(collision.tag)) {
+                Debug.Log(collision);
+                Debug.Log("OnTriggerEnter2D");
+                Color endColor = new Color32(255, 0, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
             }
         }
 

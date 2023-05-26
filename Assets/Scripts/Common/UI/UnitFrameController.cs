@@ -45,10 +45,6 @@ namespace nightmareHunter {
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
             priceText.text = price.ToString();
-                
-            objectIndex = transform.GetSiblingIndex();
-            //현재 세팅된 유닛의 저장된 능력치를 가져온다
-            NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
         }
 
         void Update()
@@ -83,8 +79,7 @@ namespace nightmareHunter {
         public void OnMouseBeginDrag()
         {
             if(UiController.Instance.sceneMode == 0) {
-                Debug.Log(_uiItController._summoner[objectIndex].tag);
-                
+                _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(true);
                 if(summon != null && !"Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
                     if(price <= int.Parse(UiController.Instance._gold.text)) {
                         UiController.Instance.goldUseSet(price);
@@ -97,24 +92,22 @@ namespace nightmareHunter {
 
                         // Cube 오브젝트 생성
                         _uiItController._summoner[objectIndex] = Instantiate(summon);
-
                         _uiItController._summoner[objectIndex].tag = "Summon";
-                        _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo); 
-                    
                         _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                         
                         // 생성한 Cube 오브젝트 활성화
                         _uiItController._summoner[objectIndex].SetActive(true);
-                        _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(true);
                     }
                 }
+            } else {
+                _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
             }
         }
 
         public void OnMouseEndDrag()
         {
             if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
-                _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+               
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiItController._summoner[objectIndex].transform.position.ToString();
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
                 _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
@@ -138,21 +131,21 @@ namespace nightmareHunter {
             if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+               // _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
                 _uiItController._summoner[objectIndex].transform.position = mousePosition;
             }
         }
 
         public void summonEnforce() {
-            UiController.Instance.goldUseSet(price);
+            // UiController.Instance.goldUseSet(price);
             
-            NowSummonInfo.playerLevel += 1;
+            // NowSummonInfo.playerLevel += 1;
 
-            _uiItController.gameDataManager.SaveSummerInfo(_spritesName,NowSummonInfo);
-            NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
+            // _uiItController.gameDataManager.SaveSummerInfo(_spritesName,NowSummonInfo);
+            // NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
 
-            _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
+            // _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
 
         }
     }

@@ -109,7 +109,7 @@ namespace nightmareHunter {
             } else {
                 fileName = summonList[intPlayerInfo] +".json";
             }
-
+            Debug.Log("fileName : " + fileName);
             if (!"none".Equals(fileName)) {
                 string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
 
@@ -118,17 +118,20 @@ namespace nightmareHunter {
                 playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
 
                 for(int i = 0; i < unitObject.unitList.Count; i++) {
-                    if (unitObject.unitList[i].unitType == 2 && intPlayerInfo.Equals(unitObject.unitList[i].spritesName)) {
+                     Debug.Log("unitType : " + unitObject.unitList[i].unitType);
+                     Debug.Log("unitType : " + unitObject.unitList[i].spritesName);
+                    if (unitObject.unitList[i].unitType == 2 && summonList[intPlayerInfo].Equals(unitObject.unitList[i].spritesName)) {
                         playerInfo.health = unitObject.unitList[i].health + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_health);
                         playerInfo.attack = unitObject.unitList[i].attack + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attack);
                         playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
+                         Debug.Log("playerInfoDetail : " + playerInfo.attackRange);
                         playerInfo.move = unitObject.unitList[i].move + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_move);
                         playerInfo.attackSpeed = unitObject.unitList[i].attackSpeed + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackSpeed);
                         playerInfo.spritesName = unitObject.unitList[i].spritesName;
                     }
                 }
             }
-
+            Debug.Log("playerInfo : " + playerInfo.attackRange);
             return playerInfo;
         }
 
