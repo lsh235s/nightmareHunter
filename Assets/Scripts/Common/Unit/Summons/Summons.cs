@@ -67,6 +67,10 @@ namespace nightmareHunter {
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
 
             rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
+
+            if(UiController.Instance.sceneMode == 1) { // 저녁시간에만 몬스터 스캔
+                rangeObject.SetActive(false);
+            }
            
         }
 
@@ -146,20 +150,18 @@ namespace nightmareHunter {
         
         private void OnTriggerExit2D(Collider2D collision)
         {
-            Debug.Log(collision);
-            Debug.Log("OnTriggerExit2D");
             Color endColor = new Color32(255, 255, 255, 255);
             skeletonMecanim.skeleton.SetColor(endColor);
+            summonsExist = true;
         }
 
         // 배치시 소환수 위치 설정
         private void OnTriggerEnter2D(Collider2D collision)
         {
             if("Wall".Equals(collision.tag)) {
-                Debug.Log(collision);
-                Debug.Log("OnTriggerEnter2D");
                 Color endColor = new Color32(255, 0, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
+                summonsExist = false;
             }
         }
 
