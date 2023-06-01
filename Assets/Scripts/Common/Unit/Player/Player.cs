@@ -10,6 +10,7 @@ namespace nightmareHunter {
     public class Player : MonoBehaviour
     {
         public string playerState;
+        public GameObject bulletPoint;
 
          //총알 프리팹
         [SerializeField]
@@ -77,6 +78,11 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
+
+            Vector2 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            float z = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
+            bulletPoint.transform.rotation = Quaternion.Euler(0, 0, z);
+
             if (isFalling)
             {  
                 StartCoroutine(damageShake());
@@ -143,8 +149,11 @@ namespace nightmareHunter {
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
 
+
+            bulletDirection = bulletPoint.transform.position;
+
             // 프리팹으로부터 새로운 미사일 게임 오브젝트 생성
-            GameObject bullet = Instantiate(_bulletPrefab, transform.position, transform.rotation);
+            GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
             // 미사일로부터 리지드바디 2D 컴포넌트 가져옴
             Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             
