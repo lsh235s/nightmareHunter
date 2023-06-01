@@ -11,7 +11,15 @@ namespace nightmareHunter {
 
     public class SystemSaveInfo 
     {
+        // 골드
         public int money { get; set; }
+        // 정수
+        public int integer { get; set; }
+        // 타겟 Hp
+        public int targetHP { get; set; }
+        // 스테이지 진행 단계
+        public int stageId { get; set; }
+        // 스토리 진행 번호
         public int storyNum { get; set; }
     }
 }

@@ -7,20 +7,26 @@ using System.IO;
 namespace nightmareHunter {
     public class GameDataManager : MonoBehaviour
     {
-        string[] summonList = new string[] {"Exorcist"};
+        string[] summonList = new string[] {"Hunter","Exorcist"};
 
-        public void PlayerInitTest() {
+        public void HunterInit() {
             PlayerInfo playerInfo = new PlayerInfo();
 
-            playerInfo.playerLevel = 1;
-            playerInfo.health = 100;
-            playerInfo.attack = 10;
-            playerInfo.attackRange = 1;
-            playerInfo.move = 5;
-            playerInfo.attackSpeed = 1;
-            playerInfo.spritesName = "hunter";
 
-            SavePlayerInfo(playerInfo);
+            playerInfo.id = 0;
+            playerInfo.playerLevel = 0;
+            playerInfo.health = 0;
+            playerInfo.attack = 0;
+            playerInfo.attackRange = 0;
+            playerInfo.move = 0;
+            playerInfo.attackSpeed = 0;
+            playerInfo.positionInfo = "";
+            playerInfo.spritesName = "Hunter";
+            playerInfo.reward = 0;
+            playerInfo.summonsExist = false;
+
+
+            SaveSummerInfo("Hunter",playerInfo);
         }
 
         public void SavePlayerInfo(PlayerInfo playerInfo) {
@@ -103,7 +109,7 @@ namespace nightmareHunter {
             } else {
                 fileName = summonList[intPlayerInfo] +".json";
             }
-
+            Debug.Log("fileName : " + fileName);
             if (!"none".Equals(fileName)) {
                 string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
 
@@ -112,17 +118,20 @@ namespace nightmareHunter {
                 playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
 
                 for(int i = 0; i < unitObject.unitList.Count; i++) {
-                    if (unitObject.unitList[i].unitType == 2 && intPlayerInfo.Equals(unitObject.unitList[i].spritesName)) {
+                     Debug.Log("unitType : " + unitObject.unitList[i].unitType);
+                     Debug.Log("unitType : " + unitObject.unitList[i].spritesName);
+                    if (unitObject.unitList[i].unitType == 2 && summonList[intPlayerInfo].Equals(unitObject.unitList[i].spritesName)) {
                         playerInfo.health = unitObject.unitList[i].health + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_health);
                         playerInfo.attack = unitObject.unitList[i].attack + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attack);
                         playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
+                         Debug.Log("playerInfoDetail : " + playerInfo.attackRange);
                         playerInfo.move = unitObject.unitList[i].move + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_move);
                         playerInfo.attackSpeed = unitObject.unitList[i].attackSpeed + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackSpeed);
                         playerInfo.spritesName = unitObject.unitList[i].spritesName;
                     }
                 }
             }
-
+            Debug.Log("playerInfo : " + playerInfo.attackRange);
             return playerInfo;
         }
 
@@ -137,6 +146,7 @@ namespace nightmareHunter {
                     playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
                     playerInfo.move = unitObject.unitList[i].move + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_move);
                     playerInfo.attackSpeed = unitObject.unitList[i].attackSpeed + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackSpeed);
+                    playerInfo.reward = unitObject.unitList[i].reward;
                     playerInfo.spritesName = unitObject.unitList[i].spritesName;
                 }
             }
@@ -144,7 +154,7 @@ namespace nightmareHunter {
         }
 
 
-        public void SaveSummerInfo(SystemSaveInfo systemSaveInfo) {
+        public void SaveSystemInfo(SystemSaveInfo systemSaveInfo) {
             string json = JsonConvert.SerializeObject(systemSaveInfo);
 
             string fileName = "SystemData.json";

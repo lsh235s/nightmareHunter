@@ -7,27 +7,33 @@ using TMPro;
 namespace nightmareHunter {
     public class UiController : MonoBehaviour
     {
+        public static UiController Instance { get; private set; }
+
+        
+        // 튜토리얼 포인트 이미지
+        public Sprite[] _pointSprite; 
+        public GameObject[] DamageEffect;
+
         // 왼쪽 상단 재화
         public TextMeshProUGUI _timerText;
         public TextMeshProUGUI _gold;
+        public TextMeshProUGUI _integer;
         public Image _imagePlayHp;
         public TextMeshProUGUI _playerHp;
         public Image _imageClientHp;
+
         public TextMeshProUGUI _clientHp;
+        int maxTargetHp;
 
         
-        // 저장 데이터
-        public UnitObject _unitObject;
-        public StateMonsterBatch _stateMonsterBatch ;
-
-        // 스테이지 모드
-        public int sceneMode;  //0: sun, 1: moon
-
         public bool timePause = true;
         // 스테이지 타이머
         float _countSec = 0.0f;
         int _Min = 0;
         int _Hour = 0;
+
+        // 스테이지 모드
+        public int sceneMode;  //0: sun, 1: moon
 
 
         // 저장 기능 관련
@@ -36,37 +42,45 @@ namespace nightmareHunter {
         public SystemSaveInfo systemSaveInfo; 
         
 
-        public GameObject[] _summoner;
-
-        // Start is called before the first frame update
-        public GameObject _playGameObject; 
-
         
         // Start is called before the first frame update
         
         void Awake()
         {
-            _timerText = GameObject.Find("Canvas/UIGroup/Pause/PauseValue/Timer").GetComponent<TextMeshProUGUI>(); 
-            _gold = GameObject.Find("Canvas/UIGroup/Gold/GoldValue/Text").GetComponent<TextMeshProUGUI>(); 
-            _playerHp = GameObject.Find("Canvas/UIGroup/Hp/HpValue/Text").GetComponent<TextMeshProUGUI>(); 
+            // 이미 인스턴스가 있는지 확인합니다.
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                // 중복되는 인스턴스가 있는 경우, 이 게임 객체를 파괴합니다.
+                Destroy(this.gameObject);
+            }
+        }
+
+        public void LoadStart() {
+            _timerText = GameObject.Find("Canvas/UIGroup/Pause/Timer").GetComponent<TextMeshProUGUI>(); 
+            _gold = GameObject.Find("Canvas/UIGroup/Gold/Text").GetComponent<TextMeshProUGUI>(); 
+            _integer = GameObject.Find("Canvas/UIGroup/Integer/Text").GetComponent<TextMeshProUGUI>(); 
+            _playerHp = GameObject.Find("Canvas/UIGroup/Hp/Text").GetComponent<TextMeshProUGUI>(); 
             _imagePlayHp = GameObject.Find("Canvas/UIGroup/Hp/HpImage").GetComponent<Image>(); 
-            _clientHp = GameObject.Find("Canvas/UIGroup/Client/ClientValue/Text").GetComponent<TextMeshProUGUI>(); 
+            _clientHp = GameObject.Find("Canvas/UIGroup/Client/Text").GetComponent<TextMeshProUGUI>(); 
             _imageClientHp = GameObject.Find("Canvas/UIGroup/Client/ClientImage").GetComponent<Image>(); 
 
             // 현재 게임 도드 정리
             string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             if("GameSun".Equals(sceneName)) {
                 sceneMode = 0;
+                GameObject.Find("Canvas/UIGroup/Integer").SetActive(false);
             }  else {
                 sceneMode = 1;
+                GameObject.Find("Canvas/UIGroup/Gold").SetActive(false);
             }
 
             gameDataManager = new GameDataManager();
 
-            //소환수 배치
-            SummonerInit();
-            //플레이어 능력치 load
-            PlayerInit();
 
             SystemInit();
         }
@@ -78,46 +92,19 @@ namespace nightmareHunter {
         }
 
 
-
-        // 플레이어 배치 관련
-        void PlayerInit() {
-            _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo(_unitObject)); 
-        }
-
-        // 소환수 배치 관련
-        void SummonerInit() {
-           List<PlayerInfo> existTargetInfo = gameDataManager.SummerListLoad(_unitObject);
-           for(int i = 0; i < existTargetInfo.Count; i++)
-           {
-                SummonerGet(existTargetInfo[i]);
-           }
-        }
-
         //재화 시나리오 전개 관련
         void SystemInit() {
             // 재화 시나리오 전개
             systemSaveInfo = gameDataManager.LoadSystemSaveInfo();
             _gold.text = systemSaveInfo.money.ToString();
+            _integer.text = systemSaveInfo.integer.ToString();
+            maxTargetHp = systemSaveInfo.targetHP;
+            _clientHp.text = systemSaveInfo.targetHP.ToString();
+            TargetHP(0, null);
         }
 
         public void SystemDataSave() {
-            gameDataManager.SaveSummerInfo(systemSaveInfo);
-        }
-
-        
-        public void SummonerGet(PlayerInfo PlayerInfo) {
-            GameObject select = null;
-            
-            select = _summoner[PlayerInfo.id];
-            select.GetComponent<Summons>().playerDataLoad(PlayerInfo);
-            string[] vectorValues = PlayerInfo.positionInfo.Trim('(', ')').Split(',');
-            
-            Vector3 vector = new Vector3(float.Parse(vectorValues[0]), float.Parse(vectorValues[1]), float.Parse(vectorValues[2]));
-          
-            _summoner[PlayerInfo.id] = Instantiate(select);   
-            _summoner[PlayerInfo.id].tag = "Summon";
-            _summoner[PlayerInfo.id].transform.position = vector;
-         
+            gameDataManager.SaveSystemInfo(systemSaveInfo);
         }
 
 
@@ -138,12 +125,22 @@ namespace nightmareHunter {
                 _timerText.text = string.Format("{0:00}:{1:00}", _Hour, _Min);
                 if(_Hour >= 12) {
                     if(sceneMode == 0) {
+                        _Hour=0;
+                        _Min=0;
                         SceneMoveManager.SceneMove("GameMoon");
                     } else {
-                        SceneMoveManager.SceneMove("GameSun");
+                        _Hour=0;
+                        _Min=0;
+                        stageClear();
                     }
                 }
             }
+        }
+
+        public void stageClear() {
+            systemSaveInfo.stageId++;
+            SystemDataSave();
+            SceneMoveManager.SceneMove("GameSun");
         }
 
         public void skipTime() {
@@ -153,8 +150,43 @@ namespace nightmareHunter {
 
         public void goldUseSet(int useGold) {
             if(int.Parse(_gold.text) >= useGold) {
-                int nowGold = int.Parse(_gold.text) - useGold;
-                _gold.text = nowGold.ToString();
+                systemSaveInfo.money = int.Parse(_gold.text) - useGold;
+                _gold.text = systemSaveInfo.money.ToString();
+                
+                SystemDataSave();
+            }
+        }
+
+
+        public void integerAddSet(int inputInteger) {
+            systemSaveInfo.integer = int.Parse(_integer.text) + inputInteger;
+            _integer.text = systemSaveInfo.integer.ToString();
+            SystemDataSave();
+        }
+
+
+
+        // 타겟 체력 관련
+        public void TargetHP(float nowHp, Sprite[] _clientHpImage) {
+            if(_clientHpImage != null) {
+                float hpDiff = (int.Parse(_clientHp.text) - nowHp) ;
+                float hpRate = hpDiff / (float)maxTargetHp * 100;
+                //Debug.Log("attak : " + nowHp + "/total:"+maxTargetHp +"/now:"+ hpDiff + "/rate:"+hpRate);
+
+                if(hpRate > 80 && hpRate == 100.0f) {
+                    _imageClientHp.sprite = _clientHpImage[0];
+                } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                    _imageClientHp.sprite = _clientHpImage[1];
+                } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                    _imageClientHp.sprite = _clientHpImage[2];
+                } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                    _imageClientHp.sprite = _clientHpImage[3];
+                } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                    _imageClientHp.sprite = _clientHpImage[4];
+                } else if (hpRate <= 0.0f) {
+                    _imageClientHp.sprite = _clientHpImage[5];
+                }
+                _clientHp.text = hpDiff.ToString(); 
             }
         }
     }

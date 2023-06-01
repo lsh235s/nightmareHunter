@@ -17,7 +17,7 @@ MonoBehaviour:
     unitType: 0
     unitName: player
     level: 1
-    health: 100
+    health: 10
     lev_health: 1
     attack: 2
     lev_attack: 1
@@ -25,10 +25,27 @@ MonoBehaviour:
     lev_attackRange: 1
     move: 1
     lev_move: 1
-    attackSpeed: 3
+    attackSpeed: 0.1
     lev_attackSpeed: 1
-    spritesName: hunter
+    reward: 0
+    spritesName: Player
   - id: 0
+    unitType: 2
+    unitName: hunter
+    level: 1
+    health: 100
+    lev_health: 1
+    attack: 5
+    lev_attack: 0.1
+    attackRange: 0.4
+    lev_attackRange: 0
+    move: 1
+    lev_move: 0
+    attackSpeed: 2
+    lev_attackSpeed: 0
+    reward: 0
+    spritesName: Hunter
+  - id: 1
     unitType: 2
     unitName: exorcist
     level: 1
@@ -42,12 +59,13 @@ MonoBehaviour:
     lev_move: 0
     attackSpeed: 5
     lev_attackSpeed: 0
+    reward: 0
     spritesName: Exorcist
   - id: 0
     unitType: 1
     unitName: wanderer
     level: 1
-    health: 500
+    health: 30
     lev_health: 1
     attack: 5
     lev_attack: 1
@@ -57,19 +75,21 @@ MonoBehaviour:
     lev_move: 1
     attackSpeed: 3
     lev_attackSpeed: 1
+    reward: 50
     spritesName: wanderer
   - id: 1
     unitType: 1
     unitName: teller
     level: 1
-    health: 100
+    health: 20
     lev_health: 1
-    attack: 0
+    attack: 2
     lev_attack: 1
     attackRange: 1
     lev_attackRange: 1
     move: 0.5
     lev_move: 1
-    attackSpeed: 0
+    attackSpeed: 10
     lev_attackSpeed: 1
+    reward: 100
     spritesName: teller

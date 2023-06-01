@@ -15,9 +15,6 @@ namespace nightmareHunter {
         [SerializeField]
         private GameObject _bulletPrefab;
 
-        // 주인공 애니메이션
-        [SerializeField]
-        private Animator _animator;
 
         // 능력치
         public PlayerInfo _playerinfo;
@@ -33,53 +30,67 @@ namespace nightmareHunter {
         private Vector3 initialPosition; // 초기 위치
 
         public float _timeBetweenShots; // 딜레이 타임
-
-        private bool _fireContinuously;
-        private bool _fireSingle;
+        private bool _waitFire;
         private float _lastFireTime;
 
 
+        // 주인공 스켈레톤
+        [SerializeField]
+        private GameObject _skeletonObject;
+
         [SerializeField]
         private Sprite[] HpHeartImage;
-        [SerializeField]
-        private UiController HpCanvas;
 
         private float maxHp;
+
+        // 사운드
+        [SerializeField]
+        private AudioClip[] playSound;
+
+        bool isFalling = false;
+
+        private SkeletonMecanim skeletonMecanim;
+        private Animator _animator;
+
 
 
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
+
+            skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
+            _animator = _skeletonObject.GetComponent<Animator>();
         }
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
             _playerinfo = inPlayerinfo;
 
             _timeBetweenShots = _playerinfo.attackSpeed;
-            if (HpCanvas._imagePlayHp != null && HpHeartImage[0] != null)
+            if (UiController.Instance._imagePlayHp != null && HpHeartImage[0] != null)
             {
-                HpCanvas._imagePlayHp.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
             }
-            if (HpCanvas._playerHp.text != null)
+            if (UiController.Instance._playerHp.text != null)
             {
                 maxHp = _playerinfo.health;
-                HpCanvas._playerHp.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
+                UiController.Instance._playerHp.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
             }
         }
 
         private void FixedUpdate() {
+            if (isFalling)
+            {  
+                StartCoroutine(damageShake());
+            } 
+
             if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
-                if(_fireContinuously || _fireSingle) {
+                if(_waitFire) {
                     float timeSinceLastFire = Time.time - _lastFireTime;
 
                     if(timeSinceLastFire >= _timeBetweenShots) {
-                        FireBullet();
-                    
                         _lastFireTime = Time.time;
-                        _fireSingle = false;
+                        _waitFire = false;
                     }
-
-                
                 }
 
                 // 유닛의 이동 관련 처리
@@ -128,7 +139,6 @@ namespace nightmareHunter {
                 bulletDirection = -transform.right; // 좌측 방향으로 설정
             }
 
-
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
@@ -152,49 +162,136 @@ namespace nightmareHunter {
         // 공격 키 이벤트
         private void OnFire(InputValue inputValue) {
             if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
-                _fireContinuously = inputValue.isPressed;
-
                 if(inputValue.isPressed) {
-                    initialPosition = transform.position;
-                    _fireSingle = true;
+                    if(!_waitFire) {
+                        initialPosition = transform.position;
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
+                        gameObject.GetComponent<AudioSource>().clip = playSound[0];
+                        gameObject.GetComponent<AudioSource>().Play();
+                        FireBullet();
+                        _waitFire = true;
+                    }
+                    
                 }
             }
           
         }
 
 
-        private void OnCollisionEnter2D(Collision2D collision) {
+        private void OnTriggerEnter2D(Collider2D collision) {
 
-            Collider2D otherCollider = collision.collider;
             if(!"die".Equals(playerState) ) {
-                if(otherCollider.GetComponent<Enemy>()) {
-                    _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
-                    if(_playerinfo.health < 0) {
-                        _playerinfo.health = 0;
-                    }
+                if(collision.GetComponent<Enemy>()) {
+                    if(!"die".Equals(collision.GetComponent<Enemy>().activateStatus)) {
+                        collision.GetComponent<Enemy>().MonsterAttackProcess();
+                        Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
+                        _rigidbody.AddRelativeForce(pushDirection * 300f);
 
-                    float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
-                    
-                    if(hpRate > 80 && hpRate == 100.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[0];
-                    } else if (hpRate > 50.0f && hpRate <= 80.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[1];
-                    } else if (hpRate > 25.0f && hpRate <= 50.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[2];
-                    } else if (hpRate > 10.0f && hpRate <= 25.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[3];
-                    } else if (hpRate > 0.0f && hpRate <= 10.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[4];
-                    } else if (hpRate <= 0.0f) {
-                        HpCanvas._imagePlayHp.sprite = HpHeartImage[5];
-                        _animator.SetTrigger("die");
-                        playerState = "die";
+                        isFalling = true;
+                        _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
+                        
+                        if(_playerinfo.health < 0) {
+                            _playerinfo.health = 0;
+                        }
+
+                        float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+                        
+                        if(hpRate > 80 && hpRate == 100.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
+                        } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
+                        } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
+                        } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
+                        } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
+                        } else if (hpRate <= 0.0f) {
+                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
+                            _animator.SetTrigger("die");
+                            playerState = "die";
+                            StartCoroutine(gameEnd()); 
+                        }
+                        UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
                     }
-                    HpCanvas._playerHp.text = _playerinfo.health.ToString(); 
                 }
             }
         }
 
 
+        // private void OnTriggerEnter2D(Collider2D collision) {
+
+        //     Collider2D otherCollider = collision.GetComponent<Collider>();
+        //     if(!"die".Equals(playerState) ) {
+        //         if(otherCollider.GetComponent<Enemy>()) {
+        //             _playerinfo.health = _playerinfo.health - otherCollider.GetComponent<Enemy>()._attack;
+        //             if(_playerinfo.health < 0) {
+        //                 _playerinfo.health = 0;
+        //             }
+
+        //             float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+                    
+        //             if(hpRate > 80 && hpRate == 100.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
+        //             } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
+        //             } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
+        //             } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
+        //             } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
+        //             } else if (hpRate <= 0.0f) {
+        //                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
+        //                 _animator.SetTrigger("die");
+        //                 playerState = "die";
+        //             }
+        //             UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
+        //         }
+        //     }
+        // }
+
+        private IEnumerator damageShake() {
+            _skeletonObject.transform.localPosition  += new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            Color endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  += new Vector3(0.02f, 0, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  += new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  += new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 0, 0, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            _skeletonObject.transform.localPosition  -= new Vector3(0, 0.02f, 0);
+            yield return new WaitForSeconds(0.02f);
+            endColor = new Color32(255, 255, 255, 255);
+            skeletonMecanim.skeleton.SetColor(endColor);
+            isFalling = false;
+            _skeletonObject.transform.localPosition = new Vector3(0, 0, 0);
+            yield return null;
+        }
+
+        private IEnumerator gameEnd() {
+            yield return new WaitForSeconds(2.0f);
+            SceneMoveManager.SceneMove("GameInits");
+        }
     }
 }
