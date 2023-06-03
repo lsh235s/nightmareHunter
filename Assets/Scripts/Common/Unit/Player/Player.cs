@@ -52,9 +52,6 @@ namespace nightmareHunter {
 
         private SkeletonMecanim skeletonMecanim;
         private Animator _animator;
-
-
-
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -78,10 +75,9 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
-
-            Vector2 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-            float z = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
-            bulletPoint.transform.rotation = Quaternion.Euler(0, 0, z);
+            Vector2 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
+            float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
+            bulletPoint.transform.rotation = Quaternion.Euler(0, 0, angle);
 
             if (isFalling)
             {  
@@ -134,32 +130,52 @@ namespace nightmareHunter {
 
         // 공격 처리
         private void FireBullet() {
-            // 발사 위치와 회전 설정
-            Vector3 spawnPosition = transform.position; // 발사 위치는 캐릭터의 위치로 설정
-            Quaternion spawnRotation = transform.rotation; // 발사 회전은 캐릭터의 회전으로 설정
 
-            // 좌우 방향에 따라 총알 발사 방향 설정
-            Vector3 bulletDirection = transform.right; // 기본적으로 우측 방향으로 설정
-            if (transform.localScale.x < 0) // 스케일이 -1인 경우(좌우가 뒤집혔을 경우)
-            {
-                bulletDirection = -transform.right; // 좌측 방향으로 설정
-            }
-
+    
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
+            _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _bulletSpeed;
 
-
-            bulletDirection = bulletPoint.transform.position;
-
-            // 프리팹으로부터 새로운 미사일 게임 오브젝트 생성
+            
             GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
-            // 미사일로부터 리지드바디 2D 컴포넌트 가져옴
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+
+
+            // Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition); // 마우스 클릭 지점을 월드 좌표로 변환
+
+            // // 총알 생성 및 발사
+            // Vector2 direction = (mousePosition - bulletPoint.transform.position).normalized;
+
+            // // 총알 회전
+            // float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            // bullet.transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+
+
+
+        // 좌우 방향에 따라 총알 발사 방향 설정
+            // Vector3 bulletDirection = transform.right; // 기본적으로 우측 방향으로 설정
+            // if (transform.localScale.x < 0) // 스케일이 -1인 경우(좌우가 뒤집혔을 경우)
+            // {
+            //     bulletDirection = -transform.right; // 좌측 방향으로 설정
+                
+            // Quaternion spawnRotation = transform.rotation; // 발사 회전은 캐릭터의 회전으로 설정
+            // }
+
+            // 속도 제한을 적용하여 최소 속도 보장
+
+            // bulletDirection = bulletPoint.transform.position;
+
+            // // 프리팹으로부터 새로운 미사일 게임 오브젝트 생성
+            // GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
+            // // 미사일로부터 리지드바디 2D 컴포넌트 가져옴
+            // Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             
 
-            // 미사일을 전방으로 발사
-            rb.AddForce(bulletDirection * _bulletSpeed, ForceMode2D.Impulse);
+            // // 미사일을 전방으로 발사
+            // rb.AddForce(bulletDirection * _bulletSpeed, ForceMode2D.Impulse);
+
+
+
         }
 
 
