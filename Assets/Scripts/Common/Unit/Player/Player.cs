@@ -11,6 +11,7 @@ namespace nightmareHunter {
     {
         public string playerState;
         public GameObject bulletPoint;
+        public GameObject bulletTargetSpirte;
 
          //총알 프리팹
         [SerializeField]
@@ -75,9 +76,17 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
-            Vector2 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
+            Vector3 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
             float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
+            
+            // 총알 방향 설정
             bulletPoint.transform.rotation = Quaternion.Euler(0, 0, angle);
+            // 과녁 위치 설정
+            Vector3 direction = len - transform.position;
+            direction.Normalize();
+
+            bulletTargetSpirte.transform.position = transform.position + direction * 4.0f;
+
 
             if (isFalling)
             {  
@@ -130,8 +139,6 @@ namespace nightmareHunter {
 
         // 공격 처리
         private void FireBullet() {
-         
-    
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
@@ -139,7 +146,6 @@ namespace nightmareHunter {
 
             
             GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
-
         }
 
 
