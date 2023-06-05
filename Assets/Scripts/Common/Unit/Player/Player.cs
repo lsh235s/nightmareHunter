@@ -85,7 +85,14 @@ namespace nightmareHunter {
             Vector3 direction = len - transform.position;
             direction.Normalize();
 
-            bulletTargetSpirte.transform.position = transform.position + direction * 4.0f;
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = -Camera.main.transform.position.z;
+            Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            Vector3 directions = (targetPosition - bulletPoint.transform.position).normalized;
+
+
+            bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * 0.4f ;
 
 
             if (isFalling)
