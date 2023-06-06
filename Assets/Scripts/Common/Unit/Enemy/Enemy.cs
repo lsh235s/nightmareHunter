@@ -124,7 +124,15 @@ namespace nightmareHunter {
         }
 
         public void DamageProcess(float damage) {
+
+
             if(!"die".Equals(activateStatus)) {
+                Debug.Log("DamageProcess"+transform);
+                Debug.Log(transform.position);
+                GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"),  transform);
+                instantiatedPrefab.transform.position = transform.position;
+                instantiatedPrefab.SetActive(true);
+
                 _hp = _hp - damage;
 
                 isFalling = true;

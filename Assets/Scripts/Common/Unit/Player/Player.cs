@@ -79,12 +79,10 @@ namespace nightmareHunter {
             Vector3 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
             float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
             
+
             // 총알 방향 설정
             bulletPoint.transform.rotation = Quaternion.Euler(0, 0, angle);
             // 과녁 위치 설정
-            Vector3 direction = len - transform.position;
-            direction.Normalize();
-
             Vector3 mousePosition = Input.mousePosition;
             mousePosition.z = -Camera.main.transform.position.z;
             Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
@@ -92,7 +90,7 @@ namespace nightmareHunter {
             Vector3 directions = (targetPosition - bulletPoint.transform.position).normalized;
 
 
-            bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * 0.4f ;
+            bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * _playerinfo.attackRange ;
 
 
             if (isFalling)
