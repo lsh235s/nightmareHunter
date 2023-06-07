@@ -21,7 +21,7 @@ MonoBehaviour:
     lev_health: 1
     attack: 2
     lev_attack: 1
-    attackRange: 2
+    attackRange: 1.4
     lev_attackRange: 1
     move: 1
     lev_move: 1

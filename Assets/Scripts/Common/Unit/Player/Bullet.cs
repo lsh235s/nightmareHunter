@@ -29,7 +29,6 @@ namespace nightmareHunter {
             GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  transform);
             instantiatedPrefab.transform.localScale = new Vector3(15f, 15f, 1f);
             instantiatedPrefab.SetActive(true);
-            instantiatedPrefab.GetComponent<Animator>().SetTrigger("MyTrigger");
             bulletDot.SetActive(false);
         
             StartCoroutine(objectEnd(instantiatedPrefab));

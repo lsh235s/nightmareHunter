@@ -42,11 +42,16 @@ namespace nightmareHunter {
 
         bool isFalling = false;
 
+        // 이펙트 게임 오브젝트
+        GameObject instantiatedPrefab;
+
         private void Awake() {
             isLive = true;
             _rigidbody = GetComponent<Rigidbody2D>();
             skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
             _animator = _skeletonObject.GetComponent<Animator>();
+            instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"),  transform);
+            instantiatedPrefab.SetActive(false); 
 
             for(int i=0; i < wayPointBaseList.Length; i++) {
                 Transform parentTransform = wayPointBaseList[i].transform;
@@ -124,15 +129,23 @@ namespace nightmareHunter {
         }
 
         public void DamageProcess(float damage) {
-
-
             if(!"die".Equals(activateStatus)) {
-                Debug.Log("DamageProcess"+transform);
-                Debug.Log(transform.position);
-                GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"),  transform);
-                instantiatedPrefab.transform.position = transform.position;
-                instantiatedPrefab.SetActive(true);
+                int randomNumber = Random.Range(0, 4);
 
+                if(randomNumber == 0) {
+                    Vector3 rePosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+                    instantiatedPrefab.transform.position = rePosition;
+
+                    if(_target.position.x < _rigidbody.position.x) {
+                        instantiatedPrefab.transform.rotation = Quaternion.Euler(0, 180f, 0);
+                    } else {
+                        instantiatedPrefab.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    }
+                    instantiatedPrefab.SetActive(true);   
+                    float clipLength = instantiatedPrefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+                    StartCoroutine(objectEnd(clipLength));
+                }
+              
                 _hp = _hp - damage;
 
                 isFalling = true;
@@ -146,6 +159,12 @@ namespace nightmareHunter {
                     StartCoroutine(MonsterDie()); 
                 }
             }
+        }
+
+        IEnumerator objectEnd(float clipLength ) {
+            yield return new WaitForSeconds(clipLength);
+            instantiatedPrefab.SetActive(false); 
+            yield return null;
         }
 
 
