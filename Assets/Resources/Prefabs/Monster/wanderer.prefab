@@ -173,6 +173,7 @@ MonoBehaviour:
   _spritesName: wanderer
   _positionInfo: {x: 0, y: 0}
   isDead: 0
+  anim: {fileID: 3314214647874090235}
 --- !u!114 &3314214647269054761
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -196,7 +197,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.018175125, y: 0.17083073}

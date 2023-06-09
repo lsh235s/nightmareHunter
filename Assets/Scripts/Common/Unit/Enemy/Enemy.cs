@@ -45,6 +45,21 @@ namespace nightmareHunter {
         // 이펙트 게임 오브젝트
         GameObject instantiatedPrefab;
 
+        Vector3 NextTargetPosition;
+
+
+        public Animator anim;
+
+        //열거형으로 정해진 상태값을 사용
+        enum State
+        {
+            Idle,
+            Run,
+            Attack
+        }
+        //상태 처리
+        State state;
+
         private void Awake() {
             isLive = true;
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -65,7 +80,8 @@ namespace nightmareHunter {
                 _waypointList.Add(inputPoint); 
             }
             
-
+            //생성시 상태를 Idle로 한다.
+            state = State.Idle;
             activateStatus = "move";
         }
 
@@ -95,26 +111,95 @@ namespace nightmareHunter {
                 StartCoroutine(damageShake());
             }    
 
-            if("move".Equals(activateStatus)) {
-                MonsterMoveProcess();
+            // if("move".Equals(activateStatus)) {
+            //     MonsterMoveProcess();
+            // }
+            //만약 state가 idle이라면
+            if (state == State.Idle)
+            {
+                UpdateIdle();
+            }else if (state == State.Run)
+            {
+                UpdateRun();
+            }
+            else if (state == State.Attack)
+            {
+                UpdateAttack();
             }
         }
 
-        void MonsterMoveProcess() {
-            // if(waypointIndex > 0) {
-            //     waypointType = Random.Range(0, 3);
+        private void UpdateAttack()
+        {
+            // agent.speed = 0;
+            // float distance = Vector3.Distance(transform.position, target.transform.position);
+            // if (distance > 2)
+            // {
+            //     state = State.Run;
+            //     anim.SetTrigger("Run");
             // }
-            _animator.SetFloat("move", 1f);
-    
+        }
 
-            if(waypointIndex < _waypointList[waypointType].Count) {
-                transform.position = Vector2.MoveTowards (transform.position, _waypointList[waypointType][waypointIndex].transform.position, _speed * Time.fixedDeltaTime);
-        
-                if(transform.position == _waypointList[waypointType][waypointIndex].transform.position) {
-                    waypointIndex += 1;
+        private void UpdateRun()
+        {
+            int randomNumber = Random.Range(0, 10000);
+
+            if(randomNumber == 0) {
+                Vector3 randomDirection = Random.insideUnitSphere;
+                // 방향 벡터를 정규화하여 단위 벡터로 만듦
+                randomDirection.Normalize();
+                NextTargetPosition = transform.position + randomDirection * 0.3f;
+            } else {
+                //남은 거리가 0.3f 라면 목적지에 도착 한것으로 판단
+                float distance = Vector3.Distance(transform.position, NextTargetPosition);
+                if (distance <= 0.3f)
+                {
+                    state = State.Idle;
+                    anim.SetTrigger("Idle");
                 }
             }
+            if(state == State.Run) {
+                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+            }
         }
+
+        private void UpdateIdle()
+        {
+            int randomNumber = 0;
+
+            // 첫번째 목적지가 아닐 경우 이동 할지 움직일지 결정
+            if(waypointIndex > 0) {
+                randomNumber = Random.Range(0, 3);
+            }
+ 
+            if(randomNumber == 0) {
+                waypointIndex += 1;
+                NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
+            } else {
+                Vector3 randomDirection = Random.insideUnitSphere;
+                // 방향 벡터를 정규화하여 단위 벡터로 만듦
+                randomDirection.Normalize();
+                NextTargetPosition = transform.position + randomDirection * 0.3f;
+            }
+            state = State.Run;
+            anim.SetTrigger("Run");
+           
+        }
+
+        // void MonsterMoveProcess() {
+        //     // if(waypointIndex > 0) {
+        //     //     waypointType = Random.Range(0, 3);
+        //     // }
+        //     _animator.SetFloat("move", 1f);
+    
+
+        //     if(waypointIndex < _waypointList[waypointType].Count) {
+        //         transform.position = Vector2.MoveTowards (transform.position, _waypointList[waypointType][waypointIndex].transform.position, _speed * Time.fixedDeltaTime);
+        
+        //         if(transform.position == _waypointList[waypointType][waypointIndex].transform.position) {
+        //             waypointIndex += 1;
+        //         }
+        //     }
+        // }
 
         private void LateUpdate() {
             if(!isLive)
