@@ -95,7 +95,8 @@ namespace nightmareHunter {
                 foreach (GameObject item in _monsterList[stateMonster.monsterId])
                 {
                     if (!item.activeSelf) {
-                        item.GetComponent<Enemy>()._target = _uiItController._targetGameObject.GetComponent<Rigidbody2D>();
+                        item.GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
+                        item.GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
                         item.GetComponent<Enemy>().waypointType = stateMonster.moveType;
                         item.transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
                         item.GetComponent<Enemy>().wayPointBaseList = wayPointList;
@@ -106,7 +107,8 @@ namespace nightmareHunter {
                 }
 
                 if (!select) {
-                    _monsters[stateMonster.monsterId].GetComponent<Enemy>()._target = _uiItController._targetGameObject.GetComponent<Rigidbody2D>();
+                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
+                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
                     _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
                     _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
                     _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;
