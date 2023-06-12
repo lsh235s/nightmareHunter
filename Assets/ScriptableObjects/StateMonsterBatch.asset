@@ -17,95 +17,19 @@ MonoBehaviour:
     level: 1
     monsterId: 0
     moveType: 0
+    appearTimer: 00:00
   - id: 1
     level: 1
-    monsterId: 1
+    monsterId: 0
     moveType: 1
+    appearTimer: 00:00
   - id: 2
     level: 1
-    monsterId: 1
-    moveType: 2
+    monsterId: 0
+    moveType: 1
+    appearTimer: 00:20
   - id: 3
     level: 1
     monsterId: 0
     moveType: 3
-  - id: 4
-    level: 1
-    monsterId: 0
-    moveType: 0
-  - id: 5
-    level: 1
-    monsterId: 1
-    moveType: 1
-  - id: 6
-    level: 1
-    monsterId: 1
-    moveType: 2
-  - id: 7
-    level: 1
-    monsterId: 0
-    moveType: 3
-  - id: 8
-    level: 1
-    monsterId: 0
-    moveType: 0
-  - id: 9
-    level: 1
-    monsterId: 1
-    moveType: 1
-  - id: 10
-    level: 1
-    monsterId: 1
-    moveType: 2
-  - id: 11
-    level: 1
-    monsterId: 0
-    moveType: 3
-  - id: 12
-    level: 1
-    monsterId: 0
-    moveType: 0
-  - id: 13
-    level: 1
-    monsterId: 1
-    moveType: 1
-  - id: 14
-    level: 1
-    monsterId: 1
-    moveType: 2
-  - id: 15
-    level: 1
-    monsterId: 0
-    moveType: 3
-  - id: 16
-    level: 1
-    monsterId: 0
-    moveType: 0
-  - id: 17
-    level: 1
-    monsterId: 1
-    moveType: 1
-  - id: 18
-    level: 1
-    monsterId: 1
-    moveType: 2
-  - id: 19
-    level: 1
-    monsterId: 0
-    moveType: 3
-  - id: 20
-    level: 1
-    monsterId: 0
-    moveType: 0
-  - id: 21
-    level: 1
-    monsterId: 1
-    moveType: 1
-  - id: 22
-    level: 1
-    monsterId: 1
-    moveType: 2
-  - id: 23
-    level: 1
-    monsterId: 0
-    moveType: 3
+    appearTimer: 00:20

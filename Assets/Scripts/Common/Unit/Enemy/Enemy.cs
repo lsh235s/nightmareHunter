@@ -146,7 +146,7 @@ namespace nightmareHunter {
             } else {
                 if(PlayerDistance <= _attackRange) {
                     state = State.PlayerAttack;
-                } else if(ClientDistance > 1.0f && PlayerDistance > 1.0f) {
+                } else if(ClientDistance > 1.0f && PlayerDistance > 1.0f && (state == State.PlayerAttack || state == State.ClientAttack)) {
                     lastAttackTime = 0.0f;
                     state = State.Idle;
                 } 
@@ -160,6 +160,7 @@ namespace nightmareHunter {
                 // 공격 실행
                 playerTarget.GetComponent<Player>().OnEventPlayerDamage(_attack,transform.position); 
                 state = State.Idle;
+                anim.SetTrigger("Idle");
             }
             // 공격 타이머를 증가시킴
             lastAttackTime += Time.deltaTime;
@@ -175,13 +176,6 @@ namespace nightmareHunter {
 
         private void UpdateClientAttack()
         {
-            // agent.speed = 0;
-            // float distance = Vector3.Distance(transform.position, target.transform.position);
-            // if (distance > 2)
-            // {
-            //     state = State.Run;
-            //     anim.SetTrigger("Run");
-            // }
         }
 
         private void UpdateBored() {

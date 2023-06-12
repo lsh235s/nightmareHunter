@@ -15,6 +15,8 @@ namespace nightmareHunter {
         private List<GameObject>[] _monsterList;
         public GameObject[] _monsters;
 
+        string appearStageTimer = "";
+
 
         UnitController _uiItController;
 
@@ -34,16 +36,29 @@ namespace nightmareHunter {
             StartCoroutine(_loadingControl.FadeInStart());
             
             //몬스터 배치
-            monsterInit();
+           monsterInit();
         }         
 
         void Update() {
-            if(!stageClear) {
-                if(AreAllMonstersDead(_monsterList)) {
-                    stageClear = true;
-                    UiController.Instance.stageClear();
-                }
-            } 
+            monsterInitappear();
+
+            if(appearStageTimer != "" ) { 
+                if(!stageClear) {
+                    if(AreAllMonstersDead(_monsterList)) {
+                        stageClear = true;
+                        UiController.Instance.stageClear();
+                    }
+                } 
+            }
+
+
+        }
+
+        void monsterInitappear() {
+            if(UiController.Instance._timerText.text != appearStageTimer) {
+                appearStageTimer = UiController.Instance._timerText.text;
+                StartCoroutine(MonsterBuild(appearStageTimer));
+            }
         }
 
         bool AreAllMonstersDead(List<GameObject>[] monsterGroups)
@@ -74,13 +89,14 @@ namespace nightmareHunter {
             for (int i = 0; i < _monsterList.Length; i++) {
                 _monsterList[i] = new List<GameObject>();
             }
-            StartCoroutine(MonsterBuild());
         }
 
-        IEnumerator MonsterBuild() {
+        IEnumerator MonsterBuild(string appearStageTimer) {
            for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
+                    MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+                }
                 int randomInt = Random.Range(1, 2);
-                MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
                 yield return new WaitForSeconds((float)randomInt);
             }
         }
