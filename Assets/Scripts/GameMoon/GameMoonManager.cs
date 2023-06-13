@@ -19,8 +19,8 @@ namespace nightmareHunter {
 
 
         UnitController _uiItController;
-
         bool stageClear = false;
+        int monsterBuildCount = 0;
 
         void Awake() {
             UiController.Instance.LoadStart();
@@ -50,14 +50,18 @@ namespace nightmareHunter {
                     }
                 } 
             }
-
-
         }
 
         void monsterInitappear() {
             if(UiController.Instance._timerText.text != appearStageTimer) {
                 appearStageTimer = UiController.Instance._timerText.text;
-                StartCoroutine(MonsterBuild(appearStageTimer));
+
+                for (int i = monsterBuildCount; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                    if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
+                        MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+                        monsterBuildCount++;
+                    }
+                }
             }
         }
 
@@ -88,16 +92,6 @@ namespace nightmareHunter {
 
             for (int i = 0; i < _monsterList.Length; i++) {
                 _monsterList[i] = new List<GameObject>();
-            }
-        }
-
-        IEnumerator MonsterBuild(string appearStageTimer) {
-           for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
-                if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
-                    MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
-                }
-                int randomInt = Random.Range(1, 2);
-                yield return new WaitForSeconds((float)randomInt);
             }
         }
 

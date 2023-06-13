@@ -57,6 +57,7 @@ namespace nightmareHunter {
         {
             Idle,
             Run,
+            Tracking,
             ClientAttack,
             PlayerAttack,
             Bored
@@ -113,7 +114,9 @@ namespace nightmareHunter {
                 StartCoroutine(damageShake());
             }    
 
-            AttackRadar();  // 공격 대상 판단 
+            if(state == State.Idle || state == State.Run || state == State.Bored) {
+                AttackRadar();  // 공격 대상 판단 
+            }
 
             if (state == State.Idle) // 대기중 일때 다음 이동 지점 판단
             {
@@ -122,6 +125,10 @@ namespace nightmareHunter {
             else if (state == State.Run) // 목표지점 이동중 일 때 정상적인 이동 판단
             {
                 UpdateRun();
+            } 
+            else if (state == State.Tracking) 
+            { // 근처에 주인공이 존재시 추적 판단.
+                UpdateTracking();
             }
             else if (state == State.Bored) // 대기 중 일때 다음 행동 판단
             {
@@ -141,36 +148,73 @@ namespace nightmareHunter {
           
             float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
             float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
-            if(ClientDistance <= _attackRange) {
-                state = State.ClientAttack;
-            } else {
-                if(PlayerDistance <= _attackRange) {
-                    state = State.PlayerAttack;
-                } else if(ClientDistance > 1.0f && PlayerDistance > 1.0f && (state == State.PlayerAttack || state == State.ClientAttack)) {
-                    lastAttackTime = 0.0f;
-                    state = State.Idle;
-                } 
+
+            if(PlayerDistance <= (_attackRange * 2)) {
+                NextTargetPosition = playerTarget.transform.position ;
+                state = State.Tracking;
+                anim.SetTrigger("Run");
             } 
+
+            if(PlayerDistance <= _attackRange) {
+                state = State.PlayerAttack;
+            } else if(ClientDistance <= _attackRange) {
+                state = State.ClientAttack;
+            } else if(ClientDistance > 1.0f && PlayerDistance > 1.0f && (state == State.PlayerAttack || state == State.ClientAttack)) {
+                lastAttackTime = 0.0f;
+                state = State.Idle;
+            }
+        }
+
+        private void UpdateTracking() {
+            float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
+            float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
+
+            if(PlayerDistance > (_attackRange * 2)) {
+                NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
+                lastAttackTime = 0.0f;
+                state = State.Bored;
+                anim.SetTrigger("Run");
+            } 
+
+            if(PlayerDistance <= _attackRange) {
+                state = State.PlayerAttack;
+            } else if(ClientDistance <= _attackRange) {
+                state = State.ClientAttack;
+            }
+
+            if(state == State.Tracking) {
+                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+            }
         }
 
         private void UpdatePlayerAttack()
         {   
-            if(lastAttackTime == 0.0f) {
-                anim.SetTrigger("Attack");
-                // 공격 실행
-                playerTarget.GetComponent<Player>().OnEventPlayerDamage(_attack,transform.position); 
-                state = State.Idle;
-                anim.SetTrigger("Idle");
-            }
-            // 공격 타이머를 증가시킴
-            lastAttackTime += Time.deltaTime;
+            float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
+            float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
 
-            // 공격 타이머가 공격 속도보다 크거나 같은지 확인
-            if (lastAttackTime >= _attackSpeed)
-            {
-                // 공격 타이머 초기화
+            if(ClientDistance > 1.0f && PlayerDistance > 1.0f && (state == State.PlayerAttack || state == State.ClientAttack)) {
                 lastAttackTime = 0.0f;
+                state = State.Idle;
+            } else {
+                if(lastAttackTime == 0.0f) {
+                    anim.SetTrigger("Attack");
+                    // 공격 실행
+                    playerTarget.GetComponent<Player>().OnEventPlayerDamage(_attack,transform.position); 
+                    state = State.Idle;
+                    anim.SetTrigger("Idle");
+                }
+                // 공격 타이머를 증가시킴
+                lastAttackTime += Time.deltaTime;
+
+                // 공격 타이머가 공격 속도보다 크거나 같은지 확인
+                if (lastAttackTime >= _attackSpeed)
+                {
+                    // 공격 타이머 초기화
+                    lastAttackTime = 0.0f;
+                }
             }
+
+          
             
         }
 
