@@ -40,7 +40,7 @@ namespace nightmareHunter {
         }         
 
         void Update() {
-            monsterInitappear();
+            //monsterInitappear();
 
             if(appearStageTimer != "" ) { 
                 if(!stageClear) {
@@ -58,7 +58,7 @@ namespace nightmareHunter {
 
                 for (int i = monsterBuildCount; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
                     if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
-                        MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+                        _monsterList[0][monsterBuildCount].SetActive(true);
                         monsterBuildCount++;
                     }
                 }
@@ -92,6 +92,11 @@ namespace nightmareHunter {
 
             for (int i = 0; i < _monsterList.Length; i++) {
                 _monsterList[i] = new List<GameObject>();
+            }
+
+            
+            for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
             }
         }
 
@@ -129,6 +134,7 @@ namespace nightmareHunter {
             } else {
                 Debug.Log("not find monsterID");
             }
+            select.SetActive(false);
 
             return select;
         }
