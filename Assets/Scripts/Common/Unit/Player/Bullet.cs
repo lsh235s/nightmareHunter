@@ -11,6 +11,7 @@ namespace nightmareHunter {
         public float range; // 사거리
         public Vector3 initialPosition; // 초기 위치
         public GameObject bulletDot; // 총알
+        public float _bulletSpeed; // 총알 속도
         public GameObject MainObject;
 
         private int targetCount = 0; // 타겟 카운트
@@ -28,7 +29,6 @@ namespace nightmareHunter {
             GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  transform);
             instantiatedPrefab.transform.localScale = new Vector3(15f, 15f, 1f);
             instantiatedPrefab.SetActive(true);
-            instantiatedPrefab.GetComponent<Animator>().SetTrigger("MyTrigger");
             bulletDot.SetActive(false);
         
             StartCoroutine(objectEnd(instantiatedPrefab));
@@ -39,6 +39,11 @@ namespace nightmareHunter {
             if (Vector3.Distance(transform.position, initialPosition) >= range)
             {
                 Destroy(gameObject); // 총알 삭제
+            } else {
+                if(!activeflag) {
+                    // 일정한 속도로 위쪽으로 이동
+                    transform.Translate(Vector2.right * _bulletSpeed * Time.deltaTime);
+                }
             }
         }
 
@@ -51,7 +56,9 @@ namespace nightmareHunter {
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if(collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+            Debug.Log(collision.gameObject.tag);
+            if(collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+                Debug.Log(collision.gameObject.tag);
                 Destroy(gameObject);
             }
             if(!activeflag) {
@@ -62,7 +69,6 @@ namespace nightmareHunter {
                             targetCount++;
                             EffectAnimation();
                         }
-                        rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
                     }
                 }
             }

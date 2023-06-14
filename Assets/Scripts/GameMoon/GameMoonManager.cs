@@ -15,10 +15,12 @@ namespace nightmareHunter {
         private List<GameObject>[] _monsterList;
         public GameObject[] _monsters;
 
+        string appearStageTimer = "";
+
 
         UnitController _uiItController;
-
         bool stageClear = false;
+        int monsterBuildCount = 0;
 
         void Awake() {
             UiController.Instance.LoadStart();
@@ -34,16 +36,33 @@ namespace nightmareHunter {
             StartCoroutine(_loadingControl.FadeInStart());
             
             //몬스터 배치
-            monsterInit();
+           monsterInit();
         }         
 
         void Update() {
-            if(!stageClear) {
-                if(AreAllMonstersDead(_monsterList)) {
-                    stageClear = true;
-                    UiController.Instance.stageClear();
+            monsterInitappear();
+
+            if(appearStageTimer != "" ) { 
+                if(!stageClear) {
+                    if(AreAllMonstersDead(_monsterList)) {
+                        stageClear = true;
+                        UiController.Instance.stageClear();
+                    }
+                } 
+            }
+        }
+
+        void monsterInitappear() {
+            if(UiController.Instance._timerText.text != appearStageTimer) {
+                appearStageTimer = UiController.Instance._timerText.text;
+
+                for (int i = monsterBuildCount; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                    if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
+                        MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+                        monsterBuildCount++;
+                    }
                 }
-            } 
+            }
         }
 
         bool AreAllMonstersDead(List<GameObject>[] monsterGroups)
@@ -74,15 +93,6 @@ namespace nightmareHunter {
             for (int i = 0; i < _monsterList.Length; i++) {
                 _monsterList[i] = new List<GameObject>();
             }
-            StartCoroutine(MonsterBuild());
-        }
-
-        IEnumerator MonsterBuild() {
-           for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
-                int randomInt = Random.Range(1, 2);
-                MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
-                yield return new WaitForSeconds((float)randomInt);
-            }
         }
 
 
@@ -95,7 +105,8 @@ namespace nightmareHunter {
                 foreach (GameObject item in _monsterList[stateMonster.monsterId])
                 {
                     if (!item.activeSelf) {
-                        item.GetComponent<Enemy>()._target = _uiItController._targetGameObject.GetComponent<Rigidbody2D>();
+                        item.GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
+                        item.GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
                         item.GetComponent<Enemy>().waypointType = stateMonster.moveType;
                         item.transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
                         item.GetComponent<Enemy>().wayPointBaseList = wayPointList;
@@ -106,7 +117,8 @@ namespace nightmareHunter {
                 }
 
                 if (!select) {
-                    _monsters[stateMonster.monsterId].GetComponent<Enemy>()._target = _uiItController._targetGameObject.GetComponent<Rigidbody2D>();
+                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
+                    _monsters[stateMonster.monsterId].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
                     _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
                     _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
                     _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;

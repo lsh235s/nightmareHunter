@@ -19,18 +19,20 @@ public class StateMonster
     public int level;
     public int monsterId;
     public int moveType;
+    public string appearTimer;
    
     public StateMonster()
     {
 
     }
 
-    public StateMonster(int Id,int Level,int MonsterId,int MoveType)
+    public StateMonster(int Id,int Level,int MonsterId,int MoveType,string AppearTimer)
     {
         id = Id;
         level = Level;
         monsterId = MonsterId;
         moveType = MoveType;
-       
+        appearTimer = AppearTimer;
+
     }
 }

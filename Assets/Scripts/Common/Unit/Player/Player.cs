@@ -10,6 +10,8 @@ namespace nightmareHunter {
     public class Player : MonoBehaviour
     {
         public string playerState;
+        public GameObject bulletPoint;
+        public GameObject bulletTargetSpirte;
 
          //총알 프리팹
         [SerializeField]
@@ -51,9 +53,6 @@ namespace nightmareHunter {
 
         private SkeletonMecanim skeletonMecanim;
         private Animator _animator;
-
-
-
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -77,6 +76,23 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
+            Vector3 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
+            float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
+            
+
+            // 총알 방향 설정
+            bulletPoint.transform.rotation = Quaternion.Euler(0, 0, angle);
+            // 과녁 위치 설정
+            Vector3 mousePosition = Input.mousePosition;
+            mousePosition.z = -Camera.main.transform.position.z;
+            Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            Vector3 directions = (targetPosition - bulletPoint.transform.position).normalized;
+
+
+            bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * _playerinfo.attackRange ;
+
+
             if (isFalling)
             {  
                 StartCoroutine(damageShake());
@@ -128,29 +144,13 @@ namespace nightmareHunter {
 
         // 공격 처리
         private void FireBullet() {
-            // 발사 위치와 회전 설정
-            Vector3 spawnPosition = transform.position; // 발사 위치는 캐릭터의 위치로 설정
-            Quaternion spawnRotation = transform.rotation; // 발사 회전은 캐릭터의 회전으로 설정
-
-            // 좌우 방향에 따라 총알 발사 방향 설정
-            Vector3 bulletDirection = transform.right; // 기본적으로 우측 방향으로 설정
-            if (transform.localScale.x < 0) // 스케일이 -1인 경우(좌우가 뒤집혔을 경우)
-            {
-                bulletDirection = -transform.right; // 좌측 방향으로 설정
-            }
-
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
+            _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _bulletSpeed;
 
-            // 프리팹으로부터 새로운 미사일 게임 오브젝트 생성
-            GameObject bullet = Instantiate(_bulletPrefab, transform.position, transform.rotation);
-            // 미사일로부터 리지드바디 2D 컴포넌트 가져옴
-            Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
             
-
-            // 미사일을 전방으로 발사
-            rb.AddForce(bulletDirection * _bulletSpeed, ForceMode2D.Impulse);
+            GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
         }
 
 
@@ -178,44 +178,76 @@ namespace nightmareHunter {
         }
 
 
-        private void OnTriggerEnter2D(Collider2D collision) {
+        // private void OnTriggerEnter2D(Collider2D collision) {
 
-            if(!"die".Equals(playerState) ) {
-                if(collision.GetComponent<Enemy>()) {
-                    if(!"die".Equals(collision.GetComponent<Enemy>().activateStatus)) {
-                        collision.GetComponent<Enemy>().MonsterAttackProcess();
-                        Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
-                        _rigidbody.AddRelativeForce(pushDirection * 300f);
+        //     if(!"die".Equals(playerState) ) {
+        //         if(collision.GetComponent<Enemy>()) {
+        //             if(!"die".Equals(collision.GetComponent<Enemy>().activateStatus)) {
+        //                 //collision.GetComponent<Enemy>().MonsterAttackProcess();
+        //                 Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
+        //                 _rigidbody.AddRelativeForce(pushDirection * 300f);
 
-                        isFalling = true;
-                        _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
+        //                 isFalling = true;
+        //                 _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
                         
-                        if(_playerinfo.health < 0) {
-                            _playerinfo.health = 0;
-                        }
+        //                 if(_playerinfo.health < 0) {
+        //                     _playerinfo.health = 0;
+        //                 }
 
-                        float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+        //                 float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
                         
-                        if(hpRate > 80 && hpRate == 100.0f) {
-                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
-                        } else if (hpRate > 50.0f && hpRate <= 80.0f) {
-                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
-                        } else if (hpRate > 25.0f && hpRate <= 50.0f) {
-                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
-                        } else if (hpRate > 10.0f && hpRate <= 25.0f) {
-                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
-                        } else if (hpRate > 0.0f && hpRate <= 10.0f) {
-                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
-                        } else if (hpRate <= 0.0f) {
-                            UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
-                            _animator.SetTrigger("die");
-                            playerState = "die";
-                            StartCoroutine(gameEnd()); 
-                        }
-                        UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
-                    }
-                }
+        //                 if(hpRate > 80 && hpRate == 100.0f) {
+        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
+        //                 } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
+        //                 } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
+        //                 } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
+        //                 } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
+        //                 } else if (hpRate <= 0.0f) {
+        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
+        //                     _animator.SetTrigger("die");
+        //                     playerState = "die";
+        //                     StartCoroutine(gameEnd()); 
+        //                 }
+        //                 UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
+        //             }
+        //         }
+        //     }
+        // }
+
+        public void OnEventPlayerDamage(float attackDamage, Vector2 enemyPosition) {
+            Vector2 pushDirection = (_rigidbody.position - enemyPosition).normalized;
+            _rigidbody.AddRelativeForce(pushDirection * 300f);
+
+            isFalling = true;
+            _playerinfo.health = _playerinfo.health - attackDamage;
+            
+            if(_playerinfo.health < 0) {
+                _playerinfo.health = 0;
             }
+
+            float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
+            
+            if(hpRate > 80 && hpRate == 100.0f) {
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
+            } else if (hpRate > 50.0f && hpRate <= 80.0f) {
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
+            } else if (hpRate > 25.0f && hpRate <= 50.0f) {
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
+            } else if (hpRate > 10.0f && hpRate <= 25.0f) {
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
+            } else if (hpRate > 0.0f && hpRate <= 10.0f) {
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
+            } else if (hpRate <= 0.0f) {
+                UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
+                _animator.SetTrigger("die");
+                playerState = "die";
+                StartCoroutine(gameEnd()); 
+            }
+            UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
         }
 
 
