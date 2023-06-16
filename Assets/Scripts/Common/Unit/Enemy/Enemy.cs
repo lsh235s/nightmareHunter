@@ -219,13 +219,36 @@ namespace nightmareHunter {
                     lastAttackTime = 0.0f;
                 }
             }
-
-          
-            
         }
 
         private void UpdateClientAttack()
         {
+            float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
+            float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
+
+            if(ClientDistance > 1.0f && PlayerDistance > 1.0f && (state == State.PlayerAttack || state == State.ClientAttack)) {
+                lastAttackTime = 0.0f;
+                state = State.Idle;
+            } else {
+                if(lastAttackTime == 0.0f) {
+                    anim.SetTrigger("Attack");
+                    // 공격 실행
+                    clientTarget.GetComponent<Target>().DamageProcess(_attack); 
+                    if(state != State.Die) {
+                        state = State.Idle;
+                    }
+                    anim.SetTrigger("Idle");
+                }
+                // 공격 타이머를 증가시킴
+                lastAttackTime += Time.deltaTime;
+
+                // 공격 타이머가 공격 속도보다 크거나 같은지 확인
+                if (lastAttackTime >= _attackSpeed)
+                {
+                    // 공격 타이머 초기화
+                    lastAttackTime = 0.0f;
+                }
+            }
         }
 
         private void UpdateBored() {

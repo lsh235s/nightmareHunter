@@ -201,7 +201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.625, y: 1.4949999}
+  m_AnchoredPosition: {x: -3.19, y: -1.83}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &3340696491319737204
@@ -237,8 +237,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95728c9848af4574793042d81231729b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _target: {fileID: 0}
-  waypointType: 2
+  clientTarget: {fileID: 0}
+  playerTarget: {fileID: 0}
+  waypointType: 1
   wayPointBaseList:
   - {fileID: 0}
   - {fileID: 0}
