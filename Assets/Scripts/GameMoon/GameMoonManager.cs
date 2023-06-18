@@ -70,12 +70,10 @@ namespace nightmareHunter {
                             listNum = teller;
                             teller++;
                         }
-                       
 
                         if(!_monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].activeSelf) {
                             _monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].SetActive(true);
                         }
-                       
                     }
                 }
             }
@@ -121,21 +119,20 @@ namespace nightmareHunter {
 
             if(_monsterList.Length > stateMonster.monsterId )
             {
+                _monsters[stateMonster.monsterId].GetComponent<Enemy>()._monsterId = stateMonster.monsterId;
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
                 if(stateMonster.monsterId == 1) {
-                    Debug.Log("텔러나옴");
                     _monsters[stateMonster.monsterId].transform.position = _uiItController._targetGameObject.transform.position;
+                } else {
+                    _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
                 }
-                _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;
                 _monsters[stateMonster.monsterId].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
                 select = Instantiate(_monsters[stateMonster.monsterId]);
                 _monsterList[stateMonster.monsterId].Add(select);
 
-                Debug.Log("Debug(:"+stateMonster.monsterId+")"+_monsterList[stateMonster.monsterId].Count);
-                
                 select.SetActive(false);
             } else {
                 Debug.Log("not find monsterID");

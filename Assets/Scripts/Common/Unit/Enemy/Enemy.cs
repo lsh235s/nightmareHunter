@@ -19,7 +19,6 @@ namespace nightmareHunter {
 
         List<List<Transform>> _waypointList = new List<List<Transform>>();
         bool isLive;
-        public string activateStatus = "stop";
         int waypointIndex = 0;
         private Rigidbody2D _rigidbody;
 
@@ -29,6 +28,7 @@ namespace nightmareHunter {
 
 
         // 몬스터 능력치 
+        public int _monsterId;
         public float _speed;
         public float _hp;
         public float _attack;
@@ -61,10 +61,21 @@ namespace nightmareHunter {
             ClientAttack,
             PlayerAttack,
             Bored,
+            pause,
             Die
+        }
+        enum BuffState
+        {
+            none,
+            slow,
+            stun,
+            freeze,
+            poison
         }
         //상태 처리
         State state;
+
+        BuffState buffState;
 
         private void Awake() {
             isLive = true;
@@ -73,6 +84,7 @@ namespace nightmareHunter {
             _animator = _skeletonObject.GetComponent<Animator>();
             instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"),  transform);
             instantiatedPrefab.SetActive(false); 
+            
 
             for(int i=0; i < wayPointBaseList.Length; i++) {
                 Transform parentTransform = wayPointBaseList[i].transform;
@@ -85,10 +97,26 @@ namespace nightmareHunter {
 
                 _waypointList.Add(inputPoint); 
             }
+
+            if(_monsterId == 1) {
+                //생성시 상태를 Idle로 한다.
+                state = State.pause;
+                GameObject[] objects = GameObject.FindGameObjectsWithTag("Enemy");
+
+                if (objects.Length > 0)
+                {
+                    // 태그가 일치하는 GameObject를 찾았을 때의 동작
+                    foreach (GameObject obj in objects)
+                    {
+                        Debug.Log("GameObject found: " + obj.name);
+                    }
+                }
+            } else {
+                state = State.Idle;
+            }
+
+            anim.SetTrigger("Idle");
             
-            //생성시 상태를 Idle로 한다.
-            state = State.Idle;
-            activateStatus = "move";
         }
 
         public void initState(PlayerInfo playerinfo) {
@@ -145,6 +173,7 @@ namespace nightmareHunter {
             }
         }
 
+
         private void AttackRadar() {
             if(state != State.Die) {
                 float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
@@ -168,7 +197,7 @@ namespace nightmareHunter {
         }
 
         private void UpdateTracking() {
-            if(state != State.Die) {
+            if(state != State.Die && _monsterId != 1) {
                 float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
                 float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
 
@@ -394,13 +423,39 @@ namespace nightmareHunter {
         }
 
 
-        //대상 일정 공속 공격
-        private void OnTriggerEnter2D(Collider2D collision) {
-            if(collision.GetComponent<Target>()) {
-                activateStatus = "targetAttack";
-                damageCoroutine = StartCoroutine(ApplyDamage(collision.gameObject));
-            }
-        }
+        // //대상 일정 공속 공격
+        // private void OnTriggerEnter2D(Collider2D collision) {
+        //     if(collision.GetComponent<Target>()) {
+        //         activateStatus = "targetAttack";
+        //         damageCoroutine = StartCoroutine(ApplyDamage(collision.gameObject));
+        //     }
+        // }
+
+        
+        // private void OnTriggerExit2D(Collider2D collision)
+        // {
+        //     if(!"dead".Equals(activateStatus)) {    
+        //         if(collision.GetComponent<Target>()) 
+        //         {
+        //             activateStatus = "move";
+        //             if(activateStatus != null) {
+        //                 StopCoroutine(damageCoroutine);
+        //             }
+        //         }
+        //     }
+        // }
+
+
+        //         private IEnumerator ApplyDamage(GameObject collisionObject)
+        // {
+        //     while ("targetAttack".Equals(activateStatus))
+        //     {
+        //         yield return new WaitForSeconds(_attackSpeed);
+        //         _animator.SetTrigger("atk");
+        //         collisionObject.GetComponent<Target>().DamageProcess(_attack);
+        //     }
+        // }
+
 
         private IEnumerator MonsterDie() {
             yield return new WaitForSeconds(1.5f);
@@ -409,29 +464,8 @@ namespace nightmareHunter {
         }
 
 
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if(!"dead".Equals(activateStatus)) {    
-                if(collision.GetComponent<Target>()) 
-                {
-                    activateStatus = "move";
-                    if(activateStatus != null) {
-                        StopCoroutine(damageCoroutine);
-                    }
-                }
-            }
-        }
 
 
-        private IEnumerator ApplyDamage(GameObject collisionObject)
-        {
-            while ("targetAttack".Equals(activateStatus))
-            {
-                yield return new WaitForSeconds(_attackSpeed);
-                _animator.SetTrigger("atk");
-                collisionObject.GetComponent<Target>().DamageProcess(_attack);
-            }
-        }
 
         private IEnumerator damageShake() {
             skeletonMecanim.transform.position  += new Vector3(0.02f, 0, 0);
