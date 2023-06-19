@@ -55,27 +55,20 @@ namespace nightmareHunter {
         //열거형으로 정해진 상태값을 사용
         enum State
         {
-            Idle,
-            Run,
-            Tracking,
-            ClientAttack,
-            PlayerAttack,
-            Bored,
-            pause,
-            Die
+            Idle,  //보통 상태
+            Run,  //이동 상태
+            ClientTracking, //의뢰인 추적 상태
+            Tracking, //주인공 추적 상태
+            ClientAttack, // 의뢰인 공격
+            PlayerAttack, //플레이어 공격
+            Bored, // 지루함
+            pause, // 일시정지
+            Die //죽음
         }
-        enum BuffState
-        {
-            none,
-            slow,
-            stun,
-            freeze,
-            poison
-        }
+      
         //상태 처리
         State state;
 
-        BuffState buffState;
 
         private void Awake() {
             isLive = true;
@@ -154,8 +147,12 @@ namespace nightmareHunter {
                 {
                     UpdateRun();
                 } 
-                else if (state == State.Tracking) 
-                { // 근처에 주인공이 존재시 추적 판단.
+                else if (state == State.ClientTracking)  //무조건 의뢰인을 추적.
+                {
+                    UpdateClientTracking();
+                }
+                else if (state == State.Tracking)  // 근처에 주인공이 존재시 추적 판단.
+                {
                     UpdateTracking();
                 }
                 else if (state == State.Bored) // 대기 중 일때 다음 행동 판단
@@ -217,6 +214,19 @@ namespace nightmareHunter {
                 if(state == State.Tracking) {
                     transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
                 }
+            }
+        }
+
+        private void UpdateClientTracking() {
+            float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
+            NextTargetPosition = clientTarget.transform.position;
+
+            if(ClientDistance <= _attackRange) {
+                state = State.ClientAttack;
+            }
+
+            if(state == State.ClientTracking) {
+                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
             }
         }
 

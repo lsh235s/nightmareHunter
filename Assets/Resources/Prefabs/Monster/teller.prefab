@@ -171,10 +171,10 @@ GameObject:
   - component: {fileID: 8015769705622175617}
   - component: {fileID: 3340696491319737204}
   - component: {fileID: 3340696491319737205}
-  - component: {fileID: 3340696491319737206}
   - component: {fileID: 3340696491319737207}
   - component: {fileID: -7256078858057564247}
   - component: {fileID: 580493924177368148}
+  - component: {fileID: 3181846422279131821}
   m_Layer: 6
   m_Name: teller
   m_TagString: Enemy
@@ -201,7 +201,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -3.19, y: -1.83}
+  m_AnchoredPosition: {x: 2, y: 1}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &3340696491319737204
@@ -246,7 +246,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _skeletonObject: {fileID: 3340696490623419472}
-  activateStatus: stop
+  _monsterId: 1
   _speed: 0.5
   _hp: 20
   _attack: 2
@@ -257,19 +257,6 @@ MonoBehaviour:
   _positionInfo: {x: 0, y: 0}
   isDead: 0
   anim: {fileID: 3340696490623419487}
---- !u!114 &3340696491319737206
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3340696491319737192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77ab4e184eced3d4d9a7dd1f034bd67d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerAwarenessDistance: 5
 --- !u!70 &3340696491319737207
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -390,6 +377,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3340696491319737192}
   m_CullTransparentMesh: 1
+--- !u!114 &3181846422279131821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340696491319737192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f965e1553923e964c9bc0fe6c8818117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8080119483075693222
 GameObject:
   m_ObjectHideFlags: 0
