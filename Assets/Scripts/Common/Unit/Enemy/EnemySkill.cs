@@ -2,47 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySkill : MonoBehaviour
-{
-    Enemy enemy;
-
-    public Dictionary<string, bool> skillList = new Dictionary<string, bool>();
-
-    void Start()
+namespace nightmareHunter {
+    public class EnemySkill : MonoBehaviour
     {
-        enemy = GetComponent<Enemy>();
-        skillList.Add("AttackUp", false);
-        skillList.Add("AttackSpeedUp", false);
-        skillList.Add("MoveSpeedUp", false);
-        skillList.Add("TargetFix", false);
-        skillList.Add("TellerCry", false);
-    }
-
-    public void skillUseOn(string skillName) {
-        skillList[skillName] = true;
-    }
-
-    public void skillUseOff(string skillName) {
-        skillList[skillName] = false;
-    }
-
-    public void skillUse(string skillName) {
-        if (skillList[skillName]) {
+    
+        public void skillUse(string skillName) {
             switch (skillName) {
-                case "AttackUp":
-                    enemy.attack += 10;
-                    break;
-                case "AttackSpeedUp":
-                    enemy.attackSpeed += 0.5f;
-                    break;
-                case "MoveSpeedUp":
-                    enemy.moveSpeed += 0.5f;
-                    break;
-                case "TargetFix":
-                    enemy.targetFix = true;
-                    break;
-                case "TellerCry":
-                    enemy.tellerCry = true;
+                //텔러 울부짖기
+                //모든 원더러가 의뢰자를 공격하며 공격력과 이동속도가 증가한다, 탤러가 죽을때 까지 지속
+                case "TellerCry": 
+                    GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("Enemy");
+
+                    // 검색된 GameObject에 대한 작업 수행
+                    foreach (GameObject gameObject in gameObjectsWithTag)
+                    {
+                        if(gameObject.GetComponent<Enemy>()._monsterId == 0) {
+                            gameObject.GetComponent<Enemy>().skillList["AttackUp"] = true;
+                            gameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = true;
+                            gameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = true;
+                        } 
+                    }
                     break;
             }
         }

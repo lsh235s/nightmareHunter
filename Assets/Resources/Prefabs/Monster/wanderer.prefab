@@ -163,6 +163,11 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _skeletonObject: {fileID: 3314214647874090232}
+  _initSpeed: 0.3
+  _initHp: 30
+  _initAttack: 5
+  _initAttackSpeed: 3
+  _initAttackRange: 0.3
   _monsterId: 0
   _speed: 0.3
   _hp: 30
