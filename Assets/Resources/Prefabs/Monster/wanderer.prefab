@@ -162,7 +162,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   _skeletonObject: {fileID: 3314214647874090232}
+  targetNum: -1
   _initSpeed: 0.3
   _initHp: 30
   _initAttack: 5

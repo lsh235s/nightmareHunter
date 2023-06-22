@@ -19,7 +19,8 @@ namespace nightmareHunter {
 
         List<List<Transform>> _waypointList = new List<List<Transform>>();
         bool isLive;
-        int waypointIndex = 0;
+        int waypointIndex = 0; //웨이포인트 인덱스
+        public int targetNum = -1; //클라이언트 타겟 일경우 이동 인덱스
         private Rigidbody2D _rigidbody;
 
         
@@ -105,7 +106,7 @@ namespace nightmareHunter {
                 _waypointList.Add(inputPoint); 
             }
 
-            if(_monsterId != 1) {
+            if(_monsterId == 1) {
                 anim.SetTrigger("Attack");
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
             }
@@ -247,13 +248,45 @@ namespace nightmareHunter {
         }
 
         private void UpdateClientTracking() {
-             float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
-            NextTargetPosition = clientTarget.transform.position;
-
+            float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
+            float TrackDistance = 0.0f;
+          
+            if(targetNum == -1) {
+                for(int i = 0; i < _waypointList[4].Count; i++) {
+                    if(i == 0) {
+                        TrackDistance = Vector3.Distance(transform.position, _waypointList[4][i].transform.position);
+                        targetNum = 0;
+                    } else {
+                        if(TrackDistance > Vector3.Distance(transform.position, _waypointList[4][i].transform.position)) {
+                            TrackDistance = Vector3.Distance(transform.position, _waypointList[4][i].transform.position);
+                            targetNum = i;
+                        }
+                    }
+                }
+            } else {
+                float distance = Vector3.Distance(transform.position, NextTargetPosition);
+                if (distance <= 0.5f)
+                {
+                    if(_waypointList[4].Count -1 > targetNum) {
+                        targetNum++;
+                    }
+                } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance  * 1000f) / 1000f)) {
+                    distanceCheckCount++;
+                    if(distanceCheckCount > 4) {
+                        if(_waypointList[4].Count -1 > targetNum) {
+                            targetNum++;
+                        }
+                    }
+                } else {
+                    distanceCheck = distance;
+                    distanceCheckCount = 0;
+                }
+            }
+            
+            NextTargetPosition = _waypointList[4][targetNum].transform.position;
             if(ClientDistance <= _attackRange) {
                 state = State.ClientAttack;
             }
-
             if(state == State.ClientTracking) {
                 transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
             }

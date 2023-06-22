@@ -20,6 +20,7 @@ namespace nightmareHunter {
                             gameObject.GetComponent<Enemy>().skillList["AttackUp"] = true;
                             gameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = true;
                             gameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = true;
+                            gameObject.GetComponent<Enemy>().targetNum = -1;
                         } 
                     }
                     break;
