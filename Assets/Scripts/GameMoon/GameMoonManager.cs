@@ -60,22 +60,39 @@ namespace nightmareHunter {
             if(UiController.Instance._timerText.text != appearStageTimer) {
                 appearStageTimer = UiController.Instance._timerText.text;
 
-                for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
                     listNum = 0;
-                    if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
-                        if(_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId == 0) {
+                    if(appearStageTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"])) {
+                        if((int)_uiItController.DevelMonsterBatch[i]["MonsterId"] == 0) {
                             listNum = wanderer;
                             wanderer++;
-                        } else if(_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId == 1) {
+                        } else if((int)_uiItController.DevelMonsterBatch[i]["MonsterId"] == 1) {
                             listNum = teller;
                             teller++;
                         }
 
-                        if(!_monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].activeSelf) {
-                            _monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].SetActive(true);
+                        if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf) {
+                            _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
                         }
                     }
                 }
+
+                // for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+                //     listNum = 0;
+                //     if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
+                //         if(_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId == 0) {
+                //             listNum = wanderer;
+                //             wanderer++;
+                //         } else if(_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId == 1) {
+                //             listNum = teller;
+                //             teller++;
+                //         }
+
+                //         if(!_monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].activeSelf) {
+                //             _monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].SetActive(true);
+                //         }
+                //     }
+                // }
             }
         }
 
@@ -108,30 +125,61 @@ namespace nightmareHunter {
                 _monsterList[i] = new List<GameObject>();
             }
 
-            for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
-                MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+            for (int i = 0; i <  _uiItController.DevelMonsterBatch.Count; i++) {
+                MonsterGet(_uiItController.DevelMonsterBatch[i]);
             }
+
+            // for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
+            //     MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
+            // }
         }
 
 
-        public GameObject MonsterGet(StateMonster stateMonster) {
+        //public GameObject MonsterGet(StateMonster stateMonster) {
+        //     GameObject select = null;
+
+        //     if(_monsterList.Length > stateMonster.monsterId )
+        //     {
+        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>()._monsterId = stateMonster.monsterId;
+        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
+        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
+        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
+        //         if(stateMonster.monsterId == 1) {
+        //             _monsters[stateMonster.monsterId].transform.position = _uiItController._targetGameObject.transform.position;
+        //         } else {
+        //             _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
+        //         }
+        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;
+        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
+        //         select = Instantiate(_monsters[stateMonster.monsterId]);
+        //         _monsterList[stateMonster.monsterId].Add(select);
+
+        //         select.SetActive(false);
+        //     } else {
+        //         Debug.Log("not find monsterID");
+        //     }
+
+        //     return select;
+        // }
+        
+        public GameObject MonsterGet(Dictionary<string, object> stateMonster)  {
             GameObject select = null;
 
-            if(_monsterList.Length > stateMonster.monsterId )
+            if(_monsterList.Length > (int)stateMonster["MonsterId"])
             {
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>()._monsterId = stateMonster.monsterId;
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
-                if(stateMonster.monsterId == 1) {
-                    _monsters[stateMonster.monsterId].transform.position = _uiItController._targetGameObject.transform.position;
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>()._monsterId = (int)stateMonster["MonsterId"];
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().waypointType = (int)stateMonster["MoveType"];
+                if((int)stateMonster["MonsterId"] == 1) {
+                    _monsters[(int)stateMonster["MonsterId"]].transform.position = _uiItController._targetGameObject.transform.position;
                 } else {
-                    _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
+                    _monsters[(int)stateMonster["MonsterId"]].transform.position = wayPointList[(int)stateMonster["MoveType"]].transform.GetChild(0).gameObject.transform.position;
                 }
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;
-                _monsters[stateMonster.monsterId].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
-                select = Instantiate(_monsters[stateMonster.monsterId]);
-                _monsterList[stateMonster.monsterId].Add(select);
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().wayPointBaseList = wayPointList;
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
+                select = Instantiate(_monsters[(int)stateMonster["MonsterId"]]);
+                _monsterList[(int)stateMonster["MonsterId"]].Add(select);
 
                 select.SetActive(false);
             } else {

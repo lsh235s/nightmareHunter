@@ -135,12 +135,12 @@ namespace nightmareHunter {
             return playerInfo;
         }
 
-        public PlayerInfo LoadMonsterInfo( UnitObject unitObject, StateMonster stateMonster) {
+        public PlayerInfo LoadMonsterInfo( UnitObject unitObject, Dictionary<string, object> stateMonster) {
             PlayerInfo playerInfo = new PlayerInfo();
-            playerInfo.playerLevel = stateMonster.level;
+            playerInfo.playerLevel = (int)stateMonster["Level"];
             
             for(int i = 0; i < unitObject.unitList.Count; i++) {
-                if (unitObject.unitList[i].unitType == 1 && unitObject.unitList[i].id == stateMonster.monsterId) {
+                if (unitObject.unitList[i].unitType == 1 && unitObject.unitList[i].id == (int)stateMonster["MonsterId"]) {
                     playerInfo.health = unitObject.unitList[i].health + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_health);
                     playerInfo.attack = unitObject.unitList[i].attack + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attack);
                     playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
@@ -152,6 +152,25 @@ namespace nightmareHunter {
             }
             return playerInfo;
         }
+
+
+        //         public PlayerInfo LoadMonsterInfo( UnitObject unitObject, StateMonster stateMonster) {
+        //     PlayerInfo playerInfo = new PlayerInfo();
+        //     playerInfo.playerLevel = stateMonster.level;
+            
+        //     for(int i = 0; i < unitObject.unitList.Count; i++) {
+        //         if (unitObject.unitList[i].unitType == 1 && unitObject.unitList[i].id == stateMonster.monsterId) {
+        //             playerInfo.health = unitObject.unitList[i].health + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_health);
+        //             playerInfo.attack = unitObject.unitList[i].attack + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attack);
+        //             playerInfo.attackRange = unitObject.unitList[i].attackRange + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackRange);
+        //             playerInfo.move = unitObject.unitList[i].move + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_move);
+        //             playerInfo.attackSpeed = unitObject.unitList[i].attackSpeed + ((playerInfo.playerLevel-1) * unitObject.unitList[i].lev_attackSpeed);
+        //             playerInfo.reward = unitObject.unitList[i].reward;
+        //             playerInfo.spritesName = unitObject.unitList[i].spritesName;
+        //         }
+        //     }
+        //     return playerInfo;
+        // }
 
 
         public void SaveSystemInfo(SystemSaveInfo systemSaveInfo) {

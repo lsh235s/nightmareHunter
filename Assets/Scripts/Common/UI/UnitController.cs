@@ -9,7 +9,11 @@ namespace nightmareHunter {
     {
         // 저장 데이터
         public UnitObject _unitObject;
+
+        //운영 시 몬스터 배치 정보
         public StateMonsterBatch _stateMonsterBatch ;
+        //개발 시 몬스터 배치 정보
+        public List<Dictionary<string, object>> DevelMonsterBatch  ;
 
         // 저장 기능 관련
         public GameDataManager gameDataManager ;
@@ -23,8 +27,12 @@ namespace nightmareHunter {
 
         
         // Start is called before the first frame update
-        void Awake() {
+        void Awake() {           
             gameDataManager = new GameDataManager();
+
+           
+            DevelMonsterBatch =  CSVReader.Read("StateMonsterBatch");
+
         }
 
         public void GameStart()
