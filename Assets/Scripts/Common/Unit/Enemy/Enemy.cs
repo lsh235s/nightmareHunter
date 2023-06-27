@@ -116,9 +116,9 @@ namespace nightmareHunter {
 
         public void initState(PlayerInfo playerinfo) {
             _speed = playerinfo.move;
-            if(_speed <= 0) {
-                _speed = 1.0f;
-            }
+            // if(_speed <= 0) {
+            //     _speed = 1.0f;
+            // }
             _hp = playerinfo.health;
             _attack = playerinfo.attack;
             _attackSpeed = playerinfo.attackSpeed;

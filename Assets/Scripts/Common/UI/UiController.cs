@@ -36,12 +36,10 @@ namespace nightmareHunter {
         public int sceneMode;  //0: sun, 1: moon
 
 
-        // 저장 기능 관련
-        public GameDataManager gameDataManager ;
         // 스테이지 정보 저장
         public SystemSaveInfo systemSaveInfo; 
         
-
+        GameDataManager gameDataManager =  new GameDataManager();
         
         // Start is called before the first frame update
         
@@ -79,9 +77,8 @@ namespace nightmareHunter {
                 GameObject.Find("Canvas/UIGroup/Gold").SetActive(false);
             }
 
-            gameDataManager = new GameDataManager();
 
-
+           
             SystemInit();
         }
 

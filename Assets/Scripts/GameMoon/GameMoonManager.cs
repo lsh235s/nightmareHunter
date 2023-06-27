@@ -42,14 +42,14 @@ namespace nightmareHunter {
         void Update() {
             monsterInitappear();
 
-            if(appearStageTimer != "" ) { 
-                if(!stageClear) {
-                    if(AreAllMonstersDead(_monsterList)) {
-                        stageClear = true;
-                        UiController.Instance.stageClear();
-                    }
-                } 
-            }
+            // if(appearStageTimer != "" ) { 
+            //     if(!stageClear) {
+            //         if(AreAllMonstersDead(_monsterList)) {
+            //             stageClear = true;
+            //             UiController.Instance.stageClear();
+            //         }
+            //     } 
+            // }
         }
 
         void monsterInitappear() {
@@ -177,7 +177,7 @@ namespace nightmareHunter {
                     _monsters[(int)stateMonster["MonsterId"]].transform.position = wayPointList[(int)stateMonster["MoveType"]].transform.GetChild(0).gameObject.transform.position;
                 }
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().wayPointBaseList = wayPointList;
-                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(stateMonster));
                 select = Instantiate(_monsters[(int)stateMonster["MonsterId"]]);
                 _monsterList[(int)stateMonster["MonsterId"]].Add(select);
 

@@ -11,16 +11,7 @@ namespace nightmareHunter {
         static string LINE_SPLIT_RE = @"\r\n|\n\r|\n|\r";
         static char[] TRIM_CHARS = { '\"' };
 
-        void Start()
-        {
-            List<Dictionary<string, object>> data = CSVReader.Read("StateMonsterBatch");
     
-            for (var i = 0; i < data.Count; i++)
-            {
-                Debug.Log("index " + (i).ToString() + " : " + data[i]["MonsterId"] + " " + data[i]["AppearTimer"]);
-            }
-
-        }
         
         public static List<Dictionary<string, object>> Read(string file)
         {

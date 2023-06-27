@@ -46,12 +46,12 @@ namespace nightmareHunter {
 
         // 플레이어 배치 관련
         void PlayerInit() {
-            _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo(_unitObject)); 
+            _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo()); 
         }
 
         // 소환수 배치 관련
         void SummonerInit() {
-           List<PlayerInfo> existTargetInfo = gameDataManager.SummerListLoad(_unitObject);
+           List<PlayerInfo> existTargetInfo = gameDataManager.SummerListLoad();
            for(int i = 0; i < existTargetInfo.Count; i++)
            {
                 SummonerGet(existTargetInfo[i]);
