@@ -153,11 +153,14 @@ namespace nightmareHunter {
                     playerInfo.health =  float.Parse(unitObjectList[i]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevHealth"].ToString()));
                     playerInfo.attack =  float.Parse(unitObjectList[i]["Attack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttack"].ToString()));
                     playerInfo.attackRange =  float.Parse(unitObjectList[i]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackRange"].ToString()));
-                    playerInfo.move =  (float.Parse(unitObjectList[i]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMove"].ToString())) * 0.1f);
+                    playerInfo.move =  (float.Parse(unitObjectList[i]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMove"].ToString()))) * 0.1f;
+                    Debug.Log("playerInfo.movfff:://" + (float.Parse(unitObjectList[i]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMove"].ToString()))));
                     playerInfo.attackSpeed =  float.Parse(unitObjectList[i]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackSpeed"].ToString()));
                     playerInfo.spritesName = unitObjectList[i]["SpritesName"].ToString();
                 }
             }
+
+            Debug.Log("playerInfo.mov:://" + playerInfo.move);
             
             // for(int i = 0; i < unitObject.unitList.Count; i++) {
             //     if (unitObject.unitList[i].unitType == 1 && unitObject.unitList[i].id == (int)stateMonster["MonsterId"]) {
