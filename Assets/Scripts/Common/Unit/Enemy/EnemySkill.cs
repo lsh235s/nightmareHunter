@@ -26,5 +26,26 @@ namespace nightmareHunter {
                     break;
             }
         }
+
+        public void skillEnd(string skillName) {
+            switch (skillName) {
+                //텔러 울부짖기 종료
+                //탤러가 죽을때 종료 시킨다.
+                case "TellerCry": 
+                    GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("Enemy");
+
+                    // 검색된 GameObject에 대한 작업 수행
+                    foreach (GameObject gameObject in gameObjectsWithTag)
+                    {
+                        if(gameObject.GetComponent<Enemy>()._monsterId == 0) {
+                            gameObject.GetComponent<Enemy>().skillList["AttackUp"] = false;
+                            gameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = false;
+                            gameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = false;
+                            gameObject.GetComponent<Enemy>().stateMod("Idle");
+                        } 
+                    }
+                    break;
+            }
+        }
     }
 }

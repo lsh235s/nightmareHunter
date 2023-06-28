@@ -156,13 +156,13 @@ namespace nightmareHunter {
                     switch(kvp.Key)
                     {
                         case "AttackUp":
-                            _attack = _initAttack + (_initAttack * 0.3f);
+                            _attack = _initAttack + (_initAttack * 2f);
                             break;
                         case "AttackSpeedUp":
-                            _attackSpeed = _initSpeed + (_initSpeed * 0.3f);
+                            _attackSpeed = _initSpeed + (_initSpeed * 2f);
                             break;
                         case "MoveSpeedUp":
-                            _speed = _initSpeed + (_initSpeed * 0.3f);
+                            _speed = _initSpeed + (_initSpeed * 2f);
                             break;
                         case "ClientTargetFix":
                             state = State.ClientTracking;
@@ -508,8 +508,20 @@ namespace nightmareHunter {
                     collider.isTrigger = true;
                     state = State.Die;
                     _animator.SetTrigger("die");
+                    if(_monsterId == 1) {
+                        gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
+                    }
                     StartCoroutine(MonsterDie()); 
                 }
+            }
+        }
+
+        public void stateMod(string stateVal) {
+            switch(stateVal)
+            {
+                case "Idle":
+                    state = State.Idle;
+                    break;
             }
         }
 
