@@ -172,6 +172,7 @@ GameObject:
   - component: {fileID: 3340696491319737204}
   - component: {fileID: 3340696491319737205}
   - component: {fileID: 3340696491319737207}
+  - component: {fileID: 3432901721382556649}
   - component: {fileID: -7256078858057564247}
   - component: {fileID: 580493924177368148}
   - component: {fileID: 3181846422279131821}
@@ -246,6 +247,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   _skeletonObject: {fileID: 3340696490623419472}
+  targetNum: -1
+  _initSpeed: 0
+  _initHp: 0
+  _initAttack: 0
+  _initAttackSpeed: 0
+  _initAttackRange: 0
   _monsterId: 1
   _speed: 0.5
   _hp: 20
@@ -267,12 +274,28 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.010720253, y: 0.1462462}
   m_Size: {x: 0.15663528, y: 0.33531427}
   m_Direction: 0
+--- !u!58 &3432901721382556649
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340696491319737192}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.009155273, y: 0.13127136}
+  serializedVersion: 2
+  m_Radius: 0.031921387
 --- !u!82 &-7256078858057564247
 AudioSource:
   m_ObjectHideFlags: 0

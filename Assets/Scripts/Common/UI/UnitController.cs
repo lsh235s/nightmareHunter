@@ -25,6 +25,11 @@ namespace nightmareHunter {
         public GameObject _playGameObject; 
         public GameObject _targetGameObject;
 
+        //스테이지에 배치된 몬스터 수
+        public int monsterBuildCount = 0;
+        // 플레이어 제거 수
+        public int monsterKillCount = 0;
+
         
         // Start is called before the first frame update
         void Awake() {           

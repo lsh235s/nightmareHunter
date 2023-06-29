@@ -20,7 +20,7 @@ namespace nightmareHunter {
 
         UnitController _uiItController;
         bool stageClear = false;
-        int monsterBuildCount = 0;
+
 
         void Awake() {
             UiController.Instance.LoadStart();
@@ -42,14 +42,14 @@ namespace nightmareHunter {
         void Update() {
             monsterInitappear();
 
-            // if(appearStageTimer != "" ) { 
-            //     if(!stageClear) {
-            //         if(AreAllMonstersDead(_monsterList)) {
-            //             stageClear = true;
-            //             UiController.Instance.stageClear();
-            //         }
-            //     } 
-            // }
+            if(appearStageTimer != "" ) { 
+                if(!stageClear) {
+                    if(AreAllMonstersDead(_monsterList)) {
+                        stageClear = true;
+                        UiController.Instance.stageClear();
+                    }
+                } 
+            }
         }
 
         void monsterInitappear() {
@@ -71,7 +71,7 @@ namespace nightmareHunter {
                             teller++;
                         }
 
-                        if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf) {
+                        if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
                             _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
                         }
                     }
@@ -119,6 +119,7 @@ namespace nightmareHunter {
 
         // 몬스터 배치 관련
         void monsterInit() {
+            _uiItController.monsterBuildCount = _uiItController.DevelMonsterBatch.Count;
             _monsterList = new List<GameObject>[_monsters.Length];
 
             for (int i = 0; i < _monsterList.Length; i++) {

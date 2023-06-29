@@ -60,6 +60,8 @@ namespace nightmareHunter {
         private float distanceCheck; // 현재 위치의 이동 범위
         int distanceCheckCount = 0;  // 현재 위치 머무른 횟수
 
+        UnitController _uiItController;
+
         //열거형으로 정해진 상태값을 사용
         enum State
         {
@@ -507,9 +509,9 @@ namespace nightmareHunter {
                     Collider2D collider = gameObject.GetComponent<Collider2D>();
                     collider.isTrigger = true;
                     state = State.Die;
-                    _animator.SetTrigger("die");
+                    _animator.SetTrigger("Die");
                     if(_monsterId == 1) {
-                        gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
+                        gameObject.GetComponent<EnemySkill>().skillEnd("TellerCry");
                     }
                     StartCoroutine(MonsterDie()); 
                 }
@@ -569,7 +571,7 @@ namespace nightmareHunter {
         private IEnumerator MonsterDie() {
             yield return new WaitForSeconds(1.5f);
             isDead = true;
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
 
