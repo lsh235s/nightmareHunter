@@ -13216,6 +13216,9 @@ MonoBehaviour:
   _monsters:
   - {fileID: 3314214647269054760, guid: 38d619f915ad9c844a1389e00c25b3d0, type: 3}
   - {fileID: 3340696491319737192, guid: ebaf56f66b72e714d85ae32e9b9778cf, type: 3}
+  - {fileID: 3314214647269054760, guid: 37977b58a70caa84ab362c7830a9b8bd, type: 3}
+  - {fileID: 3314214647269054760, guid: a86ad8076edcb034d98a3f96924b0a0c, type: 3}
+  - {fileID: 3314214647269054760, guid: 7bb2764de48fe0946980ff4b004dda34, type: 3}
 --- !u!114 &2057339622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13247,6 +13250,8 @@ MonoBehaviour:
   - {fileID: 5557243652296972026, guid: d64665cdbad6a4f609a456e6bd0414b5, type: 3}
   _playGameObject: {fileID: 1428730779}
   _targetGameObject: {fileID: 1666601694}
+  monsterBuildCount: 0
+  monsterKillCount: 0
 --- !u!82 &2057339624
 AudioSource:
   m_ObjectHideFlags: 0
