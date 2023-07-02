@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5465418002142787162}
   - component: {fileID: -6404760811886083790}
   m_Layer: 6
-  m_Name: wanderer
+  m_Name: stirrer
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

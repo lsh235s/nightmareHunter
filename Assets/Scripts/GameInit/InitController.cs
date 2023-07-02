@@ -77,8 +77,6 @@ namespace nightmareHunter {
             GameDataManager gameDataManager = new GameDataManager();
             gameDataManager.SaveSystemInfo(systemSaveInfo);
 
-            gameDataManager.HunterInit();
-
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
         }    

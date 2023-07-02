@@ -27,94 +27,99 @@ MonoBehaviour:
     level: 1
     monsterId: 0
     moveType: 1
-    appearTimer: 01:10
+    appearTimer: 01:00
   - id: 3
     level: 1
     monsterId: 0
     moveType: 3
-    appearTimer: 01:10
+    appearTimer: 01:00
   - id: 4
     level: 1
     monsterId: 0
     moveType: 2
-    appearTimer: 03:00
+    appearTimer: 02:00
   - id: 5
     level: 1
     monsterId: 0
     moveType: 1
-    appearTimer: 03:00
+    appearTimer: 02:00
   - id: 6
     level: 1
     monsterId: 0
     moveType: 0
-    appearTimer: 03:00
+    appearTimer: 02:00
   - id: 7
     level: 1
     monsterId: 0
     moveType: 3
-    appearTimer: 04:00
+    appearTimer: 02:40
   - id: 8
     level: 1
     monsterId: 0
     moveType: 2
-    appearTimer: 05:00
+    appearTimer: 03:20
   - id: 9
     level: 1
     monsterId: 0
     moveType: 1
-    appearTimer: 05:00
+    appearTimer: 03:20
   - id: 10
     level: 1
     monsterId: 0
     moveType: 0
-    appearTimer: 06:00
+    appearTimer: 04:00
   - id: 11
     level: 1
     monsterId: 0
     moveType: 3
-    appearTimer: 06:00
+    appearTimer: 04:00
   - id: 12
     level: 1
     monsterId: 0
     moveType: 2
-    appearTimer: 06:00
+    appearTimer: 04:00
   - id: 13
     level: 1
     monsterId: 0
     moveType: 1
-    appearTimer: 06:00
+    appearTimer: 04:00
   - id: 14
     level: 1
     monsterId: 0
     moveType: 3
-    appearTimer: 06:40
+    appearTimer: 08:00
   - id: 15
     level: 1
     monsterId: 0
     moveType: 2
-    appearTimer: 06:40
+    appearTimer: 08:00
   - id: 16
     level: 1
     monsterId: 0
     moveType: 1
-    appearTimer: 06:40
+    appearTimer: 08:00
   - id: 17
     level: 1
     monsterId: 0
     moveType: 0
-    appearTimer: 06:40
+    appearTimer: 08:00
   - id: 18
     level: 1
     monsterId: 0
     moveType: 3
-    appearTimer: 06:40
+    appearTimer: 08:00
   - id: 19
     level: 1
     monsterId: 0
     moveType: 2
-    appearTimer: 06:40
+    appearTimer: 08:00
   - id: 20
     level: 1
     monsterId: 0
     moveType: 1
-    appearTimer: 06:40
+    appearTimer: 08:00
+  - id: 21
+    level: 1
+    monsterId: 1
+    moveType: 1
+    appearTimer: 00:00
