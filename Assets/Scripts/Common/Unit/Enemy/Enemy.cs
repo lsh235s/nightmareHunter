@@ -500,8 +500,10 @@ namespace nightmareHunter {
                 _hp = _hp - damage;
 
                 isFalling = true;
-                gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
-                gameObject.GetComponent<AudioSource>().Play();
+                if(AudioManager.Instance.playSound[_spritesName+"_0"] != null) {
+                    gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
+                    gameObject.GetComponent<AudioSource>().Play();
+                }
 
                 if(_hp <= 0) {
                     Debug.Log("몬스터 사망 처리");
