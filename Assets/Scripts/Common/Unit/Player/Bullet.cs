@@ -57,7 +57,7 @@ namespace nightmareHunter {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             Debug.Log(collision.gameObject.tag);
-            if(collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+            if(collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
                 Debug.Log(collision.gameObject.tag);
                 Destroy(gameObject);
             }

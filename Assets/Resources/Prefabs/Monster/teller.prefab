@@ -176,6 +176,8 @@ GameObject:
   - component: {fileID: -7256078858057564247}
   - component: {fileID: 580493924177368148}
   - component: {fileID: 3181846422279131821}
+  - component: {fileID: -1311458708119237851}
+  - component: {fileID: 43001125459109993}
   m_Layer: 6
   m_Name: teller
   m_TagString: Enemy
@@ -410,6 +412,40 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f965e1553923e964c9bc0fe6c8818117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &-1311458708119237851
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340696491319737192}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.05
+  m_Speed: 0
+  m_Acceleration: 1
+  avoidancePriority: 50
+  m_AngularSpeed: 10
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.01
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &43001125459109993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340696491319737192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8080119483075693222

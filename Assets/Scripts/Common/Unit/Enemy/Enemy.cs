@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 using Spine.Unity;
 using TMPro;
 
@@ -62,6 +63,8 @@ namespace nightmareHunter {
 
         UnitController _uiItController;
 
+        private NavMeshAgent agent;
+
         //열거형으로 정해진 상태값을 사용
         enum State
         {
@@ -113,6 +116,8 @@ namespace nightmareHunter {
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
             }
             anim.SetTrigger("Idle");
+
+            agent = GetComponent<NavMeshAgent>();
             
         }
 
@@ -133,6 +138,7 @@ namespace nightmareHunter {
             _initAttack = _attack;
             _initAttackSpeed = _attackSpeed;
             _initAttackRange = _attackRange;
+
         }
 
  
@@ -176,6 +182,8 @@ namespace nightmareHunter {
         }
 
         private void EnemyActJudge() {
+            
+            agent.speed = _speed;
             if(_monsterId != 1) {
                 if(state == State.Idle || state == State.Run || state == State.Bored) {
                     AttackRadar();  // 공격 대상 판단 
@@ -290,7 +298,7 @@ namespace nightmareHunter {
                 state = State.ClientAttack;
             }
             if(state == State.ClientTracking) {
-                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+               agent.SetDestination(NextTargetPosition); 
             }
         }
 
@@ -313,7 +321,7 @@ namespace nightmareHunter {
                 }
 
                 if(state == State.Tracking) {
-                    transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+                    agent.SetDestination(NextTargetPosition); 
                 }
             }
         }
@@ -403,7 +411,7 @@ namespace nightmareHunter {
             }
 
             if(state == State.Bored) {
-                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+                agent.SetDestination(NextTargetPosition); 
             }
         }
 
@@ -444,7 +452,7 @@ namespace nightmareHunter {
 
             }
             if(state == State.Run) {
-                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+                agent.SetDestination(NextTargetPosition); 
             }
         }
 
