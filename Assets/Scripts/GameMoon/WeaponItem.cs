@@ -30,7 +30,6 @@ namespace nightmareHunter {
         {
             float alpha = spriteRenderer.color.a; 
             elapsedTime += Time.deltaTime; // 경과 시간 증가
-            Debug.Log(elapsedTime);
             if (elapsedTime >= stateTime)
             {
                 Destroy(gameObject); // 오브젝트 파괴

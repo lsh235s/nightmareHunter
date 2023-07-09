@@ -7,9 +7,57 @@ using System.IO;
 namespace nightmareHunter {
     public class GameDataManager : MonoBehaviour
     {
+
+        public static GameDataManager Instance { get; private set; }
+
         string[] summonList = new string[] {"Hunter","Exorcist"};
+        public Dictionary<int, WeaponInfo> WeaponLoadInfo = new Dictionary<int, WeaponInfo>(); // 무기 정보
 
   
+        void Awake()
+        {
+            // 이미 인스턴스가 있는지 확인합니다.
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+            {
+                // 중복되는 인스턴스가 있는 경우, 이 게임 객체를 파괴합니다.
+                Destroy(this.gameObject);
+            }
+        }
+
+        void Start() {
+            LoadWeaponInfo();
+        }
+
+
+        private void LoadWeaponInfo() {
+            List<Dictionary<string, object>> WeaponObjectList = CSVReader.Read("PlayerWeapon");
+
+            for(int i = 0; i < WeaponObjectList.Count; i++) {
+                WeaponInfo weaponInfo = new WeaponInfo();
+                weaponInfo.id = int.Parse(WeaponObjectList[i]["id"].ToString());
+                weaponInfo.WeaponName = WeaponObjectList[i]["WeaponName"].ToString();
+                weaponInfo.Level = int.Parse(WeaponObjectList[i]["Level"].ToString());
+                weaponInfo.Attack = float.Parse(WeaponObjectList[i]["Attack"].ToString());
+                weaponInfo.LevAttack = float.Parse(WeaponObjectList[i]["LevAttack"].ToString());
+                weaponInfo.AttackRange = float.Parse(WeaponObjectList[i]["AttackRange"].ToString());
+                weaponInfo.LevAttackRange = float.Parse(WeaponObjectList[i]["LevAttackRange"].ToString());
+                weaponInfo.Move = float.Parse(WeaponObjectList[i]["Move"].ToString());
+                weaponInfo.LevMove = float.Parse(WeaponObjectList[i]["LevMove"].ToString());
+                weaponInfo.AttackSpeed = float.Parse(WeaponObjectList[i]["AttackSpeed"].ToString());
+                weaponInfo.LevAttackSpeed = float.Parse(WeaponObjectList[i]["LevAttackSpeed"].ToString());
+                weaponInfo.Amount = float.Parse(WeaponObjectList[i]["Amount"].ToString());
+                weaponInfo.LevAmount = float.Parse(WeaponObjectList[i]["LevAmount"].ToString());
+                weaponInfo.ExistTime = float.Parse(WeaponObjectList[i]["ExistTime"].ToString());
+
+                WeaponLoadInfo.Add(i, weaponInfo);
+            }
+
+        }
 
         public void SavePlayerInfo(PlayerInfo playerInfo) {
             string json = JsonConvert.SerializeObject(playerInfo);
