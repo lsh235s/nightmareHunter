@@ -23,13 +23,13 @@ namespace nightmareHunter {
 
 
         void Awake() {
-            UiController.Instance.LoadStart();
-            
+           
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
         }
 
         void Start()
-        {
+        { 
+            UiController.Instance.LoadStart();
             AudioManager.Instance.BackGroundPlay("bgm_game");
             _uiItController.GameStart();
             _loadingControl.FadeActive();
@@ -178,7 +178,7 @@ namespace nightmareHunter {
                     _monsters[(int)stateMonster["MonsterId"]].transform.position = wayPointList[(int)stateMonster["MoveType"]].transform.GetChild(0).gameObject.transform.position;
                 }
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().wayPointBaseList = wayPointList;
-                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(stateMonster));
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().initState(GameDataManager.Instance.LoadMonsterInfo(stateMonster));
                 select = Instantiate(_monsters[(int)stateMonster["MonsterId"]]);
                 _monsterList[(int)stateMonster["MonsterId"]].Add(select);
 

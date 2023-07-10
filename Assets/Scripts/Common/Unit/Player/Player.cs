@@ -61,7 +61,8 @@ namespace nightmareHunter {
         }
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
-            _playerinfo = inPlayerinfo;
+
+            _playerinfo = GameDataManager.Instance.PlayWeaponSet(0,inPlayerinfo);
 
             _timeBetweenShots = _playerinfo.attackSpeed;
             if (UiController.Instance._imagePlayHp != null && HpHeartImage[0] != null)

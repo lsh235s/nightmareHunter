@@ -21,9 +21,11 @@ namespace nightmareHunter {
         public float LevMove { get; set; }
         public float AttackSpeed { get; set; }
         public float LevAttackSpeed { get; set; }
-        public float Amount { get; set; }
-        public float LevAmount { get; set; }
+        public int Amount { get; set; }
+        public int LevAmount { get; set; }
         public float ExistTime { get; set; }
+        public string WeaponAttackType { get; set; }
+
    
     }
 }
