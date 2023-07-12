@@ -52,6 +52,8 @@ namespace nightmareHunter {
                 weaponInfo.LevAmount = int.Parse(WeaponObjectList[i]["LevAmount"].ToString());
                 weaponInfo.ExistTime = float.Parse(WeaponObjectList[i]["ExistTime"].ToString());
                 weaponInfo.WeaponAttackType = WeaponObjectList[i]["WeaponAttackType"].ToString();
+                weaponInfo.AttackDelayTime = float.Parse(WeaponObjectList[i]["AttackDelayTime"].ToString());
+                weaponInfo.LevAttackDelayTime = float.Parse(WeaponObjectList[i]["LevAttackDelayTime"].ToString());
 
                 WeaponLoadInfo.Add(i, weaponInfo);
             }
@@ -82,7 +84,8 @@ namespace nightmareHunter {
                     playerInfo.attack =  WeaponLoadInfo[0].Attack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttack);
                     playerInfo.attackRange =  (WeaponLoadInfo[0].AttackRange + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackRange)) * 0.1f;
                     playerInfo.move =  (WeaponLoadInfo[0].Move + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevMove)) * 0.1f;
-                    playerInfo.attackSpeed =  (WeaponLoadInfo[0].AttackSpeed + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackSpeed)) * 0.1f;
+                    playerInfo.attackSpeed =  WeaponLoadInfo[0].AttackSpeed + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackSpeed);
+                    playerInfo.attackDelayTime =  WeaponLoadInfo[0].AttackDelayTime + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackDelayTime);
                     playerInfo.spritesName = unitObjectList[i]["SpritesName"].ToString();
                 }
             }
@@ -94,7 +97,8 @@ namespace nightmareHunter {
             playerInfo.attack = WeaponLoadInfo[weaponID].Attack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttack);
             playerInfo.attackRange = (WeaponLoadInfo[weaponID].AttackRange + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttackRange)) * 0.1f;
             playerInfo.move = (WeaponLoadInfo[weaponID].Move + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevMove)) * 0.1f;
-            playerInfo.attackSpeed = (WeaponLoadInfo[weaponID].AttackSpeed + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttackSpeed)) * 0.1f;
+            playerInfo.attackSpeed = WeaponLoadInfo[weaponID].AttackSpeed + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttackSpeed);
+            playerInfo.attackDelayTime = WeaponLoadInfo[weaponID].AttackDelayTime + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttackDelayTime);
             playerInfo.weaponAttackType = WeaponLoadInfo[weaponID].WeaponAttackType;
             playerInfo.weaponAmount = WeaponLoadInfo[weaponID].Amount + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAmount);
             

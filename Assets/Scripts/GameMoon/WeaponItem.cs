@@ -23,6 +23,7 @@ namespace nightmareHunter {
         private bool increasing = true; // 알파 값 증가 여부
 
         private void Start() {
+            weaponType = 1;
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
@@ -57,6 +58,16 @@ namespace nightmareHunter {
                 newColor.a = alpha;
                 spriteRenderer.color = newColor;
             }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision) {
+            if(collision.gameObject.tag == "Player") {
+                Debug.Log(collision.gameObject.tag);
+                collision.gameObject.GetComponent<Player>().WeaponChange(weaponType);
+                
+                Destroy(gameObject);
+            }
+
         }
     }
 }

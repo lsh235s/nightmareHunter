@@ -20,20 +20,16 @@ namespace nightmareHunter {
 
         // 능력치
         public PlayerInfo _playerinfo;
+        public PlayerInfo _playerBaseInfo;
 
         private Rigidbody2D _rigidbody;
         private Vector2 _movementInput;
 
 
-        //총알 속도
-        [SerializeField]
-        private float _bulletSpeed;
-
         private Vector3 initialPosition; // 초기 위치
 
-        public float _timeBetweenShots; // 딜레이 타임
         private bool _waitFire;
-        private float _lastFireTime;
+        private float nextTime;
 
 
         // 주인공 스켈레톤
@@ -64,7 +60,6 @@ namespace nightmareHunter {
 
             _playerinfo = GameDataManager.Instance.PlayWeaponSet(0,inPlayerinfo);
 
-            _timeBetweenShots = _playerinfo.attackSpeed;
             if (UiController.Instance._imagePlayHp != null && HpHeartImage[0] != null)
             {
                 UiController.Instance._imagePlayHp.sprite = HpHeartImage[0]; // Image 컴포넌트의 Sprite 파일을 교체
@@ -74,6 +69,8 @@ namespace nightmareHunter {
                 maxHp = _playerinfo.health;
                 UiController.Instance._playerHp.text = _playerinfo.health.ToString(); // Text 컴포넌트의 내용을 변경
             }
+
+            _playerBaseInfo = _playerinfo;
         }
 
         private void FixedUpdate() {
@@ -102,10 +99,10 @@ namespace nightmareHunter {
             if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
                 if(_waitFire) {
-                    float timeSinceLastFire = Time.time - _lastFireTime;
-
-                    if(timeSinceLastFire >= _timeBetweenShots) {
-                        _lastFireTime = Time.time;
+                    nextTime = nextTime + Time.deltaTime;
+                    Debug.Log("nextTime://"+nextTime+"/"+_playerinfo.attackDelayTime+"/"+_waitFire);
+                    if(nextTime >= _playerinfo.attackDelayTime) {
+                        nextTime = 0.0F;
                         _waitFire = false;
                     }
                 }
@@ -148,10 +145,17 @@ namespace nightmareHunter {
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
-            _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _bulletSpeed;
-
+            _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _playerinfo.attackSpeed;
             
             GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
+
+            if(_playerinfo.weaponID != 0) {
+                _playerinfo.weaponAmount = _playerinfo.weaponAmount - 1;
+                Debug.Log("_playerinfo.weaponAmount://"+_playerinfo.weaponAmount);
+                if(_playerinfo.weaponAmount <= 0) {
+                    _playerinfo = GameDataManager.Instance.PlayWeaponSet(0,_playerBaseInfo);
+                }
+            }
         }
 
 
@@ -164,6 +168,7 @@ namespace nightmareHunter {
         private void OnFire(InputValue inputValue) {
             if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 if(inputValue.isPressed) {
+                    Debug.Log("OnFire:/"+_waitFire);
                     if(!_waitFire) {
                         initialPosition = transform.position;
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
@@ -175,49 +180,15 @@ namespace nightmareHunter {
                     
                 }
             }
-          
         }
 
 
-        // private void OnTriggerEnter2D(Collider2D collision) {
+        // 무기교체
+        public void WeaponChange(int weaponID) {
+            _playerinfo = GameDataManager.Instance.PlayWeaponSet(weaponID, _playerBaseInfo);
+        }
 
-        //     if(!"die".Equals(playerState) ) {
-        //         if(collision.GetComponent<Enemy>()) {
-        //             if(!"die".Equals(collision.GetComponent<Enemy>().activateStatus)) {
-        //                 //collision.GetComponent<Enemy>().MonsterAttackProcess();
-        //                 Vector2 pushDirection = (_rigidbody.position - (Vector2)collision.transform.position).normalized;
-        //                 _rigidbody.AddRelativeForce(pushDirection * 300f);
 
-        //                 isFalling = true;
-        //                 _playerinfo.health = _playerinfo.health - collision.GetComponent<Enemy>()._attack;
-                        
-        //                 if(_playerinfo.health < 0) {
-        //                     _playerinfo.health = 0;
-        //                 }
-
-        //                 float hpRate = (float)_playerinfo.health / (float)maxHp * 100;
-                        
-        //                 if(hpRate > 80 && hpRate == 100.0f) {
-        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[0];
-        //                 } else if (hpRate > 50.0f && hpRate <= 80.0f) {
-        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[1];
-        //                 } else if (hpRate > 25.0f && hpRate <= 50.0f) {
-        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[2];
-        //                 } else if (hpRate > 10.0f && hpRate <= 25.0f) {
-        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[3];
-        //                 } else if (hpRate > 0.0f && hpRate <= 10.0f) {
-        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[4];
-        //                 } else if (hpRate <= 0.0f) {
-        //                     UiController.Instance._imagePlayHp.sprite = HpHeartImage[5];
-        //                     _animator.SetTrigger("die");
-        //                     playerState = "die";
-        //                     StartCoroutine(gameEnd()); 
-        //                 }
-        //                 UiController.Instance._playerHp.text = _playerinfo.health.ToString(); 
-        //             }
-        //         }
-        //     }
-        // }
 
         public void OnEventPlayerDamage(float attackDamage, Vector2 enemyPosition) {
             Vector2 pushDirection = (_rigidbody.position - enemyPosition).normalized;

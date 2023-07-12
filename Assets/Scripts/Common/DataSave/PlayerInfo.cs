@@ -23,6 +23,7 @@ namespace nightmareHunter {
         public bool summonsExist { get; set; }
         public int weaponID { get; set; }
         public int weaponAmount { get; set; }
+        public float attackDelayTime { get; set; }
         public string weaponAttackType { get; set; }
    
     }
