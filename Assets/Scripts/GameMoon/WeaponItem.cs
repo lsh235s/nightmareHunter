@@ -6,30 +6,32 @@ using UnityEngine;
 namespace nightmareHunter {
     public class WeaponItem : MonoBehaviour
     {
-        int weaponType;
+        [SerializeField]
+        private Sprite[] weaponSprites;
+        public int weaponType;
         int weaponImage;
-
-        int weaponAttack;
-        int weaponRange;
-        int weaponSpeed;
-        int weaponAttackType;
 
         private bool isBlinking = false; // 깜박이는 중인지 여부
 
         private float stateTime = 30f; // 파괴되기까지의 대기 시간
 
         private float elapsedTime = 0f; // 경과한 시간
-        private SpriteRenderer spriteRenderer; // 스프라이트 렌더러 컴포넌트
         private bool increasing = true; // 알파 값 증가 여부
 
         private void Start() {
-            weaponType = 1;
-            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+
+        public void SetWeaponType(int type) {
+            weaponType = type;
+            weaponImage = type - 1;
+
+            gameObject.GetComponent<SpriteRenderer>().sprite = weaponSprites[weaponImage];
         }
 
         private void Update()
         {
-            float alpha = spriteRenderer.color.a; 
+            float alpha = gameObject.GetComponent<SpriteRenderer>().color.a; 
             elapsedTime += Time.deltaTime; // 경과 시간 증가
             if (elapsedTime >= stateTime)
             {
@@ -54,9 +56,9 @@ namespace nightmareHunter {
                     }
                 }
 
-                Color newColor = spriteRenderer.color;
+                Color newColor = gameObject.GetComponent<SpriteRenderer>().color;
                 newColor.a = alpha;
-                spriteRenderer.color = newColor;
+                gameObject.GetComponent<SpriteRenderer>().color = newColor;
             }
         }
 

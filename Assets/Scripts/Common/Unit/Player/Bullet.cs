@@ -7,10 +7,12 @@ namespace nightmareHunter {
     public class Bullet : MonoBehaviour
     {
         //총알 사거리
+        public int weaponType;
+        public string weaponAttackType;
         public float attack;
         public float range; // 사거리
         public Vector3 initialPosition; // 초기 위치
-        public GameObject bulletDot; // 총알
+        //public GameObject bulletDot; // 총알
         public float _bulletSpeed; // 총알 속도
         public GameObject MainObject;
 
@@ -19,9 +21,21 @@ namespace nightmareHunter {
 
         private bool activeflag = false;
 
+     
 
         void Start() {
             rigidbody2D = GetComponent<Rigidbody2D>();
+        }
+
+        public void setWeaponEffect(int weaponID) {
+            Debug.Log("weaponID : " + weaponID);
+            if(weaponID == 1) {
+                MainObject.transform.Find("bullet_dot").GetComponent<SkeletonAnimation>().AnimationName = "bullet1";
+            } else if(weaponID == 3) {
+                MainObject.transform.Find("bullet_dot").GetComponent<SkeletonAnimation>().AnimationName =  "bullet1";
+            } else {
+                MainObject.transform.Find("bullet_dot").GetComponent<SkeletonAnimation>().AnimationName =  "bullet2";
+            }
         }
 
         void EffectAnimation() {
@@ -29,27 +43,31 @@ namespace nightmareHunter {
             GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  transform);
             instantiatedPrefab.transform.localScale = new Vector3(15f, 15f, 1f);
             instantiatedPrefab.SetActive(true);
-            bulletDot.SetActive(false);
+           // bulletDot.SetActive(false);
         
             StartCoroutine(objectEnd(instantiatedPrefab));
         }
 
 
         void Update () {
-            if (Vector3.Distance(transform.position, initialPosition) >= range)
-            {
-                Destroy(gameObject); // 총알 삭제
+            if(weaponAttackType.Equals("DIFFUS")) {
+
             } else {
-                if(!activeflag) {
-                    // 일정한 속도로 위쪽으로 이동
-                    transform.Translate(Vector2.right * _bulletSpeed * Time.deltaTime);
+                if (Vector3.Distance(transform.position, initialPosition) >= range)
+                {
+                    Destroy(gameObject); // 총알 삭제
+                } else {
+                    if(!activeflag) {
+                        // 일정한 속도로 위쪽으로 이동
+                        transform.Translate(Vector2.right * _bulletSpeed * Time.deltaTime);
+                    }
                 }
             }
         }
 
         IEnumerator objectEnd(GameObject instantiatedPrefab) {
             yield return new WaitForSeconds(1.0f);
-            Destroy(bulletDot);
+          //  Destroy(bulletDot);
             Destroy(MainObject);
             Destroy(instantiatedPrefab);
             yield return null;
@@ -65,6 +83,7 @@ namespace nightmareHunter {
                 if(collision.GetComponent<Enemy>()) {
                     if(!collision.GetComponent<Enemy>().isDead) {    
                         if(targetCount == 0) {
+                            Debug.Log("총알 충돌:"+attack);
                             collision.GetComponent<Enemy>().DamageProcess(attack);
                             targetCount++;
                             EffectAnimation();

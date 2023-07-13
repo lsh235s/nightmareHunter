@@ -38,6 +38,9 @@ namespace nightmareHunter {
 
         // 스테이지 정보 저장
         public SystemSaveInfo systemSaveInfo; 
+
+        // 드랍아이템
+        public GameObject dropItem;
         
         // Start is called before the first frame update
         

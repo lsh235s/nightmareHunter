@@ -17,7 +17,6 @@ namespace nightmareHunter {
         [SerializeField]
         private GameObject _skeletonObject;
 
-
         List<List<Transform>> _waypointList = new List<List<Transform>>();
         bool isLive;
         int waypointIndex = 0; //웨이포인트 인덱스
@@ -497,7 +496,11 @@ namespace nightmareHunter {
                     instantiatedPrefab.SetActive(true);   
                     float clipLength = instantiatedPrefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
                     StartCoroutine(objectEnd(clipLength));
-                }
+                } 
+
+                GameObject weaPonItem = Instantiate(UiController.Instance.dropItem, transform.position, transform.rotation);
+                weaPonItem.GetComponent<WeaponItem>().SetWeaponType(2);
+               
               
                 _hp = _hp - damage;
 

@@ -72,7 +72,6 @@ MonoBehaviour:
   attack: 2
   range: 2
   initialPosition: {x: 2.0145164, y: -0.69872016, z: 0}
-  bulletDot: {fileID: 8472463411224273485}
   _bulletSpeed: 2
   MainObject: {fileID: 6245671512966488181}
 --- !u!222 &8561801276604992402
@@ -185,7 +184,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -943603791
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &3789937059502300584

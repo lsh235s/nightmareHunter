@@ -100,7 +100,7 @@ namespace nightmareHunter {
                 // 공격 타이밍 계산
                 if(_waitFire) {
                     nextTime = nextTime + Time.deltaTime;
-                    Debug.Log("nextTime://"+nextTime+"/"+_playerinfo.attackDelayTime+"/"+_waitFire);
+                   
                     if(nextTime >= _playerinfo.attackDelayTime) {
                         nextTime = 0.0F;
                         _waitFire = false;
@@ -142,16 +142,18 @@ namespace nightmareHunter {
 
         // 공격 처리
         private void FireBullet() {
+            _bulletPrefab.GetComponent<Bullet>().weaponType = _playerinfo.weaponID;
             _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
             _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _playerinfo.attackSpeed;
+            _bulletPrefab.GetComponent<Bullet>().weaponAttackType = _playerinfo.weaponAttackType;
+            _bulletPrefab.GetComponent<Bullet>().setWeaponEffect( _playerinfo.weaponID);
             
             GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
 
             if(_playerinfo.weaponID != 0) {
                 _playerinfo.weaponAmount = _playerinfo.weaponAmount - 1;
-                Debug.Log("_playerinfo.weaponAmount://"+_playerinfo.weaponAmount);
                 if(_playerinfo.weaponAmount <= 0) {
                     _playerinfo = GameDataManager.Instance.PlayWeaponSet(0,_playerBaseInfo);
                 }
@@ -168,7 +170,6 @@ namespace nightmareHunter {
         private void OnFire(InputValue inputValue) {
             if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 if(inputValue.isPressed) {
-                    Debug.Log("OnFire:/"+_waitFire);
                     if(!_waitFire) {
                         initialPosition = transform.position;
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
