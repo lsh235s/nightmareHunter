@@ -497,10 +497,6 @@ namespace nightmareHunter {
                     float clipLength = instantiatedPrefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
                     StartCoroutine(objectEnd(clipLength));
                 } 
-
-                GameObject weaPonItem = Instantiate(UiController.Instance.dropItem, transform.position, transform.rotation);
-                weaPonItem.GetComponent<WeaponItem>().SetWeaponType(2);
-               
               
                 _hp = _hp - damage;
 
@@ -512,6 +508,11 @@ namespace nightmareHunter {
 
                 if(_hp <= 0) {
                     Debug.Log("몬스터 사망 처리");
+                    int weaponNum = Random.Range(0, 3);
+
+                    GameObject weaPonItem = Instantiate(UiController.Instance.dropItem, transform.position, transform.rotation);
+                    weaPonItem.GetComponent<WeaponItem>().SetWeaponType(weaponNum + 1);
+
                     UiController.Instance.integerAddSet(_integer);
                     Collider2D collider = gameObject.GetComponent<Collider2D>();
                     collider.isTrigger = true;

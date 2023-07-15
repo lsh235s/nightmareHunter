@@ -8,6 +8,6 @@ public class AnimationEnd : MonoBehaviour
     public void EndAnimation()
     {
         // 애니메이션 실행이 끝났을 때 오브젝트를 종료합니다.
-        Destroy(gameObject);
+       Destroy(gameObject);
     }
 }

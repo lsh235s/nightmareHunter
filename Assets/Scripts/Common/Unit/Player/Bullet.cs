@@ -46,6 +46,12 @@ namespace nightmareHunter {
             }
         }
 
+        void NextScene(Spine.TrackEntry trackEntry)
+        {
+            // 다음 씬으로 전환
+           Destroy(gameObject);
+        }
+
         void EffectAnimation() {
             activeflag = true;
             GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  transform);
@@ -80,7 +86,6 @@ namespace nightmareHunter {
 
         IEnumerator objectEnd(GameObject instantiatedPrefab) {
             yield return new WaitForSeconds(1.0f);
-          //  Destroy(bulletDot);
             Destroy(MainObject);
             Destroy(instantiatedPrefab);
             yield return null;
@@ -90,19 +95,18 @@ namespace nightmareHunter {
 
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            Debug.Log(collision.gameObject.tag);
-             Debug.Log(weaponType);
             if(weaponType != 2 && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
-                Debug.Log("충돌파괴:"+collision.gameObject.tag);
                 Destroy(gameObject);
             }
             if(!activeflag) {
                 if(collision.GetComponent<Enemy>()) {
                     if(!collision.GetComponent<Enemy>().isDead) {    
-                        if(targetCount == 0) {
-                            Debug.Log("총알 충돌:"+attack);
+                        if(targetCount == 0 && weaponType != 2) {
                             collision.GetComponent<Enemy>().DamageProcess(attack);
                             targetCount++;
+                            EffectAnimation();
+                        } else {
+                            collision.GetComponent<Enemy>().DamageProcess(attack);
                             EffectAnimation();
                         }
                     }

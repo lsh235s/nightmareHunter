@@ -149,8 +149,15 @@ namespace nightmareHunter {
             _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _playerinfo.attackSpeed;
             _bulletPrefab.GetComponent<Bullet>().weaponAttackType = _playerinfo.weaponAttackType;
             _bulletPrefab.GetComponent<Bullet>().setWeaponEffect( _playerinfo.weaponID);
+
+            Vector3 bulletStartPos = new Vector3(bulletPoint.transform.position.x, bulletPoint.transform.position.y, bulletPoint.transform.position.z);
+            if(_playerinfo.weaponID == 2) {
+                bulletStartPos = new Vector3(bulletPoint.transform.position.x , bulletPoint.transform.position.y, bulletPoint.transform.position.z);
+            } else {
+                bulletStartPos = new Vector3(bulletPoint.transform.position.x, bulletPoint.transform.position.y, bulletPoint.transform.position.z);
+            }
             
-            GameObject bullet = Instantiate(_bulletPrefab, bulletPoint.transform.position, bulletPoint.transform.rotation);
+            GameObject bullet = Instantiate(_bulletPrefab, bulletStartPos, bulletPoint.transform.rotation);
 
             if(_playerinfo.weaponID != 0) {
                 _playerinfo.weaponAmount = _playerinfo.weaponAmount - 1;
