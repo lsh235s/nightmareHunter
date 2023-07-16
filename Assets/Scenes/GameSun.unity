@@ -6867,7 +6867,7 @@ MonoBehaviour:
   _clientHp: {fileID: 0}
   timePause: 1
   sceneMode: 0
-  dropItem: {fileID: 0}
+  dropItem: {fileID: 4601611201556309162, guid: badaae30428f091438f1e3317df2aa39, type: 3}
 --- !u!4 &1530992736
 Transform:
   m_ObjectHideFlags: 0
