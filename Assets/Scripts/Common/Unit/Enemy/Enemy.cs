@@ -478,14 +478,27 @@ namespace nightmareHunter {
             }
         }
 
+        IEnumerator objectEnd(GameObject weaponDamageEffect) {
+            yield return new WaitForSeconds(1.0f);
+            Destroy(weaponDamageEffect);
+            yield return null;
+        }
+
 
 
         public void DamageProcess(float damage) {
-            if(state != State.Die) {
+            if(state != State.Die) { 
+                Vector3 rePosition = new Vector3(transform.position.x, transform.position.y , transform.position.z);
+                GameObject weaponDamageEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  rePosition, Quaternion.identity);
+                //instantiatedPrefab.transform.localScale = new Vector3(1f, 1f, 1f);
+                weaponDamageEffect.SetActive(true);
+
+                StartCoroutine(objectEnd(weaponDamageEffect));
+
                 int randomNumber = Random.Range(0, 4);
 
                 if(randomNumber == 0) {
-                    Vector3 rePosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+                    rePosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
                     instantiatedPrefab.transform.position = rePosition;
 
                     if(clientTarget.transform.position.x < _rigidbody.position.x) {
@@ -501,10 +514,13 @@ namespace nightmareHunter {
                 _hp = _hp - damage;
 
                 isFalling = true;
-                if(AudioManager.Instance.playSound[_spritesName+"_0"] != null) {
-                    gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
-                    gameObject.GetComponent<AudioSource>().Play();
+                if(_spritesName.Equals("Teller") &&  _spritesName.Equals("wanderer") ) {
+                    if(AudioManager.Instance.playSound[_spritesName+"_0"] != null) {
+                        gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
+                        gameObject.GetComponent<AudioSource>().Play();
+                    }
                 }
+               
 
                 if(_hp <= 0) {
                     Debug.Log("몬스터 사망 처리");

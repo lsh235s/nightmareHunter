@@ -33,29 +33,31 @@ namespace nightmareHunter {
 
 
         public void LoadWeaponInfo() {
-            List<Dictionary<string, object>> WeaponObjectList = CSVReader.Read("PlayerWeapon");
+            if(WeaponLoadInfo.Count == 0 ) {
+                List<Dictionary<string, object>> WeaponObjectList = CSVReader.Read("PlayerWeapon");
 
-            for(int i = 0; i < WeaponObjectList.Count; i++) {
-                WeaponInfo weaponInfo = new WeaponInfo();
-                weaponInfo.id = int.Parse(WeaponObjectList[i]["Id"].ToString());
-                weaponInfo.WeaponName = WeaponObjectList[i]["WeaponName"].ToString();
-                weaponInfo.Level = int.Parse(WeaponObjectList[i]["Level"].ToString());
-                weaponInfo.Attack = float.Parse(WeaponObjectList[i]["Attack"].ToString());
-                weaponInfo.LevAttack = float.Parse(WeaponObjectList[i]["LevAttack"].ToString());
-                weaponInfo.AttackRange = float.Parse(WeaponObjectList[i]["AttackRange"].ToString());
-                weaponInfo.LevAttackRange = float.Parse(WeaponObjectList[i]["LevAttackRange"].ToString());
-                weaponInfo.Move = float.Parse(WeaponObjectList[i]["Move"].ToString());
-                weaponInfo.LevMove = float.Parse(WeaponObjectList[i]["LevMove"].ToString());
-                weaponInfo.AttackSpeed = float.Parse(WeaponObjectList[i]["AttackSpeed"].ToString());
-                weaponInfo.LevAttackSpeed = float.Parse(WeaponObjectList[i]["LevAttackSpeed"].ToString());
-                weaponInfo.Amount = int.Parse(WeaponObjectList[i]["Amount"].ToString());
-                weaponInfo.LevAmount = int.Parse(WeaponObjectList[i]["LevAmount"].ToString());
-                weaponInfo.ExistTime = float.Parse(WeaponObjectList[i]["ExistTime"].ToString());
-                weaponInfo.WeaponAttackType = WeaponObjectList[i]["WeaponAttackType"].ToString();
-                weaponInfo.AttackDelayTime = float.Parse(WeaponObjectList[i]["AttackDelayTime"].ToString());
-                weaponInfo.LevAttackDelayTime = float.Parse(WeaponObjectList[i]["LevAttackDelayTime"].ToString());
+                for(int i = 0; i < WeaponObjectList.Count; i++) {
+                    WeaponInfo weaponInfo = new WeaponInfo();
+                    weaponInfo.id = int.Parse(WeaponObjectList[i]["Id"].ToString());
+                    weaponInfo.WeaponName = WeaponObjectList[i]["WeaponName"].ToString();
+                    weaponInfo.Level = int.Parse(WeaponObjectList[i]["Level"].ToString());
+                    weaponInfo.Attack = float.Parse(WeaponObjectList[i]["Attack"].ToString());
+                    weaponInfo.LevAttack = float.Parse(WeaponObjectList[i]["LevAttack"].ToString());
+                    weaponInfo.AttackRange = float.Parse(WeaponObjectList[i]["AttackRange"].ToString());
+                    weaponInfo.LevAttackRange = float.Parse(WeaponObjectList[i]["LevAttackRange"].ToString());
+                    weaponInfo.Move = float.Parse(WeaponObjectList[i]["Move"].ToString());
+                    weaponInfo.LevMove = float.Parse(WeaponObjectList[i]["LevMove"].ToString());
+                    weaponInfo.AttackSpeed = float.Parse(WeaponObjectList[i]["AttackSpeed"].ToString());
+                    weaponInfo.LevAttackSpeed = float.Parse(WeaponObjectList[i]["LevAttackSpeed"].ToString());
+                    weaponInfo.Amount = int.Parse(WeaponObjectList[i]["Amount"].ToString());
+                    weaponInfo.LevAmount = int.Parse(WeaponObjectList[i]["LevAmount"].ToString());
+                    weaponInfo.ExistTime = float.Parse(WeaponObjectList[i]["ExistTime"].ToString());
+                    weaponInfo.WeaponAttackType = WeaponObjectList[i]["WeaponAttackType"].ToString();
+                    weaponInfo.AttackDelayTime = float.Parse(WeaponObjectList[i]["AttackDelayTime"].ToString());
+                    weaponInfo.LevAttackDelayTime = float.Parse(WeaponObjectList[i]["LevAttackDelayTime"].ToString());
 
-                WeaponLoadInfo.Add(i, weaponInfo);
+                    WeaponLoadInfo.Add(i, weaponInfo);
+                }
             }
         }
 

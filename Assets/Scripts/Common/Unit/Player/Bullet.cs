@@ -32,7 +32,6 @@ namespace nightmareHunter {
         public void setWeaponEffect(int weaponID) {
             bulletDotAni.SetActive(true);
             shotgunAni.SetActive(false);
-            Debug.Log("weaponID : " + weaponID);
             if(weaponID == 1) {
                 bulletDotAni.GetComponent<SkeletonAnimation>().AnimationName = "bullet1";
             } else if(weaponID == 2) {
@@ -46,25 +45,21 @@ namespace nightmareHunter {
             }
         }
 
-        void NextScene(Spine.TrackEntry trackEntry)
-        {
-            // 다음 씬으로 전환
-           Destroy(gameObject);
-        }
 
         void EffectAnimation() {
-            activeflag = true;
-            GameObject instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  transform);
-            instantiatedPrefab.transform.localScale = new Vector3(15f, 15f, 1f);
-            instantiatedPrefab.SetActive(true);
-           // bulletDot.SetActive(false);
+          
+            if(weaponAttackType.Equals("NORMAL")) {
+                activeflag = true;
+                bulletDotAni.SetActive(false);
+                Destroy(gameObject);
+            }
         
-            StartCoroutine(objectEnd(instantiatedPrefab));
+            
         }
 
 
         void Update () {
-            Debug.Log("weaponAttackType : " + weaponAttackType);
+           // Debug.Log("weaponAttackType : " + weaponAttackType);
             if(weaponAttackType.Equals("DIFFUS")) {
                 delayTime += Time.deltaTime;
                 if(delayTime >= 1.0f) {
@@ -84,13 +79,6 @@ namespace nightmareHunter {
             }
         }
 
-        IEnumerator objectEnd(GameObject instantiatedPrefab) {
-            yield return new WaitForSeconds(1.0f);
-            Destroy(MainObject);
-            Destroy(instantiatedPrefab);
-            yield return null;
-        }
-
 
 
 
@@ -101,10 +89,11 @@ namespace nightmareHunter {
             if(!activeflag) {
                 if(collision.GetComponent<Enemy>()) {
                     if(!collision.GetComponent<Enemy>().isDead) {    
-                        if(targetCount == 0 && weaponType != 2) {
+                        if(targetCount == 0 && weaponAttackType.Equals("NORMAL")) {
                             collision.GetComponent<Enemy>().DamageProcess(attack);
                             targetCount++;
                             EffectAnimation();
+                           
                         } else {
                             collision.GetComponent<Enemy>().DamageProcess(attack);
                             EffectAnimation();
