@@ -15,10 +15,7 @@ namespace nightmareHunter {
         //개발 시 몬스터 배치 정보
         public List<Dictionary<string, object>> DevelMonsterBatch  ;
 
-        // 저장 기능 관련
-        public GameDataManager gameDataManager ;
         // 스테이지 정보 저장
-        
         public GameObject[] _summoner;
 
         // Start is called before the first frame update
@@ -33,30 +30,31 @@ namespace nightmareHunter {
         
         // Start is called before the first frame update
         void Awake() {           
-            gameDataManager = new GameDataManager();
-
-           
             DevelMonsterBatch =  CSVReader.Read("StateMonsterBatch");
 
         }
 
         public void GameStart()
         {
+            baseDataLoad();
             //소환수 배치
             SummonerInit();
             //플레이어 능력치 load
             PlayerInit();
         }
 
+        void baseDataLoad() {
+            GameDataManager.Instance.LoadWeaponInfo();
+        }
 
         // 플레이어 배치 관련
         void PlayerInit() {
-            _playGameObject.GetComponent<Player>().playerDataLoad(gameDataManager.LoadPlayerInfo()); 
+            _playGameObject.GetComponent<Player>().playerDataLoad(GameDataManager.Instance.LoadPlayerInfo()); 
         }
 
         // 소환수 배치 관련
         void SummonerInit() {
-           List<PlayerInfo> existTargetInfo = gameDataManager.SummerListLoad();
+           List<PlayerInfo> existTargetInfo = GameDataManager.Instance.SummerListLoad();
            for(int i = 0; i < existTargetInfo.Count; i++)
            {
                 SummonerGet(existTargetInfo[i]);

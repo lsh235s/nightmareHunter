@@ -14,6 +14,7 @@ TagManager:
   - Enemy
   - Wall
   - Client
+  - WeaponItem
   layers:
   - Default
   - TransparentFX
@@ -56,6 +57,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 3575365827
+    locked: 0
+  - name: Weapon
+    uniqueID: 4182198221
     locked: 0
   - name: Bullet
     uniqueID: 3351363505

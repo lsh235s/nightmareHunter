@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI;
 using Spine.Unity;
 using TMPro;
 
@@ -15,7 +16,6 @@ namespace nightmareHunter {
 
         [SerializeField]
         private GameObject _skeletonObject;
-
 
         List<List<Transform>> _waypointList = new List<List<Transform>>();
         bool isLive;
@@ -62,6 +62,8 @@ namespace nightmareHunter {
 
         UnitController _uiItController;
 
+        private NavMeshAgent agent;
+
         //열거형으로 정해진 상태값을 사용
         enum State
         {
@@ -87,7 +89,7 @@ namespace nightmareHunter {
             _rigidbody = GetComponent<Rigidbody2D>();
             skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
             _animator = _skeletonObject.GetComponent<Animator>();
-            instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"),  transform);
+            instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"));
             instantiatedPrefab.SetActive(false); 
 
             skillList.Add("AttackUp", false);
@@ -109,10 +111,12 @@ namespace nightmareHunter {
             }
 
             if(_monsterId == 1) {
-                anim.SetTrigger("Attack");
+                _animator.SetTrigger("Attack");
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
             }
-            anim.SetTrigger("Idle");
+            _animator.SetTrigger("Idle");
+
+            agent = GetComponent<NavMeshAgent>();
             
         }
 
@@ -133,6 +137,7 @@ namespace nightmareHunter {
             _initAttack = _attack;
             _initAttackSpeed = _attackSpeed;
             _initAttackRange = _attackRange;
+
         }
 
  
@@ -176,6 +181,8 @@ namespace nightmareHunter {
         }
 
         private void EnemyActJudge() {
+            
+            agent.speed = _speed;
             if(_monsterId != 1) {
                 if(state == State.Idle || state == State.Run || state == State.Bored) {
                     AttackRadar();  // 공격 대상 판단 
@@ -189,7 +196,7 @@ namespace nightmareHunter {
                 {
                     UpdateRun();
                 }
-                else if (state == State.ClientTracking)
+                else if (state == State.ClientTracking) // 의뢰인만 추적
                 {
                     UpdateClientTracking();
                 }
@@ -215,9 +222,9 @@ namespace nightmareHunter {
                 // 공격 타이머가 공격 속도보다 크거나 같은지 확인
                 if (lastAttackTime >= _attackSpeed)
                 {
-                    anim.SetTrigger("Attack");
+                    _animator.SetTrigger("Attack");
                     gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
-                    anim.SetTrigger("Idle");
+                    _animator.SetTrigger("Idle");
 
                     // 공격 타이머 초기화
                     lastAttackTime = 0.0f; 
@@ -235,7 +242,7 @@ namespace nightmareHunter {
                 if(PlayerDistance <= (_attackRange * 2)) {
                     NextTargetPosition = playerTarget.transform.position ;
                     state = State.Tracking;
-                    anim.SetTrigger("Run");
+                    _animator.SetTrigger("Run");
                 } 
 
                 if(PlayerDistance <= _attackRange) {
@@ -274,11 +281,11 @@ namespace nightmareHunter {
                     }
                 } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance  * 1000f) / 1000f)) {
                     distanceCheckCount++;
-                    if(distanceCheckCount > 4) {
-                        if(_waypointList[4].Count -1 > targetNum) {
-                            targetNum++;
-                        }
-                    }
+                    // if(distanceCheckCount > 4) {
+                    //     if(_waypointList[4].Count -1 > targetNum) {
+                    //         targetNum++;
+                    //     }
+                    // }
                 } else {
                     distanceCheck = distance;
                     distanceCheckCount = 0;
@@ -290,7 +297,7 @@ namespace nightmareHunter {
                 state = State.ClientAttack;
             }
             if(state == State.ClientTracking) {
-                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+               agent.SetDestination(NextTargetPosition); 
             }
         }
 
@@ -303,7 +310,7 @@ namespace nightmareHunter {
                     NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
                     lastAttackTime = 0.0f;
                     state = State.Bored;
-                    anim.SetTrigger("Run");
+                    _animator.SetTrigger("Run");
                 } 
 
                 if(PlayerDistance <= _attackRange) {
@@ -313,7 +320,7 @@ namespace nightmareHunter {
                 }
 
                 if(state == State.Tracking) {
-                    transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+                    agent.SetDestination(NextTargetPosition); 
                 }
             }
         }
@@ -328,13 +335,10 @@ namespace nightmareHunter {
                 state = State.Idle;
             } else {
                 if(lastAttackTime == 0.0f) {
-                    anim.SetTrigger("Attack");
+                     _animator.SetTrigger("Attack");
                     // 공격 실행
                     playerTarget.GetComponent<Player>().OnEventPlayerDamage(_attack,transform.position); 
-                    if(state != State.Die) {
-                        state = State.Idle;
-                    }
-                    anim.SetTrigger("Idle");
+        
                 }
                 // 공격 타이머를 증가시킴
                 lastAttackTime += Time.deltaTime;
@@ -359,13 +363,10 @@ namespace nightmareHunter {
                 state = State.Idle;
             } else {
                 if(lastAttackTime == 0.0f) {
-                    anim.SetTrigger("Attack");
+                   _animator.SetTrigger("Attack");
                     // 공격 실행
                     clientTarget.GetComponent<Target>().DamageProcess(_attack); 
-                    if(state != State.Die) {
-                        state = State.Idle;
-                    }
-                    anim.SetTrigger("Idle");
+          
                 }
                 // 공격 타이머를 증가시킴
                 lastAttackTime += Time.deltaTime;
@@ -386,24 +387,24 @@ namespace nightmareHunter {
                 NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
                 if(state != State.Die) {
                     state = State.Run;
-                    anim.SetTrigger("Run");
+                    _animator.SetTrigger("Run");
                 }
             } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance * 1000f) / 1000f)) {
                 distanceCheckCount++;
-                if(distanceCheckCount > 4) {
-                    Vector3 randomDirection = Random.insideUnitSphere;
-                    // 방향 벡터를 정규화하여 단위 벡터로 만듦
-                    randomDirection.Normalize();
-                    NextTargetPosition = transform.position + randomDirection * 0.5f;
-                    distanceCheckCount = 0;
-                }
+                // if(distanceCheckCount > 4) {
+                //     Vector3 randomDirection = Random.insideUnitSphere;
+                //     // 방향 벡터를 정규화하여 단위 벡터로 만듦
+                //     randomDirection.Normalize();
+                //     NextTargetPosition = transform.position + randomDirection * 0.5f;
+                //     distanceCheckCount = 0;
+                // }
             } else {
                 distanceCheck = distance;
                 distanceCheckCount = 0;
             }
 
             if(state == State.Bored) {
-                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+                agent.SetDestination(NextTargetPosition); 
             }
         }
 
@@ -411,29 +412,29 @@ namespace nightmareHunter {
         {
             int randomNumber = Random.Range(0, 1000);
 
-            if(randomNumber == 0) { //랜덤으로 딴짓을 하게 만든다.
-                Vector3 randomDirection = Random.insideUnitSphere;
-                // 방향 벡터를 정규화하여 단위 벡터로 만듦
-                randomDirection.Normalize();
-                NextTargetPosition = transform.position + randomDirection * 0.5f;
-            } else {
+            // if(randomNumber == 0) { //랜덤으로 딴짓을 하게 만든다.
+            //     Vector3 randomDirection = Random.insideUnitSphere;
+            //     // 방향 벡터를 정규화하여 단위 벡터로 만듦
+            //     randomDirection.Normalize();
+            //     NextTargetPosition = transform.position + randomDirection * 0.5f;
+            // } else {
                 //남은 거리가 0.3f 라면 목적지에 도착 한것으로 판단
                 float distance = Vector3.Distance(transform.position, NextTargetPosition);
                 if (distance <= 0.3f)
                 {
                     if(state != State.Die) {
                         state = State.Idle;
-                        anim.SetTrigger("Idle");
+                        _animator.SetTrigger("Idle");
                     }
                 } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance * 1000f) / 1000f)) {
                     distanceCheckCount++;
-                    if(distanceCheckCount > 4) {
-                        Vector3 randomDirection = Random.insideUnitSphere;
-                        // 방향 벡터를 정규화하여 단위 벡터로 만듦
-                        randomDirection.Normalize();
-                        NextTargetPosition = transform.position + randomDirection * 0.5f;
-                        distanceCheckCount = 0;
-                    }
+                    // if(distanceCheckCount > 4) {
+                    //     Vector3 randomDirection = Random.insideUnitSphere;
+                    //     // 방향 벡터를 정규화하여 단위 벡터로 만듦
+                    //     randomDirection.Normalize();
+                    //     NextTargetPosition = transform.position + randomDirection * 0.5f;
+                    //     distanceCheckCount = 0;
+                    // }
                     if(state != State.Die) {
                         state = State.Bored;
                     }
@@ -442,9 +443,9 @@ namespace nightmareHunter {
                     distanceCheckCount = 0;
                 }
 
-            }
+         //   }
             if(state == State.Run) {
-                transform.position = Vector2.MoveTowards (transform.position, NextTargetPosition, _speed * Time.fixedDeltaTime);
+                agent.SetDestination(NextTargetPosition); 
             }
         }
 
@@ -465,7 +466,7 @@ namespace nightmareHunter {
                 if(state != State.Die) {
                     state = State.Run;
                 }
-                anim.SetTrigger("Run");
+                _animator.SetTrigger("Run");
             } else {
                 Vector3 randomDirection = Random.insideUnitSphere;
                 // 방향 벡터를 정규화하여 단위 벡터로 만듦
@@ -477,14 +478,27 @@ namespace nightmareHunter {
             }
         }
 
+        IEnumerator objectEnd(GameObject weaponDamageEffect) {
+            yield return new WaitForSeconds(1.0f);
+            Destroy(weaponDamageEffect);
+            yield return null;
+        }
+
 
 
         public void DamageProcess(float damage) {
-            if(state != State.Die) {
+            if(state != State.Die) { 
+                Vector3 rePosition = new Vector3(transform.position.x, transform.position.y , transform.position.z);
+                GameObject weaponDamageEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  rePosition, Quaternion.identity);
+                //instantiatedPrefab.transform.localScale = new Vector3(1f, 1f, 1f);
+                weaponDamageEffect.SetActive(true);
+
+                StartCoroutine(objectEnd(weaponDamageEffect));
+
                 int randomNumber = Random.Range(0, 4);
 
                 if(randomNumber == 0) {
-                    Vector3 rePosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+                    rePosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
                     instantiatedPrefab.transform.position = rePosition;
 
                     if(clientTarget.transform.position.x < _rigidbody.position.x) {
@@ -495,16 +509,26 @@ namespace nightmareHunter {
                     instantiatedPrefab.SetActive(true);   
                     float clipLength = instantiatedPrefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
                     StartCoroutine(objectEnd(clipLength));
-                }
+                } 
               
                 _hp = _hp - damage;
 
                 isFalling = true;
-                gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
-                gameObject.GetComponent<AudioSource>().Play();
+                if(_spritesName.Equals("Teller") &&  _spritesName.Equals("wanderer") ) {
+                    if(AudioManager.Instance.playSound[_spritesName+"_0"] != null) {
+                        gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
+                        gameObject.GetComponent<AudioSource>().Play();
+                    }
+                }
+               
 
                 if(_hp <= 0) {
                     Debug.Log("몬스터 사망 처리");
+                    int weaponNum = Random.Range(0, 3);
+
+                    GameObject weaPonItem = Instantiate(UiController.Instance.dropItem, transform.position, transform.rotation);
+                    weaPonItem.GetComponent<WeaponItem>().SetWeaponType(weaponNum + 1);
+
                     UiController.Instance.integerAddSet(_integer);
                     Collider2D collider = gameObject.GetComponent<Collider2D>();
                     collider.isTrigger = true;

@@ -38,8 +38,9 @@ namespace nightmareHunter {
 
         // 스테이지 정보 저장
         public SystemSaveInfo systemSaveInfo; 
-        
-        GameDataManager gameDataManager =  new GameDataManager();
+
+        // 드랍아이템
+        public GameObject dropItem;
         
         // Start is called before the first frame update
         
@@ -92,7 +93,7 @@ namespace nightmareHunter {
         //재화 시나리오 전개 관련
         void SystemInit() {
             // 재화 시나리오 전개
-            systemSaveInfo = gameDataManager.LoadSystemSaveInfo();
+            systemSaveInfo = GameDataManager.Instance.LoadSystemSaveInfo();
             _gold.text = systemSaveInfo.money.ToString();
             _integer.text = systemSaveInfo.integer.ToString();
             maxTargetHp = systemSaveInfo.targetHP;
@@ -101,7 +102,7 @@ namespace nightmareHunter {
         }
 
         public void SystemDataSave() {
-            gameDataManager.SaveSystemInfo(systemSaveInfo);
+            GameDataManager.Instance.SaveSystemInfo(systemSaveInfo);
         }
 
 

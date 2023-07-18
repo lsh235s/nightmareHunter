@@ -113,7 +113,7 @@ namespace nightmareHunter {
                 _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = _spritesName;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
-                _uiItController.gameDataManager.SaveSummerInfo(_spritesName,_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
+                GameDataManager.Instance.SaveSummerInfo(_spritesName,_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
 
 
                 _isChange = false;

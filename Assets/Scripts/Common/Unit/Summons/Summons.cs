@@ -43,7 +43,7 @@ namespace nightmareHunter {
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
 
-            _playerinfo = _uiItController.gameDataManager.LoadSummerInfo(summonerId , _uiItController._unitObject);
+            _playerinfo = GameDataManager.Instance.LoadSummerInfo(summonerId , _uiItController._unitObject);
             playerDataLoad(_playerinfo);
 
         }

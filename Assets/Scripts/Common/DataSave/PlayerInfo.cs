@@ -21,6 +21,10 @@ namespace nightmareHunter {
         public string spritesName { get; set; }
         public int reward { get; set; }
         public bool summonsExist { get; set; }
+        public int weaponID { get; set; }
+        public int weaponAmount { get; set; }
+        public float attackDelayTime { get; set; }
+        public string weaponAttackType { get; set; }
    
     }
 }
