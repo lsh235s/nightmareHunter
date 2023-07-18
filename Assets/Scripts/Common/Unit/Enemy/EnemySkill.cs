@@ -24,6 +24,8 @@ namespace nightmareHunter {
                         } 
                     }
                     break;
+                case "Cloaking":
+                    break;
             }
         }
 
@@ -44,6 +46,8 @@ namespace nightmareHunter {
                             gameObject.GetComponent<Enemy>().stateMod("Idle");
                         } 
                     }
+                    break;
+                case "Cloaking":
                     break;
             }
         }
