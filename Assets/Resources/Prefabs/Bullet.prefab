@@ -53,11 +53,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c72ef053b031e40b44b6007dc12be2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponType: 0
-  weaponAttackType: NORMAL
-  attack: 2
-  range: 1
-  initialPosition: {x: -1.2798582, y: 0.7838599, z: 0}
+  weaponType: 3
+  weaponAttackType: PENETR
+  attack: 5
+  range: 0.90000004
+  initialPosition: {x: -1.7577635, y: 0.62429225, z: 0}
   _bulletSpeed: 2
   MainObject: {fileID: 6245671512966488181}
   bulletDotAni: {fileID: 8472463411224273485}
@@ -213,7 +213,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 1
-  _animationName: bullet2
+  _animationName: bullet1
   loop: 1
   timeScale: 1
 --- !u!70 &7733179429407726996

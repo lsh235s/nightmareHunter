@@ -76,6 +76,11 @@ namespace nightmareHunter {
 
             GameDataManager.Instance.SaveSystemInfo(systemSaveInfo);
 
+            PlayerInfo summonsInfo = new PlayerInfo();
+            summonsInfo.summonsExist = false;
+            GameDataManager.Instance.SaveSummerInfo("Hunter",summonsInfo);
+            GameDataManager.Instance.SaveSummerInfo("Exorcist",summonsInfo);
+
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
         }    
