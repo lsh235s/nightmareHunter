@@ -96,6 +96,7 @@ namespace nightmareHunter {
             skillList.Add("AttackSpeedUp", false);
             skillList.Add("MoveSpeedUp", false);
             skillList.Add("ClientTargetFix", false);
+            skillList.Add("Cloaking", false);
             
 
             for(int i=0; i < wayPointBaseList.Length; i++) {
