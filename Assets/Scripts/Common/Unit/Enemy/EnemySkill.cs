@@ -1,10 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Spine.Unity;
 
 namespace nightmareHunter {
     public class EnemySkill : MonoBehaviour
     {
+        [SerializeField]
+        private GameObject _skeletonObject;
+        private SkeletonMecanim skeletonMecanim;
     
         public void skillUse(string skillName) {
             switch (skillName) {
@@ -14,17 +19,20 @@ namespace nightmareHunter {
                     GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("Enemy");
 
                     // 검색된 GameObject에 대한 작업 수행
-                    foreach (GameObject gameObject in gameObjectsWithTag)
+                    foreach (GameObject targetGameObject in gameObjectsWithTag)
                     {
-                        if(gameObject.GetComponent<Enemy>()._monsterId == 0) {
-                            gameObject.GetComponent<Enemy>().skillList["AttackUp"] = true;
-                            gameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = true;
-                            gameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = true;
-                            gameObject.GetComponent<Enemy>().targetNum = -1;
+                        if(targetGameObject.GetComponent<Enemy>()._monsterId == 0) {
+                            targetGameObject.GetComponent<Enemy>().skillList["AttackUp"] = true;
+                            targetGameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = true;
+                            targetGameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = true;
+                            targetGameObject.GetComponent<Enemy>().targetNum = -1;
                         } 
                     }
                     break;
                 case "Cloaking":
+                    skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
+                    Color endColor = new Color32(0, 0, 0, 50);
+                    skeletonMecanim.skeleton.SetColor(endColor);
                     break;
             }
         }
@@ -37,17 +45,20 @@ namespace nightmareHunter {
                     GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("Enemy");
 
                     // 검색된 GameObject에 대한 작업 수행
-                    foreach (GameObject gameObject in gameObjectsWithTag)
+                    foreach (GameObject targetGameObject in gameObjectsWithTag)
                     {
-                        if(gameObject.GetComponent<Enemy>()._monsterId == 0) {
-                            gameObject.GetComponent<Enemy>().skillList["AttackUp"] = false;
-                            gameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = false;
-                            gameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = false;
-                            gameObject.GetComponent<Enemy>().stateMod("Idle");
+                        if(targetGameObject.GetComponent<Enemy>()._monsterId == 0) {
+                            targetGameObject.GetComponent<Enemy>().skillList["AttackUp"] = false;
+                            targetGameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = false;
+                            targetGameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = false;
+                            targetGameObject.GetComponent<Enemy>().stateMod("Idle");
                         } 
                     }
                     break;
                 case "Cloaking":
+                    skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
+                    Color endColor = new Color32(0, 0, 0, 255);
+                    skeletonMecanim.skeleton.SetColor(endColor);
                     break;
             }
         }

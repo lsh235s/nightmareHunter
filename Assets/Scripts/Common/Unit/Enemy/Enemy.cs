@@ -84,7 +84,7 @@ namespace nightmareHunter {
         public Dictionary<string, bool> skillList = new Dictionary<string, bool>();
     
 
-        private void Awake() {
+        private void Start() {
             isLive = true;
             _rigidbody = GetComponent<Rigidbody2D>();
             skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
@@ -113,6 +113,8 @@ namespace nightmareHunter {
             if(_monsterId == 1) {
                 _animator.SetTrigger("Attack");
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
+            } else if (_monsterId == 3) {
+                gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
             }
             _animator.SetTrigger("Idle");
 
@@ -637,6 +639,10 @@ namespace nightmareHunter {
             skeletonMecanim.skeleton.SetColor(endColor);
 
             isFalling = false;
+
+            if (_monsterId == 3) {
+                gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
+            }
 
             yield return null;
         }
