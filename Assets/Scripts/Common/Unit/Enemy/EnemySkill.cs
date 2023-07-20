@@ -33,7 +33,10 @@ namespace nightmareHunter {
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
                     Color endColor = new Color32(0, 0, 0, 50);
                     skeletonMecanim.skeleton.SetColor(endColor);
-                    GameObject.GetComponent<Enemy>().skillList["Cloaking"] = true;
+                    gameObject.GetComponent<Enemy>().skillList["Cloaking"] = true;
+                    break;
+                case "StillerSlow":
+                    gameObject.GetComponent<Enemy>().skillList["SlowSkill"] = true;
                     break;
             }
         }
@@ -60,7 +63,10 @@ namespace nightmareHunter {
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
                     Color endColor = new Color32(0, 0, 0, 255);
                     skeletonMecanim.skeleton.SetColor(endColor);
-                    GameObject.GetComponent<Enemy>().skillList["Cloaking"] = false;
+                    gameObject.GetComponent<Enemy>().skillList["Cloaking"] = false;
+                    break;
+                case "StillerSlow":
+                    gameObject.GetComponent<Enemy>().skillList["SlowSkill"] = true;
                     break;
             }
         }

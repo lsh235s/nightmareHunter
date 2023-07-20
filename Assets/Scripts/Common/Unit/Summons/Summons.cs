@@ -38,7 +38,15 @@ namespace nightmareHunter {
 
         UnitController _uiItController;
 
+        public Dictionary<string, bool> skillList = new Dictionary<string, bool>();
+
         void Start() {
+            skillList.Add("AttackUp", false);
+            skillList.Add("AttackSpeedUp", false);
+            skillList.Add("AttackSpeedDown", false);
+            skillList.Add("MoveSpeedUp", false);
+            skillList.Add("ClientTargetFix", false);
+            skillList.Add("Cloaking", false);
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();

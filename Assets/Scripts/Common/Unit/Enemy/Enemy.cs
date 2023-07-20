@@ -114,8 +114,10 @@ namespace nightmareHunter {
             if(_monsterId == 1) {
                 _animator.SetTrigger("Attack");
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
-            } else if (_monsterId == 3) {
+            } else if (_monsterId == 2) {
                 gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
+            } else if (_monsterId == 3) {
+                gameObject.GetComponent<EnemySkill>().skillUse("StillerSlow");
             }
             _animator.SetTrigger("Idle");
 
@@ -176,6 +178,21 @@ namespace nightmareHunter {
                             break;
                         case "ClientTargetFix":
                             state = State.ClientTracking;
+                            break;
+                        case "Cloaking":
+                            Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)transform.position, 4f);
+                            foreach (Collider2D collider in colliders)
+                            {
+                                if (collider.CompareTag("Summon"))
+                                {
+                                    // 특정 태그를 가진 오브젝트를 찾았을 때의 동작을 수행합니다.
+                                    // 이 예제에서는 콘솔에 오브젝트의 이름을 출력합니다.
+                                    Debug.Log("Found object with tag: " + collider.gameObject.name);
+                                    if(collider.gameObject.GetComponent<Summons>() != null) {
+                                        collider.gameObject.GetComponent<Summons>().skillList["AttackSpeedDown"] = true;
+                                    }
+                                }
+                            }
                             break;
                     }
                 }
