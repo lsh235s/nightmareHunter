@@ -236,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2618198, y: -0.5676911}
+  m_AnchoredPosition: {x: 1.2433634, y: -0.5907671}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &5557243652296972030
@@ -291,7 +291,7 @@ MonoBehaviour:
   _attackSpeed: 2
   _attackRange: 0.4
   _integer: 0
-  _positionString: (2.30, 0.67, 0.00)
+  _positionString: (2.24, 0.66, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
   summonsName: 
