@@ -279,6 +279,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1211433747}
     m_Modifications:
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: summon
+      value: 
+      objectReference: {fileID: 5557243652296972026, guid: 166059d8c5ac8274681f6c2e8ea005da, type: 3}
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: _spritesName
+      value: Exorcist
+      objectReference: {fileID: 0}
     - target: {fileID: 1814611133515702395, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -1585,6 +1593,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1211433747}
     m_Modifications:
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: summon
+      value: 
+      objectReference: {fileID: 5557243652296972026, guid: 9b1456311980c9143b1076ccda139c95, type: 3}
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: _spritesName
+      value: Priest
+      objectReference: {fileID: 0}
     - target: {fileID: 1814611133515702395, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -3494,6 +3510,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1211433747}
     m_Modifications:
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: summon
+      value: 
+      objectReference: {fileID: 5557243652296972026, guid: ea27f0fdb679231479ffe6160a8a2461, type: 3}
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: _spritesName
+      value: Monk
+      objectReference: {fileID: 0}
     - target: {fileID: 1814611133515702395, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -5694,6 +5718,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1211433747}
     m_Modifications:
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: summon
+      value: 
+      objectReference: {fileID: 5557243652296972026, guid: 5d448989e6d97af4095569d623f6495f, type: 3}
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: _spritesName
+      value: Shaman
+      objectReference: {fileID: 0}
     - target: {fileID: 1814611133515702395, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -8227,6 +8259,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1211433747}
     m_Modifications:
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: summon
+      value: 
+      objectReference: {fileID: 5557243652296972026, guid: b896df386782d5647808fcd47de9bec3, type: 3}
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: _spritesName
+      value: Gostbuste
+      objectReference: {fileID: 0}
     - target: {fileID: 1814611133515702395, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: m_IsActive
       value: 1

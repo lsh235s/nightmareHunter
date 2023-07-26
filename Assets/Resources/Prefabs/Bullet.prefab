@@ -57,7 +57,7 @@ MonoBehaviour:
   weaponAttackType: NORMAL
   attack: 2
   range: 1
-  initialPosition: {x: -0.087663755, y: 0.54799396, z: 0}
+  initialPosition: {x: -0.5819284, y: 0, z: 0}
   _bulletSpeed: 2
   MainObject: {fileID: 6245671512966488181}
   bulletDotAni: {fileID: 8472463411224273485}
