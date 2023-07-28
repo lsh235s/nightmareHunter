@@ -26,7 +26,6 @@ namespace nightmareHunter {
         public string _positionString;
         public Vector2 _positionInfo;
         public bool summonsExist;
-        public string summonsName;
 
 
         private float nextTime = 0.0f;  // 다음 공격 시간
@@ -50,7 +49,7 @@ namespace nightmareHunter {
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
-
+            Debug.Log("소환수 시작 ID : " + summonerId);
             _playerinfo = GameDataManager.Instance.LoadSummerInfo(summonerId , _uiItController._unitObject);
             playerDataLoad(_playerinfo);
 
@@ -73,7 +72,6 @@ namespace nightmareHunter {
             _playerinfo = inPlayerinfo;
 
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
-
             rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
 
             if(UiController.Instance.sceneMode == 1) { // 저녁시간에만 몬스터 스캔

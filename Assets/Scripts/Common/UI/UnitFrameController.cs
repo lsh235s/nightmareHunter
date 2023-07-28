@@ -35,7 +35,7 @@ namespace nightmareHunter {
 
         PlayerInfo NowSummonInfo;
 
-        int objectIndex;
+        public int objectIndex;
 
         void Start() {
             priceButton.onClick.AddListener(summonEnforce);
@@ -86,7 +86,7 @@ namespace nightmareHunter {
 
                         // 마우스 좌표를 월드 좌표로 변환
                         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
+                        summon.GetComponent<Summons>().summonerId = objectIndex;
                         // 오브젝트의 위치 설정
                         summon.transform.position = mousePosition;
 

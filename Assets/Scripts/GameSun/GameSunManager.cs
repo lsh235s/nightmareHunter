@@ -157,32 +157,37 @@ namespace nightmareHunter {
             //hunterGraphic.initialFlipX = true;  좌우반전 
             //hunterGraphic.Initialize(true); 재시작
 
-            if(storyObject.storyContentList[inStroyStage].scenario_stage_id != UiController.Instance.systemSaveInfo.stageId) {
-                inStroyStage = 52;
-                UiController.Instance.systemSaveInfo.storyNum = 52;
-                UiController.Instance.SystemDataSave();
-            }
-            Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
-
-            if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
-                _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
-                storyFlag = true;
-                if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
-                    if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
-                        _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
-                        
-                        _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
-                    }
-                } else if("tutorial".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
-                    eventFlag = true;
-
-                    evnetAction(storyObject.storyContentList[inStroyStage].event_stage_id);
+            if(storyObject.storyContentList.Count > inStroyStage) {
+                if(storyObject.storyContentList[inStroyStage].scenario_stage_id != UiController.Instance.systemSaveInfo.stageId) {
+                    inStroyStage = 52;
+                    UiController.Instance.systemSaveInfo.storyNum = 52;
+                    UiController.Instance.SystemDataSave();
                 }
-                
+                Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+
+                if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
+                    _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
+                    storyFlag = true;
+                    if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
+                        if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
+                            _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
+                            
+                            _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
+                        }
+                    } else if("tutorial".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
+                        eventFlag = true;
+
+                        evnetAction(storyObject.storyContentList[inStroyStage].event_stage_id);
+                    }
+                    
+                } else {
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    storyFlag = false;
+                    _ChatGroup.SetActive(false);
+                }
             } else {
-                _playGameObject.GetComponent<Player>().playerState = "wait";
                 storyFlag = false;
-               _ChatGroup.SetActive(false);
+                _ChatGroup.SetActive(false);
             }
         }
 
@@ -243,7 +248,11 @@ namespace nightmareHunter {
                     skipButton();
                 break;
                 case 8 :
-                    endStoryPanel.SetActive(true);
+                    Debug.Log("스토리 클리어 이후");
+                    eventFlag = false;
+                    storyFlag = false;
+                    _ChatGroup.SetActive(false);
+                  //  endStoryPanel.SetActive(true);
                 break;
             }
         }

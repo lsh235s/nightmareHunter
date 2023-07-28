@@ -52,7 +52,7 @@ namespace nightmareHunter {
             _playGameObject.GetComponent<Player>().playerDataLoad(GameDataManager.Instance.LoadPlayerInfo()); 
         }
 
-        // 소환수 배치 관련
+        // 저장된 소환수 배치 관련
         void SummonerInit() {
            List<PlayerInfo> existTargetInfo = GameDataManager.Instance.SummerListLoad();
            for(int i = 0; i < existTargetInfo.Count; i++)

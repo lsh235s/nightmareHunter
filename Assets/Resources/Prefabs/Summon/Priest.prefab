@@ -210,7 +210,7 @@ GameObject:
   - component: {fileID: 6601857614735978077}
   - component: {fileID: 9036490235501581029}
   m_Layer: 3
-  m_Name: Hunter
+  m_Name: Priest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2433634, y: -0.5907671}
+  m_AnchoredPosition: {x: 0.41106242, y: -1.2603952}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &5557243652296972030
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e894f57e7b0044380b8a91f9ce488bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonerId: 0
+  summonerId: 1
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -294,7 +294,6 @@ MonoBehaviour:
   _positionString: (2.24, 0.66, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
-  summonsName: 
   rangeObject: {fileID: 4317107440222803780}
 --- !u!70 &9036490235501581029
 CapsuleCollider2D:
