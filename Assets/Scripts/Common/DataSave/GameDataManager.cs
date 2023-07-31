@@ -10,7 +10,7 @@ namespace nightmareHunter {
 
         public static GameDataManager Instance { get; private set; }
 
-        string[] summonList = new string[] {"Hunter","Exorcist"};
+        string[] summonList = new string[] {"hunter", "priest", "exorcist", "monk", "shaman", "gostbuste"};
         public Dictionary<int, WeaponInfo> WeaponLoadInfo = new Dictionary<int, WeaponInfo>(); // 무기 정보
 
   
@@ -120,12 +120,14 @@ namespace nightmareHunter {
 
                 for(int j = 0; j < unitObjectList.Count; j++) {
                     if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summonList[i].Equals(unitObjectList[j]["SpritesName"].ToString())) {
+                        playerInfo.id =  int.Parse(unitObjectList[j]["Id"].ToString());
                         playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
                         playerInfo.attack =  float.Parse(unitObjectList[j]["Attack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttack"].ToString()));
                         playerInfo.attackRange =  (float.Parse(unitObjectList[j]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttackRange"].ToString()))) * 0.1f;
                         playerInfo.move =  (float.Parse(unitObjectList[j]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMove"].ToString())) * 0.1f);
                         playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
                         playerInfo.spritesName = unitObjectList[j]["SpritesName"].ToString();
+                        Debug.Log("playerInfo : " +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange);
                     }
                 }
 
@@ -164,7 +166,7 @@ namespace nightmareHunter {
                 playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
 
                 for(int i = 0; i < unitObjectList.Count; i++) {
-                    if("2".Equals(unitObjectList[i]["UnitType"]) && summonList[intPlayerInfo].Equals(unitObjectList[i]["SpritesName"]) ) {
+                    if(2 == int.Parse(unitObjectList[i]["UnitType"].ToString()) && intPlayerInfo == int.Parse(unitObjectList[i]["Id"].ToString()) ) {
                         playerInfo.health = float.Parse(unitObjectList[i]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevHealth"].ToString()));
                         playerInfo.attack =  float.Parse(unitObjectList[i]["Attack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttack"].ToString()));
                         playerInfo.attackRange =  (float.Parse(unitObjectList[i]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackRange"].ToString()))) * 0.1f;
@@ -175,7 +177,6 @@ namespace nightmareHunter {
                 }
 
             }
-            Debug.Log("playerInfo : " + playerInfo.attackRange);
             return playerInfo;
         }
 

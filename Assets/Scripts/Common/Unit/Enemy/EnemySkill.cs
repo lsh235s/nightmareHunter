@@ -61,7 +61,7 @@ namespace nightmareHunter {
                     break;
                 case "Cloaking":
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
-                    Color endColor = new Color32(0, 0, 0, 255);
+                    Color endColor = new Color32(255, 255, 255, 255);
                     skeletonMecanim.skeleton.SetColor(endColor);
                     gameObject.GetComponent<Enemy>().skillList["Cloaking"] = false;
                     break;

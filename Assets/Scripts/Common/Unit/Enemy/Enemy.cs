@@ -97,6 +97,7 @@ namespace nightmareHunter {
             skillList.Add("MoveSpeedUp", false);
             skillList.Add("ClientTargetFix", false);
             skillList.Add("Cloaking", false);
+            skillList.Add("SummonAttackSpeddDown", false);
             
 
             for(int i=0; i < wayPointBaseList.Length; i++) {
@@ -180,6 +181,12 @@ namespace nightmareHunter {
                             state = State.ClientTracking;
                             break;
                         case "Cloaking":
+                            if(isFalling == false) {
+                                Color endColor = new Color32(0, 0, 0, 50);
+                                skeletonMecanim.skeleton.SetColor(endColor);
+                            }
+                            break;
+                        case "SummonAttackSpeddDown":
                             Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)transform.position, 4f);
                             foreach (Collider2D collider in colliders)
                             {
@@ -658,9 +665,7 @@ namespace nightmareHunter {
 
             isFalling = false;
 
-            if (_monsterId == 3) {
-                gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
-            }
+
 
             yield return null;
         }

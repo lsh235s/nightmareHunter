@@ -15305,6 +15305,11 @@ MonoBehaviour:
   _stateMonsterBatch: {fileID: 11400000, guid: b91cdc9b451a928428e3b9403fa6aff9, type: 2}
   _summoner:
   - {fileID: 5557243652296972026, guid: d64665cdbad6a4f609a456e6bd0414b5, type: 3}
+  - {fileID: 5557243652296972026, guid: 9b1456311980c9143b1076ccda139c95, type: 3}
+  - {fileID: 5557243652296972026, guid: 166059d8c5ac8274681f6c2e8ea005da, type: 3}
+  - {fileID: 5557243652296972026, guid: ea27f0fdb679231479ffe6160a8a2461, type: 3}
+  - {fileID: 5557243652296972026, guid: 5d448989e6d97af4095569d623f6495f, type: 3}
+  - {fileID: 5557243652296972026, guid: b896df386782d5647808fcd47de9bec3, type: 3}
   _playGameObject: {fileID: 1428730779}
   _targetGameObject: {fileID: 1666601694}
   monsterBuildCount: 0

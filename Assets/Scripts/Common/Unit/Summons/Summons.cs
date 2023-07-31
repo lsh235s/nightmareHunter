@@ -137,6 +137,11 @@ namespace nightmareHunter {
                 if(curDiff < diff) {
                     diff = curDiff;
                     result = target.transform;
+
+                    if(target.transform.GetComponent<Enemy>() != null) {
+                        if(target.transform.GetComponent<Enemy>()._monsterId == 2 && summonerId == 3)
+                            target.transform.GetComponent<EnemySkill>().skillUse("Cloaking");
+                    }
                 }
             }
 
