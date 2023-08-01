@@ -115,8 +115,6 @@ namespace nightmareHunter {
             if(_monsterId == 1) {
                 _animator.SetTrigger("Attack");
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
-            } else if (_monsterId == 2) {
-                gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
             } else if (_monsterId == 3) {
                 gameObject.GetComponent<EnemySkill>().skillUse("StillerSlow");
             }
@@ -158,6 +156,25 @@ namespace nightmareHunter {
 
                 EnemyActJudge();
                
+                if (_monsterId == 2) {
+                    foundMonk();
+                }
+            }
+        }
+
+        private void foundMonk() {
+            Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)transform.position, 4f);
+            foreach (Collider2D collider in colliders)
+            {
+                gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
+                if (collider.CompareTag("Summon"))
+                {
+                    if(collider.gameObject.GetComponent<Summons>() != null) {
+                        if(collider.gameObject.GetComponent<Summons>().summonerId == 3){
+                            gameObject.GetComponent<EnemySkill>().skillEnd("Cloaking");
+                        }
+                    }
+                }
             }
         }
 
@@ -308,11 +325,6 @@ namespace nightmareHunter {
                     }
                 } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance  * 1000f) / 1000f)) {
                     distanceCheckCount++;
-                    // if(distanceCheckCount > 4) {
-                    //     if(_waypointList[4].Count -1 > targetNum) {
-                    //         targetNum++;
-                    //     }
-                    // }
                 } else {
                     distanceCheck = distance;
                     distanceCheckCount = 0;
