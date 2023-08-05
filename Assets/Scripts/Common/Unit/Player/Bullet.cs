@@ -9,7 +9,8 @@ namespace nightmareHunter {
         //총알 사거리
         public int weaponType;
         public string weaponAttackType;
-        public float attack;
+        public float physicsAttack;
+        public float magicAttack;
         public float range; // 사거리
         public Vector3 initialPosition; // 초기 위치
         public float _bulletSpeed; // 총알 속도
@@ -90,12 +91,12 @@ namespace nightmareHunter {
                 if(collision.GetComponent<Enemy>()) {
                     if(!collision.GetComponent<Enemy>().isDead) {    
                         if(targetCount == 0 && weaponAttackType.Equals("NORMAL")) {
-                            collision.GetComponent<Enemy>().DamageProcess(attack);
+                            collision.GetComponent<Enemy>().DamageProcess(physicsAttack);
                             targetCount++;
                             EffectAnimation();
                            
                         } else {
-                            collision.GetComponent<Enemy>().DamageProcess(attack);
+                            collision.GetComponent<Enemy>().DamageProcess(physicsAttack);
                             EffectAnimation();
                         }
                     }

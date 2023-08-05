@@ -30,16 +30,21 @@ namespace nightmareHunter {
         // 몬스터 고정 능력치 
         public float _initSpeed;
         public float _initHp;
-        public float _initAttack;
+        public float _initphysicsAttack;
+        public float _initMagicAttack;
+        public float _initpysicsDefense;
+        public float _initMagicDefense;
         public float _initAttackSpeed;
         public float _initAttackRange;
-
 
         // 몬스터 가변 능력치 
         public int _monsterId;
         public float _speed;
         public float _hp;
-        public float _attack;
+        public float _physicsAttack;
+        public float _magicAttack;
+        public float _pysicsDefense;
+        public float _magicDefense;
         public float _attackSpeed;
         private float lastAttackTime = 0.0f; // 이전 공격 시간
         public float _attackRange;
@@ -130,7 +135,10 @@ namespace nightmareHunter {
             //     _speed = 1.0f;
             // }
             _hp = playerinfo.health;
-            _attack = playerinfo.attack;
+            _physicsAttack = playerinfo.physicsAttack; 
+            _magicAttack = playerinfo.magicAttack;
+            _pysicsDefense = playerinfo.pysicsDefense;
+            _magicDefense = playerinfo.magicDefense;
             _attackSpeed = playerinfo.attackSpeed;
             _attackRange = playerinfo.attackRange;
             _integer = playerinfo.reward;
@@ -138,7 +146,10 @@ namespace nightmareHunter {
 
             _initSpeed = _speed;
             _initHp = _hp;
-            _initAttack = _attack;
+            _initphysicsAttack = _physicsAttack;
+            _initMagicAttack = _magicAttack;
+            _initpysicsDefense = _pysicsDefense;
+            _initMagicDefense = _magicDefense;
             _initAttackSpeed = _attackSpeed;
             _initAttackRange = _attackRange;
 
@@ -186,7 +197,7 @@ namespace nightmareHunter {
                     switch(kvp.Key)
                     {
                         case "AttackUp":
-                            _attack = _initAttack + (_initAttack * 2f);
+                            _physicsAttack = _initphysicsAttack + (_initphysicsAttack * 2f);
                             break;
                         case "AttackSpeedUp":
                             _attackSpeed = _initSpeed + (_initSpeed * 2f);
@@ -376,7 +387,7 @@ namespace nightmareHunter {
                 if(lastAttackTime == 0.0f) {
                      _animator.SetTrigger("Attack");
                     // 공격 실행
-                    playerTarget.GetComponent<Player>().OnEventPlayerDamage(_attack,transform.position); 
+                    playerTarget.GetComponent<Player>().OnEventPlayerDamage(_physicsAttack,transform.position); 
         
                 }
                 // 공격 타이머를 증가시킴
@@ -404,7 +415,7 @@ namespace nightmareHunter {
                 if(lastAttackTime == 0.0f) {
                    _animator.SetTrigger("Attack");
                     // 공격 실행
-                    clientTarget.GetComponent<Target>().DamageProcess(_attack); 
+                    clientTarget.GetComponent<Target>().DamageProcess(_physicsAttack); 
           
                 }
                 // 공격 타이머를 증가시킴

@@ -20,6 +20,8 @@ namespace nightmareHunter {
         public float _speed;
         public float _hp;
         public float _attack;
+        public float _physicsAttack;
+        public float _magicAttack;
         public float _attackSpeed;
         public float _attackRange;
         public int _integer;
@@ -64,7 +66,8 @@ namespace nightmareHunter {
                 _speed = 1.0f;
             }
             _hp = inPlayerinfo.health;
-            _attack = inPlayerinfo.attack;
+            _physicsAttack = inPlayerinfo.physicsAttack;
+            _magicAttack = inPlayerinfo.magicAttack;
             _attackSpeed = inPlayerinfo.attackSpeed;
             _attackRange = inPlayerinfo.attackRange;
             _integer = inPlayerinfo.reward;
@@ -148,7 +151,7 @@ namespace nightmareHunter {
         {
             if(collisionObject.GetComponent<Enemy>() != null) {
                 gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                collisionObject.GetComponent<Enemy>().DamageProcess(_attack);
+                collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack);
                 nearestTarget = null;
             }
         }

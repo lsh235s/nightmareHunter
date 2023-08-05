@@ -5,6 +5,9 @@ using UnityEngine;
 namespace nightmareHunter {
     public class GameMoonManager : MonoBehaviour
     {
+
+        Texture2D NormalIcon;
+        Texture2D AttckIcon;
  
         [SerializeField]
         GameObject[] wayPointList; 
@@ -34,6 +37,11 @@ namespace nightmareHunter {
             _uiItController.GameStart();
             _loadingControl.FadeActive();
             StartCoroutine(_loadingControl.FadeInStart());
+
+            NormalIcon = Resources.Load<Texture2D>("ui/pointer"); 
+            AttckIcon = Resources.Load<Texture2D>("ui/pointer2");
+
+            Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
             
             //몬스터 배치
            monsterInit();
@@ -49,6 +57,16 @@ namespace nightmareHunter {
                         UiController.Instance.stageClear();
                     }
                 } 
+            }
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width / 5, 0), CursorMode.Auto);
+            }
+
+            if (Input.GetMouseButtonUp(0))
+            {
+                Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
             }
         }
 

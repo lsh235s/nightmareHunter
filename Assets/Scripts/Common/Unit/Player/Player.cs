@@ -11,7 +11,6 @@ namespace nightmareHunter {
     {
         public string playerState;
         public GameObject bulletPoint;
-        public GameObject bulletTargetSpirte;
 
          //총알 프리팹
         [SerializeField]
@@ -80,15 +79,16 @@ namespace nightmareHunter {
 
             // 총알 방향 설정
             bulletPoint.transform.rotation = Quaternion.Euler(0, 0, angle);
-            // 과녁 위치 설정
-            Vector3 mousePosition = Input.mousePosition;
-            mousePosition.z = -Camera.main.transform.position.z;
-            Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-            Vector3 directions = (targetPosition - bulletPoint.transform.position).normalized;
 
 
-            bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * _playerinfo.attackRange ;
+
+            // 과녁 위치 설정 총알 거리 및 위치 포인트 표시 제거
+            //Vector3 mousePosition = Input.mousePosition;
+            //mousePosition.z = -Camera.main.transform.position.z;
+            //Vector3 targetPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+            //Vector3 directions = (targetPosition - bulletPoint.transform.position).normalized;
+            //bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * _playerinfo.attackRange ;
 
 
             if (isFalling)
@@ -143,7 +143,8 @@ namespace nightmareHunter {
         // 공격 처리
         private void FireBullet() {
             _bulletPrefab.GetComponent<Bullet>().weaponType = _playerinfo.weaponID;
-            _bulletPrefab.GetComponent<Bullet>().attack = _playerinfo.attack;
+            _bulletPrefab.GetComponent<Bullet>().physicsAttack = _playerinfo.physicsAttack;
+            _bulletPrefab.GetComponent<Bullet>().magicAttack = _playerinfo.magicAttack;
             _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
             _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
             _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _playerinfo.attackSpeed;

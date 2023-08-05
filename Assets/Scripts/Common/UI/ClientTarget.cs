@@ -43,7 +43,7 @@ namespace nightmareHunter {
             Collider2D otherCollider = collision.collider;
 
             if(otherCollider.GetComponent<Enemy>()) {
-                ClientHp = ClientHp - otherCollider.GetComponent<Enemy>()._attack;
+                ClientHp = ClientHp - otherCollider.GetComponent<Enemy>()._physicsAttack;
                 if(ClientHp < 0) {
                     ClientHp = 0;
                 }

@@ -55,9 +55,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponType: 0
   weaponAttackType: NORMAL
-  attack: 2
+  attack: 2000
   range: 1
-  initialPosition: {x: -0.5819284, y: 0, z: 0}
+  initialPosition: {x: 0.22863197, y: 0.113137074, z: 0}
   _bulletSpeed: 2
   MainObject: {fileID: 6245671512966488181}
   bulletDotAni: {fileID: 8472463411224273485}

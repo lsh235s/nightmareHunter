@@ -41,8 +41,10 @@ namespace nightmareHunter {
                     weaponInfo.id = int.Parse(WeaponObjectList[i]["Id"].ToString());
                     weaponInfo.WeaponName = WeaponObjectList[i]["WeaponName"].ToString();
                     weaponInfo.Level = int.Parse(WeaponObjectList[i]["Level"].ToString());
-                    weaponInfo.Attack = float.Parse(WeaponObjectList[i]["Attack"].ToString());
-                    weaponInfo.LevAttack = float.Parse(WeaponObjectList[i]["LevAttack"].ToString());
+                    weaponInfo.PhysicsAttack = float.Parse(WeaponObjectList[i]["PhysicsAttack"].ToString());
+                    weaponInfo.MagicAttack = float.Parse(WeaponObjectList[i]["MagicAttack"].ToString());
+                    weaponInfo.LevPhysicsAttack = float.Parse(WeaponObjectList[i]["LevPhysicsAttack"].ToString());
+                    weaponInfo.LevMagicAttack = float.Parse(WeaponObjectList[i]["LevMagicAttack"].ToString());
                     weaponInfo.AttackRange = float.Parse(WeaponObjectList[i]["AttackRange"].ToString());
                     weaponInfo.LevAttackRange = float.Parse(WeaponObjectList[i]["LevAttackRange"].ToString());
                     weaponInfo.Move = float.Parse(WeaponObjectList[i]["Move"].ToString());
@@ -83,7 +85,8 @@ namespace nightmareHunter {
             for(int i = 0; i < unitObjectList.Count; i++) {
                 if (unitObjectList[i]["UnitType"].ToString().Equals("0")) {
                     playerInfo.health = float.Parse(unitObjectList[i]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevHealth"].ToString()));
-                    playerInfo.attack =  WeaponLoadInfo[0].Attack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttack);
+                    playerInfo.physicsAttack =  WeaponLoadInfo[0].PhysicsAttack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevPhysicsAttack);
+                    playerInfo.magicAttack =  WeaponLoadInfo[0].MagicAttack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevMagicAttack);
                     playerInfo.attackRange =  (WeaponLoadInfo[0].AttackRange + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackRange)) * 0.1f;
                     playerInfo.move =  (WeaponLoadInfo[0].Move + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevMove)) * 0.1f;
                     playerInfo.attackSpeed =  WeaponLoadInfo[0].AttackSpeed + ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackSpeed);
@@ -96,7 +99,8 @@ namespace nightmareHunter {
 
         public PlayerInfo PlayWeaponSet(int weaponID, PlayerInfo playerInfo) {
             playerInfo.weaponID = weaponID;
-            playerInfo.attack = WeaponLoadInfo[weaponID].Attack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttack);
+            playerInfo.physicsAttack = WeaponLoadInfo[weaponID].PhysicsAttack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevPhysicsAttack);
+            playerInfo.magicAttack = WeaponLoadInfo[weaponID].MagicAttack + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevMagicAttack);
             playerInfo.attackRange = (WeaponLoadInfo[weaponID].AttackRange + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttackRange)) * 0.1f;
             playerInfo.move = (WeaponLoadInfo[weaponID].Move + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevMove)) * 0.1f;
             playerInfo.attackSpeed = WeaponLoadInfo[weaponID].AttackSpeed + ((playerInfo.playerLevel-1) * WeaponLoadInfo[weaponID].LevAttackSpeed);
@@ -122,7 +126,10 @@ namespace nightmareHunter {
                     if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summonList[i].Equals(unitObjectList[j]["SpritesName"].ToString())) {
                         playerInfo.id =  int.Parse(unitObjectList[j]["Id"].ToString());
                         playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
-                        playerInfo.attack =  float.Parse(unitObjectList[j]["Attack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttack"].ToString()));
+                        playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
+                        playerInfo.magicAttack =  float.Parse(unitObjectList[j]["MagicAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMagicAttack"].ToString()));
+                        playerInfo.pysicsDefense =  float.Parse(unitObjectList[j]["PhysicsDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevPhysicsDefense"].ToString()));
+                        playerInfo.magicDefense =  float.Parse(unitObjectList[j]["MagicDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMagicDefense"].ToString()));
                         playerInfo.attackRange =  (float.Parse(unitObjectList[j]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttackRange"].ToString()))) * 0.1f;
                         playerInfo.move =  (float.Parse(unitObjectList[j]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMove"].ToString())) * 0.1f);
                         playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
@@ -168,7 +175,10 @@ namespace nightmareHunter {
                 for(int i = 0; i < unitObjectList.Count; i++) {
                     if(2 == int.Parse(unitObjectList[i]["UnitType"].ToString()) && intPlayerInfo == int.Parse(unitObjectList[i]["Id"].ToString()) ) {
                         playerInfo.health = float.Parse(unitObjectList[i]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevHealth"].ToString()));
-                        playerInfo.attack =  float.Parse(unitObjectList[i]["Attack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttack"].ToString()));
+                        playerInfo.physicsAttack =  float.Parse(unitObjectList[i]["PhysicsAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevPhysicsAttack"].ToString()));
+                        playerInfo.magicAttack =  float.Parse(unitObjectList[i]["MagicAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMagicAttack"].ToString()));
+                        playerInfo.pysicsDefense =  float.Parse(unitObjectList[i]["PhysicsDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevPhysicsDefense"].ToString()));
+                        playerInfo.magicDefense =  float.Parse(unitObjectList[i]["MagicDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMagicDefense"].ToString()));
                         playerInfo.attackRange =  (float.Parse(unitObjectList[i]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackRange"].ToString()))) * 0.1f;
                         playerInfo.move =  (float.Parse(unitObjectList[i]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMove"].ToString())) * 0.1f);
                         playerInfo.attackSpeed =  (float.Parse(unitObjectList[i]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackSpeed"].ToString()))) * 0.1f;
@@ -189,7 +199,10 @@ namespace nightmareHunter {
             for(int i = 0; i < unitObjectList.Count; i++) {
                 if ("1".Equals(unitObjectList[i]["UnitType"].ToString()) && int.Parse(unitObjectList[i]["Id"].ToString()) == (int)stateMonster["MonsterId"]) {
                     playerInfo.health =  float.Parse(unitObjectList[i]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevHealth"].ToString()));
-                    playerInfo.attack =  float.Parse(unitObjectList[i]["Attack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttack"].ToString()));
+                    playerInfo.physicsAttack =  float.Parse(unitObjectList[i]["PhysicsAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevPhysicsAttack"].ToString()));
+                    playerInfo.magicAttack =  float.Parse(unitObjectList[i]["MagicAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMagicAttack"].ToString()));
+                    playerInfo.pysicsDefense =  float.Parse(unitObjectList[i]["PhysicsDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevPhysicsDefense"].ToString()));
+                    playerInfo.magicDefense =  float.Parse(unitObjectList[i]["MagicDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMagicDefense"].ToString()));
                     playerInfo.attackRange =  (float.Parse(unitObjectList[i]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackRange"].ToString())))  * 0.1f;
                     playerInfo.move =  (float.Parse(unitObjectList[i]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMove"].ToString()))) * 0.1f;
                     playerInfo.attackSpeed =  (float.Parse(unitObjectList[i]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackSpeed"].ToString()))) * 0.1f;
