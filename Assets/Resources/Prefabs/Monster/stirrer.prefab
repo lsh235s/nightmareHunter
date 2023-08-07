@@ -316,18 +316,24 @@ MonoBehaviour:
   _skeletonObject: {fileID: 366040440320829931}
   targetNum: -1
   _initSpeed: 0.4
-  _initHp: 2000
-  _initAttack: 5
-  _initAttackSpeed: 1
+  _initHp: 100
+  _initphysicsAttack: 10
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
+  _initAttackSpeed: 15
   _initAttackRange: 0.3
-  _monsterId: 3
+  _monsterId: 6
   _speed: 0.4
-  _hp: 2000
-  _attack: 5
-  _attackSpeed: 1
+  _hp: 100
+  _physicsAttack: 10
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
+  _attackSpeed: 15
   _attackRange: 0.3
   _integer: 0
-  _spritesName: stirrer
+  _spritesName: flydra
   _positionInfo: {x: 0, y: 0}
   isDead: 0
   anim: {fileID: 0}

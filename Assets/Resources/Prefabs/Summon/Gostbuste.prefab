@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e894f57e7b0044380b8a91f9ce488bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonerId: 5
+  summonerId: 6
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -288,6 +288,8 @@ MonoBehaviour:
   _speed: 1
   _hp: 99
   _attack: 4.9
+  _physicsAttack: 0
+  _magicAttack: 0
   _attackSpeed: 2
   _attackRange: 0.4
   _integer: 0

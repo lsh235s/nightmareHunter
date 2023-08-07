@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1cd8803a9e96f4eae3e547d2aecca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteScale: 4.4
+  spriteScale: 2.2
 --- !u!1 &2614644795405342743
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,18 +280,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e894f57e7b0044380b8a91f9ce488bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonerId: 2
+  summonerId: 4
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   nearestTarget: {fileID: 0}
   _speed: 1
-  _hp: 106
+  _hp: 99
   _attack: 11
-  _attackSpeed: 5
-  _attackRange: 2
+  _physicsAttack: 4
+  _magicAttack: -1
+  _attackSpeed: 0.5
+  _attackRange: 0.2
   _integer: 0
-  _positionString: (2.03, -0.30, 0.00)
+  _positionString: (1.95, 0.65, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
   rangeObject: {fileID: 1076020198223252540}

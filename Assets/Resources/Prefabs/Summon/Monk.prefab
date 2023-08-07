@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1cd8803a9e96f4eae3e547d2aecca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteScale: 4.4
+  spriteScale: 5.5
 --- !u!1 &5557243652296972026
 GameObject:
   m_ObjectHideFlags: 0
@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e894f57e7b0044380b8a91f9ce488bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonerId: 3
+  summonerId: 5
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -288,10 +288,12 @@ MonoBehaviour:
   _speed: 1
   _hp: 99
   _attack: 4.9
-  _attackSpeed: 2
-  _attackRange: 0.4
+  _physicsAttack: 4
+  _magicAttack: -1
+  _attackSpeed: 0.5
+  _attackRange: 0.5
   _integer: 0
-  _positionString: (2.24, 0.66, 0.00)
+  _positionString: (1.60, 0.03, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
   rangeObject: {fileID: 4317107440222803780}

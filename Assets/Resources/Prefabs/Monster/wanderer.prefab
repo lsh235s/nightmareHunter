@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3314214647269054760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.19, y: -1.83, z: 0}
+  m_LocalPosition: {x: -3.647, y: 1.469, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientTarget: {fileID: 0}
   playerTarget: {fileID: 0}
-  waypointType: 1
+  waypointType: 2
   wayPointBaseList:
   - {fileID: 0}
   - {fileID: 0}
@@ -170,14 +170,20 @@ MonoBehaviour:
   _skeletonObject: {fileID: 3314214647874090232}
   targetNum: -1
   _initSpeed: 0.2
-  _initHp: 500
-  _initAttack: 5
+  _initHp: 200
+  _initphysicsAttack: 5
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
   _initAttackSpeed: 2
   _initAttackRange: 0.3
   _monsterId: 0
   _speed: 0.2
-  _hp: 500
-  _attack: 5
+  _hp: 200
+  _physicsAttack: 5
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
   _attackSpeed: 2
   _attackRange: 0.3
   _integer: 0

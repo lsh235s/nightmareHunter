@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3314214647269054760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.647, y: 1.469, z: 0}
+  m_LocalPosition: {x: -3.6, y: -0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientTarget: {fileID: 0}
   playerTarget: {fileID: 0}
-  waypointType: 2
+  waypointType: 3
   wayPointBaseList:
   - {fileID: 0}
   - {fileID: 0}
@@ -171,14 +171,20 @@ MonoBehaviour:
   targetNum: -1
   _initSpeed: 0.4
   _initHp: 500
-  _initAttack: 10
-  _initAttackSpeed: 1
+  _initphysicsAttack: 10
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
+  _initAttackSpeed: 15
   _initAttackRange: 0.3
-  _monsterId: 2
+  _monsterId: 5
   _speed: 0.4
   _hp: 500
-  _attack: 10
-  _attackSpeed: 1
+  _physicsAttack: 10
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
+  _attackSpeed: 15
   _attackRange: 0.3
   _integer: 0
   _spritesName: darkone
