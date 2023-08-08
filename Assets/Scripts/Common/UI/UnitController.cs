@@ -64,11 +64,11 @@ namespace nightmareHunter {
         public void SummonerGet(PlayerInfo PlayerInfo) {
             GameObject select = null;
             
+            Debug.Log("PlayerInfo.id:"+PlayerInfo.id);
             select = _summoner[PlayerInfo.id];
             select.GetComponent<Summons>().playerDataLoad(PlayerInfo);
-            string[] vectorValues = PlayerInfo.positionInfo.Trim('(', ')').Split(',');
             
-            Vector3 vector = new Vector3(float.Parse(vectorValues[0]), float.Parse(vectorValues[1]), float.Parse(vectorValues[2]));
+            Vector3 vector = new Vector3(float.Parse(PlayerInfo.positionInfoX), float.Parse(PlayerInfo.positionInfoY), float.Parse(PlayerInfo.positionInfoZ));
           
             _summoner[PlayerInfo.id] = Instantiate(select);   
             _summoner[PlayerInfo.id].tag = "Summon";

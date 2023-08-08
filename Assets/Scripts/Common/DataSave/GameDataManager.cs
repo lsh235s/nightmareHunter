@@ -113,35 +113,35 @@ namespace nightmareHunter {
 
         public List<PlayerInfo> SummerListLoad() {
             List<Dictionary<string, object>> unitObjectList = CSVReader.Read("UnitObject");
+            List<Dictionary<string, object>> summerBatchList = CSVReader.Read("SummonBatch");
             List<PlayerInfo> existTargetInfo = new List<PlayerInfo>();
-            for(int i = 0; i < summonList.Length; i++) {
-                string fileName = summonList[i] + ".json";
-                string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
+            Debug.Log("playerInfo : SummerListLoad" );
 
-
-                string jsonString = File.ReadAllText(filePath);
-                PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
-
+            for(int i=0; i < summerBatchList.Count; i++) {
+                PlayerInfo playerInfo = new PlayerInfo();
                 for(int j = 0; j < unitObjectList.Count; j++) {
-                    if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summonList[i].Equals(unitObjectList[j]["SpritesName"].ToString())) {
+
+                   Debug.Log("playerInfo : " +unitObjectList[j]["UnitType"].ToString()+"/"+summerBatchList[i]["SummonId"].ToString() +"/"+unitObjectList[j]["Id"].ToString());
+                    if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summerBatchList[i]["SummonId"].ToString().Equals(unitObjectList[j]["Id"].ToString())) {
                         playerInfo.id =  int.Parse(unitObjectList[j]["Id"].ToString());
-                        playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
-                        playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
-                        playerInfo.magicAttack =  float.Parse(unitObjectList[j]["MagicAttack"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMagicAttack"].ToString()));
-                        playerInfo.pysicsDefense =  float.Parse(unitObjectList[j]["PhysicsDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevPhysicsDefense"].ToString()));
-                        playerInfo.magicDefense =  float.Parse(unitObjectList[j]["MagicDefense"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMagicDefense"].ToString()));
-                        playerInfo.attackRange =  (float.Parse(unitObjectList[j]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttackRange"].ToString()))) * 0.1f;
-                        playerInfo.move =  (float.Parse(unitObjectList[j]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevMove"].ToString())) * 0.1f);
-                        playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
+                        playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
+                        playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
+                        playerInfo.magicAttack =  float.Parse(unitObjectList[j]["MagicAttack"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevMagicAttack"].ToString()));
+                        playerInfo.pysicsDefense =  float.Parse(unitObjectList[j]["PhysicsDefense"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevPhysicsDefense"].ToString()));
+                        playerInfo.magicDefense =  float.Parse(unitObjectList[j]["MagicDefense"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevMagicDefense"].ToString()));
+                        playerInfo.attackRange =  (float.Parse(unitObjectList[j]["AttackRange"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevAttackRange"].ToString()))) ;
+                        playerInfo.move =  (float.Parse(unitObjectList[j]["Move"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevMove"].ToString())) * 0.1f);
+                        playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
                         playerInfo.spritesName = unitObjectList[j]["SpritesName"].ToString();
-                        Debug.Log("playerInfo : " +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange);
+                        playerInfo.positionInfoX = summerBatchList[i]["PositionInfoX"].ToString();
+                        playerInfo.positionInfoY = summerBatchList[i]["PositionInfoY"].ToString();
+                        playerInfo.positionInfoZ = summerBatchList[i]["PositionInfoZ"].ToString();
+                        Debug.Log("playerInfo : " +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
                     }
                 }
-
-                if(playerInfo.summonsExist) {
-                    existTargetInfo.Add(playerInfo);
-                }
+                existTargetInfo.Add(playerInfo);
             }
+
 
             return existTargetInfo;
         }

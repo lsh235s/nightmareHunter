@@ -108,7 +108,7 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
                
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiItController._summoner[objectIndex].transform.position.ToString();
+                //_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiItController._summoner[objectIndex].transform.position.ToString();
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
                 _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = _spritesName;

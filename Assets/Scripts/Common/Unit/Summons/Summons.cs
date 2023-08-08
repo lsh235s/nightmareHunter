@@ -71,7 +71,7 @@ namespace nightmareHunter {
             _attackSpeed = inPlayerinfo.attackSpeed;
             _attackRange = inPlayerinfo.attackRange;
             _integer = inPlayerinfo.reward;
-            _positionString = inPlayerinfo.positionInfo;
+            //_positionString = inPlayerinfo.positionInfo;
             _playerinfo = inPlayerinfo;
 
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
