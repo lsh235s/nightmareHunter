@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 using System.IO;
+using System;
 
 namespace nightmareHunter {
     public class GameDataManager : MonoBehaviour
@@ -12,6 +13,7 @@ namespace nightmareHunter {
 
         string[] summonList = new string[] {"hunter", "priest", "exorcist", "monk", "shaman", "gostbuste"};
         public Dictionary<int, WeaponInfo> WeaponLoadInfo = new Dictionary<int, WeaponInfo>(); // 무기 정보
+
 
   
         void Awake()
@@ -147,13 +149,16 @@ namespace nightmareHunter {
         }
 
         public void SaveSummerInfo(string intPlayerInfo, PlayerInfo playerInfo) {
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data.Add("Id", 2);
+            data.Add("Level", playerInfo.playerLevel);
+            data.Add("SummonId", Array.IndexOf(summonList, intPlayerInfo));
+            data.Add("PositionInfoX", playerInfo.positionInfoX);
+            data.Add("PositionInfoY", playerInfo.positionInfoY);
+            data.Add("PositionInfoZ", playerInfo.positionInfoZ);
 
-            string json = JsonConvert.SerializeObject(playerInfo);
 
-            string fileName = intPlayerInfo + ".json";
-            string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
-
-            System.IO.File.WriteAllText(filePath, json);
+            AddData(data);
         }
 
         public PlayerInfo LoadSummerInfo(int intPlayerInfo, UnitObject unitObject) {
@@ -236,6 +241,63 @@ namespace nightmareHunter {
             string jsonString = File.ReadAllText(filePath);
             systemSaveInfo = JsonConvert.DeserializeObject<SystemSaveInfo>(jsonString);
             return systemSaveInfo;
+        }
+
+
+        /// <summary>
+        /// Json 데이터를 읽고 쓰기 위한 기능
+        /// </summary>
+        /// <returns></returns>
+
+   
+
+        // 데이터 리스트 추가하기
+        public void SaveData(List<Dictionary<string, object>> dataList)
+        {
+            using (StreamWriter sw = new StreamWriter(filePath))
+            {
+                // CSV 파일의 헤더 작성
+                string[] headers = dataList[0].Keys.ToArray();
+                sw.WriteLine(string.Join(",", headers));
+
+                // 데이터 작성
+                foreach (var data in dataList)
+                {
+                    string[] values = new string[headers.Length];
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        values[i] = data[headers[i]].ToString();
+                    }
+                    sw.WriteLine(string.Join(",", values));
+                }
+            }
+        }
+
+        public List<Dictionary<string, object>> LoadData()
+        {
+            List<Dictionary<string, object>> dataList = new List<Dictionary<string, object>>();
+
+            using (StreamReader sr = new StreamReader(filePath))
+            {
+                string headerLine = sr.ReadLine();
+                string[] headers = headerLine.Split(',');
+
+                while (!sr.EndOfStream)
+                {
+                    string dataLine = sr.ReadLine();
+                    string[] values = dataLine.Split(',');
+
+                    Dictionary<string, object> data = new Dictionary<string, object>();
+                    for (int i = 0; i < headers.Length; i++)
+                    {
+                        data[headers[i]] = values[i];
+                    }
+
+                    dataList.Add(data);
+                }
+            }
+
+            return dataList;
         }
 
     }
