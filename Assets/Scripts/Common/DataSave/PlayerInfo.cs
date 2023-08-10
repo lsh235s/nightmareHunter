@@ -10,6 +10,7 @@ namespace nightmareHunter {
     [System.Serializable]
     public class PlayerInfo
     {
+        public int keyId { get; set; } 
         public int id { get; set; }
         public int playerLevel { get; set; }
         public float health { get; set; }

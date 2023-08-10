@@ -174,5 +174,12 @@ namespace nightmareHunter {
             }
         }
 
+        
+        public void OnMouseDown()
+        {
+            GameDataManager.Instance.DeleteData("Id", _playerinfo.keyId.ToString());
+            Destroy(gameObject);
+        }
+
     }
 }

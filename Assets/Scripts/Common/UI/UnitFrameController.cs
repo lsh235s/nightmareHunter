@@ -108,12 +108,15 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
                
-                //_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfo = _uiItController._summoner[objectIndex].transform.position.ToString();
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfoX = _uiItController._summoner[objectIndex].transform.position.x.ToString();
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfoY = _uiItController._summoner[objectIndex].transform.position.y.ToString();
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfoZ = _uiItController._summoner[objectIndex].transform.position.z.ToString();
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
                 _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = _spritesName;
                 _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
-                GameDataManager.Instance.SaveSummerInfo(_spritesName,_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
+                int playerId = GameDataManager.Instance.SaveSummerInfo(_spritesName,_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
+                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.id = playerId;
 
 
                 _isChange = false;

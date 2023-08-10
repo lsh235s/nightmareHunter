@@ -125,6 +125,7 @@ namespace nightmareHunter {
 
                    Debug.Log("playerInfo : " +unitObjectList[j]["UnitType"].ToString()+"/"+summerBatchList[i]["SummonId"].ToString() +"/"+unitObjectList[j]["Id"].ToString());
                     if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summerBatchList[i]["SummonId"].ToString().Equals(unitObjectList[j]["Id"].ToString())) {
+                        playerInfo.keyId =  int.Parse(summerBatchList[i]["Id"].ToString());
                         playerInfo.id =  int.Parse(unitObjectList[j]["Id"].ToString());
                         playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
                         playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + ((int.Parse(summerBatchList[i]["Level"].ToString())-1) * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
@@ -148,17 +149,24 @@ namespace nightmareHunter {
             return existTargetInfo;
         }
 
-        public void SaveSummerInfo(string intPlayerInfo, PlayerInfo playerInfo) {
+        public int SaveSummerInfo(string intPlayerInfo, PlayerInfo playerInfo) {
+            List<Dictionary<string, object>> dataList = LoadData();
+
+            string maxid = dataList[dataList.Count -1]["Id"].ToString();
+            int playId = int.Parse(maxid) + 1;
+            
             Dictionary<string, object> data = new Dictionary<string, object>();
-            data.Add("Id", 2);
+            data.Add("Id", playId);
             data.Add("Level", playerInfo.playerLevel);
             data.Add("SummonId", Array.IndexOf(summonList, intPlayerInfo));
             data.Add("PositionInfoX", playerInfo.positionInfoX);
             data.Add("PositionInfoY", playerInfo.positionInfoY);
             data.Add("PositionInfoZ", playerInfo.positionInfoZ);
 
+            dataList.Add(data);
+            SaveData(dataList);
 
-            AddData(data);
+            return playId;
         }
 
         public PlayerInfo LoadSummerInfo(int intPlayerInfo, UnitObject unitObject) {
@@ -252,29 +260,43 @@ namespace nightmareHunter {
    
 
         // 데이터 리스트 추가하기
-        public void SaveData(List<Dictionary<string, object>> dataList)
+        public void SaveData(List<Dictionary<string, object>> existingData)
         {
+            string filePath = Application.dataPath + "/Plugin/SaveData/SummonBatch.csv" ;
+
+
             using (StreamWriter sw = new StreamWriter(filePath))
             {
-                // CSV 파일의 헤더 작성
-                string[] headers = dataList[0].Keys.ToArray();
-                sw.WriteLine(string.Join(",", headers));
-
-                // 데이터 작성
-                foreach (var data in dataList)
+                if (existingData.Count > 0)
                 {
-                    string[] values = new string[headers.Length];
-                    for (int i = 0; i < headers.Length; i++)
+                    // CSV 파일의 헤더 작성
+                    var firstDictionary = existingData[0];
+                    var headers = new List<string>();
+
+                    foreach (var key in firstDictionary.Keys)
                     {
-                        values[i] = data[headers[i]].ToString();
+                        headers.Add(key);
                     }
-                    sw.WriteLine(string.Join(",", values));
+
+                    sw.WriteLine(string.Join(",", headers));
+
+                    // 데이터 작성
+                    foreach (var data in existingData)
+                    {
+                        string[] values = new string[headers.Count];
+                        for (int i = 0; i < headers.Count; i++)
+                        {
+                            values[i] = data[headers[i]].ToString();
+                        }
+                        sw.WriteLine(string.Join(",", values));
+                    }
                 }
             }
         }
 
         public List<Dictionary<string, object>> LoadData()
         {
+            string filePath = Application.dataPath + "/Plugin/SaveData/SummonBatch.csv" ;
             List<Dictionary<string, object>> dataList = new List<Dictionary<string, object>>();
 
             using (StreamReader sr = new StreamReader(filePath))
@@ -298,6 +320,13 @@ namespace nightmareHunter {
             }
 
             return dataList;
+        }
+
+        public void DeleteData(string columnName, string value)
+        {
+            List<Dictionary<string, object>> dataList = LoadData();
+            dataList.RemoveAll(data => data.ContainsKey(columnName) && data[columnName].ToString() == value);
+            SaveData(dataList);
         }
 
     }
