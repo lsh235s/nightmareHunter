@@ -37,6 +37,8 @@ namespace nightmareHunter {
 
         public int objectIndex;
 
+        private GameObject selectSummon;
+
         void Start() {
             priceButton.onClick.AddListener(summonEnforce);
 
@@ -79,24 +81,30 @@ namespace nightmareHunter {
         public void OnMouseBeginDrag()
         {
             if(UiController.Instance.sceneMode == 0) {
+     
                 _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(true);
+                Debug.Log(summon);
+                Debug.Log(_uiItController._summoner[objectIndex].tag);
                 if(summon != null && !"Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
                     if(price <= int.Parse(UiController.Instance._gold.text)) {
                         UiController.Instance.goldUseSet(price);
 
                         // 마우스 좌표를 월드 좌표로 변환
                         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                        summon.GetComponent<Summons>().summonerId = objectIndex;
+                    //    summon.GetComponent<Summons>().summonerId = objectIndex;
                         // 오브젝트의 위치 설정
                         summon.transform.position = mousePosition;
 
                         // Cube 오브젝트 생성
-                        _uiItController._summoner[objectIndex] = Instantiate(summon);
+                        if(selectSummon == null) {
+                            _uiItController._summoner[objectIndex] = Instantiate(summon);
+                        }
+                        _uiItController._summoner[objectIndex].transform.position = mousePosition;
                         _uiItController._summoner[objectIndex].tag = "Summon";
                         _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
-                        
+                        selectSummon = _uiItController._summoner[objectIndex];
                         // 생성한 Cube 오브젝트 활성화
-                        _uiItController._summoner[objectIndex].SetActive(true);
+                        selectSummon.SetActive(true);
                     }
                 }
             } else {
@@ -106,37 +114,53 @@ namespace nightmareHunter {
 
         public void OnMouseEndDrag()
         {
-            if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
+            if(UiController.Instance.sceneMode == 0 && selectSummon != null) {
+               if(selectSummon.GetComponent<Summons>().summonsExist) {
+                    selectSummon.GetComponent<Summons>()._playerinfo.positionInfoX = selectSummon.transform.position.x.ToString();
+                    selectSummon.GetComponent<Summons>()._playerinfo.positionInfoY = selectSummon.transform.position.y.ToString();
+                    selectSummon.GetComponent<Summons>()._playerinfo.positionInfoZ = selectSummon.transform.position.z.ToString();
+                    selectSummon.GetComponent<Summons>()._playerinfo.summonsExist = true;
+                    selectSummon.GetComponent<Summons>()._playerinfo.spritesName = _spritesName;
+                    selectSummon.GetComponent<Summons>().rangeObject.SetActive(false);
+                    int playerId = GameDataManager.Instance.SaveSummerInfo(_spritesName,selectSummon.GetComponent<Summons>()._playerinfo);
+                    selectSummon.GetComponent<Summons>()._playerinfo.keyId = playerId;
+
+                    _uiItController._summonList[objectIndex].Add(selectSummon);
+
+                    if (_uiItController._summonList[objectIndex].Count > 0)
+                    {
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].GetComponent<Collider2D>().isTrigger = true;
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].transform.position = _uiItController._summoner[objectIndex].transform.position;
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].name = _spritesName + "_" + playerId;
+                    }
+
+                    _isChange = false;
+                    Color currentColor = frameImage.GetComponent<Image>().color;
+
+                    string unitImage = "ui/1";
+                    frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
+                    frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
+                    _changeTime = 0.5f;
+                } else {
+                    Debug.Log("삭제"+selectSummon.name);
+                    selectSummon.SetActive(false);
+
+                    _uiItController._summoner[objectIndex].tag = "Player";
+                    _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
+
                
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfoX = _uiItController._summoner[objectIndex].transform.position.x.ToString();
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfoY = _uiItController._summoner[objectIndex].transform.position.y.ToString();
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.positionInfoZ = _uiItController._summoner[objectIndex].transform.position.z.ToString();
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.summonsExist = true;
-                _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.spritesName = _spritesName;
-                _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
-                int playerId = GameDataManager.Instance.SaveSummerInfo(_spritesName,_uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo);
-                _uiItController._summoner[objectIndex].GetComponent<Summons>()._playerinfo.id = playerId;
-
-
-                _isChange = false;
-                Color currentColor = frameImage.GetComponent<Image>().color;
-
-                string unitImage = "ui/1";
-                frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
-                frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
-                _changeTime = 0.5f;
+                }
             }
         }
 
         public void OnMouseDrag()
         {
-            if(UiController.Instance.sceneMode == 0 && "Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
+            if(UiController.Instance.sceneMode == 0 && selectSummon != null) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                // _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
-                _uiItController._summoner[objectIndex].transform.position = mousePosition;
+                selectSummon.transform.position = mousePosition;
             }
         }
 

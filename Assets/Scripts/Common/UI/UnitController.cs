@@ -17,6 +17,7 @@ namespace nightmareHunter {
 
         // 스테이지 정보 저장
         public GameObject[] _summoner;
+        public List<GameObject>[] _summonList;
 
         // Start is called before the first frame update
         public GameObject _playGameObject; 
@@ -31,6 +32,11 @@ namespace nightmareHunter {
         // Start is called before the first frame update
         void Awake() {           
             DevelMonsterBatch =  CSVReader.Read("StateMonsterBatch");
+            _summonList = new List<GameObject>[_summoner.Length];
+
+            for (int i = 0; i < _summoner.Length; i++) {
+                _summonList[i] = new List<GameObject>();
+            }
 
         }
 
@@ -57,24 +63,34 @@ namespace nightmareHunter {
            List<PlayerInfo> existTargetInfo = GameDataManager.Instance.SummerListLoad();
            for(int i = 0; i < existTargetInfo.Count; i++)
            {
+                Debug.Log("소환수 배치 ID : " + existTargetInfo[i].id);
                 SummonerGet(existTargetInfo[i]);
            }
         }
         
         public void SummonerGet(PlayerInfo PlayerInfo) {
-            GameObject select = null;
+            GameObject inputObject = null;
             
-            Debug.Log("PlayerInfo.id:"+PlayerInfo.id);
-            select = _summoner[PlayerInfo.id];
-            select.GetComponent<Summons>().playerDataLoad(PlayerInfo);
+            _summoner[PlayerInfo.id].GetComponent<Summons>().playerDataLoad(PlayerInfo);
             
+            Debug.Log("소환수 배치 ID : " + PlayerInfo.positionInfoX +"/"+ PlayerInfo.positionInfoY +"/"+ PlayerInfo.positionInfoZ);
             Vector3 vector = new Vector3(float.Parse(PlayerInfo.positionInfoX), float.Parse(PlayerInfo.positionInfoY), float.Parse(PlayerInfo.positionInfoZ));
-          
-            _summoner[PlayerInfo.id] = Instantiate(select);   
-            _summoner[PlayerInfo.id].tag = "Summon";
+            
+
             _summoner[PlayerInfo.id].GetComponent<Collider2D>().isTrigger = true;
-            _summoner[PlayerInfo.id].transform.position = vector;
-         
+            inputObject = Instantiate(_summoner[PlayerInfo.id]);   
+
+            _summonList[PlayerInfo.id].Add(inputObject);
+
+            if (_summonList[PlayerInfo.id].Count > 0)
+            {
+                _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].GetComponent<Collider2D>().isTrigger = true;
+                _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].transform.position = vector;
+                _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].tag = "Summon";
+                _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].name = PlayerInfo.spritesName + "_" + PlayerInfo.keyId;
+                _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].SetActive(true);
+            }
+        
         }
 
     }
