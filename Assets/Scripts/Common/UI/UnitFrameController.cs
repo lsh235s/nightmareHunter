@@ -47,6 +47,10 @@ namespace nightmareHunter {
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
             priceText.text = price.ToString();
+
+            selectSummon = Instantiate(summon);
+            selectSummon.GetComponent<Summons>().summonsBatchIng = false;
+            selectSummon.SetActive(false);
         }
 
         void Update()
@@ -82,10 +86,7 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0) {
      
-                _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(true);
-                Debug.Log(summon);
-                Debug.Log(_uiItController._summoner[objectIndex].tag);
-                if(summon != null && !"Summon".Equals(_uiItController._summoner[objectIndex].tag)) {
+                if(summon != null && selectSummon.GetComponent<Summons>().summonsBatchIng == false) {
                     if(price <= int.Parse(UiController.Instance._gold.text)) {
                         UiController.Instance.goldUseSet(price);
 
@@ -95,16 +96,12 @@ namespace nightmareHunter {
                         // 오브젝트의 위치 설정
                         summon.transform.position = mousePosition;
 
-                        // Cube 오브젝트 생성
-                        if(selectSummon == null) {
-                            _uiItController._summoner[objectIndex] = Instantiate(summon);
-                        }
-                        _uiItController._summoner[objectIndex].transform.position = mousePosition;
-                        _uiItController._summoner[objectIndex].tag = "Summon";
-                        _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
-                        selectSummon = _uiItController._summoner[objectIndex];
+                        selectSummon.transform.position = mousePosition;
+                        selectSummon.tag = "Summon";
+                        selectSummon.GetComponent<Collider2D>().isTrigger = true;
                         // 생성한 Cube 오브젝트 활성화
                         selectSummon.SetActive(true);
+                        selectSummon.GetComponent<Summons>().summonsBatchIng = true;
                     }
                 }
             } else {
@@ -114,7 +111,7 @@ namespace nightmareHunter {
 
         public void OnMouseEndDrag()
         {
-            if(UiController.Instance.sceneMode == 0 && selectSummon != null) {
+            if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true) {
                if(selectSummon.GetComponent<Summons>().summonsExist) {
                     selectSummon.GetComponent<Summons>()._playerinfo.positionInfoX = selectSummon.transform.position.x.ToString();
                     selectSummon.GetComponent<Summons>()._playerinfo.positionInfoY = selectSummon.transform.position.y.ToString();
@@ -123,16 +120,19 @@ namespace nightmareHunter {
                     selectSummon.GetComponent<Summons>()._playerinfo.spritesName = _spritesName;
                     selectSummon.GetComponent<Summons>().rangeObject.SetActive(false);
                     int playerId = GameDataManager.Instance.SaveSummerInfo(_spritesName,selectSummon.GetComponent<Summons>()._playerinfo);
-                    selectSummon.GetComponent<Summons>()._playerinfo.keyId = playerId;
 
-                    _uiItController._summonList[objectIndex].Add(selectSummon);
+                    _uiItController._summonList[objectIndex].Add(Instantiate(selectSummon));
 
                     if (_uiItController._summonList[objectIndex].Count > 0)
                     {
                         _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].GetComponent<Collider2D>().isTrigger = true;
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].transform.position = _uiItController._summoner[objectIndex].transform.position;
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].transform.position = selectSummon.transform.position;
                         _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].name = _spritesName + "_" + playerId;
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].tag = "Summon";
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].SetActive(true);
+                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].GetComponent<Summons>().summonerBatchKeyId = playerId;
                     }
+                    
 
                     _isChange = false;
                     Color currentColor = frameImage.GetComponent<Image>().color;
@@ -141,21 +141,29 @@ namespace nightmareHunter {
                     frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
                     frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
                     _changeTime = 0.5f;
-                } else {
-                    Debug.Log("삭제"+selectSummon.name);
+
                     selectSummon.SetActive(false);
+                    selectSummon.GetComponent<Summons>().summonsBatchIng = false;
 
-                    _uiItController._summoner[objectIndex].tag = "Player";
-                    _uiItController._summoner[objectIndex].GetComponent<Collider2D>().isTrigger = true;
+           
+                } else {
+                    selectSummon.SetActive(false);
+                    selectSummon.GetComponent<Summons>().summonsBatchIng = false;
+                    
+                    _isChange = false;
+                    Color currentColor = frameImage.GetComponent<Image>().color;
 
-               
+                    string unitImage = "ui/1";
+                    frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
+                    frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
+                    _changeTime = 0.5f;
                 }
             }
         }
 
         public void OnMouseDrag()
         {
-            if(UiController.Instance.sceneMode == 0 && selectSummon != null) {
+            if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                // _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);

@@ -88,6 +88,7 @@ namespace nightmareHunter {
                 _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].transform.position = vector;
                 _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].tag = "Summon";
                 _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].name = PlayerInfo.spritesName + "_" + PlayerInfo.keyId;
+                _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].GetComponent<Summons>().summonerBatchKeyId = PlayerInfo.keyId;
                 _summonList[PlayerInfo.id][_summonList[PlayerInfo.id].Count - 1].SetActive(true);
             }
         

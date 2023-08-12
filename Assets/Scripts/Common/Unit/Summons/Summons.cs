@@ -7,6 +7,7 @@ namespace nightmareHunter {
     public class Summons : MonoBehaviour
     {
         public int summonerId;
+        public int summonerBatchKeyId;
         //소환수 모션
         private SkeletonMecanim skeletonMecanim;
         public LayerMask targetLayer;
@@ -28,6 +29,8 @@ namespace nightmareHunter {
         public string _positionString;
         public Vector2 _positionInfo;
         public bool summonsExist;
+        public bool summonsBatchIng;
+
 
 
         private float nextTime = 0.0f;  // 다음 공격 시간
@@ -51,7 +54,6 @@ namespace nightmareHunter {
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
-            Debug.Log("소환수 시작 ID : " + summonerId);
             _playerinfo = GameDataManager.Instance.LoadSummerInfo(summonerId , _uiItController._unitObject);
             playerDataLoad(_playerinfo);
 
@@ -178,8 +180,7 @@ namespace nightmareHunter {
         public void OnMouseDown()
         {
             if(UiController.Instance.sceneMode == 0) {
-                Debug.Log("소환수 클릭"+_playerinfo.keyId.ToString());
-                GameDataManager.Instance.DeleteData("Id", _playerinfo.keyId.ToString());
+                GameDataManager.Instance.DeleteData("Id", summonerBatchKeyId.ToString());
                 Destroy(gameObject);
             }
         }
