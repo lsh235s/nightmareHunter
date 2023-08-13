@@ -126,6 +126,18 @@ namespace nightmareHunter {
             _animator.SetTrigger("Idle");
 
             agent = GetComponent<NavMeshAgent>();
+
+
+            if(_monsterId == 2) {
+                Color endColor = new Color32(0, 255, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(_monsterId == 3) {
+                Color endColor = new Color32(0, 0, 255, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(_monsterId == 4) {
+                Color endColor = new Color32(0, 100, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } 
             
         }
 
@@ -685,6 +697,18 @@ namespace nightmareHunter {
             yield return new WaitForSeconds(0.02f);
             endColor = new Color32(255, 255, 255, 255);
             skeletonMecanim.skeleton.SetColor(endColor);
+
+
+            if(_monsterId == 2) {
+                endColor = new Color32(0, 255, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(_monsterId == 3) {
+                endColor = new Color32(0, 0, 255, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(_monsterId == 4) {
+                endColor = new Color32(0, 100, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } 
 
             isFalling = false;
 

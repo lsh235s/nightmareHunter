@@ -54,9 +54,26 @@ namespace nightmareHunter {
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
-            _playerinfo = GameDataManager.Instance.LoadSummerInfo(summonerId , _uiItController._unitObject);
-            playerDataLoad(_playerinfo);
 
+            if(summonerId == 1) {
+                Color endColor = new Color32(0, 0, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 2) {
+                Color endColor = new Color32(0, 255, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 3) {
+                Color endColor = new Color32(0, 0, 255, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 5) {
+                Color endColor = new Color32(100, 0, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 6) {
+                Color endColor = new Color32(0, 100, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 7) {
+                Color endColor = new Color32(0, 0, 100, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            }
         }
 
 
@@ -73,8 +90,6 @@ namespace nightmareHunter {
             _attackSpeed = inPlayerinfo.attackSpeed;
             _attackRange = inPlayerinfo.attackRange;
             _integer = inPlayerinfo.reward;
-            //_positionString = inPlayerinfo.positionInfo;
-            _playerinfo = inPlayerinfo;
 
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
             rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
@@ -162,6 +177,27 @@ namespace nightmareHunter {
         private void OnTriggerExit2D(Collider2D collision)
         {
             Color endColor = new Color32(255, 255, 255, 255);
+
+            if(summonerId == 1) {
+                endColor = new Color32(0, 0, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 2) {
+                endColor = new Color32(0, 255, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 3) {
+                endColor = new Color32(0, 0, 255, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 5) {
+                endColor = new Color32(100, 0, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 6) {
+                endColor = new Color32(0, 100, 0, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(summonerId == 7) {
+                endColor = new Color32(0, 0, 100, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            }
+
             skeletonMecanim.skeleton.SetColor(endColor);
             summonsExist = true;
         }

@@ -124,13 +124,17 @@ namespace nightmareHunter {
                     _uiItController._summonList[objectIndex].Add(Instantiate(selectSummon));
 
                     if (_uiItController._summonList[objectIndex].Count > 0)
-                    {
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].GetComponent<Collider2D>().isTrigger = true;
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].transform.position = selectSummon.transform.position;
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].name = _spritesName + "_" + playerId;
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].tag = "Summon";
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].SetActive(true);
-                        _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1].GetComponent<Summons>().summonerBatchKeyId = playerId;
+                    { 
+                        GameObject AddSummon = _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1];
+                        AddSummon.GetComponent<Collider2D>().isTrigger = true;
+                        AddSummon.transform.position = selectSummon.transform.position;
+                        AddSummon.name = _spritesName + "_" + playerId;
+                        AddSummon.tag = "Summon";
+                        AddSummon.SetActive(true);
+                        AddSummon.GetComponent<Summons>().summonerBatchKeyId = playerId;
+                        AddSummon.GetComponent<Summons>().summonsBatchIng = false;
+
+                        AddSummon.GetComponent<Summons>()._playerinfo = GameDataManager.Instance.LoadSummerInfo(_spritesName);
                     }
                     
 
