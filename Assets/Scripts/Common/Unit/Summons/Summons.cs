@@ -15,7 +15,8 @@ namespace nightmareHunter {
         public Transform nearestTarget;
 
 
-        public PlayerInfo _playerinfo;
+        public PlayerInfo basePlayerinfo;
+        public PlayerInfo activePlayerinfo;
         // 소환수 능력치 
         string activateStatus = "stop";
         public float _speed;
@@ -25,6 +26,7 @@ namespace nightmareHunter {
         public float _magicAttack;
         public float _attackSpeed;
         public float _attackRange;
+        public string _attackType;
         public int _integer;
         public string _positionString;
         public Vector2 _positionInfo;
@@ -39,6 +41,7 @@ namespace nightmareHunter {
         private float RangeNextTime = 0.0f;  // 범위 표시시간
         float spriteScale; // 스케일 값
         public GameObject rangeObject;
+        public GameObject summonBullet;
 
         UnitController _uiItController;
 
@@ -90,6 +93,7 @@ namespace nightmareHunter {
             _attackSpeed = inPlayerinfo.attackSpeed;
             _attackRange = inPlayerinfo.attackRange;
             _integer = inPlayerinfo.reward;
+            _attackType = inPlayerinfo.attackType;
 
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
             rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
@@ -97,6 +101,8 @@ namespace nightmareHunter {
             if(UiController.Instance.sceneMode == 1) { // 저녁시간에만 몬스터 스캔
                 rangeObject.SetActive(false);
             }
+           
+            Debug.Log("activePlayerinfo : " + inPlayerinfo.attackType);
            
         }
 
@@ -167,9 +173,26 @@ namespace nightmareHunter {
         private void ApplyDamage(GameObject collisionObject)
         {
             if(collisionObject.GetComponent<Enemy>() != null) {
-                gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack);
-                nearestTarget = null;
+                switch(activePlayerinfo.attackType)
+                {
+                    case "CSN":
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                        collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack);
+                        nearestTarget = null;
+                        break;
+                    case "FSP":
+                        Debug.Log("총알 발사");
+                        summonBullet.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
+                        GameObject bullet = Instantiate(summonBullet, transform.position , transform.rotation);
+                        break;
+                    default:
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                        collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack);
+                        nearestTarget = null;
+                        break;
+
+                }
+      
             }
         }
 

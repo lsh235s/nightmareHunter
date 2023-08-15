@@ -139,10 +139,11 @@ namespace nightmareHunter {
                         playerInfo.attackRange =  (float.Parse(unitObjectList[j]["AttackRange"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevAttackRange"].ToString()))) ;
                         playerInfo.move =  (float.Parse(unitObjectList[j]["Move"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevMove"].ToString())) * 0.1f);
                         playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
+                        playerInfo.attackType = unitObjectList[j]["AttackType"].ToString();
                         playerInfo.spritesName = unitObjectList[j]["SpritesName"].ToString();
-                        playerInfo.positionInfoX = summerBatchList[i]["PositionInfoX"].ToString();
-                        playerInfo.positionInfoY = summerBatchList[i]["PositionInfoY"].ToString();
-                        playerInfo.positionInfoZ = summerBatchList[i]["PositionInfoZ"].ToString();
+                        playerInfo.positionInfoX = summerBatchList[j]["PositionInfoX"].ToString();
+                        playerInfo.positionInfoY = summerBatchList[j]["PositionInfoY"].ToString();
+                        playerInfo.positionInfoZ = summerBatchList[j]["PositionInfoZ"].ToString();
                         Debug.Log("playerInfo : "+summonLevel+"/" +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
                         existTargetInfo.Add(playerInfo);
                     }
@@ -199,6 +200,7 @@ namespace nightmareHunter {
                     playerInfo.attackRange =  (float.Parse(unitObjectList[i]["AttackRange"].ToString()) + (summonLevel* float.Parse(unitObjectList[i]["LevAttackRange"].ToString())));
                     playerInfo.move =  (float.Parse(unitObjectList[i]["Move"].ToString()) + (summonLevel* float.Parse(unitObjectList[i]["LevMove"].ToString())) * 0.1f);
                     playerInfo.attackSpeed =  (float.Parse(unitObjectList[i]["AttackSpeed"].ToString()) + (summonLevel* float.Parse(unitObjectList[i]["LevAttackSpeed"].ToString()))) * 0.1f;
+                    playerInfo.attackType = unitObjectList[i]["AttackType"].ToString();
                     playerInfo.spritesName = unitObjectList[i]["SpritesName"].ToString();
                     
                     Debug.Log("LoadSummerInfo : "+summonLevel+"/" +unitObjectList[i]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);

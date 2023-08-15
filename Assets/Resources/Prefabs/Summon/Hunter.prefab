@@ -212,11 +212,11 @@ GameObject:
   - component: {fileID: -5881978954897469977}
   m_Layer: 3
   m_Name: Hunter
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7339930761215339306
 RectTransform:
   m_ObjectHideFlags: 0
@@ -237,7 +237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2433634, y: -0.5907671}
+  m_AnchoredPosition: {x: -2.556033, y: -0.68700695}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &5557243652296972030
@@ -282,6 +282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   summonerId: 0
+  summonerBatchKeyId: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -297,7 +298,9 @@ MonoBehaviour:
   _positionString: (2.24, 0.66, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
+  summonsBatchIng: 0
   rangeObject: {fileID: 4317107440222803780}
+  summonBullet: {fileID: 6245671512966488181, guid: 04ffd6a25555c3c4e83971571bc1b017, type: 3}
 --- !u!70 &9036490235501581029
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -308,7 +311,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.014038086, y: 0.03591919}

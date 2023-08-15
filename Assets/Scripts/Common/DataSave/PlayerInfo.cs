@@ -31,6 +31,7 @@ namespace nightmareHunter {
         public int weaponAmount { get; set; }
         public float attackDelayTime { get; set; }
         public string weaponAttackType { get; set; }
+        public string attackType { get; set; }
    
     }
 }

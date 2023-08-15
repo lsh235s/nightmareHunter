@@ -69,6 +69,7 @@ namespace nightmareHunter {
 
         private NavMeshAgent agent;
 
+
         //열거형으로 정해진 상태값을 사용
         enum State
         {
@@ -422,13 +423,13 @@ namespace nightmareHunter {
 
             if(ClientDistance > 1.0f && PlayerDistance > 1.0f && (state == State.PlayerAttack || state == State.ClientAttack)) {
                 lastAttackTime = 0.0f;
-                state = State.Idle;
             } else {
                 if(lastAttackTime == 0.0f) {
                    _animator.SetTrigger("Attack");
                     // 공격 실행
+                    state = State.Idle;
+                    StartCoroutine(MonsterDie());
                     clientTarget.GetComponent<Target>().DamageProcess(_physicsAttack); 
-          
                 }
                 // 공격 타이머를 증가시킴
                 lastAttackTime += Time.deltaTime;
@@ -620,47 +621,12 @@ namespace nightmareHunter {
         }
 
 
-        // //대상 일정 공속 공격
-        // private void OnTriggerEnter2D(Collider2D collision) {
-        //     if(collision.GetComponent<Target>()) {
-        //         activateStatus = "targetAttack";
-        //         damageCoroutine = StartCoroutine(ApplyDamage(collision.gameObject));
-        //     }
-        // }
-
-        
-        // private void OnTriggerExit2D(Collider2D collision)
-        // {
-        //     if(!"dead".Equals(activateStatus)) {    
-        //         if(collision.GetComponent<Target>()) 
-        //         {
-        //             activateStatus = "move";
-        //             if(activateStatus != null) {
-        //                 StopCoroutine(damageCoroutine);
-        //             }
-        //         }
-        //     }
-        // }
-
-
-        //         private IEnumerator ApplyDamage(GameObject collisionObject)
-        // {
-        //     while ("targetAttack".Equals(activateStatus))
-        //     {
-        //         yield return new WaitForSeconds(_attackSpeed);
-        //         _animator.SetTrigger("atk");
-        //         collisionObject.GetComponent<Target>().DamageProcess(_attack);
-        //     }
-        // }
-
 
         private IEnumerator MonsterDie() {
             yield return new WaitForSeconds(1.5f);
             isDead = true;
             gameObject.SetActive(false);
         }
-
-
 
 
 

@@ -195,7 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a1cd8803a9e96f4eae3e547d2aecca4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteScale: 4.4
+  spriteScale: 22
 --- !u!1 &5557243652296972026
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2433634, y: -0.5907671}
+  m_AnchoredPosition: {x: 0.17731714, y: -1.1912155}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &5557243652296972030
@@ -280,21 +280,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e894f57e7b0044380b8a91f9ce488bdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonerId: 4
+  summonerId: 6
+  summonerBatchKeyId: 0
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   nearestTarget: {fileID: 0}
   _speed: 1
-  _hp: 99
+  _hp: 100
   _attack: 4.9
-  _attackSpeed: 2
-  _attackRange: 0.4
+  _physicsAttack: 5
+  _magicAttack: 0
+  _attackSpeed: 0.5
+  _attackRange: 2
   _integer: 0
   _positionString: (2.24, 0.66, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
+  summonsBatchIng: 0
   rangeObject: {fileID: 4317107440222803780}
+  summonBullet: {fileID: 6245671512966488181, guid: 04ffd6a25555c3c4e83971571bc1b017, type: 3}
 --- !u!70 &9036490235501581029
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -305,7 +310,7 @@ CapsuleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.014038086, y: 0.03591919}
