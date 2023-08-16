@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6245671512966488181}
-  m_LocalRotation: {x: 0, y: 0, z: 0.54688156, w: 0.83721}
+  m_LocalRotation: {x: 0.251437, y: 0.71638477, z: -0.31685063, w: 0.5684875}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.04, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -81,6 +81,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983a1fe1cc2716341b8919991f62b57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  range: 0
+  initialPosition: {x: 0.5464461, y: 0.1559216, z: 0}
+  _bulletSpeed: 2
+  _bulletDamage: 0
+  attackType: FSP
+  targetMonster: {fileID: 0}
 --- !u!1 &8472463411224273485
 GameObject:
   m_ObjectHideFlags: 0

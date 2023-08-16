@@ -110,15 +110,18 @@ namespace nightmareHunter {
         void FixedUpdate()
         {
             if(UiController.Instance.sceneMode == 1) { // 저녁시간에만 몬스터 스캔
-                scanRadar();
+                nextTime = nextTime + Time.deltaTime;
+                    
+                if(nextTime > _attackSpeed) {
+                    scanRadar();
+                    nextTime = 0.0F;
+                }
+
                 if(nearestTarget != null) {
                     activateStatus = "attack";
-                    nextTime = nextTime + Time.deltaTime;
-                    if(nextTime > _attackSpeed) {
-                        ApplyDamage(nearestTarget.gameObject);
-                        nextTime = 0.0F;
-                        nearestTarget = null;
-                    }
+                    ApplyDamage(nearestTarget.gameObject);
+                    nearestTarget = null;
+                    
                 } else {
                     activateStatus = "move";
                 }
@@ -181,9 +184,16 @@ namespace nightmareHunter {
                         nearestTarget = null;
                         break;
                     case "FSP":
-                        Debug.Log("총알 발사");
+                         Debug.Log("총알 발사");
                         summonBullet.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
-                        GameObject bullet = Instantiate(summonBullet, transform.position , transform.rotation);
+                        summonBullet.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
+                        summonBullet.GetComponent<SummonBullet>().initialPosition = transform.position;
+                        summonBullet.GetComponent<SummonBullet>().targetMonster = nearestTarget.transform;
+
+                        Vector3 direction = ( nearestTarget.transform.position - transform.position).normalized;
+                        summonBullet.transform.rotation = Quaternion.LookRotation(direction);
+
+                        GameObject bullet = Instantiate(summonBullet, transform.position , summonBullet.transform.rotation);
                         break;
                     default:
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
