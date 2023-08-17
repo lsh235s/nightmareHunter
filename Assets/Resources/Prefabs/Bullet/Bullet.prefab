@@ -58,9 +58,8 @@ MonoBehaviour:
   physicsAttack: 2000
   magicAttack: 0
   range: 1
-  initialPosition: {x: -0.6412694, y: -0.40391862, z: 0}
+  initialPosition: {x: 1.4688754, y: 1.0167401, z: 0}
   _bulletSpeed: 2
-  MainObject: {fileID: 6245671512966488181}
   bulletDotAni: {fileID: 8472463411224273485}
   shotgunAni: {fileID: 6913196525368789501}
 --- !u!222 &8561801276604992402

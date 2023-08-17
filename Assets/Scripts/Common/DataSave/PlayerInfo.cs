@@ -16,6 +16,7 @@ namespace nightmareHunter {
         public float health { get; set; }
         public float physicsAttack { get; set; }
         public float magicAttack { get; set; }
+        public float energyAttack { get; set; }
         public float pysicsDefense { get; set; }
         public float magicDefense { get; set; }
         public float attackRange { get; set; }

@@ -24,6 +24,7 @@ namespace nightmareHunter {
         public float _attack;
         public float _physicsAttack;
         public float _magicAttack;
+        public float _energyAttack;
         public float _attackSpeed;
         public float _attackRange;
         public string _attackType;
@@ -90,6 +91,7 @@ namespace nightmareHunter {
             _hp = inPlayerinfo.health;
             _physicsAttack = inPlayerinfo.physicsAttack;
             _magicAttack = inPlayerinfo.magicAttack;
+            _energyAttack = inPlayerinfo.energyAttack;
             _attackSpeed = inPlayerinfo.attackSpeed;
             _attackRange = inPlayerinfo.attackRange;
             _integer = inPlayerinfo.reward;
@@ -176,28 +178,34 @@ namespace nightmareHunter {
         private void ApplyDamage(GameObject collisionObject)
         {
             if(collisionObject.GetComponent<Enemy>() != null) {
+                summonBullet.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
+                
+                Vector3 direction = ( nearestTarget.transform.position - transform.position).normalized;
+                summonBullet.transform.rotation = Quaternion.LookRotation(direction);
+
                 switch(activePlayerinfo.attackType)
                 {
-                    case "CSN":
+                    case "CDN":
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                        collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack);
+                        summonBullet.GetComponent<SummonBullet>().setWeaponEffect(activePlayerinfo.attackType);
                         nearestTarget = null;
+                        
+                        Instantiate(summonBullet, transform.position , summonBullet.transform.rotation);
                         break;
                     case "FSP":
-                         Debug.Log("총알 발사");
                         summonBullet.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
-                        summonBullet.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                         summonBullet.GetComponent<SummonBullet>().initialPosition = transform.position;
                         summonBullet.GetComponent<SummonBullet>().targetMonster = nearestTarget.transform;
-
-                        Vector3 direction = ( nearestTarget.transform.position - transform.position).normalized;
-                        summonBullet.transform.rotation = Quaternion.LookRotation(direction);
+                        summonBullet.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
+                        summonBullet.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
+                        summonBullet.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
+                        summonBullet.GetComponent<SummonBullet>().setWeaponEffect(activePlayerinfo.attackType);
 
                         GameObject bullet = Instantiate(summonBullet, transform.position , summonBullet.transform.rotation);
                         break;
                     default:
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                        collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack);
+                        collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack, _magicAttack, _energyAttack);
                         nearestTarget = null;
                         break;
 

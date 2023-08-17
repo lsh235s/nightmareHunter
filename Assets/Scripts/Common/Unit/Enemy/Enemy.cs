@@ -549,7 +549,7 @@ namespace nightmareHunter {
 
 
 
-        public void DamageProcess(float damage) {
+        public void DamageProcess(float physicsAttack, float magicAttack, float energyAttack) {
             if(state != State.Die) { 
                 Vector3 rePosition = new Vector3(transform.position.x, transform.position.y , transform.position.z);
                 GameObject weaponDamageEffect = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect2"),  rePosition, Quaternion.identity);
@@ -574,7 +574,7 @@ namespace nightmareHunter {
                     StartCoroutine(objectEnd(clipLength));
                 } 
               
-                _hp = _hp - damage;
+                _hp = _hp - physicsAttack;
 
                 isFalling = true;
                 if(_spritesName.Equals("Teller") &&  _spritesName.Equals("wanderer") ) {
