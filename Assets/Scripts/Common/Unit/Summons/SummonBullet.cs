@@ -12,15 +12,11 @@ namespace nightmareHunter {
         public float _bulletSpeed; // 총알 속도
         public float _bulletDamage; // 총알 데미지
         public string attackType; //발사체 유형
-        public Transform targetMonster; // 타겟
         public float physicsAttack;  //물리공격력
         public float magicAttack;  //마법 공격력
         public float energyAttack; //에너지 공격력
 
         
-        public GameObject bulletDotAni;
-        public GameObject shotgunAni;
-
         private bool activeflag = false;
 
         Rigidbody2D rigidbody2D;
@@ -32,19 +28,6 @@ namespace nightmareHunter {
             rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        public void setWeaponEffect(string attackType) {
-            bulletDotAni.SetActive(true);
-            shotgunAni.SetActive(false);
-            if("FSP".Equals(attackType)) {
-                bulletDotAni.GetComponent<SkeletonAnimation>().AnimationName = "bullet1";
-            } else if("CDN".Equals(attackType)) {
-                bulletDotAni.SetActive(false);
-                shotgunAni.SetActive(true);
-                //shotgunAni.GetComponent<Animator>().Play("ShotgunEffect");
-            } else {
-                bulletDotAni.GetComponent<SkeletonAnimation>().AnimationName =  "bullet1";
-            }
-        }
 
         // Update is called once per frame
         void Update()
@@ -59,6 +42,7 @@ namespace nightmareHunter {
             } 
             if("FSP".Equals(attackType))
             {
+                
                 // 일정한 속도로 위쪽으로 이동
                 transform.Translate(Vector3.forward  * _bulletSpeed * Time.deltaTime);
                 Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
@@ -69,6 +53,14 @@ namespace nightmareHunter {
                 }
                 return;
             }
+            if("CWP".Equals(attackType))
+            {
+                delayTime += Time.deltaTime;
+                if(delayTime >= 1.0f) {
+                    delayTime = 0.0f;
+                    Destroy(gameObject);
+                }
+            } 
         }
 
 

@@ -42,7 +42,12 @@ namespace nightmareHunter {
         private float RangeNextTime = 0.0f;  // 범위 표시시간
         float spriteScale; // 스케일 값
         public GameObject rangeObject;
-        public GameObject summonBullet;
+
+
+        // 발사체 이펙트
+        public GameObject bulletDotAni;
+        public GameObject shotgunAni;
+        public GameObject shotArea;
 
         UnitController _uiItController;
 
@@ -58,6 +63,11 @@ namespace nightmareHunter {
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
+
+            bulletDotAni = Resources.Load<GameObject>("Prefabs/Effect/Bullet");
+            shotgunAni = Resources.Load<GameObject>("Prefabs/Effect/Shotgun");
+            shotArea = Resources.Load<GameObject>("Prefabs/Effect/ShotArea");
+
 
             if(summonerId == 1) {
                 Color endColor = new Color32(0, 0, 0, 255);
@@ -178,32 +188,46 @@ namespace nightmareHunter {
         private void ApplyDamage(GameObject collisionObject)
         {
             if(collisionObject.GetComponent<Enemy>() != null) {
-                summonBullet.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                 
                 Vector3 direction = ( nearestTarget.transform.position - transform.position).normalized;
-                summonBullet.transform.rotation = Quaternion.LookRotation(direction);
+     
 
                 switch(activePlayerinfo.attackType)
                 {
                     case "CDN":
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                        summonBullet.GetComponent<SummonBullet>().setWeaponEffect(activePlayerinfo.attackType);
+                        shotgunAni.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
+                        shotgunAni.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
+                        shotgunAni.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
+                        shotgunAni.transform.rotation = Quaternion.LookRotation(direction);
                         nearestTarget = null;
                         
-                        Instantiate(summonBullet, transform.position , summonBullet.transform.rotation);
+                        Instantiate(shotgunAni, transform.position , shotgunAni.transform.rotation);
                         break;
                     case "FSP":
-                        summonBullet.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
-                        summonBullet.GetComponent<SummonBullet>().initialPosition = transform.position;
-                        summonBullet.GetComponent<SummonBullet>().targetMonster = nearestTarget.transform;
-                        summonBullet.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
-                        summonBullet.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
-                        summonBullet.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
-                        summonBullet.GetComponent<SummonBullet>().setWeaponEffect(activePlayerinfo.attackType);
+                        bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
+                        bulletDotAni.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
+                        bulletDotAni.GetComponent<SummonBullet>().initialPosition = transform.position;
+                        bulletDotAni.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
+                        bulletDotAni.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
+                        bulletDotAni.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
+                        bulletDotAni.transform.rotation = Quaternion.LookRotation(direction);
 
-                        GameObject bullet = Instantiate(summonBullet, transform.position , summonBullet.transform.rotation);
+                        Instantiate(bulletDotAni, transform.position , bulletDotAni.transform.rotation);
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                        break;
+                    case "CWP":
+                        shotArea.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
+                        shotArea.GetComponent<SummonBullet>().initialPosition = transform.position;
+                        shotArea.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
+                        shotArea.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
+                        shotArea.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
+
+                        Instantiate(shotArea, transform.position , transform.rotation);
+                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     default:
+                        bulletDotAni.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack, _magicAttack, _energyAttack);
                         nearestTarget = null;

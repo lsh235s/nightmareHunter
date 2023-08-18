@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4766539852939068610}
   - component: {fileID: -2680436287967177791}
   - component: {fileID: 6662724619839718112}
+  - component: {fileID: -705025262902295865}
   m_Layer: 0
   m_Name: Shotgun
   m_TagString: Untagged
@@ -27,9 +28,9 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3971454715596444486}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.07113331, y: -0.7160222, z: -0.07376088, w: 0.6905155}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 11.072795, y: 20.125349, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -117,7 +118,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -159,3 +160,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 352aa23f62af265479bf4c8b71d16a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-705025262902295865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3971454715596444486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 983a1fe1cc2716341b8919991f62b57c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 0
+  initialPosition: {x: 0, y: 0, z: 0}
+  _bulletSpeed: 0
+  _bulletDamage: 0
+  attackType: CDN
+  physicsAttack: 0
+  magicAttack: 4
+  energyAttack: 0
