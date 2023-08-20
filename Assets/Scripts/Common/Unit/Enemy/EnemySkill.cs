@@ -29,6 +29,9 @@ namespace nightmareHunter {
                         } 
                     }
                     break;
+                case "PlayerTarget":
+                    gameObject.GetComponent<Enemy>().skillList["PlayerTargetFix"] = true;
+                    break;
                 case "Cloaking":
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
                     Color endColor = new Color32(0, 0, 0, 50);
@@ -59,6 +62,9 @@ namespace nightmareHunter {
                         } 
                     }
                     break;
+                case "PlayerTarget":
+                    gameObject.GetComponent<Enemy>().skillList["PlayerTargetFix"] = false;
+                    break;
                 case "Cloaking":
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
                     Color endColor = new Color32(255, 255, 255, 255);
@@ -66,7 +72,7 @@ namespace nightmareHunter {
                     gameObject.GetComponent<Enemy>().skillList["Cloaking"] = false;
                     break;
                 case "StillerSlow":
-                    gameObject.GetComponent<Enemy>().skillList["SlowSkill"] = true;
+                    gameObject.GetComponent<Enemy>().skillList["SlowSkill"] = false;
                     break;
             }
         }

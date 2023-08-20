@@ -102,6 +102,7 @@ namespace nightmareHunter {
             skillList.Add("AttackSpeedUp", false);
             skillList.Add("MoveSpeedUp", false);
             skillList.Add("ClientTargetFix", false);
+            skillList.Add("PlayerTargetFix", false);
             skillList.Add("Cloaking", false);
             skillList.Add("SummonAttackSpeddDown", false);
             
@@ -121,6 +122,8 @@ namespace nightmareHunter {
             if(_monsterId == 1) {
                 _animator.SetTrigger("Attack");
                 gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
+            } else if (_monsterId == 2) {
+                gameObject.GetComponent<EnemySkill>().skillUse("PlayerTarget");
             } else if (_monsterId == 3) {
                 gameObject.GetComponent<EnemySkill>().skillUse("StillerSlow");
             }
@@ -220,6 +223,10 @@ namespace nightmareHunter {
                             break;
                         case "ClientTargetFix":
                             state = State.ClientTracking;
+                            break;
+                        case "PlayerTargetFix":
+                            NextTargetPosition = playerTarget.transform.position ;
+                            state = State.Tracking;
                             break;
                         case "Cloaking":
                             if(isFalling == false) {
@@ -369,12 +376,12 @@ namespace nightmareHunter {
                 float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
                 float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
 
-                if(PlayerDistance > (_attackRange * 2)) {
+                if(PlayerDistance > (_attackRange * 2) && skillList["PlayerTargetFix"] == false) {
                     NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
                     lastAttackTime = 0.0f;
                     state = State.Bored;
                     _animator.SetTrigger("Run");
-                } 
+                }  
 
                 if(PlayerDistance <= _attackRange) {
                     state = State.PlayerAttack;

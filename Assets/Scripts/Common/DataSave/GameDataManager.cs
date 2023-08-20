@@ -141,9 +141,9 @@ namespace nightmareHunter {
                         playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
                         playerInfo.attackType = unitObjectList[j]["AttackType"].ToString();
                         playerInfo.spritesName = unitObjectList[j]["SpritesName"].ToString();
-                        playerInfo.positionInfoX = summerBatchList[j]["PositionInfoX"].ToString();
-                        playerInfo.positionInfoY = summerBatchList[j]["PositionInfoY"].ToString();
-                        playerInfo.positionInfoZ = summerBatchList[j]["PositionInfoZ"].ToString();
+                        playerInfo.positionInfoX = summerBatchList[i]["PositionInfoX"].ToString();
+                        playerInfo.positionInfoY = summerBatchList[i]["PositionInfoY"].ToString();
+                        playerInfo.positionInfoZ = summerBatchList[i]["PositionInfoZ"].ToString();
                         Debug.Log("playerInfo : "+summonLevel+"/" +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
                         existTargetInfo.Add(playerInfo);
                     }

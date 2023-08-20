@@ -113,6 +113,9 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true) {
                if(selectSummon.GetComponent<Summons>().summonsExist) {
+                    selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoX = selectSummon.transform.position.x.ToString();
+                    selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoY = selectSummon.transform.position.y.ToString();
+                    selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoZ = selectSummon.transform.position.z.ToString();
                     int playerId = GameDataManager.Instance.SaveSummerInfo(_spritesName,selectSummon.GetComponent<Summons>().basePlayerinfo);
 
                     _uiItController._summonList[objectIndex].Add(Instantiate(selectSummon));
@@ -129,9 +132,7 @@ namespace nightmareHunter {
                         AddSummon.GetComponent<Summons>().summonsBatchIng = false;
 
                         AddSummon.GetComponent<Summons>().basePlayerinfo = GameDataManager.Instance.LoadSummerInfo(_spritesName);
-                        AddSummon.GetComponent<Summons>().basePlayerinfo.positionInfoX = selectSummon.transform.position.x.ToString();
-                        AddSummon.GetComponent<Summons>().basePlayerinfo.positionInfoY = selectSummon.transform.position.y.ToString();
-                        AddSummon.GetComponent<Summons>().basePlayerinfo.positionInfoZ = selectSummon.transform.position.z.ToString();
+
                         AddSummon.GetComponent<Summons>().basePlayerinfo.summonsExist = true;
                         AddSummon.GetComponent<Summons>().basePlayerinfo.spritesName = _spritesName;
                         AddSummon.GetComponent<Summons>().rangeObject.SetActive(false);
