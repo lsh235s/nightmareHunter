@@ -292,15 +292,19 @@ MonoBehaviour:
   _attack: 4.9
   _physicsAttack: 5
   _magicAttack: 0
+  _energyAttack: 0
   _attackSpeed: 0.5
   _attackRange: 2
+  _attackType: 
   _integer: 0
   _positionString: (2.24, 0.66, 0.00)
   _positionInfo: {x: 0, y: 0}
   summonsExist: 0
   summonsBatchIng: 0
   rangeObject: {fileID: 4317107440222803780}
-  summonBullet: {fileID: 6245671512966488181, guid: 04ffd6a25555c3c4e83971571bc1b017, type: 3}
+  bulletDotAni: {fileID: 0}
+  shotgunAni: {fileID: 0}
+  shotArea: {fileID: 0}
 --- !u!70 &9036490235501581029
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

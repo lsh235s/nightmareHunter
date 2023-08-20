@@ -49,6 +49,7 @@ namespace nightmareHunter {
 
         void Update() {
             monsterInitappear();
+            summonerScan();
 
             if(appearStageTimer != "" ) { 
                 if(!stageClear) {
@@ -67,6 +68,19 @@ namespace nightmareHunter {
             if (Input.GetMouseButtonUp(0))
             {
                 Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
+            }
+        }
+
+        //모든 소환수 공격 가능여부 체크
+        void summonerScan() {
+            for (int i = 0; i < _uiItController._summonList.Length; i++) {
+                for (int j = 0; j < _uiItController._summonList[i].Count; j++) {
+                    _uiItController._summonList[i][j].GetComponent<Summons>().nextTime = _uiItController._summonList[i][j].GetComponent<Summons>().nextTime + Time.deltaTime;
+                    if(_uiItController._summonList[i][j].GetComponent<Summons>().nextTime  > _uiItController._summonList[i][j].GetComponent<Summons>()._attackSpeed) {
+                        _uiItController._summonList[i][j].GetComponent<Summons>().scanRadar();
+                        _uiItController._summonList[i][j].GetComponent<Summons>().nextTime = 0.0F;
+                    }
+                }
             }
         }
 
@@ -94,23 +108,6 @@ namespace nightmareHunter {
                         }
                     }
                 }
-
-                // for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
-                //     listNum = 0;
-                //     if(appearStageTimer == _uiItController._stateMonsterBatch.stateMonsterList[i].appearTimer) {
-                //         if(_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId == 0) {
-                //             listNum = wanderer;
-                //             wanderer++;
-                //         } else if(_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId == 1) {
-                //             listNum = teller;
-                //             teller++;
-                //         }
-
-                //         if(!_monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].activeSelf) {
-                //             _monsterList[_uiItController._stateMonsterBatch.stateMonsterList[i].monsterId][listNum].SetActive(true);
-                //         }
-                //     }
-                // }
             }
         }
 
