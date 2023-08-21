@@ -63,6 +63,8 @@ namespace nightmareHunter {
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
+            Debug.Log("summonerId : " + summonerId);
+            Debug.Log(skeletonMecanim);
 
             bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
             shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/Shotgun");
@@ -282,10 +284,12 @@ namespace nightmareHunter {
         // 배치시 소환수 위치 설정
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if("Wall".Equals(collision.tag)) {
-                Color endColor = new Color32(255, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-                summonsExist = false;
+            if(UiController.Instance.sceneMode == 0) {
+                if("Wall".Equals(collision.tag)) {
+                    Color endColor = new Color32(255, 0, 0, 255);
+                    skeletonMecanim.skeleton.SetColor(endColor);
+                    summonsExist = false;
+                }
             }
         }
 

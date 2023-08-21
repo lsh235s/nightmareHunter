@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using Spine.Unity;
 using TMPro;
 
+
 namespace nightmareHunter {
     public class Enemy : MonoBehaviour
     {
@@ -103,7 +104,10 @@ namespace nightmareHunter {
             skillList.Add("MoveSpeedUp", false);
             skillList.Add("ClientTargetFix", false);
             skillList.Add("PlayerTargetFix", false);
+            skillList.Add("PhysicsResistance", false);
+            skillList.Add("MagicResistance", false);
             skillList.Add("Cloaking", false);
+            skillList.Add("Split", false);
             skillList.Add("SummonAttackSpeddDown", false);
             
 
@@ -125,8 +129,14 @@ namespace nightmareHunter {
             } else if (_monsterId == 2) {
                 gameObject.GetComponent<EnemySkill>().skillUse("PlayerTarget");
             } else if (_monsterId == 3) {
-                gameObject.GetComponent<EnemySkill>().skillUse("StillerSlow");
+                Debug.Log("분열스킬");
+                gameObject.GetComponent<EnemySkill>().skillUse("Split");    
+            } else if (_monsterId == 5) {
+                gameObject.GetComponent<EnemySkill>().skillUse("PhysicsResistance");
+            } else if (_monsterId == 6) {
+                gameObject.GetComponent<EnemySkill>().skillUse("MagicResistance");
             }
+            
             _animator.SetTrigger("Idle");
 
             agent = GetComponent<NavMeshAgent>();
@@ -183,28 +193,29 @@ namespace nightmareHunter {
 
                 EnemyActJudge();
                
-                if (_monsterId == 2) {
-                    foundMonk();
-                }
+                // if (_monsterId == 2) { //클로킹 스킬 제거
+                //     foundMonk();
+                // }
             }
         }
 
-        private void foundMonk() {
-            Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)transform.position, 4f);
-            foreach (Collider2D collider in colliders)
-            {
-                gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
-                if (collider.CompareTag("Summon"))
-                {
-                    if(collider.gameObject.GetComponent<Summons>() != null) {
-                        if(collider.gameObject.GetComponent<Summons>().summonerId == 3){
-                            gameObject.GetComponent<EnemySkill>().skillEnd("Cloaking");
-                        }
-                    }
-                }
-            }
-        }
+        // private void foundMonk() {
+        //     Collider2D[] colliders = Physics2D.OverlapCircleAll((Vector2)transform.position, 4f);
+        //     foreach (Collider2D collider in colliders)
+        //     {
+        //         gameObject.GetComponent<EnemySkill>().skillUse("Cloaking");
+        //         if (collider.CompareTag("Summon"))
+        //         {
+        //             if(collider.gameObject.GetComponent<Summons>() != null) {
+        //                 if(collider.gameObject.GetComponent<Summons>().summonerId == 3){
+        //                     gameObject.GetComponent<EnemySkill>().skillEnd("Cloaking");
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
 
+        // 버프처리
         private void buffJudge() {
             foreach (KeyValuePair<string, bool> kvp in skillList)
             {
@@ -242,7 +253,6 @@ namespace nightmareHunter {
                                 {
                                     // 특정 태그를 가진 오브젝트를 찾았을 때의 동작을 수행합니다.
                                     // 이 예제에서는 콘솔에 오브젝트의 이름을 출력합니다.
-                                    Debug.Log("Found object with tag: " + collider.gameObject.name);
                                     if(collider.gameObject.GetComponent<Summons>() != null) {
                                         collider.gameObject.GetComponent<Summons>().skillList["AttackSpeedDown"] = true;
                                     }
@@ -379,7 +389,7 @@ namespace nightmareHunter {
                 if(PlayerDistance > (_attackRange * 2) && skillList["PlayerTargetFix"] == false) {
                     NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
                     lastAttackTime = 0.0f;
-                    state = State.Bored;
+                    state = State.Idle;
                     _animator.SetTrigger("Run");
                 }  
 
@@ -496,22 +506,24 @@ namespace nightmareHunter {
                         state = State.Idle;
                         _animator.SetTrigger("Idle");
                     }
-                } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance * 1000f) / 1000f)) {
-                    distanceCheckCount++;
-                    // if(distanceCheckCount > 4) {
-                    //     Vector3 randomDirection = Random.insideUnitSphere;
-                    //     // 방향 벡터를 정규화하여 단위 벡터로 만듦
-                    //     randomDirection.Normalize();
-                    //     NextTargetPosition = transform.position + randomDirection * 0.5f;
-                    //     distanceCheckCount = 0;
-                    // }
-                    if(state != State.Die) {
-                        state = State.Bored;
-                    }
-                } else {
-                    distanceCheck = distance;
-                    distanceCheckCount = 0;
-                }
+                } 
+                // 딴짓 기능 제거
+                // else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance * 1000f) / 1000f)) {
+                //     distanceCheckCount++;
+                //     // if(distanceCheckCount > 4) {
+                //     //     Vector3 randomDirection = Random.insideUnitSphere;
+                //     //     // 방향 벡터를 정규화하여 단위 벡터로 만듦
+                //     //     randomDirection.Normalize();
+                //     //     NextTargetPosition = transform.position + randomDirection * 0.5f;
+                //     //     distanceCheckCount = 0;
+                //     // }
+                //     if(state != State.Die) {
+                //         state = State.Bored;
+                //     }
+                // } else {
+                //     distanceCheck = distance;
+                //     distanceCheckCount = 0;
+                // }
 
          //   }
             if(state == State.Run) {
@@ -521,31 +533,42 @@ namespace nightmareHunter {
 
         private void UpdateIdle()
         {
+            if(_waypointList[waypointType].Count - 1 > waypointIndex) { 
+                waypointIndex += 1;
+            }
+            NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
+            if(state != State.Die) {
+                state = State.Run;
+            }
+            _animator.SetTrigger("Run");
+
             int randomNumber = 0;
 
+            // 지루함 기능 제거
             // 첫번째 목적지가 아닐 경우 이동 할지 움직일지 결정
-            if(waypointIndex > 0) {
-                randomNumber = Random.Range(0, 3);
-            }
- 
-            if(randomNumber == 0) {
-                if(_waypointList[waypointType].Count - 1 > waypointIndex) { 
-                    waypointIndex += 1;
-                }
-                NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
-                if(state != State.Die) {
-                    state = State.Run;
-                }
-                _animator.SetTrigger("Run");
-            } else {
-                Vector3 randomDirection = Random.insideUnitSphere;
-                // 방향 벡터를 정규화하여 단위 벡터로 만듦
-                randomDirection.Normalize();
-                NextTargetPosition = transform.position + randomDirection * 0.3f;
-                if(state != State.Die) {
-                    state = State.Bored;
-                }
-            }
+            // if(waypointIndex > 0) {
+            //     randomNumber = Random.Range(0, 3);
+            // }
+          
+            //if(randomNumber == 0) {
+                // if(_waypointList[waypointType].Count - 1 > waypointIndex) { 
+                //     waypointIndex += 1;
+                // }
+                // NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
+                // if(state != State.Die) {
+                //     state = State.Run;
+                // }
+                // _animator.SetTrigger("Run");
+           // } 
+            // else {
+            //     Vector3 randomDirection = Random.insideUnitSphere;
+            //     // 방향 벡터를 정규화하여 단위 벡터로 만듦
+            //     randomDirection.Normalize();
+            //     NextTargetPosition = transform.position + randomDirection * 0.3f;
+            //     if(state != State.Die) {
+            //         state = State.Bored;
+            //     }
+            // }
         }
 
         IEnumerator objectEnd(GameObject weaponDamageEffect) {
@@ -565,6 +588,8 @@ namespace nightmareHunter {
 
                 StartCoroutine(objectEnd(weaponDamageEffect));
 
+
+                // 4/1 확률로 몬스터 밀림
                 int randomNumber = Random.Range(0, 4);
 
                 if(randomNumber == 0) {
@@ -580,10 +605,11 @@ namespace nightmareHunter {
                     float clipLength = instantiatedPrefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
                     StartCoroutine(objectEnd(clipLength));
                 } 
-              
-                _hp = _hp - physicsAttack;
+
+                DamageCount(physicsAttack, magicAttack, energyAttack);
 
                 isFalling = true;
+                // 피격 사운드 처리
                 if(_spritesName.Equals("Teller") &&  _spritesName.Equals("wanderer") ) {
                     if(AudioManager.Instance.playSound[_spritesName+"_0"] != null) {
                         gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
@@ -593,23 +619,73 @@ namespace nightmareHunter {
                
 
                 if(_hp <= 0) {
-                    Debug.Log("몬스터 사망 처리");
+                    //무기 드랍
                     int weaponNum = Random.Range(0, 3);
 
                     GameObject weaPonItem = Instantiate(UiController.Instance.dropItem, transform.position, transform.rotation);
                     weaPonItem.GetComponent<WeaponItem>().SetWeaponType(weaponNum + 1);
-
+                    
+                    //재화 증가
                     UiController.Instance.integerAddSet(_integer);
+                    
+                    if(skillList["Split"]) {
+                        Debug.Log("SplitTrue"+_monsterId);
+                        skillAllEnd();
+                        state = State.Idle;
+                        Debug.Log(gameObject);
+                        GameObject.Find("Canvas").GetComponent<GameMoonManager>().SplitSkillAdd(gameObject);
+                    } else {
+                        Debug.Log("SplitFalsed"+_monsterId);
+                        skillAllEnd();
+                    }
+                    
                     Collider2D collider = gameObject.GetComponent<Collider2D>();
                     collider.isTrigger = true;
-                    state = State.Die;
                     _animator.SetTrigger("Die");
-                    if(_monsterId == 1) {
-                        gameObject.GetComponent<EnemySkill>().skillEnd("TellerCry");
-                    }
+                    state = State.Die;
+                    
                     StartCoroutine(MonsterDie()); 
                 }
             }
+        }
+
+        void skillAllEnd() {
+            skillList["AttackUp"] = false;
+            skillList["AttackSpeedUp"] = false;
+            skillList["MoveSpeedUp"] = false;
+            skillList["ClientTargetFix"] = false;
+            skillList["PlayerTargetFix"] = false;
+            skillList["PhysicsResistance"] = false;
+            skillList["MagicResistance"] = false;
+            skillList["Cloaking"] = false;
+            skillList["Split"] = false;
+            skillList["SummonAttackSpeddDown"] = false;
+        }
+
+        void DamageCount (float physicsAttack, float magicAttack, float energyAttack) {
+            
+            if(skillList["PhysicsResistance"]) {  //물리 내성 -50% 데미지
+                physicsAttack = physicsAttack - Mathf.Round(physicsAttack/2);
+            } else {
+                physicsAttack = physicsAttack - _pysicsDefense;
+            }
+
+            if(skillList["MagicResistance"]) { //마법 내성 -50% 데미지
+                magicAttack = magicAttack - Mathf.Round(magicAttack/2);   
+            } else {
+                magicAttack = magicAttack - _magicDefense;
+            }
+
+            if(physicsAttack < 0) {
+                physicsAttack = 0;
+            }
+            if(magicAttack < 0) {
+                magicAttack = 0;
+            }
+
+              
+            _hp = _hp - (physicsAttack + magicAttack + energyAttack);
+
         }
 
         public void stateMod(string stateVal) {

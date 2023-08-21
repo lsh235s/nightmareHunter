@@ -144,39 +144,8 @@ namespace nightmareHunter {
             for (int i = 0; i <  _uiItController.DevelMonsterBatch.Count; i++) {
                 MonsterGet(_uiItController.DevelMonsterBatch[i]);
             }
-
-            // for (int i = 0; i < _uiItController._stateMonsterBatch.stateMonsterList.Count; i++) {
-            //     MonsterGet(_uiItController._stateMonsterBatch.stateMonsterList[i]);
-            // }
         }
 
-
-        //public GameObject MonsterGet(StateMonster stateMonster) {
-        //     GameObject select = null;
-
-        //     if(_monsterList.Length > stateMonster.monsterId )
-        //     {
-        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>()._monsterId = stateMonster.monsterId;
-        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
-        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
-        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().waypointType = stateMonster.moveType;
-        //         if(stateMonster.monsterId == 1) {
-        //             _monsters[stateMonster.monsterId].transform.position = _uiItController._targetGameObject.transform.position;
-        //         } else {
-        //             _monsters[stateMonster.monsterId].transform.position = wayPointList[stateMonster.moveType].transform.GetChild(0).gameObject.transform.position;
-        //         }
-        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().wayPointBaseList = wayPointList;
-        //         _monsters[stateMonster.monsterId].GetComponent<Enemy>().initState(_uiItController.gameDataManager.LoadMonsterInfo(_uiItController._unitObject,stateMonster));
-        //         select = Instantiate(_monsters[stateMonster.monsterId]);
-        //         _monsterList[stateMonster.monsterId].Add(select);
-
-        //         select.SetActive(false);
-        //     } else {
-        //         Debug.Log("not find monsterID");
-        //     }
-
-        //     return select;
-        // }
         
         public GameObject MonsterGet(Dictionary<string, object> stateMonster)  {
             GameObject select = null;
@@ -194,7 +163,9 @@ namespace nightmareHunter {
                 }
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().wayPointBaseList = wayPointList;
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().initState(GameDataManager.Instance.LoadMonsterInfo(stateMonster));
+                
                 select = Instantiate(_monsters[(int)stateMonster["MonsterId"]]);
+
                 _monsterList[(int)stateMonster["MonsterId"]].Add(select);
 
                 select.SetActive(false);
@@ -203,6 +174,19 @@ namespace nightmareHunter {
             }
 
             return select;
+        }
+
+        public void SplitSkillAdd(GameObject target) {
+            int monsterID = (int)target.GetComponent<Enemy>()._monsterId;
+            Debug.Log("SplitSkillAdd");
+            for(int i =0; i < 3; i++) {
+                GameObject copy = Instantiate(target);
+                copy.GetComponent<Enemy>()._monsterId = 13;
+                copy.GetComponent<Enemy>()._hp = copy.GetComponent<Enemy>()._initHp;
+                copy.GetComponent<Enemy>().isDead = false; 
+
+                _monsterList[monsterID].Add(copy);
+            }
         }
     }
 }

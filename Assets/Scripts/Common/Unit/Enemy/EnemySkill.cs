@@ -32,6 +32,15 @@ namespace nightmareHunter {
                 case "PlayerTarget":
                     gameObject.GetComponent<Enemy>().skillList["PlayerTargetFix"] = true;
                     break;
+                case "PhysicsResistance":
+                    gameObject.GetComponent<Enemy>().skillList["physicsResistance"] = true;
+                    break;
+                case "MagicResistance":
+                    gameObject.GetComponent<Enemy>().skillList["MagicResistance"] = true;
+                    break;
+                case "Split":
+                    gameObject.GetComponent<Enemy>().skillList["Split"] = true;
+                    break;
                 case "Cloaking":
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
                     Color endColor = new Color32(0, 0, 0, 50);
@@ -65,11 +74,20 @@ namespace nightmareHunter {
                 case "PlayerTarget":
                     gameObject.GetComponent<Enemy>().skillList["PlayerTargetFix"] = false;
                     break;
+                case "Split":
+                    gameObject.GetComponent<Enemy>().skillList["Split"] = false;
+                    break;
                 case "Cloaking":
                     skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
                     Color endColor = new Color32(255, 255, 255, 255);
                     skeletonMecanim.skeleton.SetColor(endColor);
                     gameObject.GetComponent<Enemy>().skillList["Cloaking"] = false;
+                    break;
+                case "PhysicsResistance":
+                    gameObject.GetComponent<Enemy>().skillList["PhysicsResistance"] = false;
+                    break;
+                case "MagicResistance":
+                    gameObject.GetComponent<Enemy>().skillList["MagicResistance"] = false;
                     break;
                 case "StillerSlow":
                     gameObject.GetComponent<Enemy>().skillList["SlowSkill"] = false;
