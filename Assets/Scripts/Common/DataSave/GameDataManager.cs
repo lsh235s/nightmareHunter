@@ -76,13 +76,9 @@ namespace nightmareHunter {
 
         public PlayerInfo LoadPlayerInfo() {
             List<Dictionary<string, object>> unitObjectList = CSVReader.Read("UnitObject");
-            string fileName = "PlayerInfo.json";
-            string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
 
-            // JSON 파일 로드
-            string jsonString = File.ReadAllText(filePath);
 
-            PlayerInfo playerInfo = JsonConvert.DeserializeObject<PlayerInfo>(jsonString);
+            PlayerInfo playerInfo = new PlayerInfo();
 
             for(int i = 0; i < unitObjectList.Count; i++) {
                 if (unitObjectList[i]["UnitType"].ToString().Equals("0")) {
@@ -235,7 +231,15 @@ namespace nightmareHunter {
         }
 
 
+        public void GameDataInit() {
+            List<Dictionary<string, object>> dataList = LoadData();
 
+            for(int i=0; i < dataList.Count; i++) {
+                if(i > 0) {
+                    DeleteData("Id", dataList[i]["Id"].ToString());
+                }
+            }
+        }
 
         public void SaveSystemInfo(SystemSaveInfo systemSaveInfo) {
             string json = JsonConvert.SerializeObject(systemSaveInfo);

@@ -239,7 +239,7 @@ namespace nightmareHunter {
                     stroyStage++;
                     UiController.Instance.systemSaveInfo.storyNum = stroyStage;
                     UiController.Instance.SystemDataSave();
-                    UiController.Instance.skipTime();
+                    transform.Find("SkipButton").gameObject.SetActive(true);
                     UiController.Instance.timePause = true;
                 break;
                 case 7 :
@@ -255,6 +255,10 @@ namespace nightmareHunter {
                   //  endStoryPanel.SetActive(true);
                 break;
             }
+        }
+
+        public void SkipTimerButton() {
+            UiController.Instance.skipTime();
         }
 
         public void EndStoryBtn() {

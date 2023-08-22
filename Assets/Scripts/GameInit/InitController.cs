@@ -75,11 +75,9 @@ namespace nightmareHunter {
             systemSaveInfo.targetHP = 1000;
 
             GameDataManager.Instance.SaveSystemInfo(systemSaveInfo);
+            GameDataManager.Instance.GameDataInit();
 
             PlayerInfo summonsInfo = new PlayerInfo();
-            summonsInfo.summonsExist = false;
-            GameDataManager.Instance.SaveSummerInfo("Hunter",summonsInfo);
-            GameDataManager.Instance.SaveSummerInfo("Exorcist",summonsInfo);
 
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);

@@ -158,7 +158,7 @@ namespace nightmareHunter {
                 bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = _playerinfo.attackSpeed;
                 bulletDotAni.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                Vector3 bulletStartPos = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+                Vector3 bulletStartPos = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
                 
                 GameObject bullet = Instantiate(bulletDotAni, bulletStartPos, bulletDotAni.transform.rotation);
                 

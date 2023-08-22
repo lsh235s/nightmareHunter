@@ -11117,7 +11117,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerState: 
   bulletPoint: {fileID: 374518622}
-  _bulletPrefab: {fileID: 6245671512966488181, guid: 69473e95ce309ff41bcf86da8774d955, type: 3}
+  bulletDotAni: {fileID: 0}
+  shotgunAni: {fileID: 0}
   _skeletonObject: {fileID: 2030252726}
   HpHeartImage:
   - {fileID: 21300000, guid: 420604cf361d34e8688e8fa2d04f8312, type: 3}
