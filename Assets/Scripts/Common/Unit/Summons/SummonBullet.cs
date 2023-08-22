@@ -11,16 +11,16 @@ namespace nightmareHunter {
         public Vector3 targetPosition; // 타겟 위치
         private float delayTime = 0.0f;
         public float _bulletSpeed; // 총알 속도
-        public float _bulletDamage; // 총알 데미지
         public string attackType; //발사체 유형
         public float physicsAttack;  //물리공격력
         public float magicAttack;  //마법 공격력
         public float energyAttack; //에너지 공격력
 
-        
         private bool activeflag = false;
 
         Rigidbody2D rigidbody2D;
+
+        private int targetCount = 0; // 타겟 카운트
         
         
         // Start is called before the first frame update
@@ -33,7 +33,19 @@ namespace nightmareHunter {
         // Update is called once per frame
         void Update()
         {
-            if("CDN".Equals(attackType))
+            if("PW0".Equals(attackType) || "PW1".Equals(attackType) || "PW3".Equals(attackType))
+            {
+                if (Vector3.Distance(transform.position, initialPosition) >= range)
+                {
+                    Destroy(gameObject); // 총알 삭제
+                } else {
+                    // 일정한 속도로 위쪽으로 이동
+                    transform.Translate(Vector2.right * _bulletSpeed * Time.deltaTime);
+                }
+            }
+     
+
+            if("CDN".Equals(attackType) || "CWP".Equals(attackType) || "PW2".Equals(attackType))
             {
                 delayTime += Time.deltaTime;
                 if(delayTime >= 1.0f) {
@@ -41,14 +53,7 @@ namespace nightmareHunter {
                     Destroy(gameObject);
                 }
             } 
-            if("CWP".Equals(attackType))
-            {
-                delayTime += Time.deltaTime;
-                if(delayTime >= 1.0f) {
-                    delayTime = 0.0f;
-                    Destroy(gameObject);
-                }
-            } 
+
             if("FSR".Equals(attackType)) {
                 if (Vector3.Distance(transform.position, initialPosition) >= range)
                 {
@@ -67,7 +72,6 @@ namespace nightmareHunter {
             }
             if("FSP".Equals(attackType))
             {
-                
                 // 일정한 속도로 위쪽으로 이동
                 transform.Translate(Vector3.right  * _bulletSpeed * Time.deltaTime);
                 Vector3 viewPos = Camera.main.WorldToViewportPoint(transform.position);
@@ -83,7 +87,10 @@ namespace nightmareHunter {
 
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if(!"FSP".Equals(attackType) && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+            if(!"PW3".Equals(attackType) && !"FSN".Equals(attackType) && !"CWP".Equals(attackType) && !"CDN".Equals(attackType) && !"CSN".Equals(attackType) && !"FSP".Equals(attackType) && collision.gameObject.tag != "WeaponItem" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+                Destroy(gameObject);
+            }
+            if(collision.gameObject.tag == "Tutorial") {
                 Destroy(gameObject);
             }
 
@@ -99,10 +106,17 @@ namespace nightmareHunter {
                         Instantiate(exflow, transform.position , transform.rotation);
                         Destroy(gameObject);
                     } else {
-                        collision.GetComponent<Enemy>().DamageProcess(physicsAttack,magicAttack,energyAttack);
+                        if(targetCount == 0 && "PW0".Equals(attackType)) {
+                            collision.GetComponent<Enemy>().DamageProcess(physicsAttack,magicAttack,energyAttack);
+                        } else {
+                            collision.GetComponent<Enemy>().DamageProcess(physicsAttack,magicAttack,energyAttack);
+                        }
+                        
                     }
                 }
             }
+
+     
         }    
 
     }

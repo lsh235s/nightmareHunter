@@ -129,12 +129,14 @@ namespace nightmareHunter {
             } else if (_monsterId == 2) {
                 gameObject.GetComponent<EnemySkill>().skillUse("PlayerTarget");
             } else if (_monsterId == 3) {
-                Debug.Log("분열스킬");
                 gameObject.GetComponent<EnemySkill>().skillUse("Split");    
             } else if (_monsterId == 5) {
                 gameObject.GetComponent<EnemySkill>().skillUse("PhysicsResistance");
             } else if (_monsterId == 6) {
                 gameObject.GetComponent<EnemySkill>().skillUse("MagicResistance");
+            } else if (_monsterId == 13) {
+                state = State.ClientTracking;
+                gameObject.GetComponent<EnemySkill>().skillUse("ClientTargetFix");
             }
             
             _animator.SetTrigger("Idle");
@@ -147,6 +149,9 @@ namespace nightmareHunter {
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(_monsterId == 3) {
                 Color endColor = new Color32(0, 0, 255, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(_monsterId == 13) {
+                Color endColor = new Color32(0, 0, 180, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(_monsterId == 4) {
                 Color endColor = new Color32(0, 100, 0, 255);
@@ -345,34 +350,7 @@ namespace nightmareHunter {
             float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
             float TrackDistance = 0.0f;
           
-            if(targetNum == -1) {
-                for(int i = 0; i < _waypointList[4].Count; i++) {
-                    if(i == 0) {
-                        TrackDistance = Vector3.Distance(transform.position, _waypointList[4][i].transform.position);
-                        targetNum = 0;
-                    } else {
-                        if(TrackDistance > Vector3.Distance(transform.position, _waypointList[4][i].transform.position)) {
-                            TrackDistance = Vector3.Distance(transform.position, _waypointList[4][i].transform.position);
-                            targetNum = i;
-                        }
-                    }
-                }
-            } else {
-                float distance = Vector3.Distance(transform.position, NextTargetPosition);
-                if (distance <= 0.5f)
-                {
-                    if(_waypointList[4].Count -1 > targetNum) {
-                        targetNum++;
-                    }
-                } else if((Mathf.Round(distanceCheck * 1000f) / 1000f) == (Mathf.Round(distance  * 1000f) / 1000f)) {
-                    distanceCheckCount++;
-                } else {
-                    distanceCheck = distance;
-                    distanceCheckCount = 0;
-                }
-            }
-            
-            NextTargetPosition = _waypointList[4][targetNum].transform.position;
+            NextTargetPosition = clientTarget.transform.position;
             if(ClientDistance <= _attackRange) {
                 state = State.ClientAttack;
             }
@@ -434,7 +412,6 @@ namespace nightmareHunter {
 
         private void UpdateClientAttack()
         {
-            skillList["ClientTargetFix"] = false;
             float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
             float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
 
@@ -629,13 +606,22 @@ namespace nightmareHunter {
                     UiController.Instance.integerAddSet(_integer);
                     
                     if(skillList["Split"]) {
-                        Debug.Log("SplitTrue"+_monsterId);
                         skillAllEnd();
                         state = State.Idle;
-                        Debug.Log(gameObject);
-                        GameObject.Find("Canvas").GetComponent<GameMoonManager>().SplitSkillAdd(gameObject);
+                        skillList["ClientTargetFix"] = true;
+
+                        for(int i =0; i < 3; i++) {
+                            _monsterId = 13;
+                            GameObject copy = Instantiate(gameObject);
+                            copy.GetComponent<Enemy>()._hp = _initHp;
+                            copy.GetComponent<Enemy>().isDead = false; 
+
+                            Color endColor = new Color32(0, 0, 255, 255);
+                            copy.transform.Find("Grapics").GetComponent<SkeletonMecanim>().skeleton.SetColor(endColor);
+                            GameObject.Find("Canvas").GetComponent<GameMoonManager>().SplitSkillAdd(3 ,copy);
+                        }
+
                     } else {
-                        Debug.Log("SplitFalsed"+_monsterId);
                         skillAllEnd();
                     }
                     
@@ -682,8 +668,6 @@ namespace nightmareHunter {
             if(magicAttack < 0) {
                 magicAttack = 0;
             }
-
-              
             _hp = _hp - (physicsAttack + magicAttack + energyAttack);
 
         }
@@ -737,6 +721,9 @@ namespace nightmareHunter {
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(_monsterId == 3) {
                 endColor = new Color32(0, 0, 255, 255);
+                skeletonMecanim.skeleton.SetColor(endColor);
+            } else if(_monsterId == 13) {
+                endColor = new Color32(0, 0, 180, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(_monsterId == 4) {
                 endColor = new Color32(0, 100, 0, 255);

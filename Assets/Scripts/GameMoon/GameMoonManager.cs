@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Spine.Unity;
 
 namespace nightmareHunter {
     public class GameMoonManager : MonoBehaviour
@@ -176,17 +177,8 @@ namespace nightmareHunter {
             return select;
         }
 
-        public void SplitSkillAdd(GameObject target) {
-            int monsterID = (int)target.GetComponent<Enemy>()._monsterId;
-            Debug.Log("SplitSkillAdd");
-            for(int i =0; i < 3; i++) {
-                GameObject copy = Instantiate(target);
-                copy.GetComponent<Enemy>()._monsterId = 13;
-                copy.GetComponent<Enemy>()._hp = copy.GetComponent<Enemy>()._initHp;
-                copy.GetComponent<Enemy>().isDead = false; 
-
-                _monsterList[monsterID].Add(copy);
-            }
+        public void SplitSkillAdd(int monsterID, GameObject target) {
+            _monsterList[monsterID].Add(target);
         }
     }
 }

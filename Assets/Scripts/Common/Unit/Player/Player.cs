@@ -12,9 +12,9 @@ namespace nightmareHunter {
         public string playerState;
         public GameObject bulletPoint;
 
-         //총알 프리팹
-        [SerializeField]
-        private GameObject _bulletPrefab;
+        // 발사체 이펙트
+        public GameObject bulletDotAni;
+        public GameObject shotgunAni;
 
 
         // 능력치
@@ -53,6 +53,9 @@ namespace nightmareHunter {
 
             skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
             _animator = _skeletonObject.GetComponent<Animator>();
+
+            bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
+            shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/Shotgun");
         }
 
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
@@ -73,15 +76,6 @@ namespace nightmareHunter {
         }
 
         private void FixedUpdate() {
-            Vector3 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
-            float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
-            
-
-            // 총알 방향 설정
-            bulletPoint.transform.rotation = Quaternion.Euler(0, 0, angle);
-
-
-
             // 과녁 위치 설정 총알 거리 및 위치 포인트 표시 제거
             //Vector3 mousePosition = Input.mousePosition;
             //mousePosition.z = -Camera.main.transform.position.z;
@@ -142,23 +136,44 @@ namespace nightmareHunter {
 
         // 공격 처리
         private void FireBullet() {
-            _bulletPrefab.GetComponent<Bullet>().weaponType = _playerinfo.weaponID;
-            _bulletPrefab.GetComponent<Bullet>().physicsAttack = _playerinfo.physicsAttack;
-            _bulletPrefab.GetComponent<Bullet>().magicAttack = _playerinfo.magicAttack;
-            _bulletPrefab.GetComponent<Bullet>().range = _playerinfo.attackRange;
-            _bulletPrefab.GetComponent<Bullet>().initialPosition = initialPosition;
-            _bulletPrefab.GetComponent<Bullet>()._bulletSpeed = _playerinfo.attackSpeed;
-            _bulletPrefab.GetComponent<Bullet>().weaponAttackType = _playerinfo.weaponAttackType;
-            _bulletPrefab.GetComponent<Bullet>().setWeaponEffect( _playerinfo.weaponID);
-
-            Vector3 bulletStartPos = new Vector3(bulletPoint.transform.position.x, bulletPoint.transform.position.y, bulletPoint.transform.position.z);
-            if(_playerinfo.weaponID == 2) {
-                bulletStartPos = new Vector3(bulletPoint.transform.position.x , bulletPoint.transform.position.y, bulletPoint.transform.position.z);
-            } else {
-                bulletStartPos = new Vector3(bulletPoint.transform.position.x, bulletPoint.transform.position.y, bulletPoint.transform.position.z);
+            string weaponType = "PW0";
+            if(_playerinfo.weaponID == 1) {
+                weaponType = "PW1";
+            } else if(_playerinfo.weaponID == 2) {
+                weaponType = "PW2";
+            } else if(_playerinfo.weaponID == 3) {
+                weaponType = "PW3";
             }
-            
-            GameObject bullet = Instantiate(_bulletPrefab, bulletStartPos, bulletPoint.transform.rotation);
+
+            Vector3 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
+            float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
+
+            if(_playerinfo.weaponID != 2) {
+                bulletDotAni.GetComponent<SummonBullet>().attackType = weaponType;
+                bulletDotAni.GetComponent<SummonBullet>().physicsAttack = _playerinfo.physicsAttack;
+                bulletDotAni.GetComponent<SummonBullet>().magicAttack = _playerinfo.magicAttack;
+                bulletDotAni.GetComponent<SummonBullet>().energyAttack = 0.0f;
+                bulletDotAni.GetComponent<SummonBullet>().range = _playerinfo.attackRange;
+                bulletDotAni.GetComponent<SummonBullet>().initialPosition = initialPosition;
+                bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = _playerinfo.attackSpeed;
+                bulletDotAni.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                Vector3 bulletStartPos = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+                
+                GameObject bullet = Instantiate(bulletDotAni, bulletStartPos, bulletDotAni.transform.rotation);
+                
+                if(_playerinfo.weaponID != 0) {
+                    bullet.GetComponent<SkeletonAnimation>().AnimationName = "bullet1";
+                }
+            } else {
+                gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().physicsAttack = _playerinfo.physicsAttack;  //물리공격력
+                shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().magicAttack = _playerinfo.magicAttack;  //마법 공격력
+                shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().energyAttack = 0.0f; //에너지 공격력 
+                Quaternion rotation = Quaternion.Euler(0, 0, angle);
+                
+                Instantiate(shotgunAni, transform.position , rotation);
+            }
 
             if(_playerinfo.weaponID != 0) {
                 _playerinfo.weaponAmount = _playerinfo.weaponAmount - 1;
