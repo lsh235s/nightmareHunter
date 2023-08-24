@@ -52,6 +52,14 @@ namespace nightmareHunter {
             UiController.Instance.LoadStart();
             canvasInit();
             _uiItController.GameStart();
+            
+            // 튜토리얼 시작
+            TutorialStart();
+
+        }
+
+
+        void TutorialStart() {
             stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
            
             if(stroyStage > -1) {

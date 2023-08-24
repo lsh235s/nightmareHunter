@@ -18,13 +18,20 @@ namespace nightmareHunter {
         public TextMeshProUGUI testText;
 
         [SerializeField]
+        private GameObject _backGroundPanel;
+        [SerializeField]
         private GameObject _storyPanel;
+        [SerializeField]
+        private GameObject _opening;
         [SerializeField]
         private Animator _backGroundAnimation;
 
         [SerializeField]
         LoadingControl _loadingControl;
         bool isSkip = false;
+
+        int playerAnimation = 0;
+        private AnimatorStateInfo  _currentState;
 
 
         // Start is called before the first frame update
@@ -45,6 +52,8 @@ namespace nightmareHunter {
 
             AudioManager.Instance.BackGroundPlay("bgm_title");
 
+            _backGroundAnimation.SetBool("start", false);
+
             StartCoroutine(_loadingControl.FadeInStart());
             StartCoroutine(storyPanelStop()); 
             testText.text = Path.Combine(Application.persistentDataPath, "/Plugin/SaveData/SystemData.json")+"//"+Application.dataPath; 
@@ -55,8 +64,18 @@ namespace nightmareHunter {
             if(_skipText != null) {
                 float alpha = Mathf.PingPong(Time.time * 3f, 1);
                 _skipText.color = new Color(_skipText.color.r, _skipText.color.g, _skipText.color.b, alpha);
-
             }
+
+            if(playerAnimation == 1) {
+                // 현재 재생 중인 애니메이션 상태 정보 가져오기
+                _currentState = _backGroundAnimation.GetCurrentAnimatorStateInfo(0);
+                AnimatorClipInfo[] currentClipInfo = _backGroundAnimation.GetCurrentAnimatorClipInfo(0);
+
+                if ("title_2".Equals(currentClipInfo[0].clip.name) && _currentState.normalizedTime >= 0.91f )
+                {
+                    backGroundAnimationEnd();
+                }
+            } 
         }
 
 
@@ -81,11 +100,15 @@ namespace nightmareHunter {
 
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
+            _backGroundAnimation.Play("title2");
+            playerAnimation = 1;
         }    
 
         public void ContinueOnClick() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
+            _backGroundAnimation.Play("title_2");
+            playerAnimation = 1;
             //SceneMoveManager.SceneMove("GameMoon");
         }    
         public void SettingOnClick() {
@@ -101,6 +124,32 @@ namespace nightmareHunter {
             #endif
         }
 
+
+        public void backGroundAnimationEnd() {
+            
+            int score = PlayerPrefs.GetInt("FirstGameStart", 0);
+
+            if(score == 0) {
+                playerAnimation = 2;
+                GameObject.Find("Canvas/MainPanel/ButtonList").SetActive(false);
+                // 오프닝 시작
+                OpeningStart();
+            } else {
+                playerAnimation = 3;
+                pageMoveGameSun();
+            }
+        }
+
+        
+        void OpeningStart() {
+            //PlayerPrefs.SetInt("FirstGameStart", 1);
+            //PlayerPrefs.Save();
+            
+            _opening.SetActive(true);
+            _backGroundPanel.SetActive(false);
+        }
+        
+        
         public void pageMoveGameSun() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             SceneMoveManager.SceneMove("GameSun");
