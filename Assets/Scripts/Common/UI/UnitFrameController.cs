@@ -16,12 +16,12 @@ namespace nightmareHunter {
         private GameObject summon;
         [SerializeField]
         private TextMeshProUGUI priceText;
+        [SerializeField]
+        private TextMeshProUGUI levelText;
 
         [SerializeField]
         private Button priceButton;
 
-        [SerializeField]
-        private int price;
         [SerializeField]
         private string _spritesName;
 
@@ -39,18 +39,33 @@ namespace nightmareHunter {
 
         private GameObject selectSummon;
 
+        [SerializeField]
+        private GameObject Goldinfo;
+        [SerializeField]
+        private GameObject Interinfo;
+
         void Start() {
             priceButton.onClick.AddListener(summonEnforce);
 
-            string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
-
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
-            priceText.text = price.ToString();
+            NowSummonInfo = GameDataManager.Instance.LoadSummerInfo(_spritesName);
+            Debug.Log(UiController.Instance.sceneMode+"//"+_spritesName+"//"+NowSummonInfo.goldCash);
+            priceText.text = NowSummonInfo.goldCash.ToString();
+            levelText.text = NowSummonInfo.playerLevel.ToString();
 
             selectSummon = Instantiate(summon);
             selectSummon.GetComponent<Summons>().summonsBatchIng = false;
             selectSummon.SetActive(false);
+
+            if(UiController.Instance.getSceneMode() == 0) {
+                Goldinfo.SetActive(true);
+                Interinfo.SetActive(false);
+            } 
+            else {
+                Goldinfo.SetActive(false);
+                Interinfo.SetActive(true);
+            }
         }
 
         void Update()
@@ -87,8 +102,8 @@ namespace nightmareHunter {
             if(UiController.Instance.sceneMode == 0) {
      
                 if(summon != null && selectSummon.GetComponent<Summons>().summonsBatchIng == false) {
-                    if(price <= int.Parse(UiController.Instance._gold.text)) {
-                        UiController.Instance.goldUseSet(price);
+                    if(NowSummonInfo.goldCash <= int.Parse(UiController.Instance._gold.text)) {
+                        UiController.Instance.goldUseSet(NowSummonInfo.goldCash,"-");
 
                         // 마우스 좌표를 월드 좌표로 변환
                         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -178,11 +193,11 @@ namespace nightmareHunter {
         }
 
         public void summonEnforce() {
-            // UiController.Instance.goldUseSet(price);
+            // 소환수 레벨업을 할 경우 해당 정보를 저장.
+            UiController.Instance.integerUseSet(NowSummonInfo.integerCash,"-");
             
-            // NowSummonInfo.playerLevel += 1;
-
-            // _uiItController.gameDataManager.SaveSummerInfo(_spritesName,NowSummonInfo);
+            int summonLevel = GameDataManager.Instance.UpdateCsvData(_spritesName);
+            levelText.text = summonLevel.ToString();
             // NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
 
             // _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);

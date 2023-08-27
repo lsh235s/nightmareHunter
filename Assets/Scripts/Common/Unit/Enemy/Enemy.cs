@@ -603,7 +603,7 @@ namespace nightmareHunter {
                     weaPonItem.GetComponent<WeaponItem>().SetWeaponType(weaponNum + 1);
                     
                     //재화 증가
-                    UiController.Instance.integerAddSet(_integer);
+                    UiController.Instance.integerUseSet(_integer,"+");
                     
                     if(skillList["Split"]) {
                         skillAllEnd();

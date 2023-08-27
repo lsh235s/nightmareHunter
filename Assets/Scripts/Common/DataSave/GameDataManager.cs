@@ -121,12 +121,18 @@ namespace nightmareHunter {
                 PlayerInfo playerInfo = new PlayerInfo();
                 for(int j = 0; j < unitObjectList.Count; j++) {
 
-                   Debug.Log("playerInfo : " +unitObjectList[j]["UnitType"].ToString()+"/"+summerBatchList[i]["SummonId"].ToString() +"/"+unitObjectList[j]["Id"].ToString());
+                  // Debug.Log("playerInfo : " +unitObjectList[j]["UnitType"].ToString()+"/"+summerBatchList[i]["SummonId"].ToString() +"/"+unitObjectList[j]["Id"].ToString());
                     if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summerBatchList[i]["SummonId"].ToString().Equals(unitObjectList[j]["Id"].ToString())) {
-                        int summonLevel = int.Parse(summerLevel[0][unitObjectList[j]["SpritesName"].ToString()].ToString());
-                        summonLevel = summonLevel - 1;
+                     
                         playerInfo.keyId =  int.Parse(summerBatchList[i]["Id"].ToString());
                         playerInfo.id =  int.Parse(unitObjectList[j]["Id"].ToString());
+                        int summonLevel = int.Parse(summerLevel[playerInfo.id]["Level"].ToString());
+                        summonLevel = summonLevel -1;
+                        playerInfo.playerLevel = summonLevel;
+                        playerInfo.goldCash = int.Parse(summerLevel[playerInfo.id]["GoldCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString()));
+                        playerInfo.levGoldCash = int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString());
+                        playerInfo.integerCash = int.Parse(summerLevel[playerInfo.id]["IntegerCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString()));
+                        playerInfo.levIntegerCash = int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString());
                         playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
                         playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
                         playerInfo.magicAttack =  float.Parse(unitObjectList[j]["MagicAttack"].ToString()) + (summonLevel * float.Parse(unitObjectList[j]["LevMagicAttack"].ToString()));
@@ -140,7 +146,7 @@ namespace nightmareHunter {
                         playerInfo.positionInfoX = summerBatchList[i]["PositionInfoX"].ToString();
                         playerInfo.positionInfoY = summerBatchList[i]["PositionInfoY"].ToString();
                         playerInfo.positionInfoZ = summerBatchList[i]["PositionInfoZ"].ToString();
-                        Debug.Log("playerInfo : "+summonLevel+"/" +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
+                      //  Debug.Log("playerInfo : "+summonLevel+"/" +unitObjectList[j]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
                         existTargetInfo.Add(playerInfo);
                     }
                 }
@@ -153,7 +159,7 @@ namespace nightmareHunter {
 
         // 소환수 배치시 정보 저장
         public int SaveSummerInfo(string intPlayerInfo, PlayerInfo playerInfo) {
-            List<Dictionary<string, object>> dataList = LoadData();
+            List<Dictionary<string, object>> dataList = LoadData("SummonBatch");
 
             string maxid = "0";
             if(dataList.Count > 0) {
@@ -176,6 +182,73 @@ namespace nightmareHunter {
             return playId;
         }
 
+
+        // 소환수 강화시 정보 저장
+        public int SaveSummerlevelInfo(string intPlayerInfo, PlayerInfo playerInfo) {
+            List<Dictionary<string, object>> dataList = LoadData("SummonBatch");
+
+            string maxid = "0";
+            if(dataList.Count > 0) {
+                maxid = dataList[dataList.Count -1]["Id"].ToString();
+            }
+           
+            int playId = int.Parse(maxid) + 1;
+            
+            Dictionary<string, object> data = new Dictionary<string, object>();
+            data.Add("Id", playId);
+            data.Add("Level", playerInfo.playerLevel);
+            data.Add("SummonId", Array.IndexOf(summonList, intPlayerInfo));
+            data.Add("PositionInfoX", playerInfo.positionInfoX);
+            data.Add("PositionInfoY", playerInfo.positionInfoY);
+            data.Add("PositionInfoZ", playerInfo.positionInfoZ);
+
+            dataList.Add(data);
+            SaveData(dataList);
+
+            return playId;
+        }
+
+
+        public int UpdateCsvData(string targetName)
+        {
+            int result = 0;
+            string filePath = Application.dataPath + "/Plugin/SaveData/SummonLevel.csv";
+            List<string[]> csvData = new List<string[]>();
+
+            // 기존 CSV 파일 데이터 읽기
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    string[] values = line.Split(',');
+                    csvData.Add(values);
+                }
+            }
+
+            // 업데이트할 데이터 찾아서 수정
+            for (int i = 1; i < csvData.Count; i++) // 첫 번째 행은 헤더
+            {
+                if (csvData[i][1] == targetName) // 두 번째 컬럼이 이름인 경우
+                {
+                    result = int.Parse(csvData[i][2].ToString()) + 1;
+                    csvData[i][2] = result.ToString(); // 세 번째 컬럼 업데이트
+                    break;
+                }
+            }
+
+            // 수정된 데이터를 다시 파일에 쓰기
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (string[] values in csvData)
+                {
+                    string line = string.Join(",", values);
+                    writer.WriteLine(line);
+                }
+            }
+            return result;
+        }
+
         // 소환수 능력치 조회
         public PlayerInfo LoadSummerInfo(string summonName) {
             List<Dictionary<string, object>> unitObjectList = CSVReader.Read("UnitObject");
@@ -185,9 +258,14 @@ namespace nightmareHunter {
 
             for(int i = 0; i < unitObjectList.Count; i++) {
                 if(2 == int.Parse(unitObjectList[i]["UnitType"].ToString()) && summonName.Equals((unitObjectList[i]["SpritesName"].ToString())) ) {
-                    int summonLevel = int.Parse(summerLevel[0][unitObjectList[i]["SpritesName"].ToString()].ToString());
-                    summonLevel = summonLevel - 1;
-
+                    playerInfo.id = int.Parse(unitObjectList[i]["Id"].ToString());
+                    int summonLevel = int.Parse(summerLevel[playerInfo.id]["Level"].ToString());
+                    summonLevel = summonLevel -1;
+                    playerInfo.playerLevel = summonLevel;
+                    playerInfo.goldCash = int.Parse(summerLevel[playerInfo.id]["GoldCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString()));
+                    playerInfo.levGoldCash = int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString());
+                    playerInfo.integerCash = int.Parse(summerLevel[playerInfo.id]["IntegerCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString()));
+                    playerInfo.levIntegerCash = int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString());
                     playerInfo.health = float.Parse(unitObjectList[i]["Health"].ToString()) + (summonLevel* float.Parse(unitObjectList[i]["LevHealth"].ToString()));
                     playerInfo.physicsAttack =  float.Parse(unitObjectList[i]["PhysicsAttack"].ToString()) + (summonLevel* float.Parse(unitObjectList[i]["LevPhysicsAttack"].ToString()));
                     playerInfo.magicAttack =  float.Parse(unitObjectList[i]["MagicAttack"].ToString()) + (summonLevel* float.Parse(unitObjectList[i]["LevMagicAttack"].ToString()));
@@ -199,7 +277,7 @@ namespace nightmareHunter {
                     playerInfo.attackType = unitObjectList[i]["AttackType"].ToString();
                     playerInfo.spritesName = unitObjectList[i]["SpritesName"].ToString();
                     
-                    Debug.Log("LoadSummerInfo : "+summonLevel+"/" +unitObjectList[i]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
+                  //  Debug.Log("LoadSummerInfo : "+summonLevel+"/" +unitObjectList[i]["SpritesName"].ToString()+"/"+ playerInfo.attackRange+"/"+playerInfo.positionInfoX+"/"+playerInfo.positionInfoY+"/"+playerInfo.positionInfoZ);
                 }
             }
 
@@ -230,9 +308,9 @@ namespace nightmareHunter {
             return playerInfo;
         }
 
-
+        // 게임 처음 시작 시 초기화
         public void GameDataInit() {
-            List<Dictionary<string, object>> dataList = LoadData();
+            List<Dictionary<string, object>> dataList = LoadData("SummonBatch");
 
             for(int i=0; i < dataList.Count; i++) {
                 if(i > 0) {
@@ -305,9 +383,9 @@ namespace nightmareHunter {
             }
         }
 
-        public List<Dictionary<string, object>> LoadData()
+        public List<Dictionary<string, object>> LoadData(string fileName)
         {
-            string filePath = Application.dataPath + "/Plugin/SaveData/SummonBatch.csv" ;
+            string filePath = Application.dataPath + "/Plugin/SaveData/"+fileName+".csv";
             List<Dictionary<string, object>> dataList = new List<Dictionary<string, object>>();
 
             using (StreamReader sr = new StreamReader(filePath))
@@ -335,8 +413,7 @@ namespace nightmareHunter {
 
         public void DeleteData(string columnName, string value)
         {
-            Debug.Log("삭제 " + value);
-            List<Dictionary<string, object>> dataList = LoadData();
+            List<Dictionary<string, object>> dataList = LoadData("SummonBatch");
             dataList.RemoveAll(data => data.ContainsKey(columnName) && data[columnName].ToString() == value);
             SaveData(dataList);
         }

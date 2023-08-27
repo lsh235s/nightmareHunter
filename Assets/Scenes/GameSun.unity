@@ -5012,6 +5012,17 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.16, y: 0.16}
   m_EdgeRadius: 0
+--- !u!114 &1016212770 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 773158823426358412, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+  m_PrefabInstance: {fileID: 1671950740}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1054679076
 GameObject:
   m_ObjectHideFlags: 0
@@ -8211,6 +8222,10 @@ PrefabInstance:
       propertyPath: summers
       value: 
       objectReference: {fileID: 5557243652296972026, guid: d64665cdbad6a4f609a456e6bd0414b5, type: 3}
+    - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
+      propertyPath: priceButton
+      value: 
+      objectReference: {fileID: 1016212770}
     - target: {fileID: 574715794384578992, guid: cfaa6aea2da385342b75108b7935816e, type: 3}
       propertyPath: _spritesName
       value: hunter

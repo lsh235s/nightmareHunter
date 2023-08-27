@@ -1,2 +1,9 @@
-hunter,priest,archer,icewitch,exorcist,monk,shaman,gostbuste
-1,1,1,1,1,1,1,1
+Id,Name,Level,GoldCash,LevGoldCash,IntegerCash,LevIntegerCash
+0,hunter,1,5,5,10,10
+1,priest,1,5,5,10,10
+2,archer,1,5,5,10,10
+3,icewitch,1,5,5,10,10
+4,exorcist,1,5,5,10,10
+5,monk,1,5,5,10,10
+6,shaman,1,5,5,10,10
+7,gostbuste,1,5,5,10,10
