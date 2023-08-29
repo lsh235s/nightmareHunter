@@ -15,7 +15,8 @@ namespace nightmareHunter {
         //오프닝 애니메이션 이벤트로 호출될 함수입니다.
         public void OpeningAnimation()
         {
-            SceneMoveManager.SceneMove("GameSun");
+            SceneMoveManager.SceneMove("GameInits");
         }
+
     }
 }
