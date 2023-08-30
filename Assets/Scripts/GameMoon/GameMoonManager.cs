@@ -24,6 +24,9 @@ namespace nightmareHunter {
 
         UnitController _uiItController;
         bool stageClear = false;
+        
+        int teller = 0;
+        int wanderer = 0;
 
 
         void Awake() {
@@ -56,6 +59,15 @@ namespace nightmareHunter {
                 if(!stageClear) {
                     if(AreAllMonstersDead(_monsterList)) {
                         stageClear = true;
+                        int retrunGold = 0;
+                        for (int i = 0; i < _uiItController._summonList.Length; i++) {
+                            for (int j = 0; j < _uiItController._summonList[i].Count; j++) {
+                               retrunGold = retrunGold + (_uiItController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
+                            }
+                        }
+                        UiController.Instance.goldUseSet(retrunGold,"+");
+                        GameDataManager.Instance.GameDataInit();
+
                         UiController.Instance.stageClear();
                     }
                 } 
@@ -87,8 +99,6 @@ namespace nightmareHunter {
 
         void monsterInitappear() {
             int listNum = 0;
-            int teller = 0;
-            int wanderer = 0;
 
             if(UiController.Instance._timerText.text != appearStageTimer) {
                 appearStageTimer = UiController.Instance._timerText.text;
@@ -123,6 +133,7 @@ namespace nightmareHunter {
                         
                         if (monsterScript != null && monsterScript.isDead == false)
                         {
+                            Debug.Log(monsterScript._spritesName+"/생존중인 몬스터가 있습니다.");
                             // 하나라도 살아있는 몬스터가 있다면, 모두 죽지 않았다고 반환합니다.
                             return false;
                         }

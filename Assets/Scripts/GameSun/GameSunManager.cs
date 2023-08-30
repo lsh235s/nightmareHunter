@@ -15,6 +15,11 @@ namespace nightmareHunter {
 
         [SerializeField]
         LoadingControl _loadingControl; // 로딩 컨트롤
+
+        [SerializeField]
+        GameObject backGround; // 스테이지 백그라운드
+        [SerializeField]
+        Sprite[] backGroundSprite; // 스테이지 백그라운드 스프라이트
         
 
         Transform _talkObject; // 대화 캐릭터 오브젝트 대화 좌우 반전용
@@ -260,6 +265,17 @@ namespace nightmareHunter {
                     eventFlag = false;
                     storyFlag = false;
                     _ChatGroup.SetActive(false);
+                    stroyStage++;
+                    UiController.Instance.systemSaveInfo.stageId = 1;
+                    UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    UiController.Instance.SystemDataSave();
+
+
+                    _loadingControl.FadeActive();
+                    _playGameObject.transform.position = new Vector2(2.0f, 0.6f);
+                    StartCoroutine(_loadingControl.FadeInStart());
+
+                    backGround.GetComponent<SpriteRenderer>().sprite = backGroundSprite[UiController.Instance.systemSaveInfo.stageId];
                   //  endStoryPanel.SetActive(true);
                 break;
             }

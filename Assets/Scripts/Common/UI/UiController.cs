@@ -140,8 +140,6 @@ namespace nightmareHunter {
         }
 
         public void stageClear() {
-            systemSaveInfo.stageId++;
-            SystemDataSave();
             SceneMoveManager.SceneMove("GameSun");
         }
 

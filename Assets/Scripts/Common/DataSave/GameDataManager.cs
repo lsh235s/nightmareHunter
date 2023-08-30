@@ -308,7 +308,7 @@ namespace nightmareHunter {
             return playerInfo;
         }
 
-        // 게임 처음 시작 시 초기화
+        // 소환수 배치 초기화
         public void GameDataInit() {
             List<Dictionary<string, object>> dataList = LoadData("SummonBatch");
 
