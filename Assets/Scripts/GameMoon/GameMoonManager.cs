@@ -9,6 +9,9 @@ namespace nightmareHunter {
 
         Texture2D NormalIcon;
         Texture2D AttckIcon;
+
+        [SerializeField]
+        GameObject stageBackGround; // 배경
  
         [SerializeField]
         GameObject[] wayPointList; 
@@ -17,6 +20,7 @@ namespace nightmareHunter {
         LoadingControl _loadingControl; // 로딩 컨트롤
 
         private List<GameObject>[] _monsterList;
+        Dictionary<int, int> monsterActiveCnt = new Dictionary<int, int>();
         public GameObject[] _monsters;
 
         string appearStageTimer = "";
@@ -36,7 +40,19 @@ namespace nightmareHunter {
 
         void Start()
         { 
+           
             UiController.Instance.LoadStart();
+            string stageName = "Prefabs/Stage/" + UiController.Instance.systemSaveInfo.stageId;
+            string wayPoint = "Prefabs/Waypoint/WayPoint" + UiController.Instance.systemSaveInfo.stageId;
+            GameObject wayPointLoad = Instantiate(Resources.Load<GameObject>(wayPoint));
+            wayPointList[0] = wayPointLoad.transform.Find("WaypointA").gameObject;
+            wayPointList[1] = wayPointLoad.transform.Find("WaypointB").gameObject;
+            wayPointList[2] = wayPointLoad.transform.Find("WaypointC").gameObject;
+            wayPointList[3] = wayPointLoad.transform.Find("WaypointD").gameObject;
+            wayPointList[4] = wayPointLoad.transform.Find("Directlypoint").gameObject;
+            stageBackGround = Instantiate(Resources.Load<GameObject>(stageName));
+            stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
+
             AudioManager.Instance.BackGroundPlay("bgm_game");
             _uiItController.GameStart();
             _loadingControl.FadeActive();
@@ -66,9 +82,9 @@ namespace nightmareHunter {
                             }
                         }
                         UiController.Instance.goldUseSet(retrunGold,"+");
-                        GameDataManager.Instance.GameDataInit();
+                      //  GameDataManager.Instance.GameDataInit();
 
-                        UiController.Instance.stageClear();
+                       // UiController.Instance.stageClear();
                     }
                 } 
             }
@@ -104,18 +120,12 @@ namespace nightmareHunter {
                 appearStageTimer = UiController.Instance._timerText.text;
 
                 for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
-                    listNum = 0;
                     if(appearStageTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"])) {
-                        if((int)_uiItController.DevelMonsterBatch[i]["MonsterId"] == 0) {
-                            listNum = wanderer;
-                            wanderer++;
-                        } else if((int)_uiItController.DevelMonsterBatch[i]["MonsterId"] == 1) {
-                            listNum = teller;
-                            teller++;
-                        }
+                        listNum = monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]];
 
                         if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
                             _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
+                            monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]] = listNum + 1;
                         }
                     }
                 }
@@ -133,7 +143,6 @@ namespace nightmareHunter {
                         
                         if (monsterScript != null && monsterScript.isDead == false)
                         {
-                            Debug.Log(monsterScript._spritesName+"/생존중인 몬스터가 있습니다.");
                             // 하나라도 살아있는 몬스터가 있다면, 모두 죽지 않았다고 반환합니다.
                             return false;
                         }
@@ -149,8 +158,11 @@ namespace nightmareHunter {
             _uiItController.monsterBuildCount = _uiItController.DevelMonsterBatch.Count;
             _monsterList = new List<GameObject>[_monsters.Length];
 
+
             for (int i = 0; i < _monsterList.Length; i++) {
                 _monsterList[i] = new List<GameObject>();
+                
+                monsterActiveCnt.Add(i, 0);
             }
 
             for (int i = 0; i <  _uiItController.DevelMonsterBatch.Count; i++) {
