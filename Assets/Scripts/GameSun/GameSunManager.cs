@@ -11,6 +11,8 @@ namespace nightmareHunter {
         [SerializeField]
         GameObject _playGameObject;   // 플레이어 오브젝트
         [SerializeField]
+        GameObject tommyGameObject;   // 타겟 오브젝트
+        [SerializeField]
         StoryObject storyObject; // 저장된 스토리 오브젝트
 
         [SerializeField]
@@ -82,6 +84,9 @@ namespace nightmareHunter {
                 }
                 if(stroyStage >= 44) {
                     _unitFrame.SetActive(true);
+                }
+                if(stroyStage == 0 && UiController.Instance.systemSaveInfo.stageId == 1) {
+                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
                 }
             } else {
                 _unitFrame.SetActive(true);
@@ -172,14 +177,11 @@ namespace nightmareHunter {
             //hunterGraphic.Initialize(true); 재시작
 
             if(storyObject.storyContentList.Count > inStroyStage) {
-                if(storyObject.storyContentList[inStroyStage].scenario_stage_id != UiController.Instance.systemSaveInfo.stageId) {
-                    inStroyStage = 52;
-                    UiController.Instance.systemSaveInfo.storyNum = 52;
-                    UiController.Instance.SystemDataSave();
-                }
+                
                 Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
 
                 if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
+                    Debug.Log("storyPlay : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
                     _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
                     storyFlag = true;
                     if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
@@ -195,6 +197,8 @@ namespace nightmareHunter {
                     }
                     
                 } else {
+                    Debug.Log("storywait : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+                    
                     _playGameObject.GetComponent<Player>().playerState = "wait";
                     storyFlag = false;
                     _ChatGroup.SetActive(false);
@@ -266,17 +270,41 @@ namespace nightmareHunter {
                     eventFlag = false;
                     storyFlag = false;
                     _ChatGroup.SetActive(false);
-                    stroyStage++;
                     UiController.Instance.systemSaveInfo.stageId = 1;
-                    UiController.Instance.systemSaveInfo.storyNum = 0;
+                    stroyStage++;
+                    UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    
                     UiController.Instance.SystemDataSave();
 
-
-                    _loadingControl.FadeActive();
-                    _playGameObject.transform.position = new Vector2(2.0f, 0.6f);
-                    StartCoroutine(_loadingControl.FadeInStart());
-
                     _playGameObject.GetComponent<Player>().playerState = "active";
+                    _loadingControl.FadeActive();
+                    _playGameObject.transform.position = new Vector2(-1.4f, 1.0f);
+                    
+
+                    SceneMoveManager.SceneMove("GameSun");
+                break;
+                case 9 :
+                    _loadingControl.FadeActive();
+                    eventFlag =false;
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    skipButton();
+                break;
+                case 10 :
+                    _loadingControl.FadeActive();
+                    eventFlag =false;
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    skipButton();
+                break;
+                case 11 :
+                    eventFlag =false;
+                    _ChatGroup.SetActive(false);
+                    
+                    _playGameObject.GetComponent<Player>().playerState = "tutorial";
+                    stroyStage++;
+                    UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    UiController.Instance.SystemDataSave();
+                    transform.Find("SkipButton").gameObject.SetActive(true);
+                    UiController.Instance.timePause = true;
                 break;
             }
         }

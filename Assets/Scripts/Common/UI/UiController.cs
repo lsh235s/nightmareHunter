@@ -129,7 +129,11 @@ namespace nightmareHunter {
                     if(sceneMode == 0) {
                         _Hour=0;
                         _Min=0;
-                        SceneMoveManager.SceneMove("GameMoon");
+                        if(systemSaveInfo.stageId == 1) {
+                            SceneMoveManager.SceneMove("GameMoon01");
+                        } else {
+                            SceneMoveManager.SceneMove("GameMoon");
+                        }
                     } else {
                         _Hour=0;
                         _Min=0;

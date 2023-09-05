@@ -63,8 +63,7 @@ namespace nightmareHunter {
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
-            Debug.Log("summonerId : " + summonerId);
-            Debug.Log(skeletonMecanim);
+           // Debug.Log("summonerId : " + summonerId);
 
             bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
             shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/Shotgun");
@@ -116,7 +115,7 @@ namespace nightmareHunter {
                 rangeObject.SetActive(false);
             }
            
-            Debug.Log("activePlayerinfo : " + inPlayerinfo.attackType);
+           // Debug.Log("activePlayerinfo : " + inPlayerinfo.attackType);
            
         }
 

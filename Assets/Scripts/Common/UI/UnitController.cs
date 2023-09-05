@@ -73,7 +73,7 @@ namespace nightmareHunter {
             
             _summoner[PlayerInfo.id].GetComponent<Summons>().playerDataLoad(PlayerInfo);
             
-            Debug.Log("소환수 배치 ID : " + PlayerInfo.positionInfoX +"/"+ PlayerInfo.positionInfoY +"/"+ PlayerInfo.positionInfoZ);
+           // Debug.Log("소환수 배치 ID : " + PlayerInfo.positionInfoX +"/"+ PlayerInfo.positionInfoY +"/"+ PlayerInfo.positionInfoZ);
             Vector3 vector = new Vector3(float.Parse(PlayerInfo.positionInfoX), float.Parse(PlayerInfo.positionInfoY), float.Parse(PlayerInfo.positionInfoZ));
             
 

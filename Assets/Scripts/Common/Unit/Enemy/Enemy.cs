@@ -157,6 +157,8 @@ namespace nightmareHunter {
                 Color endColor = new Color32(0, 100, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } 
+
+            transform.position = _waypointList[waypointType][waypointIndex].transform.position;
             
         }
 

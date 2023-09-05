@@ -50,7 +50,7 @@ namespace nightmareHunter {
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
             NowSummonInfo = GameDataManager.Instance.LoadSummerInfo(_spritesName);
-            Debug.Log(UiController.Instance.sceneMode+"//"+_spritesName+"//"+NowSummonInfo.goldCash);
+           // Debug.Log(UiController.Instance.sceneMode+"//"+_spritesName+"//"+NowSummonInfo.goldCash);
             priceText.text = NowSummonInfo.goldCash.ToString();
             levelText.text = NowSummonInfo.playerLevel.ToString();
 
