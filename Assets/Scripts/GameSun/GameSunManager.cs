@@ -45,6 +45,8 @@ namespace nightmareHunter {
         GameObject _unitFrame; // 유닛 프레임 오브젝트
         UnitController _uiItController;
 
+        Texture2D MainIcon;
+
 
         // Start is called before the first frame update
         void Awake() {
@@ -57,6 +59,10 @@ namespace nightmareHunter {
             string stageName = "Prefabs/Stage/" + UiController.Instance.systemSaveInfo.stageId;
             backGround = Instantiate(Resources.Load<GameObject>(stageName));
             backGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backGround.GetComponent<BackgroundController>().backGroundSprite[0];
+
+            MainIcon = Resources.Load<Texture2D>("ui/cursor_01");
+
+            Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
 
             canvasInit();
             _uiItController.GameStart();
@@ -85,9 +91,10 @@ namespace nightmareHunter {
                 if(stroyStage >= 44) {
                     _unitFrame.SetActive(true);
                 }
-                if(stroyStage == 0 && UiController.Instance.systemSaveInfo.stageId == 1) {
-                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
-                }
+                if(stroyStage == 64) {
+                    _playGameObject.transform.position = new Vector2(-2.914f, 0.575f);
+                 }
+                
             } else {
                 _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
@@ -153,6 +160,7 @@ namespace nightmareHunter {
             }
             if(!eventFlag) {      
                 _playGameObject.GetComponent<Player>().playerState = "tutorial";
+                _playGameObject.GetComponent<Player>().playerStateChange();
                 _ChatGroup.SetActive(true);
                 stroyStage++;
 
@@ -225,33 +233,35 @@ namespace nightmareHunter {
 
         void evnetAction(int stageId) {
             switch  (stageId) {
-                case 1 :
+                case 1 : //이동 튜토리얼 시작
                     _tutory.SetActive(true);
                     _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
                 break;
-                case 2 :
+                case 2 : //발사 튜토리얼 시작
                     _tutory2.SetActive(true);
                 break;
-                case 3 :
+                case 3 : //포인트 추가
                     _uiGroup.SetActive(true);
                     UiController.Instance.systemSaveInfo.money = 100;
                     UiController.Instance._gold.text = UiController.Instance.systemSaveInfo.money.ToString();
                     UiController.Instance.SystemDataSave();
                     eventFlag = false;
                 break;
-                case 4 :
+                case 4 : //맵이동
                     _loadingControl.FadeActive();
                     _playGameObject.transform.position = new Vector2(2.0f, 0.6f);
                     StartCoroutine(_loadingControl.FadeInStart());
                     eventFlag = false;
                     skipButton();
                 break;
-                case 5 :
+                case 5 : //소환수 배치 튜토리얼
                     _tutory3.SetActive(true);
                     _unitFrame.SetActive(true);
                 break;
                 case 6 :
                     _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
                     _ChatGroup.SetActive(false);
                     
                     stroyStage++;
@@ -278,33 +288,50 @@ namespace nightmareHunter {
 
                     _playGameObject.GetComponent<Player>().playerState = "active";
                     _loadingControl.FadeActive();
-                    _playGameObject.transform.position = new Vector2(-1.4f, 1.0f);
-                    
+                    _playGameObject.transform.position = new Vector2(-2.914f, 0.575f);
+                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
 
                     SceneMoveManager.SceneMove("GameSun");
                 break;
                 case 9 :
                     _loadingControl.FadeActive();
-                    eventFlag =false;
+                    eventFlag = false;
+                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
                     StartCoroutine(_loadingControl.FadeInStart());
                     skipButton();
                 break;
                 case 10 :
                     _loadingControl.FadeActive();
-                    eventFlag =false;
+                    eventFlag = false;
                     StartCoroutine(_loadingControl.FadeInStart());
                     skipButton();
                 break;
                 case 11 :
+                    _loadingControl.FadeActive();
+                    _playGameObject.transform.position = new Vector2(1.992f, -1.305f);
                     eventFlag =false;
                     _ChatGroup.SetActive(false);
                     
-                    _playGameObject.GetComponent<Player>().playerState = "tutorial";
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
+                    
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    skipButton();
+                break;
+                case 12 :
                     stroyStage++;
                     UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    
                     UiController.Instance.SystemDataSave();
                     transform.Find("SkipButton").gameObject.SetActive(true);
+                    eventFlag = true;
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
                     UiController.Instance.timePause = true;
+                    _ChatGroup.SetActive(false);
+                break;
+                case 13 :
+                    endStoryPanel.SetActive(true);
                 break;
             }
         }

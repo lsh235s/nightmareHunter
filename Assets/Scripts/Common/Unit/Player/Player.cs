@@ -89,7 +89,7 @@ namespace nightmareHunter {
             {  
                 StartCoroutine(damageShake());
             } 
-
+            
             if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
                 if(_waitFire) {
@@ -106,6 +106,10 @@ namespace nightmareHunter {
                 // 좌우 방향 확인
                 RotateInDirectionOfInput();
             }
+        }
+
+        public void playerStateChange() {
+           _animator.SetFloat("move", 0.0F);
         }
 
 
