@@ -157,15 +157,13 @@ namespace nightmareHunter {
                 if(int.Parse(_gold.text) >= useGold) {
                     systemSaveInfo.money = int.Parse(_gold.text) - useGold;
                     _gold.text = systemSaveInfo.money.ToString();
-                    
-                    SystemDataSave();
                 }
             } else {
                 systemSaveInfo.money = int.Parse(_gold.text) + useGold;
                 _gold.text = systemSaveInfo.money.ToString();
-                SystemDataSave();
+                
             }
-            
+            SystemDataSave();
         }
 
 
@@ -174,14 +172,12 @@ namespace nightmareHunter {
                 if(int.Parse(_integer.text) >= inputInteger) {
                     systemSaveInfo.integer = int.Parse(_integer.text) - inputInteger;
                     _integer.text = systemSaveInfo.integer.ToString();
-                    
-                    SystemDataSave();
                 }
             } else {
                  systemSaveInfo.integer = int.Parse(_integer.text) + inputInteger;
                 _integer.text = systemSaveInfo.integer.ToString();
-                SystemDataSave();
             }
+            SystemDataSave();
         }
 
 

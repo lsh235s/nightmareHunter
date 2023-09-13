@@ -92,6 +92,8 @@ namespace nightmareHunter {
                 Color currentColor = frameImage.GetComponent<Image>().color;
                 frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 255f);
                 _isChange = true;
+            } else {
+                summonEnforce();
             }
         }
 
@@ -194,14 +196,18 @@ namespace nightmareHunter {
 
         public void summonEnforce() {
             // 소환수 레벨업을 할 경우 해당 정보를 저장.
-            UiController.Instance.integerUseSet(NowSummonInfo.integerCash,"-");
+            if(int.parse(levelText.text) < 6) {
+                UiController.Instance.integerUseSet(NowSummonInfo.integerCash,"-");
             
-            int summonLevel = GameDataManager.Instance.UpdateCsvData(_spritesName);
-            levelText.text = summonLevel.ToString();
+                int summonLevel = GameDataManager.Instance.UpdateCsvData(_spritesName);
+                levelText.text = summonLevel.ToString();
+            }
+
             // NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
 
             // _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
 
         }
+
     }
 }

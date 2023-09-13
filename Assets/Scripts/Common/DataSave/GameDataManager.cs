@@ -300,6 +300,7 @@ namespace nightmareHunter {
                     playerInfo.attackRange =  (float.Parse(unitObjectList[i]["AttackRange"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackRange"].ToString())))  * 0.1f;
                     playerInfo.move =  (float.Parse(unitObjectList[i]["Move"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevMove"].ToString()))) * 0.1f;
                     playerInfo.attackSpeed =  (float.Parse(unitObjectList[i]["AttackSpeed"].ToString()) + ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevAttackSpeed"].ToString()))) * 0.1f;
+                    playerInfo.reward =  int.Parse(unitObjectList[i]["Reward"].ToString()) ;
                     playerInfo.spritesName = unitObjectList[i]["SpritesName"].ToString();
                 }
             }
@@ -321,6 +322,7 @@ namespace nightmareHunter {
 
         public void SaveSystemInfo(SystemSaveInfo systemSaveInfo) {
             string json = JsonConvert.SerializeObject(systemSaveInfo);
+         //   Debug.Log("json:"+json);
 
             string fileName = "SystemData.json";
             string filePath = Application.dataPath + "/Plugin/SaveData/" + fileName;
