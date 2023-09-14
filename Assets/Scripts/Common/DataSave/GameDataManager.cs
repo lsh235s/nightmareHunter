@@ -157,6 +157,37 @@ namespace nightmareHunter {
             return existTargetInfo;
         }
 
+        // 소환수 늘력치 재 조회
+        public PlayerInfo loadSummerInfo(PlayerInfo inPlayerInfo, int summonerId ,int nowLevel) {
+            List<Dictionary<string, object>> unitObjectList = CSVReader.Read("UnitObject");
+            List<Dictionary<string, object>> summerLevel = CSVReader.Read("SummonLevel");
+            PlayerInfo playerInfo = new PlayerInfo();
+            playerInfo = inPlayerInfo;
+
+            for(int j = 0; j < unitObjectList.Count; j++) {
+                if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summerBatchList[i]["SummonId"].ToString().Equals(summonerId.ToString())) {
+                        playerInfo.playerLevel = nowLevel;
+                        playerInfo.goldCash = int.Parse(summerLevel[playerInfo.id]["GoldCash"].ToString()) + (nowLevel* int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString()));
+                        playerInfo.levGoldCash = int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString());
+                        playerInfo.integerCash = int.Parse(summerLevel[playerInfo.id]["IntegerCash"].ToString()) + (nowLevel* int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString()));
+                        playerInfo.levIntegerCash = int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString());
+                        playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
+                        playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
+                        playerInfo.magicAttack =  float.Parse(unitObjectList[j]["MagicAttack"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevMagicAttack"].ToString()));
+                        playerInfo.pysicsDefense =  float.Parse(unitObjectList[j]["PhysicsDefense"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevPhysicsDefense"].ToString()));
+                        playerInfo.magicDefense =  float.Parse(unitObjectList[j]["MagicDefense"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevMagicDefense"].ToString()));
+                        playerInfo.attackRange =  (float.Parse(unitObjectList[j]["AttackRange"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevAttackRange"].ToString()))) ;
+                        playerInfo.move =  (float.Parse(unitObjectList[j]["Move"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevMove"].ToString())) * 0.1f);
+                        playerInfo.attackSpeed =  (float.Parse(unitObjectList[j]["AttackSpeed"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevAttackSpeed"].ToString()))) * 0.1f;
+    
+                }
+            }
+      
+
+            return playerInfo;
+        }
+
+
         // 소환수 배치시 정보 저장
         public int SaveSummerInfo(string intPlayerInfo, PlayerInfo playerInfo) {
             List<Dictionary<string, object>> dataList = LoadData("SummonBatch");

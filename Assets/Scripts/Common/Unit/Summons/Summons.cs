@@ -92,6 +92,12 @@ namespace nightmareHunter {
         }
 
 
+        public void summonlevelUp(PlayerInfo inPlayerInfo ,int level) {
+            PlayerInfo existTargetInfo = GameDataManager.Instance.loadSummerInfo(inPlayerInfo, summonerId, level);
+            playerDataLoad(existTargetInfo);
+        }
+
+
         public void playerDataLoad(PlayerInfo inPlayerinfo) {
             activateStatus = "move";
 

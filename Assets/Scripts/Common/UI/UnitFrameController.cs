@@ -196,11 +196,16 @@ namespace nightmareHunter {
 
         public void summonEnforce() {
             // 소환수 레벨업을 할 경우 해당 정보를 저장.
-            if(int.parse(levelText.text) < 6) {
+            if(int.Parse(levelText.text) < 6) {
                 UiController.Instance.integerUseSet(NowSummonInfo.integerCash,"-");
             
                 int summonLevel = GameDataManager.Instance.UpdateCsvData(_spritesName);
                 levelText.text = summonLevel.ToString();
+
+                for(int i=0; i < _uiItController._summonList[objectIndex].Count; i++) {
+                    _uiItController._summonList[objectIndex][i].GetComponent<Summons>().summonlevelUp(NowSummonInfo, summonLevel);
+                }
+                
             }
 
             // NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
