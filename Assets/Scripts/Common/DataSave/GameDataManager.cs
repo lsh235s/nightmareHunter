@@ -165,12 +165,12 @@ namespace nightmareHunter {
             playerInfo = inPlayerInfo;
 
             for(int j = 0; j < unitObjectList.Count; j++) {
-                if ("2".Equals(unitObjectList[j]["UnitType"].ToString()) && summerBatchList[i]["SummonId"].ToString().Equals(summonerId.ToString())) {
+                if ("2".Equals(unitObjectList[j]["UnitType"].ToString())) {
                         playerInfo.playerLevel = nowLevel;
-                        playerInfo.goldCash = int.Parse(summerLevel[playerInfo.id]["GoldCash"].ToString()) + (nowLevel* int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString()));
-                        playerInfo.levGoldCash = int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString());
-                        playerInfo.integerCash = int.Parse(summerLevel[playerInfo.id]["IntegerCash"].ToString()) + (nowLevel* int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString()));
-                        playerInfo.levIntegerCash = int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString());
+                        playerInfo.goldCash = int.Parse(summerLevel[summonerId]["GoldCash"].ToString()) + (nowLevel* int.Parse(summerLevel[summonerId]["LevGoldCash"].ToString()));
+                        playerInfo.levGoldCash = int.Parse(summerLevel[summonerId]["LevGoldCash"].ToString());
+                        playerInfo.integerCash = int.Parse(summerLevel[summonerId]["IntegerCash"].ToString()) + (nowLevel* int.Parse(summerLevel[summonerId]["LevIntegerCash"].ToString()));
+                        playerInfo.levIntegerCash = int.Parse(summerLevel[summonerId]["LevIntegerCash"].ToString());
                         playerInfo.health = float.Parse(unitObjectList[j]["Health"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevHealth"].ToString()));
                         playerInfo.physicsAttack =  float.Parse(unitObjectList[j]["PhysicsAttack"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevPhysicsAttack"].ToString()));
                         playerInfo.magicAttack =  float.Parse(unitObjectList[j]["MagicAttack"].ToString()) + (nowLevel * float.Parse(unitObjectList[j]["LevMagicAttack"].ToString()));

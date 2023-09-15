@@ -19,6 +19,7 @@ namespace nightmareHunter {
         public PlayerInfo activePlayerinfo;
         // 소환수 능력치 
         string activateStatus = "stop";
+        public int _level;
         public float _speed;
         public float _hp;
         public float _attack;
@@ -113,6 +114,7 @@ namespace nightmareHunter {
             _attackRange = inPlayerinfo.attackRange;
             _integer = inPlayerinfo.reward;
             _attackType = inPlayerinfo.attackType;
+            _level = inPlayerinfo.playerLevel;
 
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
             rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
