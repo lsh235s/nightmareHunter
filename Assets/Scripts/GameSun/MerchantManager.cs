@@ -5,6 +5,7 @@ using UnityEngine;
 namespace nightmareHunter {
     public class MerchantManager : MonoBehaviour
     {
+        public GameObject merchant;
         // Start is called before the first frame update
         void Start()
         {
@@ -15,6 +16,11 @@ namespace nightmareHunter {
         void Update()
         {
             
+        }
+
+        public void OpenMerchant() {
+            Debug.Log("Open Merchant");
+            merchant.SetActive(true);
         }
     }
 }
