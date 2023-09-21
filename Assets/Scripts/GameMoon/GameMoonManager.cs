@@ -51,8 +51,8 @@ namespace nightmareHunter {
             wayPointList[2] = wayPointLoad.transform.Find("WaypointC").gameObject;
             wayPointList[3] = wayPointLoad.transform.Find("WaypointD").gameObject;
             wayPointList[4] = wayPointLoad.transform.Find("Directlypoint").gameObject;
-            stageBackGround = Instantiate(Resources.Load<GameObject>(stageName));
-            stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
+           // stageBackGround = Instantiate(Resources.Load<GameObject>(stageName));
+           // stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
 
             AudioManager.Instance.BackGroundPlay("bgm_game");
             _uiItController.GameStart();
@@ -121,8 +121,9 @@ namespace nightmareHunter {
                 appearStageTimer = UiController.Instance._timerText.text;
 
                 for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
-                    if(appearStageTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"])) {
+                    if(appearStageTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"]) && UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
                         listNum = monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]];
+
 
                         if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
                             _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
@@ -156,18 +157,27 @@ namespace nightmareHunter {
 
         // 몬스터 배치 관련
         void monsterInit() {
-            _uiItController.monsterBuildCount = _uiItController.DevelMonsterBatch.Count;
-            _monsterList = new List<GameObject>[_monsters.Length];
+            int stageMonsterCnt = 0;
+            for(int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
+                if(UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
+                    stageMonsterCnt++;
+                }
+            }
+
+            _uiItController.monsterBuildCount = stageMonsterCnt;
+            _monsterList = new List<GameObject>[_monsters.Length];  //몬스터 종류 배열 생성
 
 
             for (int i = 0; i < _monsterList.Length; i++) {
-                _monsterList[i] = new List<GameObject>();
+                _monsterList[i] = new List<GameObject>();  //몬스터 종류별 배열 생성
                 
-                monsterActiveCnt.Add(i, 0);
+                monsterActiveCnt.Add(i, 0);  //몬스터 종류별 출현 카운트
             }
 
             for (int i = 0; i <  _uiItController.DevelMonsterBatch.Count; i++) {
-                MonsterGet(_uiItController.DevelMonsterBatch[i]);
+                if(UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
+                    MonsterGet(_uiItController.DevelMonsterBatch[i]);
+                }
             }
         }
 

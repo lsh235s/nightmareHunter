@@ -489,8 +489,8 @@ namespace nightmareHunter {
 
             if(state != State.Die) {
                 if (agent.isActiveAndEnabled) {
-                    Debug.Log(_monsterId+"/agent.isActiveAndEnabled" + agent.isActiveAndEnabled);
-                    Debug.Log(NextTargetPosition);
+                  //  Debug.Log(_monsterId+"/agent.isActiveAndEnabled" + agent.isActiveAndEnabled);
+                  //  Debug.Log(NextTargetPosition);
                     agent.SetDestination(NextTargetPosition);
                 } 
             } else {

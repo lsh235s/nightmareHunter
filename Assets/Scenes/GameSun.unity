@@ -1492,11 +1492,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7235797080949518906, guid: 502cdd332e5c6ac44a26b840b79899e4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -0.6
+      value: -0.048
       objectReference: {fileID: 0}
     - target: {fileID: 7235797080949518906, guid: 502cdd332e5c6ac44a26b840b79899e4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.56
+      value: 0.279
       objectReference: {fileID: 0}
     - target: {fileID: 7235797080949518906, guid: 502cdd332e5c6ac44a26b840b79899e4, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1520,6 +1520,11 @@ PrefabInstance:
       objectReference: {fileID: 516803383}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502cdd332e5c6ac44a26b840b79899e4, type: 3}
+--- !u!1 &330043420 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8989088199476596009, guid: 502cdd332e5c6ac44a26b840b79899e4, type: 3}
+  m_PrefabInstance: {fileID: 330043419}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &369118090
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4834,6 +4839,7 @@ MonoBehaviour:
   storyObject: {fileID: 11400000, guid: 543460d4731dba245be802ed502e4d74, type: 2}
   _loadingControl: {fileID: 566799917}
   backGround: {fileID: 0}
+  Merchant: {fileID: 330043420}
   eventFlag: 0
   _tutory: {fileID: 1119605096}
   _tutory2: {fileID: 2040965639}

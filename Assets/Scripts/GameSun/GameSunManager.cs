@@ -21,6 +21,9 @@ namespace nightmareHunter {
         [SerializeField]
         GameObject backGround; // 스테이지 백그라운드
 
+        [SerializeField]
+        GameObject Merchant; // 정수 판매자 오브젝트
+
         Transform _talkObject; // 대화 캐릭터 오브젝트 대화 좌우 반전용
         GameObject _ChatGroup; // 대화 창 오브젝트
         GameObject _uiGroup; // UI 오브젝트
@@ -47,6 +50,8 @@ namespace nightmareHunter {
 
         Texture2D MainIcon;
 
+        
+
 
         // Start is called before the first frame update
         void Awake() {
@@ -66,6 +71,11 @@ namespace nightmareHunter {
 
             canvasInit();
             _uiItController.GameStart();
+            if(UiController.Instance.systemSaveInfo.stageId == 0) {
+                Merchant.active = false;
+            } else {
+                Merchant.active = true;
+            }
             
             // 튜토리얼 시작
             TutorialStart();
@@ -145,6 +155,7 @@ namespace nightmareHunter {
         
 
         public void canvasSkipButton() {
+            Debug.Log("Canvas 이벤트 트리거 발생");
             if(storyFlag) {
                 skipButton();
             }
