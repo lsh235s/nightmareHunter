@@ -14,6 +14,8 @@ namespace nightmareHunter {
         GameObject stageBackGround; // 배경
  
         [SerializeField]
+        GameObject wayPointGroup; 
+        [SerializeField]
         GameObject[] wayPointList; 
 
 
@@ -44,13 +46,13 @@ namespace nightmareHunter {
            
             UiController.Instance.LoadStart();
             string stageName = "Prefabs/Stage/" + UiController.Instance.systemSaveInfo.stageId;
-            string wayPoint = "Prefabs/Waypoint/WayPoint" + UiController.Instance.systemSaveInfo.stageId;
-            GameObject wayPointLoad = Instantiate(Resources.Load<GameObject>(wayPoint));
-            wayPointList[0] = wayPointLoad.transform.Find("WaypointA").gameObject;
-            wayPointList[1] = wayPointLoad.transform.Find("WaypointB").gameObject;
-            wayPointList[2] = wayPointLoad.transform.Find("WaypointC").gameObject;
-            wayPointList[3] = wayPointLoad.transform.Find("WaypointD").gameObject;
-            wayPointList[4] = wayPointLoad.transform.Find("Directlypoint").gameObject;
+            //string wayPoint = "Prefabs/Waypoint/WayPoint" + UiController.Instance.systemSaveInfo.stageId;
+           // GameObject wayPointLoad = Instantiate(Resources.Load<GameObject>(wayPoint));
+            wayPointList[0] = wayPointGroup.transform.Find("WaypointA").gameObject;
+            wayPointList[1] = wayPointGroup.transform.Find("WaypointB").gameObject;
+            wayPointList[2] = wayPointGroup.transform.Find("WaypointC").gameObject;
+            wayPointList[3] = wayPointGroup.transform.Find("WaypointD").gameObject;
+            wayPointList[4] = wayPointGroup.transform.Find("Directlypoint").gameObject;
            // stageBackGround = Instantiate(Resources.Load<GameObject>(stageName));
            // stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
 
@@ -127,6 +129,10 @@ namespace nightmareHunter {
 
                         if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
                             _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
+                           
+                            if((int)_uiItController.DevelMonsterBatch[i]["MonsterId"] == 1) {
+                                _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].transform.position = _uiItController._targetGameObject.transform.position;
+                            }
                             monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]] = listNum + 1;
                         }
                     }

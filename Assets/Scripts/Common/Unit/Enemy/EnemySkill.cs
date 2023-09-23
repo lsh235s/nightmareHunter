@@ -21,7 +21,7 @@ namespace nightmareHunter {
                     // 검색된 GameObject에 대한 작업 수행
                     foreach (GameObject targetGameObject in gameObjectsWithTag)
                     {
-                        if(targetGameObject.GetComponent<Enemy>()._monsterId == 0) {
+                        if(targetGameObject.GetComponent<Enemy>()._monsterId == 0 && targetGameObject.activeSelf) {
                             targetGameObject.GetComponent<Enemy>().skillList["AttackUp"] = true;
                             targetGameObject.GetComponent<Enemy>().skillList["MoveSpeedUp"] = true;
                             targetGameObject.GetComponent<Enemy>().skillList["ClientTargetFix"] = true;

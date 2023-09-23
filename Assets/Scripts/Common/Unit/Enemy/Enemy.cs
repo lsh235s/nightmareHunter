@@ -99,17 +99,21 @@ namespace nightmareHunter {
             instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"));
             instantiatedPrefab.SetActive(false); 
 
-            skillList.Add("AttackUp", false);
-            skillList.Add("AttackSpeedUp", false);
-            skillList.Add("MoveSpeedUp", false);
-            skillList.Add("ClientTargetFix", false);
-            skillList.Add("PlayerTargetFix", false);
-            skillList.Add("PhysicsResistance", false);
-            skillList.Add("MagicResistance", false);
-            skillList.Add("Cloaking", false);
-            skillList.Add("Split", false);
-            skillList.Add("SummonAttackSpeddDown", false);
-            
+            skillList.Clear();
+
+            if(skillList.Count == 0) {
+                skillList.Add("AttackUp", false);
+                skillList.Add("AttackSpeedUp", false);
+                skillList.Add("MoveSpeedUp", false);
+                skillList.Add("ClientTargetFix", false);
+                skillList.Add("PlayerTargetFix", false);
+                skillList.Add("PhysicsResistance", false);
+                skillList.Add("MagicResistance", false);
+                skillList.Add("Cloaking", false);
+                skillList.Add("Split", false);
+                skillList.Add("SummonAttackSpeddDown", false);
+            }
+
 
             for(int i=0; i < wayPointBaseList.Length; i++) {
                 Transform parentTransform = wayPointBaseList[i].transform;
@@ -158,7 +162,10 @@ namespace nightmareHunter {
                 skeletonMecanim.skeleton.SetColor(endColor);
             } 
 
-            transform.position = _waypointList[waypointType][waypointIndex].transform.position;
+            if(_monsterId != 1 && _monsterId != 13) {
+                transform.position = _waypointList[waypointType][waypointIndex].transform.position;
+            }
+            
             
         }
 
@@ -616,7 +623,7 @@ namespace nightmareHunter {
         }
 
         void DamageCount (float physicsAttack, float magicAttack, float energyAttack) {
-            
+            Debug.Log("physicsAttack : " + skillList.Count);
             if(skillList["PhysicsResistance"]) {  //물리 내성 -50% 데미지
                 physicsAttack = physicsAttack - Mathf.Round(physicsAttack/2);
             } else {

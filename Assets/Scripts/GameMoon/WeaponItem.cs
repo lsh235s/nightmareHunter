@@ -13,7 +13,7 @@ namespace nightmareHunter {
 
         private bool isBlinking = false; // 깜박이는 중인지 여부
 
-        private float stateTime = 30f; // 파괴되기까지의 대기 시간
+        private float stateTime = 7f; // 파괴되기까지의 대기 시간
 
         private float elapsedTime = 0f; // 경과한 시간
         private bool increasing = true; // 알파 값 증가 여부
@@ -37,24 +37,27 @@ namespace nightmareHunter {
             {
                 Destroy(gameObject); // 오브젝트 파괴
             } else {
-                if (increasing)
-                {
-                    alpha += 1f * Time.deltaTime; // 알파 값 증가
-                    if (alpha >= 1f)
+                if(elapsedTime <= 3) {
+                    if (increasing)
                     {
-                        alpha = 1f;
-                        increasing = false;
+                        alpha += 1f * Time.deltaTime; // 알파 값 증가
+                        if (alpha >= 1f)
+                        {
+                            alpha = 1f;
+                            increasing = false;
+                        }
+                    }
+                    else
+                    {
+                        alpha -= 1f * Time.deltaTime; // 알파 값 감소
+                        if (alpha <= 0f)
+                        {
+                            alpha = 0f;
+                            increasing = true;
+                        }
                     }
                 }
-                else
-                {
-                    alpha -= 1f * Time.deltaTime; // 알파 값 감소
-                    if (alpha <= 0f)
-                    {
-                        alpha = 0f;
-                        increasing = true;
-                    }
-                }
+                
 
                 Color newColor = gameObject.GetComponent<SpriteRenderer>().color;
                 newColor.a = alpha;
