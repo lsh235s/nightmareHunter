@@ -2631,6 +2631,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 020f4f6590d2c33448ba9dcd96ed8f1d, type: 3}
+--- !u!1 &934488513 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1326564718631477322, guid: 020f4f6590d2c33448ba9dcd96ed8f1d, type: 3}
+  m_PrefabInstance: {fileID: 934488512}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &937370509
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5121,7 +5126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01e02c0525d0f5348a3f6c7bdc40ae58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stageBackGround: {fileID: 63460870}
+  stageBackGround: {fileID: 934488513}
   wayPointGroup: {fileID: 157728293}
   wayPointList:
   - {fileID: 0}

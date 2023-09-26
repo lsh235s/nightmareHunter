@@ -54,7 +54,7 @@ namespace nightmareHunter {
             wayPointList[3] = wayPointGroup.transform.Find("WaypointD").gameObject;
             wayPointList[4] = wayPointGroup.transform.Find("Directlypoint").gameObject;
            // stageBackGround = Instantiate(Resources.Load<GameObject>(stageName));
-           // stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
+            stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
 
             AudioManager.Instance.BackGroundPlay("bgm_game");
             _uiItController.GameStart();

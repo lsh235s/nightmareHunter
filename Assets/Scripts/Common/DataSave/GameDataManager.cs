@@ -127,8 +127,9 @@ namespace nightmareHunter {
                         playerInfo.keyId =  int.Parse(summerBatchList[i]["Id"].ToString());
                         playerInfo.id =  int.Parse(unitObjectList[j]["Id"].ToString());
                         int summonLevel = int.Parse(summerLevel[playerInfo.id]["Level"].ToString());
-                        summonLevel = summonLevel -1;
                         playerInfo.playerLevel = summonLevel;
+                        
+                        summonLevel = summonLevel -1;
                         playerInfo.goldCash = int.Parse(summerLevel[playerInfo.id]["GoldCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString()));
                         playerInfo.levGoldCash = int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString());
                         playerInfo.integerCash = int.Parse(summerLevel[playerInfo.id]["IntegerCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString()));
@@ -291,8 +292,9 @@ namespace nightmareHunter {
                 if(2 == int.Parse(unitObjectList[i]["UnitType"].ToString()) && summonName.Equals((unitObjectList[i]["SpritesName"].ToString())) ) {
                     playerInfo.id = int.Parse(unitObjectList[i]["Id"].ToString());
                     int summonLevel = int.Parse(summerLevel[playerInfo.id]["Level"].ToString());
-                    summonLevel = summonLevel -1;
+                    
                     playerInfo.playerLevel = summonLevel;
+                    summonLevel = summonLevel -1;
                     playerInfo.goldCash = int.Parse(summerLevel[playerInfo.id]["GoldCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString()));
                     playerInfo.levGoldCash = int.Parse(summerLevel[playerInfo.id]["LevGoldCash"].ToString());
                     playerInfo.integerCash = int.Parse(summerLevel[playerInfo.id]["IntegerCash"].ToString()) + (summonLevel* int.Parse(summerLevel[playerInfo.id]["LevIntegerCash"].ToString()));
@@ -347,6 +349,40 @@ namespace nightmareHunter {
             for(int i=0; i < dataList.Count; i++) {
                 if(i > 0) {
                     DeleteData("Id", dataList[i]["Id"].ToString());
+                }
+            }
+
+
+            //소환수 레벨 초기화
+            int result = 0;
+            string filePath = Application.dataPath + "/Plugin/SaveData/SummonLevel.csv";
+            List<string[]> csvData = new List<string[]>();
+
+            // 기존 CSV 파일 데이터 읽기
+            using (StreamReader reader = new StreamReader(filePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    string line = reader.ReadLine();
+                    string[] values = line.Split(',');
+                    csvData.Add(values);
+                }
+            }
+
+            // 업데이트할 데이터 찾아서 수정
+            for (int i = 1; i < csvData.Count; i++) // 첫 번째 행은 헤더
+            {
+                csvData[i][2] = "1"; // 세 번째 컬럼 업데이트
+                break;
+            }
+
+            // 수정된 데이터를 다시 파일에 쓰기
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                foreach (string[] values in csvData)
+                {
+                    string line = string.Join(",", values);
+                    writer.WriteLine(line);
                 }
             }
         }

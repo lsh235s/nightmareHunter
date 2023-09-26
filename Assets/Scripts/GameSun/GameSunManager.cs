@@ -155,7 +155,7 @@ namespace nightmareHunter {
         
 
         public void canvasSkipButton() {
-            Debug.Log("Canvas 이벤트 트리거 발생");
+          //  Debug.Log("Canvas 이벤트 트리거 발생");
             if(storyFlag) {
                 skipButton();
             }
@@ -200,7 +200,7 @@ namespace nightmareHunter {
                 Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
 
                 if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
-                    Debug.Log("storyPlay : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+                   // Debug.Log("storyPlay : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
                     _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
                     storyFlag = true;
                     if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
@@ -216,7 +216,7 @@ namespace nightmareHunter {
                     }
                     
                 } else {
-                    Debug.Log("storywait : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+                    //Debug.Log("storywait : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
                     
                     _playGameObject.GetComponent<Player>().playerState = "wait";
                     storyFlag = false;
