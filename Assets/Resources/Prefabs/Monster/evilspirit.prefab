@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 172f1e03cf094d348b14fc039e099934, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: -6404760811886083790}
   - component: {fileID: -4804005540080989635}
   - component: {fileID: 3426395821404300343}
+  - component: {fileID: 4922105599201273889}
   m_Layer: 6
   m_Name: evilspirit
   m_TagString: Enemy
@@ -115,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3314214647269054760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.6, y: -0.89, z: 0}
+  m_LocalPosition: {x: -3.19, y: -1.83, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -159,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientTarget: {fileID: 0}
   playerTarget: {fileID: 0}
-  waypointType: 3
+  waypointType: 1
   wayPointBaseList:
   - {fileID: 0}
   - {fileID: 0}
@@ -170,14 +171,20 @@ MonoBehaviour:
   targetNum: -1
   _initSpeed: 0.2
   _initHp: 10000
-  _initAttack: 20
-  _initAttackSpeed: 3
+  _initphysicsAttack: 20
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
+  _initAttackSpeed: 30
   _initAttackRange: 0.3
-  _monsterId: 4
+  _monsterId: 7
   _speed: 0.2
   _hp: 10000
-  _attack: 20
-  _attackSpeed: 3
+  _physicsAttack: 20
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
+  _attackSpeed: 30
   _attackRange: 0.3
   _integer: 0
   _spritesName: evilspirit
@@ -346,6 +353,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4922105599201273889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314214647269054760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f965e1553923e964c9bc0fe6c8818117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skeletonObject: {fileID: 4720264381416808434}
 --- !u!1 &4720264381416808434
 GameObject:
   m_ObjectHideFlags: 0
@@ -428,7 +448,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &2635044796408697574

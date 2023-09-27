@@ -13,8 +13,10 @@ namespace nightmareHunter {
         public int id { get; set; }
         public string WeaponName { get; set; }
         public int Level { get; set; }
-        public float Attack { get; set; }
-        public float LevAttack { get; set; }
+        public float PhysicsAttack { get; set; }
+        public float MagicAttack { get; set; }
+        public float LevPhysicsAttack { get; set; }
+        public float LevMagicAttack { get; set; }
         public float AttackRange { get; set; }
         public float LevAttackRange { get; set; }
         public float Move { get; set; }

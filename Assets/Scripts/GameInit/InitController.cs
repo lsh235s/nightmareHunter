@@ -15,10 +15,13 @@ namespace nightmareHunter {
         Button ExitButton;
 
         TextMeshProUGUI _skipText;
-        public TextMeshProUGUI testText;
 
         [SerializeField]
+        private GameObject _backGroundPanel;
+        [SerializeField]
         private GameObject _storyPanel;
+        [SerializeField]
+        private GameObject _opening;
         [SerializeField]
         private Animator _backGroundAnimation;
 
@@ -26,37 +29,51 @@ namespace nightmareHunter {
         LoadingControl _loadingControl;
         bool isSkip = false;
 
+        int playerAnimation = 0;
+        private AnimatorStateInfo  _currentState;
+
 
         // Start is called before the first frame update
         void Start()
         {
-            SkipButton = GameObject.Find("Canvas/StoryPanel/SkipButton").GetComponent<Button>();
+           // SkipButton = GameObject.Find("Canvas/StoryPanel/SkipButton").GetComponent<Button>();
+           // _skipText = GameObject.Find("Canvas/StoryPanel/SkipButton/SkipText").GetComponent<TextMeshProUGUI>();
+           //SkipButton.onClick.AddListener(skipOnClick);
             StartButton = GameObject.Find("Canvas/MainPanel/ButtonList/StartButton").GetComponent<Button>();
             ContinueButton = GameObject.Find("Canvas/MainPanel/ButtonList/ContinueButton").GetComponent<Button>();
             SettingButton = GameObject.Find("Canvas/MainPanel/ButtonList/SettingButton").GetComponent<Button>();
             ExitButton = GameObject.Find("Canvas/MainPanel/ButtonList/ExitButton").GetComponent<Button>();
-            _skipText = GameObject.Find("Canvas/StoryPanel/SkipButton/SkipText").GetComponent<TextMeshProUGUI>();
 
-            SkipButton.onClick.AddListener(skipOnClick);
+            
             StartButton.onClick.AddListener(startOnClick);
             ContinueButton.onClick.AddListener(ContinueOnClick);
             SettingButton.onClick.AddListener(SettingOnClick);
             ExitButton.onClick.AddListener(ExitOnClick);
 
-            AudioManager.Instance.BackGroundPlay("bgm_title");
+            
+
+            _backGroundAnimation.SetBool("start", false);
 
             StartCoroutine(_loadingControl.FadeInStart());
-            StartCoroutine(storyPanelStop()); 
-            testText.text = Path.Combine(Application.persistentDataPath, "/Plugin/SaveData/SystemData.json")+"//"+Application.dataPath; 
+            backGroundAnimationEnd();
         }
 
 
         void Update() {
-            if(_skipText != null) {
-                float alpha = Mathf.PingPong(Time.time * 3f, 1);
-                _skipText.color = new Color(_skipText.color.r, _skipText.color.g, _skipText.color.b, alpha);
-
-            }
+            // if(_skipText != null) {
+            //     float alpha = Mathf.PingPong(Time.time * 3f, 1);
+            //     _skipText.color = new Color(_skipText.color.r, _skipText.color.g, _skipText.color.b, alpha);
+            // }
+            if(playerAnimation == 2 || playerAnimation == 3) {
+                // 현재 재생 중인 애니메이션 상태 정보 가져오기
+                _currentState = _backGroundAnimation.GetCurrentAnimatorStateInfo(0);
+                AnimatorClipInfo[] currentClipInfo = _backGroundAnimation.GetCurrentAnimatorClipInfo(0);
+                if ("title_2".Equals(currentClipInfo[0].clip.name) && _currentState.normalizedTime >= 0.91f )
+                {
+                    Debug.Log("title_2 Move GameSun");
+                    pageMoveGameSun();
+                }
+            } 
         }
 
 
@@ -75,19 +92,19 @@ namespace nightmareHunter {
             systemSaveInfo.targetHP = 1000;
 
             GameDataManager.Instance.SaveSystemInfo(systemSaveInfo);
-
-            PlayerInfo summonsInfo = new PlayerInfo();
-            summonsInfo.summonsExist = false;
-            GameDataManager.Instance.SaveSummerInfo("Hunter",summonsInfo);
-            GameDataManager.Instance.SaveSummerInfo("Exorcist",summonsInfo);
-
+            GameDataManager.Instance.GameDataInit();
+            
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
+            _backGroundAnimation.Play("title2");
+            playerAnimation = 2;
         }    
 
         public void ContinueOnClick() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             _backGroundAnimation.SetBool("start",true);
+            _backGroundAnimation.Play("title_2");
+            playerAnimation = 3;
             //SceneMoveManager.SceneMove("GameMoon");
         }    
         public void SettingOnClick() {
@@ -103,19 +120,37 @@ namespace nightmareHunter {
             #endif
         }
 
+
+        public void backGroundAnimationEnd() {
+            
+            int score = PlayerPrefs.GetInt("FirstGameStart", 0);
+
+            if(score == 0) {
+                playerAnimation = 1;
+                GameObject.Find("Canvas/MainPanel/ButtonList").SetActive(false);
+                // 오프닝 시작
+                OpeningStart();
+            } else {
+                AudioManager.Instance.BackGroundPlay("bgm_title");
+                AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
+            }
+        }
+
+        
+        void OpeningStart() {
+            PlayerPrefs.SetInt("FirstGameStart", 1);
+            PlayerPrefs.Save();
+            
+            _opening.SetActive(true);
+            _backGroundPanel.SetActive(false);
+        }
+        
+        
         public void pageMoveGameSun() {
             AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
             SceneMoveManager.SceneMove("GameSun");
         }
 
-        private IEnumerator storyPanelStop() {
-            AudioManager.Instance.playSoundEffect(AudioManager.Instance.buttonSound,gameObject.GetComponent<AudioSource>());
-            yield return new WaitForSeconds(7);
-            _skipText.text = "건너뛰기..";
-            isSkip = true;
-            yield return new WaitForSeconds(3);
-            _storyPanel.SetActive(false);
-        }
 
 
     }

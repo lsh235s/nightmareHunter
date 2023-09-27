@@ -246,6 +246,7 @@ GameObject:
   - component: {fileID: -6404760811886083790}
   - component: {fileID: -1282751313431099311}
   - component: {fileID: 6030184911590222974}
+  - component: {fileID: -2262050443875668340}
   m_Layer: 6
   m_Name: stirrer
   m_TagString: Enemy
@@ -315,18 +316,24 @@ MonoBehaviour:
   _skeletonObject: {fileID: 366040440320829931}
   targetNum: -1
   _initSpeed: 0.4
-  _initHp: 2000
-  _initAttack: 5
-  _initAttackSpeed: 1
+  _initHp: 100
+  _initphysicsAttack: 10
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
+  _initAttackSpeed: 15
   _initAttackRange: 0.3
-  _monsterId: 3
+  _monsterId: 6
   _speed: 0.4
-  _hp: 2000
-  _attack: 5
-  _attackSpeed: 1
+  _hp: 100
+  _physicsAttack: 10
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
+  _attackSpeed: 15
   _attackRange: 0.3
   _integer: 0
-  _spritesName: stirrer
+  _spritesName: flydra
   _positionInfo: {x: 0, y: 0}
   isDead: 0
   anim: {fileID: 0}
@@ -492,3 +499,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2262050443875668340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314214647269054760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f965e1553923e964c9bc0fe6c8818117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skeletonObject: {fileID: 366040440320829931}

@@ -67,8 +67,14 @@ namespace nightmareHunter {
             _imagePlayHp = GameObject.Find("Canvas/UIGroup/Hp/HpImage").GetComponent<Image>(); 
             _clientHp = GameObject.Find("Canvas/UIGroup/Client/Text").GetComponent<TextMeshProUGUI>(); 
             _imageClientHp = GameObject.Find("Canvas/UIGroup/Client/ClientImage").GetComponent<Image>(); 
+     
+            getSceneMode();
 
-            // 현재 게임 도드 정리
+            SystemInit();
+        }
+
+        public int getSceneMode() {
+                   // 현재 게임 도드 정리
             string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             if("GameSun".Equals(sceneName)) {
                 sceneMode = 0;
@@ -78,9 +84,7 @@ namespace nightmareHunter {
                 GameObject.Find("Canvas/UIGroup/Gold").SetActive(false);
             }
 
-
-           
-            SystemInit();
+            return sceneMode;
         }
 
         // Update is called once per frame
@@ -125,7 +129,11 @@ namespace nightmareHunter {
                     if(sceneMode == 0) {
                         _Hour=0;
                         _Min=0;
-                        SceneMoveManager.SceneMove("GameMoon");
+                        if(systemSaveInfo.stageId == 1) {
+                            SceneMoveManager.SceneMove("GameMoon01");
+                        } else {
+                            SceneMoveManager.SceneMove("GameMoon");
+                        }
                     } else {
                         _Hour=0;
                         _Min=0;
@@ -136,8 +144,6 @@ namespace nightmareHunter {
         }
 
         public void stageClear() {
-            systemSaveInfo.stageId++;
-            SystemDataSave();
             SceneMoveManager.SceneMove("GameSun");
         }
 
@@ -146,19 +152,31 @@ namespace nightmareHunter {
             _Min = 50;
         }
 
-        public void goldUseSet(int useGold) {
-            if(int.Parse(_gold.text) >= useGold) {
-                systemSaveInfo.money = int.Parse(_gold.text) - useGold;
+        public void goldUseSet(int useGold,string type) {
+            if("-".Equals(type)) {
+                if(int.Parse(_gold.text) >= useGold) {
+                    systemSaveInfo.money = int.Parse(_gold.text) - useGold;
+                    _gold.text = systemSaveInfo.money.ToString();
+                }
+            } else {
+                systemSaveInfo.money = int.Parse(_gold.text) + useGold;
                 _gold.text = systemSaveInfo.money.ToString();
                 
-                SystemDataSave();
             }
+            SystemDataSave();
         }
 
 
-        public void integerAddSet(int inputInteger) {
-            systemSaveInfo.integer = int.Parse(_integer.text) + inputInteger;
-            _integer.text = systemSaveInfo.integer.ToString();
+        public void integerUseSet(int inputInteger,string type) {
+            if("-".Equals(type)) {
+                if(int.Parse(_integer.text) >= inputInteger) {
+                    systemSaveInfo.integer = int.Parse(_integer.text) - inputInteger;
+                    _integer.text = systemSaveInfo.integer.ToString();
+                }
+            } else {
+                 systemSaveInfo.integer = int.Parse(_integer.text) + inputInteger;
+                _integer.text = systemSaveInfo.integer.ToString();
+            }
             SystemDataSave();
         }
 

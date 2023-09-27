@@ -11,11 +11,18 @@ namespace nightmareHunter {
         [SerializeField]
         GameObject _playGameObject;   // 플레이어 오브젝트
         [SerializeField]
+        GameObject tommyGameObject;   // 타겟 오브젝트
+        [SerializeField]
         StoryObject storyObject; // 저장된 스토리 오브젝트
 
         [SerializeField]
         LoadingControl _loadingControl; // 로딩 컨트롤
-        
+
+        [SerializeField]
+        GameObject backGround; // 스테이지 백그라운드
+
+        [SerializeField]
+        GameObject Merchant; // 정수 판매자 오브젝트
 
         Transform _talkObject; // 대화 캐릭터 오브젝트 대화 좌우 반전용
         GameObject _ChatGroup; // 대화 창 오브젝트
@@ -41,6 +48,10 @@ namespace nightmareHunter {
         GameObject _unitFrame; // 유닛 프레임 오브젝트
         UnitController _uiItController;
 
+        Texture2D MainIcon;
+
+        
+
 
         // Start is called before the first frame update
         void Awake() {
@@ -50,8 +61,29 @@ namespace nightmareHunter {
         void Start()
         {     
             UiController.Instance.LoadStart();
+            string stageName = "Prefabs/Stage/" + UiController.Instance.systemSaveInfo.stageId;
+            backGround = Instantiate(Resources.Load<GameObject>(stageName));
+            backGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backGround.GetComponent<BackgroundController>().backGroundSprite[0];
+
+            MainIcon = Resources.Load<Texture2D>("ui/cursor_01");
+
+            Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
+
             canvasInit();
             _uiItController.GameStart();
+            if(UiController.Instance.systemSaveInfo.stageId == 0) {
+                Merchant.active = false;
+            } else {
+                Merchant.active = true;
+            }
+            
+            // 튜토리얼 시작
+            TutorialStart();
+
+        }
+
+
+        void TutorialStart() {
             stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
            
             if(stroyStage > -1) {
@@ -69,6 +101,10 @@ namespace nightmareHunter {
                 if(stroyStage >= 44) {
                     _unitFrame.SetActive(true);
                 }
+                if(stroyStage == 64) {
+                    _playGameObject.transform.position = new Vector2(-2.914f, 0.575f);
+                 }
+                
             } else {
                 _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
@@ -119,6 +155,7 @@ namespace nightmareHunter {
         
 
         public void canvasSkipButton() {
+          //  Debug.Log("Canvas 이벤트 트리거 발생");
             if(storyFlag) {
                 skipButton();
             }
@@ -134,6 +171,7 @@ namespace nightmareHunter {
             }
             if(!eventFlag) {      
                 _playGameObject.GetComponent<Player>().playerState = "tutorial";
+                _playGameObject.GetComponent<Player>().playerStateChange();
                 _ChatGroup.SetActive(true);
                 stroyStage++;
 
@@ -157,32 +195,36 @@ namespace nightmareHunter {
             //hunterGraphic.initialFlipX = true;  좌우반전 
             //hunterGraphic.Initialize(true); 재시작
 
-            if(storyObject.storyContentList[inStroyStage].scenario_stage_id != UiController.Instance.systemSaveInfo.stageId) {
-                inStroyStage = 52;
-                UiController.Instance.systemSaveInfo.storyNum = 52;
-                UiController.Instance.SystemDataSave();
-            }
-            Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
-
-            if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
-                _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
-                storyFlag = true;
-                if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
-                    if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
-                        _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
-                        
-                        _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
-                    }
-                } else if("tutorial".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
-                    eventFlag = true;
-
-                    evnetAction(storyObject.storyContentList[inStroyStage].event_stage_id);
-                }
+            if(storyObject.storyContentList.Count > inStroyStage) {
                 
+                Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+
+                if(storyObject.storyContentList.Count > inStroyStage && storyObject.storyContentList[inStroyStage].scenario_stage_id == UiController.Instance.systemSaveInfo.stageId) {
+                   // Debug.Log("storyPlay : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+                    _chatWindowText.text = storyObject.storyContentList[inStroyStage].content;
+                    storyFlag = true;
+                    if("story".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
+                        if(storyObject.storyContentList[inStroyStage].leftCharacter != "") {
+                            _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].SetActive(true);
+                            
+                            _tailkGraphicList[storyObject.storyContentList[inStroyStage].leftCharacter].GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, storyObject.storyContentList[inStroyStage].characterAnimation, true);
+                        }
+                    } else if("tutorial".Equals(storyObject.storyContentList[inStroyStage].contentType)) {
+                        eventFlag = true;
+
+                        evnetAction(storyObject.storyContentList[inStroyStage].event_stage_id);
+                    }
+                    
+                } else {
+                    //Debug.Log("storywait : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
+                    
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    storyFlag = false;
+                    _ChatGroup.SetActive(false);
+                }
             } else {
-                _playGameObject.GetComponent<Player>().playerState = "wait";
                 storyFlag = false;
-               _ChatGroup.SetActive(false);
+                _ChatGroup.SetActive(false);
             }
         }
 
@@ -202,39 +244,41 @@ namespace nightmareHunter {
 
         void evnetAction(int stageId) {
             switch  (stageId) {
-                case 1 :
+                case 1 : //이동 튜토리얼 시작
                     _tutory.SetActive(true);
                     _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
                 break;
-                case 2 :
+                case 2 : //발사 튜토리얼 시작
                     _tutory2.SetActive(true);
                 break;
-                case 3 :
+                case 3 : //포인트 추가
                     _uiGroup.SetActive(true);
                     UiController.Instance.systemSaveInfo.money = 100;
                     UiController.Instance._gold.text = UiController.Instance.systemSaveInfo.money.ToString();
                     UiController.Instance.SystemDataSave();
                     eventFlag = false;
                 break;
-                case 4 :
+                case 4 : //맵이동
                     _loadingControl.FadeActive();
                     _playGameObject.transform.position = new Vector2(2.0f, 0.6f);
                     StartCoroutine(_loadingControl.FadeInStart());
                     eventFlag = false;
                     skipButton();
                 break;
-                case 5 :
+                case 5 : //소환수 배치 튜토리얼
                     _tutory3.SetActive(true);
                     _unitFrame.SetActive(true);
                 break;
                 case 6 :
                     _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
                     _ChatGroup.SetActive(false);
                     
                     stroyStage++;
                     UiController.Instance.systemSaveInfo.storyNum = stroyStage;
                     UiController.Instance.SystemDataSave();
-                    UiController.Instance.skipTime();
+                    transform.Find("SkipButton").gameObject.SetActive(true);
                     UiController.Instance.timePause = true;
                 break;
                 case 7 :
@@ -243,9 +287,68 @@ namespace nightmareHunter {
                     skipButton();
                 break;
                 case 8 :
+                    Debug.Log("스토리 클리어 이후");
+                    eventFlag = false;
+                    storyFlag = false;
+                    _ChatGroup.SetActive(false);
+                    UiController.Instance.systemSaveInfo.stageId = 1;
+                    stroyStage++;
+                    UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    
+                    UiController.Instance.SystemDataSave();
+
+                    _playGameObject.GetComponent<Player>().playerState = "active";
+                    _loadingControl.FadeActive();
+                    _playGameObject.transform.position = new Vector2(-2.914f, 0.575f);
+                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
+
+                    SceneMoveManager.SceneMove("GameSun");
+                break;
+                case 9 :
+                    _loadingControl.FadeActive();
+                    eventFlag = false;
+                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    skipButton();
+                break;
+                case 10 :
+                    _loadingControl.FadeActive();
+                    eventFlag = false;
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    skipButton();
+                break;
+                case 11 :
+                    _loadingControl.FadeActive();
+                    _playGameObject.transform.position = new Vector2(1.992f, -1.305f);
+                    eventFlag =false;
+                    _ChatGroup.SetActive(false);
+                    
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
+                    
+                    StartCoroutine(_loadingControl.FadeInStart());
+                    skipButton();
+                break;
+                case 12 :
+                    stroyStage++;
+                    UiController.Instance.systemSaveInfo.storyNum = stroyStage;
+                    
+                    UiController.Instance.SystemDataSave();
+                    transform.Find("SkipButton").gameObject.SetActive(true);
+                    eventFlag = true;
+                    _playGameObject.GetComponent<Player>().playerState = "wait";
+                    _playGameObject.GetComponent<Player>().playerStateChange();
+                    UiController.Instance.timePause = true;
+                    _ChatGroup.SetActive(false);
+                break;
+                case 13 :
                     endStoryPanel.SetActive(true);
                 break;
             }
+        }
+
+        public void SkipTimerButton() {
+            UiController.Instance.skipTime();
         }
 
         public void EndStoryBtn() {

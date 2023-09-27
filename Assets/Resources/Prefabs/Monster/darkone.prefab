@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: -6404760811886083790}
   - component: {fileID: 8989720230503245962}
   - component: {fileID: 7471688801933010534}
+  - component: {fileID: 405638020567866159}
   m_Layer: 6
   m_Name: darkone
   m_TagString: Enemy
@@ -115,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3314214647269054760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.647, y: 1.469, z: 0}
+  m_LocalPosition: {x: -3.6, y: -0.89, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -159,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clientTarget: {fileID: 0}
   playerTarget: {fileID: 0}
-  waypointType: 2
+  waypointType: 3
   wayPointBaseList:
   - {fileID: 0}
   - {fileID: 0}
@@ -170,14 +171,20 @@ MonoBehaviour:
   targetNum: -1
   _initSpeed: 0.4
   _initHp: 500
-  _initAttack: 10
-  _initAttackSpeed: 1
+  _initphysicsAttack: 10
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
+  _initAttackSpeed: 15
   _initAttackRange: 0.3
-  _monsterId: 2
+  _monsterId: 5
   _speed: 0.4
   _hp: 500
-  _attack: 10
-  _attackSpeed: 1
+  _physicsAttack: 10
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
+  _attackSpeed: 15
   _attackRange: 0.3
   _integer: 0
   _spritesName: darkone
@@ -346,6 +353,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &405638020567866159
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3314214647269054760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f965e1553923e964c9bc0fe6c8818117, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skeletonObject: {fileID: 7827951215322293356}
 --- !u!1 &7827951215322293356
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,11 +9,11 @@ namespace nightmareHunter {
         //총알 사거리
         public int weaponType;
         public string weaponAttackType;
-        public float attack;
+        public float physicsAttack;
+        public float magicAttack;
         public float range; // 사거리
         public Vector3 initialPosition; // 초기 위치
         public float _bulletSpeed; // 총알 속도
-        public GameObject MainObject;
 
         public GameObject bulletDotAni;
         public GameObject shotgunAni;
@@ -83,19 +83,19 @@ namespace nightmareHunter {
 
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if(weaponType != 2 && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+            if(weaponType != 2 && collision.gameObject.tag != "WeaponItem" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Enemy" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
                 Destroy(gameObject);
             }
             if(!activeflag) {
                 if(collision.GetComponent<Enemy>()) {
                     if(!collision.GetComponent<Enemy>().isDead) {    
                         if(targetCount == 0 && weaponAttackType.Equals("NORMAL")) {
-                            collision.GetComponent<Enemy>().DamageProcess(attack);
+                            collision.GetComponent<Enemy>().DamageProcess(physicsAttack,0.0f,0.0f);
                             targetCount++;
                             EffectAnimation();
                            
                         } else {
-                            collision.GetComponent<Enemy>().DamageProcess(attack);
+                            collision.GetComponent<Enemy>().DamageProcess(physicsAttack,0.0f,0.0f);
                             EffectAnimation();
                         }
                     }
