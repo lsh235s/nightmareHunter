@@ -354,7 +354,6 @@ namespace nightmareHunter {
 
 
             //소환수 레벨 초기화
-            int result = 0;
             string filePath = Application.dataPath + "/Plugin/SaveData/SummonLevel.csv";
             List<string[]> csvData = new List<string[]>();
 
@@ -368,12 +367,10 @@ namespace nightmareHunter {
                     csvData.Add(values);
                 }
             }
-
             // 업데이트할 데이터 찾아서 수정
             for (int i = 1; i < csvData.Count; i++) // 첫 번째 행은 헤더
             {
                 csvData[i][2] = "1"; // 세 번째 컬럼 업데이트
-                break;
             }
 
             // 수정된 데이터를 다시 파일에 쓰기

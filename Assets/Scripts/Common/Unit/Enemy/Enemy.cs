@@ -100,8 +100,7 @@ namespace nightmareHunter {
             _rigidbody = GetComponent<Rigidbody2D>();
             skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
             _animator = _skeletonObject.GetComponent<Animator>();
-            instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"));
-            instantiatedPrefab.SetActive(false); 
+
 
             skillList.Clear();
 
@@ -563,17 +562,18 @@ _attackRange5 = ClientDistance;
                 int randomNumber = Random.Range(0, 4);
 
                 if(randomNumber == 0) {
-                    rePosition = new Vector3(transform.position.x, transform.position.y + 0.2f, transform.position.z);
+                    rePosition = new Vector3(transform.position.x - 0.5f, transform.position.y + 0.2f, transform.position.z);
+                    instantiatedPrefab = Instantiate(Resources.Load<GameObject>("Prefabs/Effect/DamageEffect1"));
                     instantiatedPrefab.transform.position = rePosition;
 
                     if(clientTarget.transform.position.x < _rigidbody.position.x) {
-                        instantiatedPrefab.transform.rotation = Quaternion.Euler(0, 180f, 0);
-                    } else {
+                        
                         instantiatedPrefab.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    } else {
+                        
+                        instantiatedPrefab.transform.rotation = Quaternion.Euler(0, 180f, 0);
                     }
                     instantiatedPrefab.SetActive(true);   
-                    float clipLength = instantiatedPrefab.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-                    StartCoroutine(objectEnd(clipLength));
                 } 
 
                 DamageCount(physicsAttack, magicAttack, energyAttack);
