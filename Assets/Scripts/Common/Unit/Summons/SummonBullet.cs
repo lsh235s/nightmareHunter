@@ -90,7 +90,11 @@ namespace nightmareHunter {
             if(!"PW3".Equals(attackType) && !"FSN".Equals(attackType) && !"CWP".Equals(attackType) && !"CDN".Equals(attackType) && !"CSN".Equals(attackType) && !"FSP".Equals(attackType) && collision.gameObject.tag != "WeaponItem" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
                 Destroy(gameObject);
             }
-            if(collision.gameObject.tag == "Tutorial") {
+
+            
+            Debug.Log("collision.gameObject.tag : " + collision.gameObject.tag);
+            
+            if(collision.gameObject.tag == "Tutorial" || collision.gameObject.tag == "Wall") {
                 Destroy(gameObject);
             }
 
