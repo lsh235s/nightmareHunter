@@ -91,8 +91,7 @@ namespace nightmareHunter {
                 Destroy(gameObject);
             }
 
-            
-            Debug.Log("collision.gameObject.tag : " + collision.gameObject.tag);
+           // Debug.Log("collision.gameObject.tag : " + collision.gameObject.tag);
             
             if(collision.gameObject.tag == "Tutorial" || collision.gameObject.tag == "Wall") {
                 Destroy(gameObject);

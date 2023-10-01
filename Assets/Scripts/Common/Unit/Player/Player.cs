@@ -10,7 +10,6 @@ namespace nightmareHunter {
     public class Player : MonoBehaviour
     {
         public string playerState;
-        public GameObject bulletPoint;
 
         // 발사체 이펙트
         public GameObject bulletDotAni;
@@ -92,12 +91,20 @@ namespace nightmareHunter {
             
             if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 // 공격 타이밍 계산
+                
                 if(_waitFire) {
-                    nextTime = nextTime + Time.deltaTime;
-                   
                     if(nextTime >= _playerinfo.attackDelayTime) {
                         nextTime = 0.0F;
-                        _waitFire = false;
+                        FireBullet();
+                    }
+                }
+
+                if(nextTime != 0.0F || _waitFire == true) {
+                    nextTime = nextTime + Time.deltaTime;
+                    if(nextTime >= _playerinfo.attackDelayTime) {
+                        if( _waitFire == false) {
+                           nextTime = 0.0F;
+                        }
                     }
                 }
 
@@ -140,6 +147,11 @@ namespace nightmareHunter {
 
         // 공격 처리
         private void FireBullet() {
+            initialPosition = transform.position;
+            gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
+            gameObject.GetComponent<AudioSource>().clip = playSound[0];
+            gameObject.GetComponent<AudioSource>().Play();
+
             string weaponType = "PW0";
             if(_playerinfo.weaponID == 1) {
                 weaponType = "PW1";
@@ -149,8 +161,11 @@ namespace nightmareHunter {
                 weaponType = "PW3";
             }
 
-            Vector3 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - bulletPoint.transform.position;
-            float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
+            
+            Vector3 playPosition = new Vector3(transform.position.x , transform.position.y + 0.2f, transform.position.z);
+            Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y , Input.mousePosition.z);
+            Vector3 len = Camera.main.ScreenToWorldPoint(mousePosition) - playPosition;
+            float angle = Mathf.Atan2(len.y , len.x) * Mathf.Rad2Deg;
 
             if(_playerinfo.weaponID != 2) {
                 bulletDotAni.GetComponent<SummonBullet>().attackType = weaponType;
@@ -162,7 +177,7 @@ namespace nightmareHunter {
                 bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = _playerinfo.attackSpeed;
                 bulletDotAni.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                Vector3 bulletStartPos = new Vector3(transform.position.x, transform.position.y + 0.1f, transform.position.z);
+                Vector3 bulletStartPos = new Vector3(transform.position.x, transform.position.y , transform.position.z);
                 
                 GameObject bullet = Instantiate(bulletDotAni, bulletStartPos, bulletDotAni.transform.rotation);
                 
@@ -197,15 +212,15 @@ namespace nightmareHunter {
         private void OnFire(InputValue inputValue) {
             if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 if(inputValue.isPressed) {
-                    if(!_waitFire) {
-                        initialPosition = transform.position;
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
-                        gameObject.GetComponent<AudioSource>().clip = playSound[0];
-                        gameObject.GetComponent<AudioSource>().Play();
+                    Debug.Log("Fire2");
+                    if(nextTime == 0.0F) {
                         FireBullet();
-                        _waitFire = true;
                     }
-                    
+                    nextTime = nextTime + 0.01f;
+                     _waitFire = true;
+                } else {
+                    Debug.Log("Fire1");
+                    _waitFire = false;
                 }
             }
         }

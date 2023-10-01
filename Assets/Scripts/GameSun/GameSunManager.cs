@@ -44,13 +44,15 @@ namespace nightmareHunter {
 
         public GameObject endStoryPanel; // 엔딩 스토리
         public TextMeshProUGUI _skipText; // 스킵 텍스트 임시
+        public GameObject merchantCanvas; // 정수 판매자 캔버스
 
         GameObject _unitFrame; // 유닛 프레임 오브젝트
         UnitController _uiItController;
 
         Texture2D MainIcon;
 
-        
+        Texture2D NormalIcon ; 
+        Texture2D AttckIcon ;
 
 
         // Start is called before the first frame update
@@ -66,6 +68,9 @@ namespace nightmareHunter {
             backGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backGround.GetComponent<BackgroundController>().backGroundSprite[0];
 
             MainIcon = Resources.Load<Texture2D>("ui/cursor_01");
+            
+            NormalIcon = Resources.Load<Texture2D>("ui/pointer"); 
+            AttckIcon = Resources.Load<Texture2D>("ui/pointer2");
 
             Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
 
@@ -119,6 +124,20 @@ namespace nightmareHunter {
                 _skipText.color = new Color(_skipText.color.r, _skipText.color.g, _skipText.color.b, alpha);
 
             }
+
+            if(storyObject.storyContentList[stroyStage].event_stage_id == 2) {
+                if(Input.GetMouseButtonDown(0))
+                {
+                    Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width / 5, 0), CursorMode.Auto);
+                }
+
+                if(Input.GetMouseButtonUp(0))
+                {
+                    Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
+                }
+            } else {
+                Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
+            }
         }
 
 
@@ -145,6 +164,7 @@ namespace nightmareHunter {
             }
 
             endStoryPanel.SetActive(false);
+            merchantCanvas.SetActive(false);
             _unitFrame.SetActive(false);
             _uiGroup.SetActive(false);
 

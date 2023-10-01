@@ -404,7 +404,7 @@ _attackRange5 = ClientDistance;
                 if(PlayerDistance > (_attackRange * 2) && skillList["PlayerTargetFix"] == false) {
                     NextTargetPosition = _waypointList[waypointType][waypointIndex].transform.position;
                     lastAttackTime = 0.0f;
-                    state = State.Idle;
+                    state = State.Run;
                     stateName = "Idle";
                     _animator.SetTrigger("Run");
                     stateName = "Run";
@@ -505,7 +505,6 @@ _attackRange5 = ClientDistance;
 
         private void UpdateRun()
         {
-            int randomNumber = Random.Range(0, 1000);
 
             float distance = Vector3.Distance(transform.position, NextTargetPosition);
             if (distance <= 0.3f)
