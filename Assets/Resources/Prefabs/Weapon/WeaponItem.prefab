@@ -102,6 +102,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 28694c42f406bf044a0101ed1e376483, type: 3}
   - {fileID: 21300000, guid: f8b8686307b1239488d7b122258c6458, type: 3}
   - {fileID: 21300000, guid: 4b00140054db0b340ade65d5109830b3, type: 3}
+  skeletonMecanim: {fileID: 2609532133274826702, guid: a3c038d237940a145b3902fde5310d1c, type: 3}
   weaponType: 0
 --- !u!61 &5511413001339350023
 BoxCollider2D:
