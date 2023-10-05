@@ -34,6 +34,7 @@ namespace nightmareHunter {
         [SerializeField]
         private GameObject _skeletonObject;
 
+
         [SerializeField]
         private Sprite[] HpHeartImage;
 
@@ -46,6 +47,7 @@ namespace nightmareHunter {
         bool isFalling = false;
 
         private SkeletonMecanim skeletonMecanim;
+        
         private Animator _animator;
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
@@ -82,7 +84,6 @@ namespace nightmareHunter {
 
             //Vector3 directions = (targetPosition - bulletPoint.transform.position).normalized;
             //bulletTargetSpirte.transform.position = bulletPoint.transform.position + directions * _playerinfo.attackRange ;
-
 
             if (isFalling)
             {  
@@ -148,18 +149,25 @@ namespace nightmareHunter {
         // 공격 처리
         private void FireBullet() {
             initialPosition = transform.position;
-            gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("gun",true);
-            gameObject.GetComponent<AudioSource>().clip = playSound[0];
-            gameObject.GetComponent<AudioSource>().Play();
-
             string weaponType = "PW0";
             if(_playerinfo.weaponID == 1) {
                 weaponType = "PW1";
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().timeScale = 1.0f;
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "Pistol_1", false);
             } else if(_playerinfo.weaponID == 2) {
                 weaponType = "PW2";
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().timeScale = 1.0f;
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "shotgun_1", false);
             } else if(_playerinfo.weaponID == 3) {
                 weaponType = "PW3";
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().timeScale = 1.0f;
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "machinegun_1", false);
+            } else {
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().timeScale = 1.0f;
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "shotgun_2", false);
             }
+            gameObject.GetComponent<AudioSource>().clip = playSound[0];
+            gameObject.GetComponent<AudioSource>().Play();
 
             
             Vector3 playPosition = new Vector3(transform.position.x , transform.position.y + 0.2f, transform.position.z);
@@ -212,14 +220,12 @@ namespace nightmareHunter {
         private void OnFire(InputValue inputValue) {
             if(!"wait".Equals(playerState) && !"tutorial".Equals(playerState)) {
                 if(inputValue.isPressed) {
-                    Debug.Log("Fire2");
                     if(nextTime == 0.0F) {
                         FireBullet();
                     }
                     nextTime = nextTime + 0.01f;
                      _waitFire = true;
                 } else {
-                    Debug.Log("Fire1");
                     _waitFire = false;
                 }
             }
@@ -228,6 +234,17 @@ namespace nightmareHunter {
 
         // 무기교체
         public void WeaponChange(int weaponID) {
+            if(weaponID == 1) {
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "Pistol_1", true );
+                 
+            } else if(weaponID == 2) {
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "shotgun_1", true );
+            } else if(weaponID == 3) {
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "machinegun_1", true );
+            } else {
+                gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "shotgun_2", true );
+            }
+            gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().timeScale = 0.0f;
             _playerinfo = GameDataManager.Instance.PlayWeaponSet(weaponID, _playerBaseInfo);
         }
 

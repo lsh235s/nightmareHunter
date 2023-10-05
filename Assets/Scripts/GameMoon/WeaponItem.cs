@@ -26,14 +26,15 @@ namespace nightmareHunter {
 
 
         private void Start() {
-            skeletonMecanim = gameObject.GetComponent<SkeletonMecanim>();
-            animator = skeletonMecanim.GetComponent<Animator>();
         }
 
 
         public void SetWeaponType(int type) {
-            weaponType = type;
+            skeletonMecanim = gameObject.GetComponent<SkeletonMecanim>();
+            animator = skeletonMecanim.GetComponent<Animator>();
 
+            weaponType = type;
+            animator.speed = 0.0f;
             animator.SetInteger("GunType", type);
         }
 
@@ -73,7 +74,6 @@ namespace nightmareHunter {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if(collision.gameObject.tag == "Player") {
-                Debug.Log(collision.gameObject.tag);
                 collision.gameObject.GetComponent<Player>().WeaponChange(weaponType);
                 
                 Destroy(gameObject);
