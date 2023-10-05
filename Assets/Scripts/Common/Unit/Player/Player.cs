@@ -170,7 +170,7 @@ namespace nightmareHunter {
             gameObject.GetComponent<AudioSource>().Play();
 
             
-            Vector3 playPosition = new Vector3(transform.position.x , transform.position.y + 0.2f, transform.position.z);
+            Vector3 playPosition = new Vector3(transform.position.x + 0.3f, transform.position.y + 0.1f , transform.position.z);
             Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y , Input.mousePosition.z);
             Vector3 len = Camera.main.ScreenToWorldPoint(mousePosition) - playPosition;
             float angle = Mathf.Atan2(len.y , len.x) * Mathf.Rad2Deg;
@@ -185,7 +185,7 @@ namespace nightmareHunter {
                 bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = _playerinfo.attackSpeed;
                 bulletDotAni.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                Vector3 bulletStartPos = new Vector3(transform.position.x, transform.position.y , transform.position.z);
+                Vector3 bulletStartPos = new Vector3(playPosition.x , playPosition.y  , playPosition.z);
                 
                 GameObject bullet = Instantiate(bulletDotAni, bulletStartPos, bulletDotAni.transform.rotation);
                 
