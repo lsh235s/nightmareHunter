@@ -121,11 +121,18 @@ namespace nightmareHunter {
 
             if(UiController.Instance._timerText.text != appearStageTimer) {
                 appearStageTimer = UiController.Instance._timerText.text;
+                string appearTimer = appearStageTimer; 
+
+                if (appearStageTimer.Length > 0 && appearStageTimer[0] == '0')
+                {
+                    appearTimer = appearStageTimer.Substring(1);
+                }
 
                 for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
-                    if(appearStageTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"]) && UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
-                        listNum = monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]];
+                    
 
+                    if(appearTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"]) && UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
+                        listNum = monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]];
 
                         if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
                             _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);

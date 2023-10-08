@@ -49,6 +49,7 @@ namespace nightmareHunter {
         private SkeletonMecanim skeletonMecanim;
         
         private Animator _animator;
+        
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
 
@@ -170,7 +171,7 @@ namespace nightmareHunter {
             gameObject.GetComponent<AudioSource>().Play();
 
             
-            Vector3 playPosition = new Vector3(transform.position.x + 0.3f, transform.position.y + 0.1f , transform.position.z);
+            Vector3 playPosition = GameObject.Find("ShotPoint").transform.position;
             Vector3 mousePosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y , Input.mousePosition.z);
             Vector3 len = Camera.main.ScreenToWorldPoint(mousePosition) - playPosition;
             float angle = Mathf.Atan2(len.y , len.x) * Mathf.Rad2Deg;
@@ -185,21 +186,20 @@ namespace nightmareHunter {
                 bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = _playerinfo.attackSpeed;
                 bulletDotAni.transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                Vector3 bulletStartPos = new Vector3(playPosition.x , playPosition.y  , playPosition.z);
-                
-                GameObject bullet = Instantiate(bulletDotAni, bulletStartPos, bulletDotAni.transform.rotation);
+                GameObject bullet = Instantiate(bulletDotAni, playPosition, bulletDotAni.transform.rotation);
                 
                 if(_playerinfo.weaponID != 0) {
                     bullet.GetComponent<SkeletonAnimation>().AnimationName = "bullet1";
                 }
             } else {
-                gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().attackType = "CDN"; //발사체 유형
                 shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().physicsAttack = _playerinfo.physicsAttack;  //물리공격력
                 shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().magicAttack = _playerinfo.magicAttack;  //마법 공격력
                 shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().energyAttack = 0.0f; //에너지 공격력 
+
                 Quaternion rotation = Quaternion.Euler(0, 0, angle);
                 
-                Instantiate(shotgunAni, transform.position , rotation);
+                Instantiate(shotgunAni, playPosition, rotation);
             }
 
             if(_playerinfo.weaponID != 0) {

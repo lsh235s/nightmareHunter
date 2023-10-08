@@ -34,8 +34,8 @@ namespace nightmareHunter {
             animator = skeletonMecanim.GetComponent<Animator>();
 
             weaponType = type;
-            animator.speed = 0.0f;
             animator.SetInteger("GunType", type);
+            
         }
 
         private void Update()

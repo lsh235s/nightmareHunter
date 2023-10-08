@@ -2993,7 +2993,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: machinegun_1
+  _animationName: shotgun_2
   loop: 0
   timeScale: 1
 --- !u!23 &621970673
@@ -3036,7 +3036,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85171621
   m_SortingLayer: 5
-  m_SortingOrder: 3
+  m_SortingOrder: 6
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &621970674
 MeshFilter:
@@ -4761,6 +4761,7 @@ Transform:
   - {fileID: 2030252727}
   - {fileID: 621970671}
   - {fileID: 379556129}
+  - {fileID: 1543093521}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4801,7 +4802,6 @@ MonoBehaviour:
   bulletDotAni: {fileID: 0}
   shotgunAni: {fileID: 0}
   _skeletonObject: {fileID: 2030252726}
-  wepeonSkeleton: {fileID: 0}
   HpHeartImage:
   - {fileID: 21300000, guid: 420604cf361d34e8688e8fa2d04f8312, type: 3}
   - {fileID: 21300000, guid: df127a018e12d4568b4381e5230116f8, type: 3}
@@ -4953,6 +4953,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &1543093520
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1543093521}
+  m_Layer: 8
+  m_Name: ShotPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1543093521
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543093520}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.169, y: 0.067, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1428730781}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583592380
 GameObject:
   m_ObjectHideFlags: 0

@@ -160,7 +160,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cf1e706abebb6f46af4a0b2cb25cdfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonMecanim: {fileID: 0}
   weaponType: 0
 --- !u!61 &-4039212952402782211
 BoxCollider2D:
@@ -172,7 +171,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.00647296, y: 0.10066827}

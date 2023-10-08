@@ -47,11 +47,11 @@ namespace nightmareHunter {
 
             if("CDN".Equals(attackType) || "CWP".Equals(attackType) || "PW2".Equals(attackType))
             {
-                delayTime += Time.deltaTime;
-                if(delayTime >= 1.0f) {
-                    delayTime = 0.0f;
-                    Destroy(gameObject);
-                }
+                // delayTime += Time.deltaTime;
+                // if(delayTime >= 1.0f) {
+                //     delayTime = 0.0f;
+                //     Destroy(gameObject);
+                // }
             } 
 
             if("FSR".Equals(attackType)) {
@@ -87,14 +87,15 @@ namespace nightmareHunter {
 
 
         private void OnTriggerEnter2D(Collider2D collision) {
-            if(!"PW3".Equals(attackType) && !"FSN".Equals(attackType) && !"CWP".Equals(attackType) && !"CDN".Equals(attackType) && !"CSN".Equals(attackType) && !"FSP".Equals(attackType) && collision.gameObject.tag != "WeaponItem" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
+            if(!"PW3".Equals(attackType) && !"FSN".Equals(attackType) && !"CDN".Equals(attackType) && !"CWP".Equals(attackType) && !"CSN".Equals(attackType) && !"FSP".Equals(attackType) && collision.gameObject.tag != "WeaponItem" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
                 Destroy(gameObject);
             }
 
            // Debug.Log("collision.gameObject.tag : " + collision.gameObject.tag);
-            
-            if(collision.gameObject.tag == "Tutorial" || collision.gameObject.tag == "Wall") {
-                Destroy(gameObject);
+            if(!"CDN".Equals(attackType)) {
+                if(collision.gameObject.tag == "Tutorial" || collision.gameObject.tag == "Wall") {
+                    Destroy(gameObject);
+                }
             }
 
             if(collision.GetComponent<Enemy>()) {

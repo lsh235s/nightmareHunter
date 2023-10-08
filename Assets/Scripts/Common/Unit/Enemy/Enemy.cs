@@ -352,7 +352,6 @@ _attackRange5 = ClientDistance;
                     stateName = "Attack";
                     UpdateAttack("Player");
                 } else if(ClientDistance - 0.1f <= _attackRange) {
-                    Debug.Log("ClientDistance : " + ClientDistance + " / " + _attackRange);
                     state = State.Attack;
                     stateName = "Attack";
                     UpdateAttack("Client");
@@ -505,7 +504,7 @@ _attackRange5 = ClientDistance;
 
         private void UpdateRun()
         {
-
+            _animator.SetTrigger("Run");
             float distance = Vector3.Distance(transform.position, NextTargetPosition);
             if (distance <= 0.3f)
             {
