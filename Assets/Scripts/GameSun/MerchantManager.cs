@@ -10,6 +10,12 @@ namespace nightmareHunter {
         public void OnMouseDown()
         {
             _merchantPanel.active = true;
+
+               Transform merchantSub = _merchantPanel.transform.Find("MerchantSub");
+                if (merchantSub != null)
+                {
+                    merchantSub.gameObject.SetActive(false);
+                }
         }
     }
 }

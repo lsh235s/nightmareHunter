@@ -9,8 +9,8 @@ namespace nightmareHunter {
     public class WeaponItem : MonoBehaviour
     {
 
-        private SkeletonMecanim skeletonMecanim;
-        private Animator animator;
+        private SkeletonAnimation skeletonAnimation;
+        private Material skeletonMaterial;
         
         public int weaponType;
 
@@ -30,11 +30,25 @@ namespace nightmareHunter {
 
 
         public void SetWeaponType(int type) {
-            skeletonMecanim = gameObject.GetComponent<SkeletonMecanim>();
-            animator = skeletonMecanim.GetComponent<Animator>();
+            skeletonAnimation = gameObject.GetComponent<SkeletonAnimation>();
+             // SkeletonAnimation에 사용된 Material 가져오기
+            skeletonMaterial = skeletonAnimation.GetComponent<Renderer>().material;
 
             weaponType = type;
-            animator.SetInteger("GunType", type);
+
+             if(type == 1) {
+                skeletonAnimation.timeScale = 0.0f;
+                skeletonAnimation.AnimationState.SetAnimation(0, "Pistol_1", false);
+            } else if(type == 2) {
+                skeletonAnimation.timeScale = 0.0f;
+                skeletonAnimation.AnimationState.SetAnimation(0, "shotgun_1", false);
+            } else if(type == 3) {
+                skeletonAnimation.timeScale = 0.0f;
+                skeletonAnimation.AnimationState.SetAnimation(0, "machinegun_1", false);
+            } else {
+                skeletonAnimation.timeScale = 0.0f;
+                skeletonAnimation.AnimationState.SetAnimation(0, "shotgun_2", false);
+            }
             
         }
 
@@ -68,7 +82,7 @@ namespace nightmareHunter {
 
                 Color endColor = new Color32(255, 255, 255, blinkCount);
 
-                skeletonMecanim.skeleton.SetColor(endColor);
+                skeletonMaterial.color = endColor;
             }
         }
 
