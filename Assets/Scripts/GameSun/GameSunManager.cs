@@ -11,15 +11,13 @@ namespace nightmareHunter {
         [SerializeField]
         GameObject _playGameObject;   // 플레이어 오브젝트
         [SerializeField]
-        GameObject tommyGameObject;   // 타겟 오브젝트
-        [SerializeField]
         StoryObject storyObject; // 저장된 스토리 오브젝트
 
         [SerializeField]
         LoadingControl _loadingControl; // 로딩 컨트롤
 
         [SerializeField]
-        GameObject backGround; // 스테이지 백그라운드
+        GameObject[] backGround; // 스테이지 백그라운드
 
         [SerializeField]
         GameObject Merchant; // 정수 판매자 오브젝트
@@ -63,9 +61,9 @@ namespace nightmareHunter {
         void Start()
         {     
             UiController.Instance.LoadStart();
-            string stageName = "Prefabs/Stage/" + UiController.Instance.systemSaveInfo.stageId;
-            backGround = Instantiate(Resources.Load<GameObject>(stageName));
-            backGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backGround.GetComponent<BackgroundController>().backGroundSprite[0];
+           // string stageName = "Prefabs/Stage/" + UiController.Instance.systemSaveInfo.stageId;
+           // backGround = Instantiate(Resources.Load<GameObject>(stageName));
+           // backGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = backGround.GetComponent<BackgroundController>().backGroundSprite[0];
 
             MainIcon = Resources.Load<Texture2D>("ui/cursor_01");
             
@@ -90,12 +88,18 @@ namespace nightmareHunter {
 
         void TutorialStart() {
             stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
+
+            if(UiController.Instance.systemSaveInfo.stageId == 0 && stroyStage <= 29) {
+                backGround[0].SetActive(true);
+                backGround[1].SetActive(false);
+                backGround[2].SetActive(false);
+            }
            
             if(stroyStage > -1) {
                 UiController.Instance.timePause = false;
                 storyStart(stroyStage);
                 if(stroyStage < 10 && UiController.Instance.systemSaveInfo.stageId == 0) {
-                    _playGameObject.transform.position = new Vector2(-3.1f, 1.0f);
+                    _playGameObject.transform.position = new Vector2(-1.005f, -0.158f);
                 }
                 if(stroyStage >= 26) {
                     _uiGroup.SetActive(true);
@@ -280,6 +284,9 @@ namespace nightmareHunter {
                     eventFlag = false;
                 break;
                 case 4 : //맵이동
+                    backGround[0].SetActive(false);
+                    backGround[1].SetActive(true);
+                    backGround[2].SetActive(false);
                     _loadingControl.FadeActive();
                     _playGameObject.transform.position = new Vector2(2.0f, 0.6f);
                     StartCoroutine(_loadingControl.FadeInStart());
@@ -320,14 +327,12 @@ namespace nightmareHunter {
                     _playGameObject.GetComponent<Player>().playerState = "active";
                     _loadingControl.FadeActive();
                     _playGameObject.transform.position = new Vector2(-2.914f, 0.575f);
-                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
 
                     SceneMoveManager.SceneMove("GameSun");
                 break;
                 case 9 :
                     _loadingControl.FadeActive();
                     eventFlag = false;
-                    tommyGameObject.transform.position = new Vector2(2.36f, -1.3f);
                     StartCoroutine(_loadingControl.FadeInStart());
                     skipButton();
                 break;
