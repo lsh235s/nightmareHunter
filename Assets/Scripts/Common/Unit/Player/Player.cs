@@ -91,10 +91,14 @@ namespace nightmareHunter {
                 StartCoroutine(damageShake());
             } 
             
-            if(!"die".Equals(playerState) && !"tutorial".Equals(playerState)) {
+            if(!"die".Equals(playerState) && !"tutorial".Equals(playerState) ) {
                 // 공격 타이밍 계산
+
+                if("wait".Equals(playerState)) {
+                    _waitFire = false;
+                }
                 
-                if(_waitFire) {
+                if(_waitFire ) {
                     if(nextTime >= _playerinfo.attackDelayTime) {
                         nextTime = 0.0F;
                         FireBullet();

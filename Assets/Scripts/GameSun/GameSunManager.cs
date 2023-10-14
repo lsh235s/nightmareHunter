@@ -77,7 +77,7 @@ namespace nightmareHunter {
             if(UiController.Instance.systemSaveInfo.stageId == 0) {
                 Merchant.active = false;
             } else {
-                Merchant.active = true;
+                Merchant.active = false;
             }
             
             // 튜토리얼 시작
@@ -88,12 +88,6 @@ namespace nightmareHunter {
 
         void TutorialStart() {
             stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
-
-            if(UiController.Instance.systemSaveInfo.stageId == 0 && stroyStage <= 29) {
-                backGround[0].SetActive(true);
-                backGround[1].SetActive(false);
-                backGround[2].SetActive(false);
-            }
            
             if(stroyStage > -1) {
                 UiController.Instance.timePause = false;
@@ -111,13 +105,41 @@ namespace nightmareHunter {
                     _unitFrame.SetActive(true);
                 }
                 if(stroyStage == 64) {
-                    _playGameObject.transform.position = new Vector2(-2.914f, 0.575f);
+                    _playGameObject.transform.position = new Vector2(0.485f, 0.41f);
                  }
                 
             } else {
                 _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
                 _uiGroup.SetActive(true);
+            }
+        }
+
+        void stageBackGround() {
+            if(UiController.Instance.systemSaveInfo.stageId == 0 && stroyStage <= 29) {
+                backGround[0].SetActive(true);
+                backGround[1].SetActive(false);
+                backGround[2].SetActive(false);
+            }
+
+            if(UiController.Instance.systemSaveInfo.stageId == 0 && stroyStage == 53) {
+                backGround[0].SetActive(false);
+                backGround[1].SetActive(true);
+                backGround[2].SetActive(false);
+            }
+
+            if(UiController.Instance.systemSaveInfo.stageId == 1 && stroyStage == 64) {
+                backGround[0].SetActive(true);
+                backGround[1].SetActive(false);
+                backGround[2].SetActive(false);
+            }
+
+            Debug.Log("스테이지 아이디 : " + UiController.Instance.systemSaveInfo.stageId + " 스토리 스테이지 : " + stroyStage);
+
+            if(UiController.Instance.systemSaveInfo.stageId == 1 && stroyStage == 78) {
+                backGround[0].SetActive(false);
+                backGround[1].SetActive(false);
+                backGround[2].SetActive(true);
             }
         }
 
@@ -188,7 +210,8 @@ namespace nightmareHunter {
 
 
         public void skipButton() {
-            
+            stageBackGround();
+
             foreach (KeyValuePair<string, GameObject> entry in _tailkGraphicList)
             {
                 entry.Value.SetActive(false);
@@ -206,7 +229,7 @@ namespace nightmareHunter {
                 if(UiController.Instance.systemSaveInfo.storyNum == 8)
                 {
                     _playGameObject.GetComponent<Player>().playerState = "active";
-                }
+                } 
                 _ChatGroup.SetActive(false);
             }
             if(_chatArrowSound != null && _chatArrowSound.clip != null) {
@@ -315,6 +338,7 @@ namespace nightmareHunter {
                 break;
                 case 8 :
                     Debug.Log("스토리 클리어 이후");
+                    
                     eventFlag = false;
                     storyFlag = false;
                     _ChatGroup.SetActive(false);
