@@ -16,8 +16,6 @@ namespace nightmareHunter {
         private GameObject summon;
         [SerializeField]
         private TextMeshProUGUI priceText;
-        [SerializeField]
-        private TextMeshProUGUI levelText;
 
         [SerializeField]
         private Button priceButton;
@@ -44,15 +42,26 @@ namespace nightmareHunter {
         [SerializeField]
         private GameObject Interinfo;
 
+        Sprite[] levelImage;
+
+        [SerializeField]
+        Image levelImageObject;
+
         void Start() {
             priceButton.onClick.AddListener(summonEnforce);
 
             _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
+            levelImage = new Sprite[5];
+            levelImage[0] = Resources.Load<Sprite>("ui/Summon/Level1");
+            levelImage[1] = Resources.Load<Sprite>("ui/Summon/Level2");
+            levelImage[2] = Resources.Load<Sprite>("ui/Summon/Level3");
+            levelImage[3] = Resources.Load<Sprite>("ui/Summon/Level4");
+            levelImage[4] = Resources.Load<Sprite>("ui/Summon/Level5");
 
             NowSummonInfo = GameDataManager.Instance.LoadSummerInfo(_spritesName);
            // Debug.Log(UiController.Instance.sceneMode+"//"+_spritesName+"//"+NowSummonInfo.goldCash);
             priceText.text = NowSummonInfo.goldCash.ToString();
-            levelText.text = NowSummonInfo.playerLevel.ToString();
+            levelImageObject.sprite = levelImage[NowSummonInfo.playerLevel-1];
 
             selectSummon = Instantiate(summon);
             selectSummon.GetComponent<Summons>().summonsBatchIng = false;
@@ -196,11 +205,14 @@ namespace nightmareHunter {
 
         public void summonEnforce() {
             // 소환수 레벨업을 할 경우 해당 정보를 저장.
-            if(int.Parse(levelText.text) < 5) {
+            if(NowSummonInfo.playerLevel < 5) {
                 UiController.Instance.integerUseSet(NowSummonInfo.integerCash,"-");
             
                 int summonLevel = GameDataManager.Instance.UpdateCsvData(_spritesName);
-                levelText.text = summonLevel.ToString();
+                Debug.Log("summonLevel:"+summonLevel);
+                NowSummonInfo.playerLevel = summonLevel-1;
+                levelImageObject.sprite = levelImage[summonLevel-1];
+                
 
                 for(int i=0; i < _uiItController._summonList[objectIndex].Count; i++) {
                     _uiItController._summonList[objectIndex][i].GetComponent<Summons>().summonlevelUp(NowSummonInfo, summonLevel);
