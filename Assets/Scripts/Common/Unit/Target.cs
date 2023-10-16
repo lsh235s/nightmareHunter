@@ -13,6 +13,7 @@ namespace nightmareHunter {
 
         
         public SkeletonMecanim skeletonMecanim;
+        public GameObject whilwind;
         public Animator _animator;
 
         bool isFalling = false;
@@ -21,6 +22,11 @@ namespace nightmareHunter {
             UiController.Instance.TargetHP(damage,_clientHpImage);
             isFalling = true;
             _animator.SetTrigger("dam");
+
+            Debug.Log("TargetHpCanvas._clientHp : " + UiController.Instance._clientHp.text);
+            if(int.Parse(UiController.Instance._clientHp.text) <= 0) {
+                Debug.Log("게임 종료");
+            }
         }
 
         void Update() {
@@ -40,27 +46,11 @@ namespace nightmareHunter {
             yield return new WaitForSeconds(0.01f);
             endColor = new Color32(255, 255, 255, 255);
             skeletonMecanim.skeleton.SetColor(endColor);
-            skeletonMecanim.transform.position  -= new Vector3(0.01f, 0, 0);
-            yield return new WaitForSeconds(0.01f);
-            endColor = new Color32(255, 0, 0, 255);
-            skeletonMecanim.skeleton.SetColor(endColor);
-            skeletonMecanim.transform.position  += new Vector3(0.01f, 0, 0);
-            yield return new WaitForSeconds(0.01f);
-            endColor = new Color32(255, 255, 255, 255);
-            skeletonMecanim.skeleton.SetColor(endColor);
             skeletonMecanim.transform.position  -= new Vector3(0, 0.01f, 0);
             yield return new WaitForSeconds(0.01f);
             endColor = new Color32(255, 0, 0, 255);
             skeletonMecanim.skeleton.SetColor(endColor);
             skeletonMecanim.transform.position  += new Vector3(0, 0.01f, 0);
-            yield return new WaitForSeconds(0.01f);
-            endColor = new Color32(255, 255, 255, 255);
-            skeletonMecanim.skeleton.SetColor(endColor);
-            skeletonMecanim.transform.position  += new Vector3(0, 0.01f, 0);
-            yield return new WaitForSeconds(0.01f);
-            endColor = new Color32(255, 0, 0, 255);
-            skeletonMecanim.skeleton.SetColor(endColor);
-            skeletonMecanim.transform.position  -= new Vector3(0, 0.01f, 0);
             yield return new WaitForSeconds(0.01f);
             endColor = new Color32(255, 255, 255, 255);
             skeletonMecanim.skeleton.SetColor(endColor);
