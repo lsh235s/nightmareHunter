@@ -19,8 +19,6 @@ namespace nightmareHunter {
         [SerializeField]
         GameObject[] backGround; // 스테이지 백그라운드
 
-        [SerializeField]
-        GameObject Merchant; // 정수 판매자 오브젝트
 
         Transform _talkObject; // 대화 캐릭터 오브젝트 대화 좌우 반전용
         GameObject _ChatGroup; // 대화 창 오브젝트
@@ -74,11 +72,12 @@ namespace nightmareHunter {
 
             canvasInit();
             _uiItController.GameStart();
-            if(UiController.Instance.systemSaveInfo.stageId == 0) {
-                Merchant.active = false;
-            } else {
-                Merchant.active = false;
-            }
+            merchantCanvas.SetActive(false);
+            // if(UiController.Instance.systemSaveInfo.stageId == 0) {
+            //     merchantCanvas.SetActive(false); active = false;
+            // } else {
+            //     merchantCanvas.active = false;
+            // }
             
             // 튜토리얼 시작
             TutorialStart();
