@@ -129,9 +129,14 @@ namespace nightmareHunter {
                 }
 
                 for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
-                    
+                    string appearCsvTimer = _uiItController.DevelMonsterBatch[i]["AppearTimer"].ToString();
+                    if (appearCsvTimer[0] == '0')
+                    {
+                        appearCsvTimer = appearCsvTimer.Substring(1);
+                    }
 
-                    if(appearTimer.Equals(_uiItController.DevelMonsterBatch[i]["AppearTimer"]) && UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
+                    Debug.Log("//////asd:"+appearTimer +"/"+ _uiItController.DevelMonsterBatch[i]["AppearTimer"]+"/"+ appearCsvTimer);
+                    if(appearTimer.Equals(appearCsvTimer) && UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
                         listNum = monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]];
 
                         if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
