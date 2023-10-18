@@ -130,7 +130,7 @@ namespace nightmareHunter {
 
                 for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
                     string appearCsvTimer = _uiItController.DevelMonsterBatch[i]["AppearTimer"].ToString();
-                    if (appearCsvTimer[0] == '0')
+                    if (appearCsvTimer[0] == '0' && appearCsvTimer[1] != ':')
                     {
                         appearCsvTimer = appearCsvTimer.Substring(1);
                     }

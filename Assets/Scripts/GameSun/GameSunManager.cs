@@ -73,11 +73,6 @@ namespace nightmareHunter {
             canvasInit();
             _uiItController.GameStart();
             merchantCanvas.SetActive(false);
-            // if(UiController.Instance.systemSaveInfo.stageId == 0) {
-            //     merchantCanvas.SetActive(false); active = false;
-            // } else {
-            //     merchantCanvas.active = false;
-            // }
             
             // 튜토리얼 시작
             TutorialStart();
