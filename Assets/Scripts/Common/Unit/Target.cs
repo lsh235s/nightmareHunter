@@ -14,9 +14,14 @@ namespace nightmareHunter {
         
         public SkeletonMecanim skeletonMecanim;
         public GameObject whilwind;
-        public Animator _animator;
+        public GameObject clinetTarget;
+        Animator _animator;
 
         bool isFalling = false;
+
+        void Start() {
+            _animator = clinetTarget.GetComponent<Animator>();
+        }
 
         public void DamageProcess(float damage) {
             UiController.Instance.TargetHP(damage,_clientHpImage);
@@ -25,8 +30,15 @@ namespace nightmareHunter {
 
             Debug.Log("TargetHpCanvas._clientHp : " + UiController.Instance._clientHp.text);
             if(int.Parse(UiController.Instance._clientHp.text) <= 0) {
-                Debug.Log("게임 종료");
+                clinetTarget.SetActive(false);
+                whilwind.SetActive(true);
+                StartCoroutine(gameEnd()); 
             }
+        }
+
+        private IEnumerator gameEnd() {
+            yield return new WaitForSeconds(1.0f);
+            SceneMoveManager.SceneMove("GameInits");
         }
 
         void Update() {

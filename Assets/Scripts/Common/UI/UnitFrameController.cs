@@ -29,7 +29,7 @@ namespace nightmareHunter {
         private int frameName = 1;
 
 
-        UnitController _uiItController;
+        UnitController _unitController;
 
         PlayerInfo NowSummonInfo;
 
@@ -50,7 +50,7 @@ namespace nightmareHunter {
         void Start() {
             priceButton.onClick.AddListener(summonEnforce);
 
-            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
+            _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
             levelImage = new Sprite[5];
             levelImage[0] = Resources.Load<Sprite>("ui/Summon/Level1");
             levelImage[1] = Resources.Load<Sprite>("ui/Summon/Level2");
@@ -97,9 +97,10 @@ namespace nightmareHunter {
     
         public void OnMouseDown()
         {
+            Debug.Log("OnTriggerEnter2DOnMouseDown/"+ UiController.Instance.gameMode);
             if(UiController.Instance.sceneMode == 0) {
-                Color currentColor = frameImage.GetComponent<Image>().color;
-                frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 255f);
+               // Color currentColor = frameImage.GetComponent<Image>().color;
+               // frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 255f);
                 _isChange = true;
             } else {
                 summonEnforce();
@@ -131,7 +132,7 @@ namespace nightmareHunter {
                     }
                 }
             } else {
-                _uiItController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
+                _unitController._summoner[objectIndex].GetComponent<Summons>().rangeObject.SetActive(false);
             }
         }
 
@@ -142,13 +143,20 @@ namespace nightmareHunter {
                     selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoX = selectSummon.transform.position.x.ToString();
                     selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoY = selectSummon.transform.position.y.ToString();
                     selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoZ = selectSummon.transform.position.z.ToString();
+
+                    if("SuccessTutorial".Equals(UiController.Instance.gameMode)) {
+                        selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoX = "1.08";
+                        selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoY = "-0.16";
+                        selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoZ = "0.0";
+                    }
+
                     int playerId = GameDataManager.Instance.SaveSummerInfo(_spritesName,selectSummon.GetComponent<Summons>().basePlayerinfo);
 
-                    _uiItController._summonList[objectIndex].Add(Instantiate(selectSummon));
+                    _unitController._summonList[objectIndex].Add(Instantiate(selectSummon));
 
-                    if (_uiItController._summonList[objectIndex].Count > 0)
+                    if (_unitController._summonList[objectIndex].Count > 0)
                     { 
-                        GameObject AddSummon = _uiItController._summonList[objectIndex][_uiItController._summonList[objectIndex].Count - 1];
+                        GameObject AddSummon = _unitController._summonList[objectIndex][_unitController._summonList[objectIndex].Count - 1];
                         AddSummon.GetComponent<Collider2D>().isTrigger = true;
                         AddSummon.transform.position = selectSummon.transform.position;
                         AddSummon.name = _spritesName + "_" + playerId;
@@ -166,11 +174,11 @@ namespace nightmareHunter {
                     
 
                     _isChange = false;
-                    Color currentColor = frameImage.GetComponent<Image>().color;
+                    //Color currentColor = frameImage.GetComponent<Image>().color;
 
                     string unitImage = "ui/1";
-                    frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
-                    frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
+                   // frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
+                   // frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
                     _changeTime = 0.5f;
 
                     selectSummon.SetActive(false);
@@ -182,11 +190,10 @@ namespace nightmareHunter {
                     selectSummon.GetComponent<Summons>().summonsBatchIng = false;
                     
                     _isChange = false;
-                    Color currentColor = frameImage.GetComponent<Image>().color;
 
                     string unitImage = "ui/1";
-                    frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
-                    frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
+                   // frameImage.GetComponent<Image>().sprite = Resources.Load<Sprite>(unitImage);
+                  //  frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 0f);
                     _changeTime = 0.5f;
                 }
             }
@@ -197,9 +204,13 @@ namespace nightmareHunter {
             if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-               // _uiItController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
+               // _unitController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
                 selectSummon.transform.position = mousePosition;
+
+                if("tutorial".Equals(UiController.Instance.gameMode)) {
+                    selectSummon.GetComponent<Summons>().FaildSummon();
+                }
             }
         }
 
@@ -214,15 +225,11 @@ namespace nightmareHunter {
                 levelImageObject.sprite = levelImage[summonLevel-1];
                 
 
-                for(int i=0; i < _uiItController._summonList[objectIndex].Count; i++) {
-                    _uiItController._summonList[objectIndex][i].GetComponent<Summons>().summonlevelUp(NowSummonInfo, summonLevel);
+                for(int i=0; i < _unitController._summonList[objectIndex].Count; i++) {
+                    _unitController._summonList[objectIndex][i].GetComponent<Summons>().summonlevelUp(NowSummonInfo, summonLevel);
                 }
                 
             }
-
-            // NowSummonInfo = _uiItController.gameDataManager.LoadSummerInfo(objectIndex ,_uiItController._unitObject);
-
-            // _uiItController._summoner[objectIndex].GetComponent<Summons>().playerDataLoad(NowSummonInfo);
 
         }
 

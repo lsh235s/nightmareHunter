@@ -50,7 +50,9 @@ namespace nightmareHunter {
         public GameObject shotgunAni;
         public GameObject shotArea;
 
-        UnitController _uiItController;
+        UnitController _unitController;
+
+        Color currentColor;
 
         public Dictionary<string, bool> skillList = new Dictionary<string, bool>();
 
@@ -62,7 +64,7 @@ namespace nightmareHunter {
             skillList.Add("ClientTargetFix", false);
             skillList.Add("Cloaking", false);
 
-            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
+            _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
            // Debug.Log("summonerId : " + summonerId);
 
@@ -90,6 +92,8 @@ namespace nightmareHunter {
                 Color endColor = new Color32(0, 0, 100, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             }
+
+            currentColor = skeletonMecanim.skeleton.GetColor();
         }
 
 
@@ -293,11 +297,25 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0) {
                 if("Wall".Equals(collision.tag)) {
-                    Color endColor = new Color32(255, 0, 0, 255);
-                    skeletonMecanim.skeleton.SetColor(endColor);
-                    summonsExist = false;
+                    FaildSummon();
                 }
             }
+        }
+
+        public void FaildSummon() {
+            Color endColor = new Color32(255, 0, 0, 255);
+
+            if(skeletonMecanim != null) {
+                skeletonMecanim.skeleton.SetColor(endColor);
+            }
+            summonsExist = false;
+        }
+
+        public void SuccessSummon() {
+            if(skeletonMecanim != null) {
+                skeletonMecanim.skeleton.SetColor(currentColor);
+            }
+            summonsExist = true;
         }
 
         

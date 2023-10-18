@@ -35,6 +35,8 @@ namespace nightmareHunter {
         // 스테이지 모드
         public int sceneMode;  //0: sun, 1: moon
 
+        public string gameMode = "";
+
 
         // 스테이지 정보 저장
         public SystemSaveInfo systemSaveInfo; 

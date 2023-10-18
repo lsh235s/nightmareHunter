@@ -5508,7 +5508,7 @@ MonoBehaviour:
   - {fileID: 313211827}
   - {fileID: 508871176}
   - {fileID: 1708680464}
-  Merchant: {fileID: 0}
+  stroyStage: 0
   eventFlag: 0
   _tutory: {fileID: 1119605096}
   _tutory2: {fileID: 2040965639}
@@ -7426,7 +7426,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1329084429}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.3, y: 0.655, z: 0}
+  m_LocalPosition: {x: 1.08, y: -0.16, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8264,6 +8264,7 @@ MonoBehaviour:
   _clientHp: {fileID: 0}
   timePause: 1
   sceneMode: 0
+  gameMode: 
   dropItem: {fileID: 7147746094497311960, guid: a3c038d237940a145b3902fde5310d1c, type: 3}
 --- !u!4 &1530992736
 Transform:

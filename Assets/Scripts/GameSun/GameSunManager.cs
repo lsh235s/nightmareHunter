@@ -29,7 +29,7 @@ namespace nightmareHunter {
         Button _chatArrowBtn; // 대화창 화살표 버튼
         AudioSource _chatArrowSound; // 대화창 효과음
 
-        int stroyStage; // 스토리 스테이지
+        public int stroyStage; // 스토리 스테이지
 
         public bool eventFlag = false; // 이벤트 플래그
         bool storyFlag = false; // 스토리 플래그
@@ -43,7 +43,7 @@ namespace nightmareHunter {
         public GameObject merchantCanvas; // 정수 판매자 캔버스
 
         GameObject _unitFrame; // 유닛 프레임 오브젝트
-        UnitController _uiItController;
+        UnitController _unitController;
 
         Texture2D MainIcon;
 
@@ -53,7 +53,7 @@ namespace nightmareHunter {
 
         // Start is called before the first frame update
         void Awake() {
-            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
+            _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
         }
 
         void Start()
@@ -68,15 +68,29 @@ namespace nightmareHunter {
             NormalIcon = Resources.Load<Texture2D>("ui/pointer"); 
             AttckIcon = Resources.Load<Texture2D>("ui/pointer2");
 
-            Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
+            changeCursor("MainIcon");
 
             canvasInit();
-            _uiItController.GameStart();
+            _unitController.GameStart();
             merchantCanvas.SetActive(false);
             
             // 튜토리얼 시작
             TutorialStart();
 
+        }
+
+        public void changeCursor (string cursorName) {
+            switch (cursorName) {
+                case "MainIcon" :
+                    Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
+                break;
+                case "AttackWait" :
+                    Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
+                break;
+                case "Attack" :
+                    Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width / 5, 0), CursorMode.Auto);
+                break;
+            }
         }
 
 
@@ -148,16 +162,14 @@ namespace nightmareHunter {
             if(storyObject.storyContentList[stroyStage].event_stage_id == 2) {
                 if(Input.GetMouseButtonDown(0))
                 {
-                    Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width / 5, 0), CursorMode.Auto);
+                    changeCursor("Attack");
                 }
 
                 if(Input.GetMouseButtonUp(0))
                 {
-                    Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
+                    changeCursor("AttackWait");
                 }
-            } else {
-                Cursor.SetCursor(MainIcon, new Vector2(MainIcon.width / 5, 0), CursorMode.Auto);
-            }
+            } 
         }
 
 
@@ -289,9 +301,11 @@ namespace nightmareHunter {
                     _tutory.SetActive(true);
                     _playGameObject.GetComponent<Player>().playerState = "wait";
                     _playGameObject.GetComponent<Player>().playerStateChange();
+                    UiController.Instance.gameMode = "tutorial";
                 break;
                 case 2 : //발사 튜토리얼 시작
                     _tutory2.SetActive(true);
+                    UiController.Instance.gameMode = "tutorial";
                 break;
                 case 3 : //포인트 추가
                     _uiGroup.SetActive(true);
@@ -313,6 +327,7 @@ namespace nightmareHunter {
                 case 5 : //소환수 배치 튜토리얼
                     _tutory3.SetActive(true);
                     _unitFrame.SetActive(true);
+                    UiController.Instance.gameMode = "tutorial";
                 break;
                 case 6 :
                     _playGameObject.GetComponent<Player>().playerState = "wait";

@@ -70,7 +70,7 @@ namespace nightmareHunter {
         private float distanceCheck; // 현재 위치의 이동 범위
         int distanceCheckCount = 0;  // 현재 위치 머무른 횟수
 
-        UnitController _uiItController;
+        UnitController _unitController;
 
         private NavMeshAgent agent;
 

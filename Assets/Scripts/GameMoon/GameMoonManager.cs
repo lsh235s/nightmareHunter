@@ -29,7 +29,7 @@ namespace nightmareHunter {
         string appearStageTimer = "";
 
 
-        UnitController _uiItController;
+        UnitController _unitController;
         bool stageClear = false;
         
         int teller = 0;
@@ -38,7 +38,7 @@ namespace nightmareHunter {
 
         void Awake() {
            
-            _uiItController = GameObject.Find("Canvas").GetComponent<UnitController>();
+            _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
         }
 
         void Start()
@@ -57,7 +57,7 @@ namespace nightmareHunter {
             stageBackGround.transform.GetChild(0).GetComponent<SpriteRenderer>().sprite = stageBackGround.GetComponent<BackgroundController>().backGroundSprite[1];
 
             AudioManager.Instance.BackGroundPlay("bgm_game");
-            _uiItController.GameStart();
+            _unitController.GameStart();
             _loadingControl.FadeActive();
             StartCoroutine(_loadingControl.FadeInStart());
 
@@ -79,9 +79,9 @@ namespace nightmareHunter {
                     if(AreAllMonstersDead(_monsterList)) {
                         stageClear = true;
                         int retrunGold = 0;
-                        for (int i = 0; i < _uiItController._summonList.Length; i++) {
-                            for (int j = 0; j < _uiItController._summonList[i].Count; j++) {
-                               retrunGold = retrunGold + (_uiItController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
+                        for (int i = 0; i < _unitController._summonList.Length; i++) {
+                            for (int j = 0; j < _unitController._summonList[i].Count; j++) {
+                               retrunGold = retrunGold + (_unitController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
                             }
                         }
                         UiController.Instance.goldUseSet(retrunGold,"+");
@@ -105,12 +105,12 @@ namespace nightmareHunter {
 
         //모든 소환수 공격 가능여부 체크
         void summonerScan() {
-            for (int i = 0; i < _uiItController._summonList.Length; i++) {
-                for (int j = 0; j < _uiItController._summonList[i].Count; j++) {
-                    _uiItController._summonList[i][j].GetComponent<Summons>().nextTime = _uiItController._summonList[i][j].GetComponent<Summons>().nextTime + Time.deltaTime;
-                    if(_uiItController._summonList[i][j].GetComponent<Summons>().nextTime  > _uiItController._summonList[i][j].GetComponent<Summons>()._attackSpeed) {
-                        _uiItController._summonList[i][j].GetComponent<Summons>().scanRadar();
-                        _uiItController._summonList[i][j].GetComponent<Summons>().nextTime = 0.0F;
+            for (int i = 0; i < _unitController._summonList.Length; i++) {
+                for (int j = 0; j < _unitController._summonList[i].Count; j++) {
+                    _unitController._summonList[i][j].GetComponent<Summons>().nextTime = _unitController._summonList[i][j].GetComponent<Summons>().nextTime + Time.deltaTime;
+                    if(_unitController._summonList[i][j].GetComponent<Summons>().nextTime  > _unitController._summonList[i][j].GetComponent<Summons>()._attackSpeed) {
+                        _unitController._summonList[i][j].GetComponent<Summons>().scanRadar();
+                        _unitController._summonList[i][j].GetComponent<Summons>().nextTime = 0.0F;
                     }
                 }
             }
@@ -128,24 +128,23 @@ namespace nightmareHunter {
                     appearTimer = appearStageTimer.Substring(1);
                 }
 
-                for (int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
-                    string appearCsvTimer = _uiItController.DevelMonsterBatch[i]["AppearTimer"].ToString();
+                for (int i = 0; i < _unitController.DevelMonsterBatch.Count; i++) {
+                    string appearCsvTimer = _unitController.DevelMonsterBatch[i]["AppearTimer"].ToString();
                     if (appearCsvTimer[0] == '0' && appearCsvTimer[1] != ':')
                     {
                         appearCsvTimer = appearCsvTimer.Substring(1);
                     }
 
-                    Debug.Log("//////asd:"+appearTimer +"/"+ _uiItController.DevelMonsterBatch[i]["AppearTimer"]+"/"+ appearCsvTimer);
-                    if(appearTimer.Equals(appearCsvTimer) && UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
-                        listNum = monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]];
+                    if(appearTimer.Equals(appearCsvTimer) && UiController.Instance.systemSaveInfo.stageId == (int)_unitController.DevelMonsterBatch[i]["Stage"]) {
+                        listNum = monsterActiveCnt[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]];
 
-                        if(!_monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
-                            _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
+                        if(!_monsterList[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
+                            _monsterList[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]][listNum].SetActive(true);
                            
-                            if((int)_uiItController.DevelMonsterBatch[i]["MonsterId"] == 1) {
-                                _monsterList[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]][listNum].transform.position = _uiItController._targetGameObject.transform.position;
+                            if((int)_unitController.DevelMonsterBatch[i]["MonsterId"] == 1) {
+                                _monsterList[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]][listNum].transform.position = _unitController._targetGameObject.transform.position;
                             }
-                            monsterActiveCnt[(int)_uiItController.DevelMonsterBatch[i]["MonsterId"]] = listNum + 1;
+                            monsterActiveCnt[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]] = listNum + 1;
                         }
                     }
                 }
@@ -176,13 +175,13 @@ namespace nightmareHunter {
         // 몬스터 배치 관련
         void monsterInit() {
             int stageMonsterCnt = 0;
-            for(int i = 0; i < _uiItController.DevelMonsterBatch.Count; i++) {
-                if(UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
+            for(int i = 0; i < _unitController.DevelMonsterBatch.Count; i++) {
+                if(UiController.Instance.systemSaveInfo.stageId == (int)_unitController.DevelMonsterBatch[i]["Stage"]) {
                     stageMonsterCnt++;
                 }
             }
 
-            _uiItController.monsterBuildCount = stageMonsterCnt;
+            _unitController.monsterBuildCount = stageMonsterCnt;
             _monsterList = new List<GameObject>[_monsters.Length];  //몬스터 종류 배열 생성
 
 
@@ -192,9 +191,9 @@ namespace nightmareHunter {
                 monsterActiveCnt.Add(i, 0);  //몬스터 종류별 출현 카운트
             }
 
-            for (int i = 0; i <  _uiItController.DevelMonsterBatch.Count; i++) {
-                if(UiController.Instance.systemSaveInfo.stageId == (int)_uiItController.DevelMonsterBatch[i]["Stage"]) {
-                    MonsterGet(_uiItController.DevelMonsterBatch[i]);
+            for (int i = 0; i <  _unitController.DevelMonsterBatch.Count; i++) {
+                if(UiController.Instance.systemSaveInfo.stageId == (int)_unitController.DevelMonsterBatch[i]["Stage"]) {
+                    MonsterGet(_unitController.DevelMonsterBatch[i]);
                 }
             }
         }
@@ -207,8 +206,8 @@ namespace nightmareHunter {
             if(_monsterList.Length > (int)stateMonster["MonsterId"] && UiController.Instance.systemSaveInfo.stageId == (int)stateMonster["Stage"])
             {
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>()._monsterId = (int)stateMonster["MonsterId"];
-                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().clientTarget = _uiItController._targetGameObject;
-                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().playerTarget = _uiItController._playGameObject;
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().clientTarget = _unitController._targetGameObject;
+                _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().playerTarget = _unitController._playGameObject;
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().waypointType = (int)stateMonster["MoveType"];
 
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().wayPointBaseList = wayPointList;
@@ -217,7 +216,7 @@ namespace nightmareHunter {
                 select = Instantiate(_monsters[(int)stateMonster["MonsterId"]]);
 
                 if((int)stateMonster["MonsterId"] == 1) {
-                    _monsters[(int)stateMonster["MonsterId"]].transform.position = _uiItController._targetGameObject.transform.position;
+                    _monsters[(int)stateMonster["MonsterId"]].transform.position = _unitController._targetGameObject.transform.position;
                 } else {
                     _monsters[(int)stateMonster["MonsterId"]].transform.position = wayPointList[(int)stateMonster["MoveType"]].transform.GetChild(0).gameObject.transform.position;
                 }
