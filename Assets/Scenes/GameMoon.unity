@@ -1140,7 +1140,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85171621
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 172f1e03cf094d348b14fc039e099934, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
@@ -3035,7 +3035,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85171621
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 6
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &621970674
@@ -4777,7 +4777,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 50
   m_LinearDrag: 10
   m_AngularDrag: 10
   m_GravityScale: 0
@@ -5177,6 +5177,7 @@ MonoBehaviour:
   _clientHp: {fileID: 0}
   timePause: 1
   sceneMode: 1
+  gameMode: 
   dropItem: {fileID: 7147746094497311960, guid: a3c038d237940a145b3902fde5310d1c, type: 3}
 --- !u!114 &1615627487
 MonoBehaviour:
@@ -5960,7 +5961,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 85171621
-  m_SortingLayer: 5
+  m_SortingLayer: 6
   m_SortingOrder: 5
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2030252731
