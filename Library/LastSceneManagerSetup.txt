@@ -1,0 +1,21 @@
+sceneSetups:
+- path: Assets/Scenes/GameLogo.unity
+  isLoaded: 0
+  isActive: 0
+  isSubScene: 0
+- path: Assets/Scenes/GameInits.unity
+  isLoaded: 0
+  isActive: 0
+  isSubScene: 0
+- path: Assets/Scenes/GameSun.unity
+  isLoaded: 1
+  isActive: 1
+  isSubScene: 0
+- path: Assets/Scenes/GameMoon.unity
+  isLoaded: 0
+  isActive: 0
+  isSubScene: 0
+- path: Assets/Scenes/GameMoon01.unity
+  isLoaded: 0
+  isActive: 0
+  isSubScene: 0
