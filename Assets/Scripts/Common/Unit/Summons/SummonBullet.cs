@@ -18,16 +18,9 @@ namespace nightmareHunter {
 
         private bool activeflag = false;
 
-        Rigidbody2D rigidbody2D;
-
         private int targetCount = 0; // 타겟 카운트
         
         
-        // Start is called before the first frame update
-        void Start()
-        {
-            rigidbody2D = GetComponent<Rigidbody2D>();
-        }
 
 
         // Update is called once per frame
@@ -37,7 +30,7 @@ namespace nightmareHunter {
             {
                 if (Vector3.Distance(transform.position, initialPosition) >= range)
                 {
-                    Destroy(gameObject); // 총알 삭제
+                    objectEnd(); // 총알 삭제
                 } else {
                     // 일정한 속도로 위쪽으로 이동
                     transform.Translate(Vector2.right * _bulletSpeed * Time.deltaTime);
@@ -50,17 +43,17 @@ namespace nightmareHunter {
                 // delayTime += Time.deltaTime;
                 // if(delayTime >= 1.0f) {
                 //     delayTime = 0.0f;
-                //     Destroy(gameObject);
+                //     objectEnd();
                 // }
             } 
 
             if("FSR".Equals(attackType)) {
                 if (Vector3.Distance(transform.position, initialPosition) >= range)
                 {
-                    Destroy(gameObject); // 총알 삭제
+                    objectEnd(); // 총알 삭제
                 } else {
                     // 타겟 위치와 현재 위치의 차이 계산
-                    Vector3 targetDirection = (targetPosition - transform.position).normalized;
+                    Vector3 targetDirection = (targetPosition - initialPosition).normalized;
 
                     // 타겟 방향으로 회전
                     float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
@@ -78,7 +71,7 @@ namespace nightmareHunter {
             
                 if (viewPos.x < 0 || viewPos.x > 1 || viewPos.y < 0 || viewPos.y > 1)
                 {
-                    Destroy(gameObject);
+                    objectEnd();
                 }
                 return;
             }
@@ -88,17 +81,26 @@ namespace nightmareHunter {
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if(!"PW3".Equals(attackType) && !"FSN".Equals(attackType) && !"CDN".Equals(attackType) && !"CWP".Equals(attackType) && !"CSN".Equals(attackType) && !"FSP".Equals(attackType) && collision.gameObject.tag != "WeaponItem" && collision.gameObject.tag != "Untagged" && collision.gameObject.tag != "Bullet" && collision.gameObject.tag != "Player" && collision.gameObject.tag != "Summon" ) {
-                Destroy(gameObject);
+                
+                if("Enemy".Equals(collision.gameObject.tag) ) {
+                    if(!collision.GetComponent<Enemy>().isDead) {
+                        objectEnd();
+                    }
+                } else {
+                    objectEnd();
+                }
+                
             }
 
            // Debug.Log("collision.gameObject.tag : " + collision.gameObject.tag);
             if(!"CDN".Equals(attackType)) {
                 if(collision.gameObject.tag == "Tutorial" || collision.gameObject.tag == "Wall") {
-                    Destroy(gameObject);
+                    objectEnd();
                 }
             }
 
             if(collision.GetComponent<Enemy>()) {
+                Debug.Log("collision.GetComponent<Enemy>() : " + collision.GetComponent<Enemy>().isDead);
                 if(!collision.GetComponent<Enemy>().isDead) {  
                     if("FSR".Equals(attackType)) {
                         GameObject exflow = Resources.Load<GameObject>("Prefabs/Bullet/ShotExflow");
@@ -108,7 +110,7 @@ namespace nightmareHunter {
                         exflow.GetComponent<SummonBullet>().magicAttack = magicAttack;  //마법 공격력
                         exflow.GetComponent<SummonBullet>().energyAttack = energyAttack; //에너지 공격력 
                         Instantiate(exflow, transform.position , transform.rotation);
-                        Destroy(gameObject);
+                        objectEnd();
                     } else {
                         if(targetCount == 0 && "PW0".Equals(attackType)) {
                             collision.GetComponent<Enemy>().DamageProcess(physicsAttack,magicAttack,energyAttack);
@@ -122,6 +124,24 @@ namespace nightmareHunter {
 
      
         }    
+
+
+        void objectEnd() {
+                    // 애니메이션 실행이 끝났을 때 오브젝트를 종료합니다.
+             // 부모 GameObject 찾기
+            Transform parent = transform.parent;
+
+            if (parent != null)
+            {
+                // 부모 GameObject 파괴
+                Destroy(parent.gameObject);
+            }
+            else
+            {
+                // 부모 GameObject가 없는 경우 현재 GameObject를 파괴
+                Destroy(gameObject);
+            }
+        }
 
     }
 }

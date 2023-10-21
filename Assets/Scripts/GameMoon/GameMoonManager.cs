@@ -64,7 +64,9 @@ namespace nightmareHunter {
             NormalIcon = Resources.Load<Texture2D>("ui/pointer"); 
             AttckIcon = Resources.Load<Texture2D>("ui/pointer2");
 
-            Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
+            Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
+
+            Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
             
             //몬스터 배치
            monsterInit();
@@ -94,12 +96,14 @@ namespace nightmareHunter {
 
             if (Input.GetMouseButtonDown(0))
             {
-                Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width / 5, 0), CursorMode.Auto);
+                Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
+                Cursor.SetCursor(AttckIcon, hotSpot, CursorMode.Auto);
             }
 
             if (Input.GetMouseButtonUp(0))
             {
-                Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
+                Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
+                Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
             }
         }
 

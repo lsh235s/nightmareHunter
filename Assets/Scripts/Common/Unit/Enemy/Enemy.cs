@@ -587,10 +587,14 @@ _attackRange5 = ClientDistance;
                
 
                 if(_hp <= 0) {
-                    Collider2D collider = gameObject.GetComponent<Collider2D>();
-                    collider.isTrigger = true;
+                    gameObject.GetComponent<Collider2D>().isTrigger = true;
+                    gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
+                    gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
+
+
                     _animator.SetTrigger("Die");
                     state = State.Die;
+                    isDead = true;
                     stateName = "Die";
 
                     //무기 드랍
