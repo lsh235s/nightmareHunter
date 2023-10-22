@@ -169,6 +169,8 @@ namespace nightmareHunter {
 
             if(_monsterId != 1 && _monsterId != 13) {
                 transform.position = _waypointList[waypointType][waypointIndex].transform.position;
+            } else if(_monsterId == 13) {
+                waypointIndex = _waypointList[waypointType].Count - 1;
             }
             
             
@@ -587,7 +589,6 @@ _attackRange5 = ClientDistance;
                
 
                 if(_hp <= 0) {
-                    gameObject.GetComponent<Collider2D>().isTrigger = true;
                     gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
                     gameObject.GetComponent<CircleCollider2D>().isTrigger = true;
 
