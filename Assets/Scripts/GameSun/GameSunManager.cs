@@ -199,6 +199,7 @@ namespace nightmareHunter {
             merchantCanvas.SetActive(false);
             _unitFrame.SetActive(false);
             _uiGroup.SetActive(false);
+            GameObject.Find("Canvas/SkipButton").SetActive(false);
 
             AudioManager.Instance.BackGroundPlay("bgm_game");
 

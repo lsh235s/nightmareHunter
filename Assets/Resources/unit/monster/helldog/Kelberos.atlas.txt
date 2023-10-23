@@ -1,0 +1,100 @@
+Kelberos.png
+size:62,384
+filter:Linear,Linear
+pma:true
+Damage effect1_1
+bounds:40,113,43,19
+offsets:52,27,100,59
+rotate:90
+Damage effect1_2
+bounds:34,26,52,25
+offsets:40,24,100,59
+rotate:90
+Damage effect1_3
+bounds:2,24,66,30
+offsets:26,18,100,59
+rotate:90
+Damage effect1_4
+bounds:2,92,71,36
+offsets:20,15,100,59
+rotate:90
+Damage effect1_5
+bounds:2,165,66,41
+offsets:25,14,100,59
+rotate:90
+Damage effect1_6
+bounds:2,233,65,42
+offsets:25,10,100,59
+rotate:90
+Damage effect1_7
+bounds:2,300,82,42
+offsets:10,10,100,59
+rotate:90
+Damage effect_2_1
+bounds:55,86,5,6
+offsets:7,7,20,20
+Damage effect_2_10
+bounds:46,349,14,15
+offsets:2,3,20,20
+Damage effect_2_11
+bounds:46,332,14,15
+offsets:2,3,20,20
+Damage effect_2_12
+bounds:45,158,11,15
+offsets:2,3,20,20
+rotate:90
+Damage effect_2_13
+bounds:2,13,9,15
+offsets:2,3,20,20
+rotate:90
+Damage effect_2_14
+bounds:40,162,1,1
+offsets:2,9,20,20
+Damage effect_2_2
+bounds:2,2,9,10
+offsets:5,5,20,20
+rotate:90
+Damage effect_2_3
+bounds:19,11,11,11
+offsets:4,5,20,20
+Damage effect_2_4
+bounds:40,80,12,13
+offsets:3,4,20,20
+rotate:90
+Damage effect_2_5
+bounds:46,225,13,13
+offsets:3,4,20,20
+Damage effect_2_6
+bounds:46,285,13,14
+offsets:3,3,20,20
+rotate:90
+Damage effect_2_7
+bounds:46,270,13,14
+offsets:3,3,20,20
+rotate:90
+Damage effect_2_8
+bounds:46,316,14,14
+offsets:2,4,20,20
+Damage effect_2_9
+bounds:46,300,14,14
+offsets:2,4,20,20
+body
+bounds:45,192,31,15
+rotate:90
+head1
+bounds:46,366,14,16
+head1_2
+bounds:45,171,15,19
+leg1
+bounds:46,255,14,13
+leg2
+bounds:34,13,11,14
+rotate:90
+leg3
+bounds:50,10,10,14
+leg4
+bounds:40,94,17,20
+rotate:90
+tail
+bounds:46,240,13,14
+rotate:90
