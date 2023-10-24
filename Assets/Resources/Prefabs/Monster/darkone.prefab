@@ -71,7 +71,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 6
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 172f1e03cf094d348b14fc039e099934, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3314214647269054760}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.6, y: -0.89, z: 0}
+  m_LocalPosition: {x: 3.27, y: 1.99, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -169,8 +169,8 @@ MonoBehaviour:
   - {fileID: 0}
   _skeletonObject: {fileID: 7827951215322293356}
   targetNum: -1
-  _initSpeed: 0.4
-  _initHp: 500
+  _initSpeed: 0.3
+  _initHp: 200
   _initphysicsAttack: 10
   _initMagicAttack: 0
   _initpysicsDefense: 0
@@ -178,19 +178,24 @@ MonoBehaviour:
   _initAttackSpeed: 15
   _initAttackRange: 0.3
   _monsterId: 5
-  _speed: 0.4
-  _hp: 500
+  _speed: 0.3
+  _hp: 200
   _physicsAttack: 10
   _magicAttack: 0
   _pysicsDefense: 0
   _magicDefense: 0
   _attackSpeed: 15
   _attackRange: 0.3
-  _integer: 0
+  _attackRange2: 0
+  _attackRange3: 0
+  _attackRange4: 0
+  _attackRange5: 0
+  _integer: 200
   _spritesName: darkone
   _positionInfo: {x: 0, y: 0}
   isDead: 0
   anim: {fileID: 0}
+  stateName: 
 --- !u!70 &3314214647269054766
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -448,7 +453,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 6
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &2378978092401177765

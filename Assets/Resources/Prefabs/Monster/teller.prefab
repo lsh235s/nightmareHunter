@@ -88,7 +88,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 6
+  m_SortingLayer: 4
   m_SortingOrder: 2
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!95 &3340696490623419487
@@ -204,7 +204,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2, y: 1}
+  m_AnchoredPosition: {x: 2.03, y: -1.42}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!50 &3340696491319737204
@@ -248,24 +248,36 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  - {fileID: 0}
   _skeletonObject: {fileID: 3340696490623419472}
   targetNum: -1
   _initSpeed: 0
-  _initHp: 0
-  _initAttack: 0
-  _initAttackSpeed: 0
+  _initHp: 50
+  _initphysicsAttack: 0
+  _initMagicAttack: 0
+  _initpysicsDefense: 0
+  _initMagicDefense: 0
+  _initAttackSpeed: 5
   _initAttackRange: 0
   _monsterId: 1
-  _speed: 0.5
-  _hp: 20
-  _attack: 2
-  _attackSpeed: 10
-  _attackRange: 1
+  _speed: 0
+  _hp: 50
+  _physicsAttack: 0
+  _magicAttack: 0
+  _pysicsDefense: 0
+  _magicDefense: 0
+  _attackSpeed: 5
+  _attackRange: 0
+  _attackRange2: 0
+  _attackRange3: 0
+  _attackRange4: 0
+  _attackRange5: 0
   _integer: 100
   _spritesName: teller
   _positionInfo: {x: 0, y: 0}
   isDead: 0
   anim: {fileID: 3340696490623419487}
+  stateName: 
 --- !u!70 &3340696491319737207
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -520,7 +532,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1198706985
-  m_SortingLayer: 6
+  m_SortingLayer: 4
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 172f1e03cf094d348b14fc039e099934, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 0.5882353}
