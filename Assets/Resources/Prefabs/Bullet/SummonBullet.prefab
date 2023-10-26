@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2616162911174073443}
   - component: {fileID: -5456095318441948503}
   m_Layer: 9
-  m_Name: SummonBullet
+  m_Name: Summon22Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,8 +28,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4218609940805575610}
-  m_LocalRotation: {x: 0, y: 0, z: -0.008856219, w: 0.9999608}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.0017035587, w: 0.99999857}
+  m_LocalPosition: {x: -0.115, y: -0.065, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -43,7 +43,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4218609940805575610}
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4152681021234380831, guid: 2dc7f86707cab924f97ac8406b7bd32d, type: 3}
 --- !u!23 &586994268324853116
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -83,7 +83,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -943603791
-  m_SortingLayer: 4
+  m_SortingLayer: 3
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &8901136353532091487
@@ -154,11 +154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 983a1fe1cc2716341b8919991f62b57c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 0.8
-  initialPosition: {x: -3.18, y: 0.99999994, z: 0}
-  targetPosition: {x: 0, y: 0, z: 0}
+  range: 2
+  initialPosition: {x: -0.44799995, y: 0, z: 0}
+  targetPosition: {x: 1.3489394, y: 0.0061224103, z: -10}
   _bulletSpeed: 2
   attackType: PW0
-  physicsAttack: 9
+  physicsAttack: 29
   magicAttack: 0
   energyAttack: 0

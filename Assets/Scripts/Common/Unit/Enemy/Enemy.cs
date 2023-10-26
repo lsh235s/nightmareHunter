@@ -153,19 +153,10 @@ namespace nightmareHunter {
             agent = GetComponent<NavMeshAgent>();
 
 
-            if(_monsterId == 2) {
-                Color endColor = new Color32(0, 255, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(_monsterId == 3) {
-                Color endColor = new Color32(0, 0, 255, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(_monsterId == 13) {
+           if(_monsterId == 13) {
                 Color endColor = new Color32(0, 0, 180, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(_monsterId == 4) {
-                Color endColor = new Color32(0, 100, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } 
+            }
 
             if(_monsterId != 1 && _monsterId != 13) {
                 transform.position = _waypointList[waypointType][waypointIndex].transform.position;
@@ -719,17 +710,8 @@ _attackRange5 = ClientDistance;
             skeletonMecanim.skeleton.SetColor(endColor);
 
 
-            if(_monsterId == 2) {
-                endColor = new Color32(0, 255, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(_monsterId == 3) {
-                endColor = new Color32(0, 0, 255, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(_monsterId == 13) {
+            if(_monsterId == 13) {
                 endColor = new Color32(0, 0, 180, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(_monsterId == 4) {
-                endColor = new Color32(0, 100, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } 
 

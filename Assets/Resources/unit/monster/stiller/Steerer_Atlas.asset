@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6b194f808b1af6499c93410e504af42, type: 3}
-  m_Name: Stiller_Atlas
+  m_Name: Steerer_Atlas
   m_EditorClassIdentifier: 
-  atlasFile: {fileID: 4900000, guid: b3b04177be983e840a85a2d6297b8440, type: 3}
+  atlasFile: {fileID: 4900000, guid: 1341d6305fc360c42a518cf9faeca8b9, type: 3}
   materials:
-  - {fileID: 2100000, guid: ce5e78da03ae83c40831ab8c52be8f4f, type: 2}
+  - {fileID: 2100000, guid: 92c5e46c4aeac804da100d1e914339fb, type: 2}
