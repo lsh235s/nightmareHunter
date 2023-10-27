@@ -1,0 +1,8 @@
+Ice magic 1.png
+size:61,30
+filter:Linear,Linear
+pma:true
+bing
+bounds:2,2,51,26
+bing2
+bounds:55,22,4,6

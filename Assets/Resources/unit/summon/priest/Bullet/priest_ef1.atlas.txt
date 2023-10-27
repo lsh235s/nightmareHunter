@@ -1,0 +1,11 @@
+priest_ef1.png
+size:112,56
+filter:Linear,Linear
+pma:true
+1
+bounds:59,2,32,52
+2
+bounds:93,30,24,17
+rotate:90
+3
+bounds:2,2,55,52

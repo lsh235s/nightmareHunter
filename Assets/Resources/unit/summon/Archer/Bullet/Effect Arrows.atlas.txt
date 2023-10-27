@@ -1,0 +1,9 @@
+Effect Arrows.png
+size:69,39
+filter:Linear,Linear
+pma:true
+ar
+bounds:2,26,65,11
+ef
+bounds:2,2,22,36
+rotate:90
