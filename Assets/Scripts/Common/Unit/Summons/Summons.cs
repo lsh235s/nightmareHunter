@@ -46,9 +46,12 @@ namespace nightmareHunter {
 
 
         // 발사체 이펙트
-        public GameObject bulletDotAni;
+        GameObject bulletDotAni;
         public GameObject shotgunAni;
         public GameObject shotArea;
+
+        public GameObject bulletEx;
+
 
         UnitController _unitController;
 
@@ -68,9 +71,8 @@ namespace nightmareHunter {
             skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
            // Debug.Log("summonerId : " + summonerId);
 
-            bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
+        
             shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/Shotgun");
-            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/ShotArea");
 
 
             if(summonerId == 1) {
@@ -215,6 +217,15 @@ namespace nightmareHunter {
                         Instantiate(shotgunAni, transform.position , rotation);
                         break;
                     case "FSP": //관통 공격
+                        if(summonerId == 2) {
+                            bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/ArcherBullet");
+                            bulletDotAni.GetComponent<SummonBullet>().bulletName = "ArcherBullet";
+                        } else {
+                            bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
+                            bulletDotAni.GetComponent<SummonBullet>().bulletName = "SummonBullet";
+                        }
+                        
+
                         bulletDotAni.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
                         bulletDotAni.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                         bulletDotAni.GetComponent<SummonBullet>().initialPosition = transform.position;
@@ -228,6 +239,13 @@ namespace nightmareHunter {
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     case "CWP": //영역 공격
+                        if(summonerId == 5) {
+                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/PriestBullet");
+                            shotArea.GetComponent<SummonBullet>().bulletName = "PriestBullet";
+                        } else {
+                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/ShotArea");
+                            shotArea.GetComponent<SummonBullet>().bulletName = "ShotArea";
+                        }
                         shotArea.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                         shotArea.GetComponent<SummonBullet>().initialPosition = transform.position;
                         shotArea.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
@@ -238,7 +256,13 @@ namespace nightmareHunter {
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     case "FSR"://원거리 폭발
-                        GameObject bulletEx = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
+                        if(summonerId == 1) {
+                            bulletEx = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
+                            bulletEx.GetComponent<SummonBullet>().bulletName = "PriestBullet";
+                        } else {
+                            bulletEx = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
+                            bulletEx.GetComponent<SummonBullet>().bulletName = "SummonBullet";
+                        }
                         bulletEx.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
                         bulletEx.GetComponent<SummonBullet>().range = _attackRange;
                         bulletEx.GetComponent<SummonBullet>().targetPosition = nearestTarget.position;

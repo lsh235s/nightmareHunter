@@ -10,6 +10,7 @@ namespace nightmareHunter {
         public Vector3 initialPosition; // 초기 위치
         public Vector3 targetPosition; // 타겟 위치
         private float delayTime = 0.0f;
+        public string bulletName; // 총알이름
         public float _bulletSpeed; // 총알 속도
         public string attackType; //발사체 유형
         public float physicsAttack;  //물리공격력
@@ -40,11 +41,11 @@ namespace nightmareHunter {
 
             if("CDN".Equals(attackType) || "CWP".Equals(attackType) || "PW2".Equals(attackType))
             {
-                // delayTime += Time.deltaTime;
-                // if(delayTime >= 1.0f) {
-                //     delayTime = 0.0f;
-                //     objectEnd();
-                // }
+                delayTime += Time.deltaTime;
+                if(delayTime >= 1.0f) {
+                    delayTime = 0.0f;
+                    objectEnd();
+                }
             } 
 
             if("FSR".Equals(attackType)) {
@@ -93,7 +94,7 @@ namespace nightmareHunter {
             }
 
            // Debug.Log("collision.gameObject.tag : " + collision.gameObject.tag);
-            if(!"CDN".Equals(attackType)) {
+            if(!"CDN".Equals(attackType)  &&  !"CWP".Equals(attackType)) {
                 if(collision.gameObject.tag == "Tutorial" || collision.gameObject.tag == "Wall") {
                     objectEnd();
                 }
@@ -103,7 +104,10 @@ namespace nightmareHunter {
                 Debug.Log("collision.GetComponent<Enemy>() : " + collision.GetComponent<Enemy>().isDead);
                 if(!collision.GetComponent<Enemy>().isDead) {  
                     if("FSR".Equals(attackType)) {
-                        GameObject exflow = Resources.Load<GameObject>("Prefabs/Bullet/ShotExflow");
+                        if(bulletName == null) {
+                            bulletName = "ShotExflow";
+                        } 
+                        GameObject exflow = Resources.Load<GameObject>("Prefabs/Bullet/"+bulletName);
                         exflow.GetComponent<SummonBullet>().attackType = "CWP";
                         exflow.GetComponent<SummonBullet>().initialPosition = transform.position;
                         exflow.GetComponent<SummonBullet>().physicsAttack = physicsAttack;  //물리공격력
