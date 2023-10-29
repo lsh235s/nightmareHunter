@@ -41,11 +41,11 @@ namespace nightmareHunter {
 
             if("CDN".Equals(attackType) || "CWP".Equals(attackType) || "PW2".Equals(attackType))
             {
-                delayTime += Time.deltaTime;
-                if(delayTime >= 1.0f) {
-                    delayTime = 0.0f;
-                    objectEnd();
-                }
+                // delayTime += Time.deltaTime;
+                // if(delayTime >= 1.0f) {
+                //     delayTime = 0.0f;
+                //     objectEnd();
+                // }
             } 
 
             if("FSR".Equals(attackType)) {

@@ -59,6 +59,8 @@ namespace nightmareHunter {
 
         public Dictionary<string, bool> skillList = new Dictionary<string, bool>();
 
+        bool isFacingRight = true;
+
         void Start() {
             skillList.Add("AttackUp", false);
             skillList.Add("AttackSpeedUp", false);
@@ -164,8 +166,10 @@ namespace nightmareHunter {
                     nearestTarget = collider.transform;
                     if(nearestTarget.position.x < transform.GetComponent<Rigidbody2D>().position.x) {
                         transform.rotation = Quaternion.Euler(0, 180f, 0);
+                        isFacingRight = false;
                     } else {
                         transform.rotation = Quaternion.Euler(0, 0, 0);
+                        isFacingRight = true;
                     }
                     ApplyDamage(collider.gameObject);
                     nearestTarget = null;
@@ -207,14 +211,31 @@ namespace nightmareHunter {
                 switch(activePlayerinfo.attackType)
                 {
                     case "CDN": //확산 공격
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
-                        shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
-                        shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
-                        shotgunAni.transform.Find("ShotgunAni").GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
-                        Quaternion rotation = Quaternion.Euler(0, 0, angle);
-                        nearestTarget = null;
-                        
-                        Instantiate(shotgunAni, transform.position , rotation);
+                        if(summonerId == 3) {
+                            shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/IcewitchBullet");
+                            shotgunAni.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
+                            shotgunAni.GetComponent<SummonBullet>().initialPosition = transform.position;
+                            shotgunAni.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
+                            shotgunAni.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
+                            shotgunAni.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
+
+
+                            Vector3 viewPos = transform.position;
+                            if (isFacingRight)
+                            {
+                                // 오른쪽 방향을 향하고 있다고 가정하고 오른쪽으로 조정
+                                viewPos = new Vector3(transform.position.x + 0.3f, transform.position.y -0.1f, transform.position.z);
+                            }
+                            else
+                            {
+                                // 왼쪽 방향을 향하고 있다고 가정하고 왼쪽으로 조정
+                                viewPos = new Vector3(transform.position.x - 0.3f, transform.position.y -0.1f, transform.position.z);
+                            }
+
+                            Instantiate(shotgunAni, viewPos , transform.rotation);
+                           
+                            gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
+                        }
                         break;
                     case "FSP": //관통 공격
                         if(summonerId == 2) {
@@ -240,11 +261,11 @@ namespace nightmareHunter {
                         break;
                     case "CWP": //영역 공격
                         if(summonerId == 5) {
-                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/PriestBullet");
-                            shotArea.GetComponent<SummonBullet>().bulletName = "PriestBullet";
+                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/MonkBullet");
+                            shotArea.GetComponent<SummonBullet>().bulletName = "MonkBullet";
                         } else {
-                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/ShotArea");
-                            shotArea.GetComponent<SummonBullet>().bulletName = "ShotArea";
+                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/MonkBullet");
+                            shotArea.GetComponent<SummonBullet>().bulletName = "MonkBullet";
                         }
                         shotArea.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                         shotArea.GetComponent<SummonBullet>().initialPosition = transform.position;

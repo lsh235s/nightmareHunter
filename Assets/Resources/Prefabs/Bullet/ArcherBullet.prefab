@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 398306017890333417}
   - component: {fileID: 2580032011847149453}
   - component: {fileID: 7681672060234210315}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ArcherBullet
-  m_TagString: Untagged
+  m_TagString: Bullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -141,6 +141,7 @@ MonoBehaviour:
   range: 0
   initialPosition: {x: 0, y: 0, z: 0}
   targetPosition: {x: 0, y: 0, z: 0}
+  bulletName: 
   _bulletSpeed: 0
   attackType: 
   physicsAttack: 0
