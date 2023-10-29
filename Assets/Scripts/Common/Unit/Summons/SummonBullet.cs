@@ -54,14 +54,15 @@ namespace nightmareHunter {
                     objectEnd(); // 총알 삭제
                 } else {
                     // 타겟 위치와 현재 위치의 차이 계산
-                    Vector3 targetDirection = (targetPosition - initialPosition).normalized;
+                    transform.Translate(Vector2.right * _bulletSpeed * Time.deltaTime);
+                    // Vector3 targetDirection = (targetPosition - initialPosition).normalized;
 
-                    // 타겟 방향으로 회전
-                    float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
-                    transform.rotation = Quaternion.Euler(0, 0, angle);
+                    // // 타겟 방향으로 회전
+                    // float angle = Mathf.Atan2(targetDirection.y, targetDirection.x) * Mathf.Rad2Deg;
+                    // transform.rotation = Quaternion.Euler(0, 0, angle);
 
-                    // 총알 이동
-                    transform.Translate(targetDirection * _bulletSpeed * Time.deltaTime);
+                    // // 총알 이동
+                    // transform.Translate(targetDirection * _bulletSpeed * Time.deltaTime);
                 }
             }
             if("FSP".Equals(attackType))

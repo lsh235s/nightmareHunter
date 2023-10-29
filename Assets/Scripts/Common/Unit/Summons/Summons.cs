@@ -292,7 +292,9 @@ namespace nightmareHunter {
                         bulletEx.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
                         bulletEx.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력
 
-                        Instantiate(bulletEx, transform.position , transform.rotation);
+                        bulletEx.transform.rotation = Quaternion.Euler(0, 0, angle);
+
+                        Instantiate(bulletEx, transform.position , bulletEx.transform.rotation);
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     default:
