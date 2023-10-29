@@ -12,7 +12,7 @@ namespace nightmareHunter {
         private SkeletonMecanim skeletonMecanim;
         public LayerMask targetLayer;
         public RaycastHit2D[] targets;
-        public Transform nearestTarget;
+        public GameObject nearestTarget;
 
 
         public PlayerInfo basePlayerinfo;
@@ -163,8 +163,8 @@ namespace nightmareHunter {
             foreach (Collider2D collider in colliders)
             {
                 if (collider.CompareTag("Enemy")) {
-                    nearestTarget = collider.transform;
-                    if(nearestTarget.position.x < transform.GetComponent<Rigidbody2D>().position.x) {
+                    nearestTarget = collider.gameObject;
+                    if(nearestTarget.transform.position.x < transform.GetComponent<Rigidbody2D>().position.x) {
                         transform.rotation = Quaternion.Euler(0, 180f, 0);
                         isFacingRight = false;
                     } else {
@@ -172,7 +172,6 @@ namespace nightmareHunter {
                         isFacingRight = true;
                     }
                     ApplyDamage(collider.gameObject);
-                    nearestTarget = null;
                     return;
                 }
             }
@@ -286,15 +285,14 @@ namespace nightmareHunter {
                         }
                         bulletEx.GetComponent<SummonBullet>()._bulletSpeed = 2.0f;
                         bulletEx.GetComponent<SummonBullet>().range = _attackRange;
-                        bulletEx.GetComponent<SummonBullet>().targetPosition = nearestTarget.position;
+                        bulletEx.GetComponent<SummonBullet>().targetPosition = nearestTarget.transform.position;
                         bulletEx.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                         bulletEx.GetComponent<SummonBullet>().initialPosition = transform.position;
                         bulletEx.GetComponent<SummonBullet>().physicsAttack = _physicsAttack;  //물리공격력
                         bulletEx.GetComponent<SummonBullet>().magicAttack = _magicAttack;  //마법 공격력
-                        bulletEx.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
-                        bulletEx.transform.rotation = Quaternion.Euler(0, 0, angle);
+                        bulletEx.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력
 
-                        Instantiate(bulletEx, transform.position , bulletEx.transform.rotation);
+                        Instantiate(bulletEx, transform.position , transform.rotation);
                         gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     default:
