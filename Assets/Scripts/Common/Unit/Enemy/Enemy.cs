@@ -159,9 +159,11 @@ namespace nightmareHunter {
             }
 
             if(_monsterId != 1 && _monsterId != 13) {
-                transform.position = _waypointList[waypointType][waypointIndex].transform.position;
+                transform.position = _waypointList[waypointType][0].transform.position;
             } else if(_monsterId == 13) {
                 waypointIndex = _waypointList[waypointType].Count - 1;
+            } else if(_monsterId == 1) {
+                transform.position = new Vector3(clientTarget.transform.position.x -0.2f,clientTarget.transform.position.y,clientTarget.transform.position.z);
             }
             
             
@@ -197,7 +199,10 @@ namespace nightmareHunter {
 
         private void FixedUpdate() {
             if(state != State.Die) {
-                agent.speed = _speed;
+                if(agent != null){
+                    agent.speed = _speed;
+                }
+               
                 if (isFalling)
                 {  
                     StartCoroutine(damageShake());
