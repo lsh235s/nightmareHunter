@@ -8019,7 +8019,7 @@ GameObject:
   - component: {fileID: 1337642231}
   m_Layer: 5
   m_Name: SkipButton
-  m_TagString: DynamicLayer
+  m_TagString: DynamicImage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
