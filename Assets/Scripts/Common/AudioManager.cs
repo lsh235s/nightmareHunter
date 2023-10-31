@@ -32,15 +32,21 @@ public class AudioManager : MonoBehaviour
 
     void Start() {
         buttonSound = Resources.Load<AudioClip>("wav/background/button_push");
-        for(int i =0 ; i< 1; i++) {
-            soundAdd("teller",i);
-            soundAdd("wanderer",i);
-        }
+      
+        soundAdd("teller","app");
+        soundAdd("teller","death");
+        soundAdd("teller","move");
+        soundAdd("teller","shoot");
+        soundAdd("wanderer","att");
+        soundAdd("wanderer","death");
+        soundAdd("wanderer","move");
+        soundAdd("wanderer","shoot");
+       
     }
 
-    void soundAdd(string spritesName, int soundIndex) {
-        string wavName = "wav/monster/"+spritesName+"/"+soundIndex;
-        playSound.Add(spritesName+"_"+soundIndex.ToString(), Resources.Load<AudioClip>(wavName));
+    void soundAdd(string spritesName, string soundType) {
+        string wavName = "wav/monster/"+spritesName+"/"+spritesName+"_"+soundType;
+        playSound.Add(spritesName+"_"+soundType, Resources.Load<AudioClip>(wavName));
     }
 
     public void BackGroundPlay(string newAudioName)
