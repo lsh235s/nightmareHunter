@@ -575,12 +575,12 @@ _attackRange5 = ClientDistance;
                 DamageCount(physicsAttack, magicAttack, energyAttack);
 
                 isFalling = true;
+
+
                 // 피격 사운드 처리
-                if(_spritesName.Equals("Teller") &&  _spritesName.Equals("wanderer") ) {
-                    if(AudioManager.Instance.playSound[_spritesName+"_0"] != null) {
-                        gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_0"];
-                        gameObject.GetComponent<AudioSource>().Play();
-                    }
+                if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_shoot")) {
+                    gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_shoot"];
+                    gameObject.GetComponent<AudioSource>().Play();
                 }
                
 
@@ -608,6 +608,11 @@ _attackRange5 = ClientDistance;
                     UiController.Instance.integerUseSet(_integer,"+");
                     
                     if(skillList["Split"]) {
+                        // 분열 사운드 처리
+                        if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_div")) {
+                            gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_div"];
+                            gameObject.GetComponent<AudioSource>().Play();
+                        }
                         skillAllEnd();
                         state = State.Idle;
                         stateName = "Idle";
@@ -626,6 +631,12 @@ _attackRange5 = ClientDistance;
                         }
 
                     } else {
+                         // 사망 사운드 처리
+                        if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_death")) {
+                            gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_death"];
+                            gameObject.GetComponent<AudioSource>().Play();
+                        }
+
                         skillAllEnd();
                     }
                     

@@ -33,10 +33,39 @@ public class AudioManager : MonoBehaviour
     void Start() {
         buttonSound = Resources.Load<AudioClip>("wav/background/button_push");
       
+        soundAdd("bombflower","att");
+        soundAdd("bombflower","death");
+        soundAdd("bombflower","move");
+        soundAdd("bombflower","shoot");
+
+        soundAdd("darkone","att");
+        soundAdd("darkone","death");
+        soundAdd("darkone","move");
+        soundAdd("darkone","shoot");
+
+        soundAdd("evil","att");
+        soundAdd("evil","death");
+        soundAdd("evil","shoot");
+
+        soundAdd("flydra","att");
+        soundAdd("flydra","div");
+        soundAdd("flydra","move");
+        soundAdd("flydra","shoot");
+
+        soundAdd("helldog","app");
+        soundAdd("helldog","death");
+        soundAdd("helldog","move");
+        soundAdd("helldog","shoot");
+
+        soundAdd("stiller","att");
+        soundAdd("stiller","move");
+        soundAdd("stiller","shoot");
+
         soundAdd("teller","app");
         soundAdd("teller","death");
         soundAdd("teller","move");
         soundAdd("teller","shoot");
+
         soundAdd("wanderer","att");
         soundAdd("wanderer","death");
         soundAdd("wanderer","move");
@@ -46,6 +75,7 @@ public class AudioManager : MonoBehaviour
 
     void soundAdd(string spritesName, string soundType) {
         string wavName = "wav/monster/"+spritesName+"/"+spritesName+"_"+soundType;
+  
         playSound.Add(spritesName+"_"+soundType, Resources.Load<AudioClip>(wavName));
     }
 
