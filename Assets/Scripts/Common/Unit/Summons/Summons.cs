@@ -30,6 +30,7 @@ namespace nightmareHunter {
         public float _attackRange;
         public string _attackType;
         public int _integer;
+        public string _summonerName;
         public string _positionString;
         public Vector2 _positionInfo;
         public bool summonsExist;
@@ -123,6 +124,7 @@ namespace nightmareHunter {
             _integer = inPlayerinfo.reward;
             _attackType = inPlayerinfo.attackType;
             _level = inPlayerinfo.playerLevel;
+            _summonerName = inPlayerinfo.spritesName;
 
             spriteScale = (_attackRange * 10.0f) + _attackRange; // 스케일 값을 계산
             rangeObject.GetComponent<AttackRangeController>().spriteScale = spriteScale;
@@ -303,6 +305,13 @@ namespace nightmareHunter {
                         nearestTarget = null;
                         break;
 
+                }
+
+                
+
+                if(AudioManager.Instance.playSound.ContainsKey(_summonerName+"_att")) {
+                    gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_summonerName+"_att"];
+                    gameObject.GetComponent<AudioSource>().Play();
                 }
       
             }

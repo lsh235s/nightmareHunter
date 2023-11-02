@@ -32,49 +32,71 @@ public class AudioManager : MonoBehaviour
 
     void Start() {
         buttonSound = Resources.Load<AudioClip>("wav/background/button_push");
-      
-        soundAdd("bombflower","att");
-        soundAdd("bombflower","death");
-        soundAdd("bombflower","move");
-        soundAdd("bombflower","shoot");
-
-        soundAdd("darkone","att");
-        soundAdd("darkone","death");
-        soundAdd("darkone","move");
-        soundAdd("darkone","shoot");
-
-        soundAdd("evil","att");
-        soundAdd("evil","death");
-        soundAdd("evil","shoot");
-
-        soundAdd("flydra","att");
-        soundAdd("flydra","div");
-        soundAdd("flydra","move");
-        soundAdd("flydra","shoot");
-
-        soundAdd("helldog","app");
-        soundAdd("helldog","death");
-        soundAdd("helldog","move");
-        soundAdd("helldog","shoot");
-
-        soundAdd("stiller","att");
-        soundAdd("stiller","move");
-        soundAdd("stiller","shoot");
-
-        soundAdd("teller","app");
-        soundAdd("teller","death");
-        soundAdd("teller","move");
-        soundAdd("teller","shoot");
-
-        soundAdd("wanderer","att");
-        soundAdd("wanderer","death");
-        soundAdd("wanderer","move");
-        soundAdd("wanderer","shoot");
-       
+        monsterSound();
+        summonSound();   
     }
 
-    void soundAdd(string spritesName, string soundType) {
+    void monsterSound() {
+        monsterSoundAdd("bombflower","att");
+        monsterSoundAdd("bombflower","death");
+        monsterSoundAdd("bombflower","move");
+        monsterSoundAdd("bombflower","shoot");
+
+        monsterSoundAdd("darkone","att");
+        monsterSoundAdd("darkone","death");
+        monsterSoundAdd("darkone","move");
+        monsterSoundAdd("darkone","shoot");
+
+        monsterSoundAdd("evil","att");
+        monsterSoundAdd("evil","death");
+        monsterSoundAdd("evil","shoot");
+
+        monsterSoundAdd("flydra","att");
+        monsterSoundAdd("flydra","div");
+        monsterSoundAdd("flydra","move");
+        monsterSoundAdd("flydra","shoot");
+
+        monsterSoundAdd("helldog","app");
+        monsterSoundAdd("helldog","death");
+        monsterSoundAdd("helldog","move");
+        monsterSoundAdd("helldog","shoot");
+
+        monsterSoundAdd("stiller","att");
+        monsterSoundAdd("stiller","move");
+        monsterSoundAdd("stiller","shoot");
+
+        monsterSoundAdd("teller","app");
+        monsterSoundAdd("teller","death");
+        monsterSoundAdd("teller","move");
+        monsterSoundAdd("teller","shoot");
+
+        monsterSoundAdd("wanderer","att");
+        monsterSoundAdd("wanderer","death");
+        monsterSoundAdd("wanderer","move");
+        monsterSoundAdd("wanderer","shoot");
+    }
+
+
+
+    void summonSound() {
+        summonSoundAdd("archer","att");
+        summonSoundAdd("exorcist","att");
+        summonSoundAdd("gostbuste","att");
+        summonSoundAdd("hunter","att");
+        summonSoundAdd("icewitch","att");
+        summonSoundAdd("monk","att");
+        summonSoundAdd("priest","att");
+        summonSoundAdd("shaman","att");
+    }
+
+    void monsterSoundAdd(string spritesName, string soundType) {
         string wavName = "wav/monster/"+spritesName+"/"+spritesName+"_"+soundType;
+  
+        playSound.Add(spritesName+"_"+soundType, Resources.Load<AudioClip>(wavName));
+    }
+
+    void summonSoundAdd(string spritesName, string soundType) {
+        string wavName = "wav/summor/"+spritesName+"/"+spritesName+"_"+soundType;
   
         playSound.Add(spritesName+"_"+soundType, Resources.Load<AudioClip>(wavName));
     }

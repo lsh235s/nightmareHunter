@@ -48,6 +48,7 @@ namespace nightmareHunter {
         public float _magicDefense;
         public float _attackSpeed;
         private float lastAttackTime = 0.0f; // 이전 공격 시간
+        private float lastMoveSoundTime = 0.0f; // 이전 이동 사운드 시간
         public float _attackRange;
         public float _attackRange2;
         public float _attackRange3;
@@ -318,6 +319,10 @@ namespace nightmareHunter {
                 // 공격 타이머가 공격 속도보다 크거나 같은지 확인
                 if (lastAttackTime >= _attackSpeed)
                 {
+                    if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_app")) {
+                        gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_app"];
+                        gameObject.GetComponent<AudioSource>().Play();
+                    }
                     _animator.SetTrigger("Attack");
                     gameObject.GetComponent<EnemySkill>().skillUse("TellerCry");
                     _animator.SetTrigger("Idle");
@@ -336,7 +341,7 @@ namespace nightmareHunter {
             if(state != State.Die) {
                 float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
                 float PlayerDistance = Vector3.Distance(transform.position, playerTarget.transform.position);
-_attackRange5 = ClientDistance;
+                _attackRange5 = ClientDistance;
                 if(PlayerDistance <= (_attackRange * 2)) {
                     NextTargetPosition = playerTarget.transform.position ;
                     state = State.Tracking;
@@ -450,8 +455,16 @@ _attackRange5 = ClientDistance;
                         StartCoroutine(MonsterDie());
                         clientTarget.GetComponent<Target>().DamageProcess(_physicsAttack); 
                     }
+
+                    // 공격 사운드 처리
+                    if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_att")) {
+                        gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_att"];
+                        gameObject.GetComponent<AudioSource>().Play();
+                    }
         
                 }
+                
+
                 // 공격 타이머를 증가시킴
                 lastAttackTime += Time.deltaTime;
 
@@ -518,12 +531,23 @@ _attackRange5 = ClientDistance;
                   //  Debug.Log(_monsterId+"/agent.isActiveAndEnabled" + agent.isActiveAndEnabled);
                   //  Debug.Log(NextTargetPosition);
                     agent.SetDestination(NextTargetPosition);
+                    
+                    lastMoveSoundTime += Time.deltaTime; // 이전 이동 사운드 시간
+                    if (lastMoveSoundTime >= 3.0f)
+                    {
+                        if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_move")) {
+                            gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_move"];
+                            gameObject.GetComponent<AudioSource>().Play();
+                        }
+                        lastMoveSoundTime = 0.0f;
+                    }
                 } 
             } else {
                 agent.speed = 0;
                 agent.isStopped = true;
             }
         }
+
 
         private void UpdateIdle()
         {
