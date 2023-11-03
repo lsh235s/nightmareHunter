@@ -184,6 +184,8 @@ namespace nightmareHunter {
                     selectSummon.SetActive(false);
                     selectSummon.GetComponent<Summons>().summonsBatchIng = false;
 
+                    AudioManager.Instance.playSound.ContainsKey("place");
+
            
                 } else {
                     selectSummon.SetActive(false);

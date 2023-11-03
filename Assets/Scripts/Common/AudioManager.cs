@@ -32,8 +32,18 @@ public class AudioManager : MonoBehaviour
 
     void Start() {
         buttonSound = Resources.Load<AudioClip>("wav/background/button_push");
+        backSound();
         monsterSound();
         summonSound();   
+    }
+
+    void backSound() {
+        backSoundAdd("gem");
+        backSoundAdd("coin");
+        backSoundAdd("place");
+        backSoundAdd("get");
+        backSoundAdd("over");
+        backSoundAdd("win");
     }
 
     void monsterSound() {
@@ -99,6 +109,12 @@ public class AudioManager : MonoBehaviour
         string wavName = "wav/summor/"+spritesName+"/"+spritesName+"_"+soundType;
   
         playSound.Add(spritesName+"_"+soundType, Resources.Load<AudioClip>(wavName));
+    }
+
+    void backSoundAdd(string spritesName) {
+        string wavName = "wav/background/"+spritesName;
+  
+        playSound.Add(spritesName, Resources.Load<AudioClip>(wavName));
     }
 
     public void BackGroundPlay(string newAudioName)

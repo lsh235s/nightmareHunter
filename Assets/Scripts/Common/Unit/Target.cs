@@ -37,7 +37,8 @@ namespace nightmareHunter {
         }
 
         private IEnumerator gameEnd() {
-            yield return new WaitForSeconds(1.0f);
+            AudioManager.Instance.playSound.ContainsKey("over");
+            yield return new WaitForSeconds(2.0f);
             SceneMoveManager.SceneMove("GameInits");
         }
 
