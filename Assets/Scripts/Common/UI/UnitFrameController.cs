@@ -184,7 +184,10 @@ namespace nightmareHunter {
                     selectSummon.SetActive(false);
                     selectSummon.GetComponent<Summons>().summonsBatchIng = false;
 
-                    AudioManager.Instance.playSound.ContainsKey("place");
+                    if(AudioManager.Instance.playSound.ContainsKey("place")){
+                        gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound["place"];
+                        gameObject.GetComponent<AudioSource>().Play();
+                    };
 
            
                 } else {

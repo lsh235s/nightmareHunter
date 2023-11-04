@@ -249,6 +249,12 @@ namespace nightmareHunter {
             //hunterGraphic.initialFlipX = true;  좌우반전 
             //hunterGraphic.Initialize(true); 재시작
 
+            if(inStroyStage == 54 || inStroyStage == 110) {
+                
+                gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("wav/background/SunStart");
+                gameObject.GetComponent<AudioSource>().Play();
+            }
+
             if(storyObject.storyContentList.Count > inStroyStage) {
                 
                 Debug.Log("storyStart : " + inStroyStage+"/"+UiController.Instance.systemSaveInfo.stageId+"/"+storyObject.storyContentList[inStroyStage].scenario_stage_id);
