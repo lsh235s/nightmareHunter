@@ -264,6 +264,9 @@ namespace nightmareHunter {
                         if(summonerId == 5) {
                             shotArea = Resources.Load<GameObject>("Prefabs/Bullet/MonkBullet");
                             shotArea.GetComponent<SummonBullet>().bulletName = "MonkBullet";
+                        } else if(summonerId == 6) {
+                            shotArea = Resources.Load<GameObject>("Prefabs/Bullet/ShamanBullet");
+                            shotArea.GetComponent<SummonBullet>().bulletName = "ShamanBullet";
                         } else {
                             shotArea = Resources.Load<GameObject>("Prefabs/Bullet/MonkBullet");
                             shotArea.GetComponent<SummonBullet>().bulletName = "MonkBullet";

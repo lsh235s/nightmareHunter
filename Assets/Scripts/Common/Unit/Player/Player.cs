@@ -256,6 +256,12 @@ namespace nightmareHunter {
             } else {
                 gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().AnimationState.SetAnimation(0, "shotgun_2", true );
             }
+   
+            if(AudioManager.Instance.playSound.ContainsKey("get")) {
+                gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound["get"];
+                gameObject.GetComponent<AudioSource>().Play();
+            }
+
             gameObject.transform.GetChild(1).GetComponent<SkeletonAnimation>().timeScale = 0.0f;
             _playerinfo = GameDataManager.Instance.PlayWeaponSet(weaponID, _playerBaseInfo);
         }

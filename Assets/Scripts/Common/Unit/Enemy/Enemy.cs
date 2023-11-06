@@ -75,6 +75,8 @@ namespace nightmareHunter {
 
         private NavMeshAgent agent;
 
+        private GameObject stoneAniObject;
+
 
         //열거형으로 정해진 상태값을 사용
         enum State
@@ -94,12 +96,17 @@ namespace nightmareHunter {
         public string stateName;
        
         public Dictionary<string, bool> skillList = new Dictionary<string, bool>();
-    
+
+        void Awake() {
+            agent = GetComponent<NavMeshAgent>();
+            agent.enabled = false; 
+        }
 
         private void Start() {
             isLive = true;
             _rigidbody = GetComponent<Rigidbody2D>();
             skeletonMecanim = _skeletonObject.GetComponent<SkeletonMecanim>();
+            stoneAniObject = Resources.Load<GameObject>("Prefabs/StoneAni");
             _animator = _skeletonObject.GetComponent<Animator>();
 
 
@@ -151,7 +158,7 @@ namespace nightmareHunter {
             _animator.SetTrigger("Idle");
             stateName = "Idle";
 
-            agent = GetComponent<NavMeshAgent>();
+
 
 
            if(_monsterId == 13) {
@@ -167,7 +174,7 @@ namespace nightmareHunter {
                 transform.position = new Vector3(clientTarget.transform.position.x -0.2f,clientTarget.transform.position.y,clientTarget.transform.position.z);
             }
             
-            
+            agent.enabled = true;
         }
 
         public void initState(PlayerInfo playerinfo) {
@@ -528,7 +535,6 @@ namespace nightmareHunter {
 
             if(state != State.Die) {
                 if (agent.isActiveAndEnabled) {
-                  //  Debug.Log(_monsterId+"/agent.isActiveAndEnabled" + agent.isActiveAndEnabled);
                   //  Debug.Log(NextTargetPosition);
                     agent.SetDestination(NextTargetPosition);
                     

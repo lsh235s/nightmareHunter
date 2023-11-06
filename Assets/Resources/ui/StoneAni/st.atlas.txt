@@ -1,0 +1,8 @@
+st.png
+size:36,25
+filter:Linear,Linear
+pma:true
+Twinkle
+bounds:23,2,11,21
+st
+bounds:2,2,19,21

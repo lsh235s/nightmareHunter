@@ -1,0 +1,10 @@
+amulet_1.png
+size:44,16
+filter:Linear,Linear
+pma:true
+amulet_1
+bounds:2,2,12,12
+amulet_2
+bounds:16,2,12,12
+amulet_3
+bounds:30,2,12,12
