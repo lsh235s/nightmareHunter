@@ -78,10 +78,7 @@ namespace nightmareHunter {
             shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/Shotgun");
 
 
-            if(summonerId == 1) {
-                Color endColor = new Color32(0, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 2) {
+            if(summonerId == 2) {
                 Color endColor = new Color32(0, 255, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(summonerId == 3) {
@@ -89,9 +86,6 @@ namespace nightmareHunter {
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(summonerId == 5) {
                 Color endColor = new Color32(100, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 6) {
-                Color endColor = new Color32(0, 100, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(summonerId == 7) {
                 Color endColor = new Color32(0, 0, 100, 255);
@@ -325,10 +319,7 @@ namespace nightmareHunter {
         {
             Color endColor = new Color32(255, 255, 255, 255);
 
-            if(summonerId == 1) {
-                endColor = new Color32(0, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 2) {
+            if(summonerId == 2) {
                 endColor = new Color32(0, 255, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(summonerId == 3) {
@@ -336,9 +327,6 @@ namespace nightmareHunter {
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(summonerId == 5) {
                 endColor = new Color32(100, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 6) {
-                endColor = new Color32(0, 100, 0, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             } else if(summonerId == 7) {
                 endColor = new Color32(0, 0, 100, 255);
