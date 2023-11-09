@@ -39,6 +39,7 @@ namespace nightmareHunter {
         public float _initAttackRange;
 
         // 몬스터 가변 능력치 
+        public int _level;
         public int _monsterId;
         public float _speed;
         public float _hp;
@@ -182,6 +183,7 @@ namespace nightmareHunter {
             // if(_speed <= 0) {
             //     _speed = 1.0f;
             // }
+            _level = playerinfo.playerLevel;
             _hp = playerinfo.health;
             _physicsAttack = playerinfo.physicsAttack; 
             _magicAttack = playerinfo.magicAttack;

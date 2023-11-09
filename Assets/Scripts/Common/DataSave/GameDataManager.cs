@@ -79,15 +79,16 @@ namespace nightmareHunter {
 
 
             PlayerInfo playerInfo = new PlayerInfo();
+            playerInfo.playerLevel = 1;
 
             for(int i = 0; i < unitObjectList.Count; i++) {
                 if (unitObjectList[i]["UnitType"].ToString().Equals("0")) {
                     playerInfo.health = float.Parse(unitObjectList[i]["Health"].ToString()) + (float.Parse(unitObjectList[i]["Health"].ToString()) * ((playerInfo.playerLevel-1) * float.Parse(unitObjectList[i]["LevHealth"].ToString())));
-                    playerInfo.physicsAttack =  WeaponLoadInfo[0].PhysicsAttack + (WeaponLoadInfo[0].PhysicsAttack * ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevPhysicsAttack));
-                    playerInfo.magicAttack =  WeaponLoadInfo[0].MagicAttack + (WeaponLoadInfo[0].MagicAttack * ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevMagicAttack));
+                    playerInfo.physicsAttack =  float.Parse(WeaponLoadInfo[0].PhysicsAttack.ToString()) + (float.Parse(WeaponLoadInfo[0].PhysicsAttack.ToString()) * ((playerInfo.playerLevel-1) * float.Parse(WeaponLoadInfo[0].LevPhysicsAttack.ToString())));
+                    playerInfo.magicAttack =  float.Parse(WeaponLoadInfo[0].MagicAttack.ToString()) + (float.Parse(WeaponLoadInfo[0].MagicAttack.ToString()) * ((playerInfo.playerLevel-1) * float.Parse(WeaponLoadInfo[0].LevMagicAttack.ToString())));
                     playerInfo.attackRange =  (WeaponLoadInfo[0].AttackRange + (WeaponLoadInfo[0].AttackRange * ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackRange))) * 0.1f;
                     playerInfo.move =  (WeaponLoadInfo[0].Move + (WeaponLoadInfo[0].Move * ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevMove))) * 0.1f;
-                    playerInfo.attackSpeed =  WeaponLoadInfo[0].AttackSpeed + (WeaponLoadInfo[0].AttackSpeed * ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackSpeed));
+                    playerInfo.attackSpeed =  float.Parse(WeaponLoadInfo[0].AttackSpeed.ToString()) + (float.Parse(WeaponLoadInfo[0].AttackSpeed.ToString()) * ((playerInfo.playerLevel-1) * float.Parse(WeaponLoadInfo[0].LevAttackSpeed.ToString())));
                     playerInfo.attackDelayTime =  WeaponLoadInfo[0].AttackDelayTime + (WeaponLoadInfo[0].AttackDelayTime * ((playerInfo.playerLevel-1) * WeaponLoadInfo[0].LevAttackDelayTime));
                     playerInfo.spritesName = unitObjectList[i]["SpritesName"].ToString();
                 }
