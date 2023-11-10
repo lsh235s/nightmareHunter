@@ -9,7 +9,7 @@ namespace nightmareHunter {
         public int summonerId;
         public int summonerBatchKeyId;
         //소환수 모션
-        private SkeletonMecanim skeletonMecanim;
+        private SkeletonAnimation skeletonMecanim;
         public LayerMask targetLayer;
         public RaycastHit2D[] targets;
         public GameObject nearestTarget;
@@ -71,28 +71,20 @@ namespace nightmareHunter {
             skillList.Add("Cloaking", false);
 
             _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
-            skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
+            skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+           // skeletonMecanim = gameObject.transform.GetChild(0).GetComponent<SkeletonMecanim>();
            // Debug.Log("summonerId : " + summonerId);
 
         
             shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/Shotgun");
 
 
-            if(summonerId == 2) {
-                Color endColor = new Color32(0, 255, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 3) {
-                Color endColor = new Color32(0, 0, 255, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 5) {
-                Color endColor = new Color32(100, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 7) {
+          /*  if(summonerId == 7) {
                 Color endColor = new Color32(0, 0, 100, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
             }
 
-            currentColor = skeletonMecanim.skeleton.GetColor();
+            currentColor = skeletonMecanim.skeleton.GetColor();*/
         }
 
 
@@ -145,12 +137,12 @@ namespace nightmareHunter {
 
 
         // 물리 판정이 아닌 단순 거리 계산 공격
-        void targetsAttack() {
+      /*  void targetsAttack() {
             if(nearestTarget != null) {
                 gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                 nearestTarget = null;
             }
-        }
+        }*/
 
         // 타겟 대상 스캔
         public void scanRadar() {
@@ -203,10 +195,20 @@ namespace nightmareHunter {
                 Vector3 len = nearestTarget.transform.position - transform.position;
                 float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
 
+                skeletonMecanim.AnimationState.SetAnimation(0, "atk", false);
+                // 사용예시 완료시점도 알수 있음
+                // Spine.TrackEntry entry = skeletonAnimation.AnimationState.SetAnimation(0, animationName, loop);
+    
+                // entry 변수를 사용하여 더 많은 제어 가능
+                // entry.timeScale = 1.5f; // 애니메이션 속도 설정
+                // entry.Complete += AnimationComplete; // 애니메이션 완료 시 호출될 메서드 설정
+
                 switch(activePlayerinfo.attackType)
                 {
                     case "CDN": //확산 공격
                         if(summonerId == 3) {
+                            
+  
                             shotgunAni = Resources.Load<GameObject>("Prefabs/Bullet/IcewitchBullet");
                             shotgunAni.GetComponent<SummonBullet>().attackType = activePlayerinfo.attackType;
                             shotgunAni.GetComponent<SummonBullet>().initialPosition = transform.position;
@@ -229,10 +231,10 @@ namespace nightmareHunter {
 
                             Instantiate(shotgunAni, viewPos , transform.rotation);
                            
-                            gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         }
                         break;
                     case "FSP": //관통 공격
+                    
                         if(summonerId == 2) {
                             bulletDotAni = Resources.Load<GameObject>("Prefabs/Bullet/ArcherBullet");
                             bulletDotAni.GetComponent<SummonBullet>().bulletName = "ArcherBullet";
@@ -252,7 +254,6 @@ namespace nightmareHunter {
                         bulletDotAni.transform.rotation = Quaternion.Euler(0, 0, angle);
 
                         Instantiate(bulletDotAni, transform.position , bulletDotAni.transform.rotation);
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     case "CWP": //영역 공격
                         if(summonerId == 5) {
@@ -272,9 +273,9 @@ namespace nightmareHunter {
                         shotArea.GetComponent<SummonBullet>().energyAttack = _energyAttack; //에너지 공격력 
 
                         Instantiate(shotArea, transform.position , transform.rotation);
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     case "FSR"://원거리 폭발
+                    
                         if(summonerId == 1) {
                             bulletEx = Resources.Load<GameObject>("Prefabs/Bullet/SummonBullet");
                             bulletEx.GetComponent<SummonBullet>().bulletName = "PriestBullet";
@@ -294,10 +295,8 @@ namespace nightmareHunter {
                         bulletEx.transform.rotation = Quaternion.Euler(0, 0, angle);
 
                         Instantiate(bulletEx, transform.position , bulletEx.transform.rotation);
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         break;
                     default:
-                        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("atk",true);
                         collisionObject.GetComponent<Enemy>().DamageProcess(_physicsAttack, _magicAttack, _energyAttack);
                         nearestTarget = null;
                         break;
@@ -317,23 +316,6 @@ namespace nightmareHunter {
         
         private void OnTriggerExit2D(Collider2D collision)
         {
-            Color endColor = new Color32(255, 255, 255, 255);
-
-            if(summonerId == 2) {
-                endColor = new Color32(0, 255, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 3) {
-                endColor = new Color32(0, 0, 255, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 5) {
-                endColor = new Color32(100, 0, 0, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } else if(summonerId == 7) {
-                endColor = new Color32(0, 0, 100, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            }
-
-            skeletonMecanim.skeleton.SetColor(endColor);
             summonsExist = true;
         }
 
