@@ -34,6 +34,7 @@ namespace nightmareHunter {
         
         int teller = 0;
         int wanderer = 0;
+     
 
 
         void Awake() {
@@ -67,9 +68,9 @@ namespace nightmareHunter {
             Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
 
             Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
-            
+
             //몬스터 배치
-           monsterInit();
+            monsterInit();
         }         
 
         void Update() {
@@ -78,18 +79,28 @@ namespace nightmareHunter {
 
             if(appearStageTimer != "" ) { 
                 if(!stageClear) {
-                    if(AreAllMonstersDead(_monsterList)) {
+                    if(AreAllMonstersDead()) {
                         stageClear = true;
                         int retrunGold = 0;
-                        for (int i = 0; i < _unitController._summonList.Length; i++) {
-                            for (int j = 0; j < _unitController._summonList[i].Count; j++) {
-                               retrunGold = retrunGold + (_unitController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
-                            }
-                        }
-                        UiController.Instance.goldUseSet(retrunGold,"+");
-                        GameDataManager.Instance.GameDataInit();
+                        UiController.Instance.nextStage();
 
-                        UiController.Instance.stageClear();
+                        if(UiController.Instance.systemSaveInfo.day >= 5) {
+                            UiController.Instance.systemSaveInfo.day = 0;
+                            for (int i = 0; i < _unitController._summonList.Length; i++) {
+                                for (int j = 0; j < _unitController._summonList[i].Count; j++) {
+                                retrunGold = retrunGold + (_unitController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
+                                }
+                            }
+                            UiController.Instance.goldUseSet(retrunGold,"+");
+                            GameDataManager.Instance.GameDataInit();
+
+                            UiController.Instance.stageClear();
+
+                        } else {
+                            UiController.Instance.stageNextDay(UiController.Instance.systemSaveInfo.stageId);
+                        }
+                       
+
                     }
                 } 
             }
@@ -139,7 +150,7 @@ namespace nightmareHunter {
                         appearCsvTimer = appearCsvTimer.Substring(1);
                     }
 
-                    if(appearTimer.Equals(appearCsvTimer) && UiController.Instance.systemSaveInfo.stageId == (int)_unitController.DevelMonsterBatch[i]["Stage"]) {
+                    if(appearTimer.Equals(appearCsvTimer) && UiController.Instance.systemSaveInfo.day == (int)_unitController.DevelMonsterBatch[i]["Day"]) {
                         listNum = monsterActiveCnt[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]];
 
                         if(!_monsterList[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]][listNum].activeSelf && _monsterList[(int)_unitController.DevelMonsterBatch[i]["MonsterId"]][listNum].GetComponent<Enemy>().isDead == false) {
@@ -155,32 +166,21 @@ namespace nightmareHunter {
             }
         }
 
-        bool AreAllMonstersDead(List<GameObject>[] monsterGroups)
+        bool AreAllMonstersDead()
         {
-            foreach (List<GameObject> monsterGroup in monsterGroups)
-            {
-                foreach (GameObject monster in monsterGroup)
-                {
-                    if(monster != null) {
-                        Enemy monsterScript = monster.GetComponent<Enemy>();
-                        
-                        if (monsterScript != null && monsterScript.isDead == false)
-                        {
-                            // 하나라도 살아있는 몬스터가 있다면, 모두 죽지 않았다고 반환합니다.
-                            return false;
-                        }
-                    }
-                }
+            if(_unitController.monsterBuildCount <= _unitController.monsterKillCount) {
+                return true;
+            } else {
+                // 모든 몬스터 그룹의 모든 몬스터를 확인했는데, 모두 죽었다면 true를 반환합니다.
+                return false;
             }
-            // 모든 몬스터 그룹의 모든 몬스터를 확인했는데, 모두 죽었다면 true를 반환합니다.
-            return true;
         }
 
         // 몬스터 배치 관련
         void monsterInit() {
             int stageMonsterCnt = 0;
             for(int i = 0; i < _unitController.DevelMonsterBatch.Count; i++) {
-                if(UiController.Instance.systemSaveInfo.stageId == (int)_unitController.DevelMonsterBatch[i]["Stage"]) {
+                if(UiController.Instance.systemSaveInfo.day == (int)_unitController.DevelMonsterBatch[i]["Day"]) {
                     stageMonsterCnt++;
                 }
             }
@@ -196,7 +196,7 @@ namespace nightmareHunter {
             }
 
             for (int i = 0; i <  _unitController.DevelMonsterBatch.Count; i++) {
-                if(UiController.Instance.systemSaveInfo.stageId == (int)_unitController.DevelMonsterBatch[i]["Stage"]) {
+                if(UiController.Instance.systemSaveInfo.day == (int)_unitController.DevelMonsterBatch[i]["Day"]) {
                     MonsterGet(_unitController.DevelMonsterBatch[i]);
                 }
             }
@@ -207,7 +207,7 @@ namespace nightmareHunter {
             GameObject select = null;
 
 
-            if(_monsterList.Length > (int)stateMonster["MonsterId"] && UiController.Instance.systemSaveInfo.stageId == (int)stateMonster["Stage"])
+            if(_monsterList.Length > (int)stateMonster["MonsterId"] && UiController.Instance.systemSaveInfo.day == (int)stateMonster["Day"])
             {
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>()._monsterId = (int)stateMonster["MonsterId"];
                 _monsters[(int)stateMonster["MonsterId"]].GetComponent<Enemy>().clientTarget = _unitController._targetGameObject;

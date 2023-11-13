@@ -21,5 +21,7 @@ namespace nightmareHunter {
         public int stageId { get; set; }
         // 스토리 진행 번호
         public int storyNum { get; set; }
+        // 각 스테이지 마다 밤 모드 진행 단계
+        public int day { get; set; }
     }
 }

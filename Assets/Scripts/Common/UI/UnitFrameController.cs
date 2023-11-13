@@ -75,6 +75,10 @@ namespace nightmareHunter {
                 Goldinfo.SetActive(false);
                 Interinfo.SetActive(true);
             }
+
+            if(TutorialSummon()){
+                transform.GetChild(0).gameObject.SetActive(false);
+            }
         }
 
         void Update()
@@ -94,11 +98,19 @@ namespace nightmareHunter {
             }
         }
 
+        bool TutorialSummon() {
+            if(UiController.Instance.systemSaveInfo.stageId == 0) {
+                if(!"hunter".Equals(_spritesName)){
+                    return true;
+                }
+            }
+            return false;
+        }
+
     
         public void OnMouseDown()
         {
-            Debug.Log("OnTriggerEnter2DOnMouseDown/"+ UiController.Instance.gameMode);
-            if(UiController.Instance.sceneMode == 0) {
+            if(UiController.Instance.sceneMode == 0 && !TutorialSummon()) {
                // Color currentColor = frameImage.GetComponent<Image>().color;
                // frameImage.GetComponent<Image>().color = new Color(currentColor.r, currentColor.g, currentColor.b, 255f);
                 _isChange = true;
@@ -113,7 +125,7 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0) {
      
-                if(summon != null && selectSummon.GetComponent<Summons>().summonsBatchIng == false) {
+                if(summon != null && selectSummon.GetComponent<Summons>().summonsBatchIng == false && !TutorialSummon()) {
                     if(NowSummonInfo.goldCash <= int.Parse(UiController.Instance._gold.text)) {
                         UiController.Instance.goldUseSet(NowSummonInfo.goldCash,"-");
 
@@ -139,7 +151,8 @@ namespace nightmareHunter {
         public void OnMouseEndDrag()
         {
             if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true) {
-               if(selectSummon.GetComponent<Summons>().summonsExist) {
+                Debug.Log("OnMouseEndDrag"+selectSummon.GetComponent<Summons>().summonsExist+"/"+TutorialSummon());
+               if(selectSummon.GetComponent<Summons>().summonsExist && !TutorialSummon()) {
                     selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoX = selectSummon.transform.position.x.ToString();
                     selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoY = selectSummon.transform.position.y.ToString();
                     selectSummon.GetComponent<Summons>().basePlayerinfo.positionInfoZ = selectSummon.transform.position.z.ToString();
@@ -206,14 +219,14 @@ namespace nightmareHunter {
 
         public void OnMouseDrag()
         {
-            if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true) {
+            if(UiController.Instance.sceneMode == 0 && selectSummon.GetComponent<Summons>().summonsBatchIng == true ) {
                 // 마우스 좌표를 월드 좌표로 변환
                 Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                // _unitController._summoner[objectIndex].transform.GetChild(0).GetComponent<Animator>().SetBool("idle",true);
                 // 생성한 Cube 오브젝트 위치 변경
                 selectSummon.transform.position = mousePosition;
 
-                if("tutorial".Equals(UiController.Instance.gameMode)) {
+                if(UiController.Instance.systemSaveInfo.stageId == 0) {
                     selectSummon.GetComponent<Summons>().FaildSummon();
                 }
             }
@@ -221,7 +234,7 @@ namespace nightmareHunter {
 
         public void summonEnforce() {
             // 소환수 레벨업을 할 경우 해당 정보를 저장.
-            if(NowSummonInfo.playerLevel < 5) {
+            if(NowSummonInfo.playerLevel < 5 && !TutorialSummon()) {
                 UiController.Instance.integerUseSet(NowSummonInfo.integerCash,"-");
             
                 int summonLevel = GameDataManager.Instance.UpdateCsvData(_spritesName);

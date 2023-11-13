@@ -82,9 +82,9 @@ namespace nightmareHunter {
           /*  if(summonerId == 7) {
                 Color endColor = new Color32(0, 0, 100, 255);
                 skeletonMecanim.skeleton.SetColor(endColor);
-            }
+            }*/
 
-            currentColor = skeletonMecanim.skeleton.GetColor();*/
+            currentColor = skeletonMecanim.skeleton.GetColor();
         }
 
 
@@ -195,7 +195,14 @@ namespace nightmareHunter {
                 Vector3 len = nearestTarget.transform.position - transform.position;
                 float angle = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
 
-                skeletonMecanim.AnimationState.SetAnimation(0, "atk", false);
+                if(summonerId == 0 || summonerId == 7) {
+                    skeletonMecanim.AnimationState.SetAnimation(0, "atk_sworld", false);
+                } 
+                else if(summonerId == 4 ) {
+                    skeletonMecanim.AnimationState.SetAnimation(0, "atk_spear", false);
+                } else {
+                    skeletonMecanim.AnimationState.SetAnimation(0, "atk", false);
+                }
                 // 사용예시 완료시점도 알수 있음
                 // Spine.TrackEntry entry = skeletonAnimation.AnimationState.SetAnimation(0, animationName, loop);
     
@@ -330,15 +337,18 @@ namespace nightmareHunter {
         }
 
         public void FaildSummon() {
-            Color endColor = new Color32(255, 0, 0, 255);
+            if(!summonsExist) {
+                Color endColor = new Color32(255, 0, 0, 255);
 
-            if(skeletonMecanim != null) {
-                skeletonMecanim.skeleton.SetColor(endColor);
+                if(skeletonMecanim != null) {
+                    skeletonMecanim.skeleton.SetColor(endColor);
+                }
+                summonsExist = false;
             }
-            summonsExist = false;
         }
 
         public void SuccessSummon() {
+
             if(skeletonMecanim != null) {
                 skeletonMecanim.skeleton.SetColor(currentColor);
             }

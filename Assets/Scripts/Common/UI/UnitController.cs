@@ -31,7 +31,7 @@ namespace nightmareHunter {
         
         // Start is called before the first frame update
         void Awake() {           
-            DevelMonsterBatch =  CSVReader.Read("StateMonsterBatch");
+
             _summonList = new List<GameObject>[_summoner.Length];
 
             for (int i = 0; i < _summoner.Length; i++) {
@@ -42,11 +42,17 @@ namespace nightmareHunter {
 
         public void GameStart()
         {
+            monsterBatch();
+            
             baseDataLoad();
             //소환수 배치
             SummonerInit();
             //플레이어 능력치 load
             PlayerInit();
+        }
+
+        void monsterBatch() {
+            DevelMonsterBatch = GameDataManager.Instance.MonsterBatch(UiController.Instance.systemSaveInfo.stageId, UiController.Instance.systemSaveInfo.day);
         }
 
         void baseDataLoad() {

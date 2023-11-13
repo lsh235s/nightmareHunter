@@ -48,6 +48,7 @@ namespace nightmareHunter {
         
         void Awake()
         {
+            
             // 이미 인스턴스가 있는지 확인합니다.
             if (Instance == null)
             {
@@ -59,6 +60,7 @@ namespace nightmareHunter {
                 // 중복되는 인스턴스가 있는 경우, 이 게임 객체를 파괴합니다.
                 Destroy(this.gameObject);
             }
+            systemSaveInfo = GameDataManager.Instance.LoadSystemSaveInfo();
         }
 
         public void LoadStart() {
@@ -73,6 +75,11 @@ namespace nightmareHunter {
             getSceneMode();
 
             SystemInit();
+        }
+
+        public void nextStage() {
+            systemSaveInfo.day++;
+            SystemDataSave();
         }
 
         public int getSceneMode() {
@@ -99,7 +106,7 @@ namespace nightmareHunter {
         //재화 시나리오 전개 관련
         void SystemInit() {
             // 재화 시나리오 전개
-            systemSaveInfo = GameDataManager.Instance.LoadSystemSaveInfo();
+           
             _gold.text = systemSaveInfo.money.ToString();
             _integer.text = systemSaveInfo.integer.ToString();
             maxTargetHp = systemSaveInfo.targetHP;
@@ -147,6 +154,14 @@ namespace nightmareHunter {
 
         public void stageClear() {
             SceneMoveManager.SceneMove("GameSun");
+        }
+
+        public void stageNextDay(int stageId) {
+            if(stageId == 1) {
+                SceneMoveManager.SceneMove("GameMoon01");
+            } else {
+                SceneMoveManager.SceneMove("GameMoon");
+            }
         }
 
         public void skipTime() {

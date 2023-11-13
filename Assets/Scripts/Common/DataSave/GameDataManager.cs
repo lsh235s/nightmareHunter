@@ -315,7 +315,20 @@ namespace nightmareHunter {
                 }
             }
 
-            return playerInfo;
+           return playerInfo; 
+        }
+
+        public List<Dictionary<string, object>> MonsterBatch(int stageId, int day) {
+            Debug.Log("stageId : " + stageId + "/day : " + day);
+            List<Dictionary<string, object>> monsterBatchList = CSVReader.Read("StateMonsterBatch"+stageId);
+            List<Dictionary<string, object>> dataList = new List<Dictionary<string, object>>();
+
+            for(int i = 0; i < monsterBatchList.Count; i++) {
+                if(day == int.Parse(monsterBatchList[i]["Day"].ToString())) {
+                    dataList.Add(monsterBatchList[i]);
+                }
+            }
+            return dataList; 
         }
 
         public PlayerInfo LoadMonsterInfo( Dictionary<string, object> stateMonster) {

@@ -159,7 +159,7 @@ namespace nightmareHunter {
             _animator.SetTrigger("Idle");
             stateName = "Idle";
 
-
+            _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
 
            if(_monsterId == 13) {
@@ -381,7 +381,7 @@ namespace nightmareHunter {
         private void UpdateClientTracking() {
             float ClientDistance = Vector3.Distance(transform.position, clientTarget.transform.position);
             float TrackDistance = 0.0f;
-          _attackRange4 = ClientDistance;
+            _attackRange4 = ClientDistance;
             NextTargetPosition = clientTarget.transform.position;
             if(ClientDistance <= _attackRange) {
                 if(lastAttackTime == 0.0f) {
@@ -390,6 +390,7 @@ namespace nightmareHunter {
                     state = State.Idle;
                     stateName = "Idle";
                     StartCoroutine(MonsterDie());
+                    _unitController.monsterKillCount += 1;
                     clientTarget.GetComponent<Target>().DamageProcess(_physicsAttack); 
                 }
                 // 공격 타이머를 증가시킴
@@ -638,6 +639,7 @@ namespace nightmareHunter {
                     
                     //재화 증가
                     UiController.Instance.integerUseSet(_integer,"+");
+                    _unitController.monsterKillCount += 1;
                     
                     if(skillList["Split"]) {
                         // 분열 사운드 처리

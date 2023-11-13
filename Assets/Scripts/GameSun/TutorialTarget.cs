@@ -56,6 +56,7 @@ namespace nightmareHunter {
 
         private void OnTriggerExit2D(Collider2D collision) {
             UiController.Instance.gameMode = "tutorial";
+            collision.gameObject.GetComponent<Summons>().summonsExist= false;
         }
 
 
