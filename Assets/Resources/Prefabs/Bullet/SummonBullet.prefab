@@ -28,8 +28,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4218609940805575610}
-  m_LocalRotation: {x: 0, y: 0, z: 0.552868, w: 0.8332688}
-  m_LocalPosition: {x: -0.115, y: -0.065, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7679296, w: 0.64053434}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -155,8 +155,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 0.6
-  initialPosition: {x: -1.081971, y: 0.07791246, z: 0}
-  targetPosition: {x: -0.83530223, y: 0.66265607, z: -0.033333007}
+  initialPosition: {x: -0.8800075, y: 0.1931517, z: 0}
+  targetPosition: {x: -0.98894954, y: 0.7904486, z: -0.033333022}
   bulletName: PriestBullet
   _bulletSpeed: 2
   attackType: FSR

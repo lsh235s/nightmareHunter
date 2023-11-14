@@ -82,6 +82,16 @@ namespace nightmareHunter {
             SystemDataSave();
         }
 
+        public void battleModeOn() {
+            systemSaveInfo.battle = 1;
+            SystemDataSave();
+        }
+
+        public void battleModeOff() {
+            systemSaveInfo.battle = 0;
+            SystemDataSave();
+        }
+
         public int getSceneMode() {
                    // 현재 게임 도드 정리
             string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
@@ -138,6 +148,7 @@ namespace nightmareHunter {
                     if(sceneMode == 0) {
                         _Hour=0;
                         _Min=0;
+                        battleModeOn();
                         if(systemSaveInfo.stageId == 1) {
                             SceneMoveManager.SceneMove("GameMoon01");
                         } else {
@@ -154,14 +165,6 @@ namespace nightmareHunter {
 
         public void stageClear() {
             SceneMoveManager.SceneMove("GameSun");
-        }
-
-        public void stageNextDay(int stageId) {
-            if(stageId == 1) {
-                SceneMoveManager.SceneMove("GameMoon01");
-            } else {
-                SceneMoveManager.SceneMove("GameMoon");
-            }
         }
 
         public void skipTime() {

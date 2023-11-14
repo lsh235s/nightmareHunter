@@ -90,6 +90,8 @@ namespace nightmareHunter {
             systemSaveInfo.stageId = 0;
             systemSaveInfo.storyNum = 0;
             systemSaveInfo.targetHP = 1000;
+            systemSaveInfo.day = 0;
+            systemSaveInfo.battle = 0;
 
             GameDataManager.Instance.SaveSystemInfo(systemSaveInfo);
             GameDataManager.Instance.GameDataInit();

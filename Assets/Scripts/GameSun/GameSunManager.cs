@@ -88,38 +88,59 @@ namespace nightmareHunter {
                     Cursor.SetCursor(NormalIcon, new Vector2(NormalIcon.width / 3, 0), CursorMode.Auto);
                 break;
                 case "Attack" :
-                    Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width / 5, 0), CursorMode.Auto);
+                    Cursor.SetCursor(AttckIcon, new Vector2(AttckIcon.width /2 , 0), CursorMode.Auto);
                 break;
             }
         }
 
 
         void TutorialStart() {
-            stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
-           
-            if(stroyStage > -1) {
-                UiController.Instance.timePause = false;
-                storyStart(stroyStage);
-                if(stroyStage < 10 && UiController.Instance.systemSaveInfo.stageId == 0) {
-                    _playGameObject.transform.position = new Vector2(-1.005f, -0.158f);
-                }
-                if(stroyStage >= 26) {
-                    _uiGroup.SetActive(true);
-                }
-                if(stroyStage >= 31 && UiController.Instance.systemSaveInfo.stageId == 0) {
-                    _playGameObject.transform.position = new Vector2(2f, 0.5f);
-                }
-                if(stroyStage >= 44) {
-                    _unitFrame.SetActive(true);
-                }
-                if(stroyStage == 64) {
-                    _playGameObject.transform.position = new Vector2(0.485f, 0.41f);
-                 }
-                
-            } else {
+            if(UiController.Instance.systemSaveInfo.battle == 1) {
                 _unitFrame.SetActive(true);
                 _ChatGroup.SetActive(false);
                 _uiGroup.SetActive(true);
+                _playGameObject.transform.position = new Vector2(0.053f, 0.150f);
+                transform.Find("SkipButton").gameObject.SetActive(true);
+
+                if(UiController.Instance.systemSaveInfo.stageId ==0) {
+                    backGround[0].SetActive(false);
+                    backGround[1].SetActive(true);
+                    backGround[2].SetActive(false);
+                }else if(UiController.Instance.systemSaveInfo.stageId == 1)  {
+                    backGround[0].SetActive(false);
+                    backGround[1].SetActive(false);
+                    backGround[2].SetActive(true);
+                }
+
+                gameObject.GetComponent<AudioSource>().clip = Resources.Load<AudioClip>("wav/background/SunStart");
+                gameObject.GetComponent<AudioSource>().Play();
+            } else {
+                stroyStage = UiController.Instance.systemSaveInfo.storyNum; //최종 진행된 스토리 스테이지
+            
+                if(stroyStage > -1) {
+                    UiController.Instance.timePause = false;
+                    storyStart(stroyStage);
+                    if(stroyStage < 10 && UiController.Instance.systemSaveInfo.stageId == 0) {
+                        _playGameObject.transform.position = new Vector2(-1.005f, -0.158f);
+                    }
+                    if(stroyStage >= 26) {
+                        _uiGroup.SetActive(true);
+                    }
+                    if(stroyStage >= 31 && UiController.Instance.systemSaveInfo.stageId == 0) {
+                        _playGameObject.transform.position = new Vector2(2f, 0.5f);
+                    }
+                    if(stroyStage >= 44) {
+                        _unitFrame.SetActive(true);
+                    }
+                    if(stroyStage == 64) {
+                        _playGameObject.transform.position = new Vector2(0.485f, 0.41f);
+                    }
+                    
+                } else {
+                    _unitFrame.SetActive(true);
+                    _ChatGroup.SetActive(false);
+                    _uiGroup.SetActive(true);
+                }
             }
         }
 

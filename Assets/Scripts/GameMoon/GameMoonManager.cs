@@ -65,9 +65,9 @@ namespace nightmareHunter {
             NormalIcon = Resources.Load<Texture2D>("ui/pointer"); 
             AttckIcon = Resources.Load<Texture2D>("ui/pointer2");
 
-            Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
+            Vector2 hotSpot = new Vector2(NormalIcon.width/2 , NormalIcon.height/2 );
 
-            Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
+           // Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
 
             //몬스터 배치
             monsterInit();
@@ -84,7 +84,7 @@ namespace nightmareHunter {
                         int retrunGold = 0;
                         UiController.Instance.nextStage();
 
-                        if(UiController.Instance.systemSaveInfo.day >= 5) {
+                        if((UiController.Instance.systemSaveInfo.stageId == 0 && UiController.Instance.systemSaveInfo.day > 2) || (UiController.Instance.systemSaveInfo.stageId != 0 && UiController.Instance.systemSaveInfo.day > 4)) {
                             UiController.Instance.systemSaveInfo.day = 0;
                             for (int i = 0; i < _unitController._summonList.Length; i++) {
                                 for (int j = 0; j < _unitController._summonList[i].Count; j++) {
@@ -92,14 +92,10 @@ namespace nightmareHunter {
                                 }
                             }
                             UiController.Instance.goldUseSet(retrunGold,"+");
+                            UiController.Instance.battleModeOff();
                             GameDataManager.Instance.GameDataInit();
-
-                            UiController.Instance.stageClear();
-
-                        } else {
-                            UiController.Instance.stageNextDay(UiController.Instance.systemSaveInfo.stageId);
-                        }
-                       
+                        } 
+                        UiController.Instance.stageClear();
 
                     }
                 } 
@@ -107,13 +103,13 @@ namespace nightmareHunter {
 
             if (Input.GetMouseButtonDown(0))
             {
-                Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
+                Vector2 hotSpot = new Vector2(AttckIcon.width * 0.9f, AttckIcon.height* 0.9f);
                 Cursor.SetCursor(AttckIcon, hotSpot, CursorMode.Auto);
             }
 
             if (Input.GetMouseButtonUp(0))
             {
-                Vector2 hotSpot = new Vector2(NormalIcon.width / 2, NormalIcon.height / 2);
+                Vector2 hotSpot = new Vector2(NormalIcon.width * 0.9f, NormalIcon.height * 0.9f);
                 Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
             }
         }
