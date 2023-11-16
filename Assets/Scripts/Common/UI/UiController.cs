@@ -164,6 +164,8 @@ namespace nightmareHunter {
         }
 
         public void stageClear() {
+            _Hour=0;
+            _Min=0;
             SceneMoveManager.SceneMove("GameSun");
         }
 

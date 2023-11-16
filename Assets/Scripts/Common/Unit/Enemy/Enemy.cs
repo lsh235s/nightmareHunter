@@ -224,9 +224,6 @@ namespace nightmareHunter {
                 // if (_monsterId == 2) { //클로킹 스킬 제거
                 //     foundMonk();
                 // }
-            } else {
-                agent.speed = 0;
-                agent.isStopped = true;
             }
         }
 
@@ -404,7 +401,9 @@ namespace nightmareHunter {
                 }
             } else {
                 lastAttackTime = 0.0f;
-                agent.SetDestination(NextTargetPosition); 
+                if(agent.enabled) {
+                    agent.SetDestination(NextTargetPosition);
+                } 
             }
         }
 
@@ -433,7 +432,9 @@ namespace nightmareHunter {
                 }
 
                 if(state == State.Tracking) {
-                    agent.SetDestination(NextTargetPosition); 
+                    if(agent.enabled){
+                        agent.SetDestination(NextTargetPosition);
+                    } 
                 }
             } else {
                 agent.speed = 0;
@@ -485,10 +486,9 @@ namespace nightmareHunter {
                     lastAttackTime = 0.0f;
                 }
                 if(state != State.Die) {
-                    agent.SetDestination(NextTargetPosition);
-                } else {
-                    agent.speed = 0;
-                    agent.isStopped = true;
+                    if(agent.enabled) {
+                        agent.SetDestination(NextTargetPosition); 
+                    }
                 }
             }
         }
@@ -516,7 +516,9 @@ namespace nightmareHunter {
             }
 
             if(state != State.Die) {
-                agent.SetDestination(NextTargetPosition); 
+                if(agent.enabled){
+                    agent.SetDestination(NextTargetPosition); 
+                }
             } else {
                 agent.speed = 0;
                 agent.isStopped = true;
@@ -537,7 +539,7 @@ namespace nightmareHunter {
             } 
 
             if(state != State.Die) {
-                if (agent.isActiveAndEnabled) {
+                if (agent.enabled) {
                   //  Debug.Log(NextTargetPosition);
                     agent.SetDestination(NextTargetPosition);
                     
@@ -665,6 +667,8 @@ namespace nightmareHunter {
                         }
 
                     } else {
+                        agent.isStopped = true;
+                        agent.enabled = false;
                          // 사망 사운드 처리
                         if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_death")) {
                             gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_death"];
@@ -673,6 +677,7 @@ namespace nightmareHunter {
 
                         skillAllEnd();
                     }
+              
                     
                     StartCoroutine(MonsterDie()); 
                 }
