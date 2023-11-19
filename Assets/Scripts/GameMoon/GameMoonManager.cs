@@ -77,29 +77,6 @@ namespace nightmareHunter {
             monsterInitappear();
             summonerScan();
 
-            if(appearStageTimer != "" ) { 
-                if(!stageClear) {
-                    if(AreAllMonstersDead()) {
-                        stageClear = true;
-                        int retrunGold = 0;
-                        UiController.Instance.nextStage();
-
-                        if((UiController.Instance.systemSaveInfo.stageId == 0 && UiController.Instance.systemSaveInfo.day > 2) || (UiController.Instance.systemSaveInfo.stageId != 0 && UiController.Instance.systemSaveInfo.day > 4)) {
-                            UiController.Instance.systemSaveInfo.day = 0;
-                            for (int i = 0; i < _unitController._summonList.Length; i++) {
-                                for (int j = 0; j < _unitController._summonList[i].Count; j++) {
-                                retrunGold = retrunGold + (_unitController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
-                                }
-                            }
-                            UiController.Instance.goldUseSet(retrunGold,"+");
-                            UiController.Instance.battleModeOff();
-                            GameDataManager.Instance.GameDataInit();
-                        } 
-                        UiController.Instance.stageClear();
-
-                    }
-                } 
-            }
 
             if (Input.GetMouseButtonDown(0))
             {
@@ -112,6 +89,28 @@ namespace nightmareHunter {
                 Vector2 hotSpot = new Vector2(NormalIcon.width * 0.9f, NormalIcon.height * 0.9f);
                 Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
             }
+        }
+
+        public void moonNextTime() {
+            Debug.Log("moonNextTime");
+            stageClear = true;
+            int retrunGold = 0;
+            UiController.Instance.nextStage();
+
+            Debug.Log("moonNextTime"+UiController.Instance.systemSaveInfo.stageId+"/"+UiController.Instance.systemSaveInfo.day);
+
+            if((UiController.Instance.systemSaveInfo.stageId == 0 && UiController.Instance.systemSaveInfo.day > 2) || (UiController.Instance.systemSaveInfo.stageId != 0 && UiController.Instance.systemSaveInfo.day > 4)) {
+                UiController.Instance.systemSaveInfo.day = 0;
+                for (int i = 0; i < _unitController._summonList.Length; i++) {
+                    for (int j = 0; j < _unitController._summonList[i].Count; j++) {
+                       retrunGold = retrunGold + (_unitController._summonList[i][j].GetComponent<Summons>().activePlayerinfo.goldCash / 2);
+                    }
+                }
+                UiController.Instance.goldUseSet(retrunGold,"+");
+                UiController.Instance.battleModeOff();
+                GameDataManager.Instance.GameDataInit();
+            }  
+            SceneMoveManager.SceneMove("GameSun");
         }
 
         //모든 소환수 공격 가능여부 체크

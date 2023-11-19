@@ -162,10 +162,6 @@ namespace nightmareHunter {
             _unitController = GameObject.Find("Canvas").GetComponent<UnitController>();
 
 
-           if(_monsterId == 13) {
-                Color endColor = new Color32(0, 0, 180, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            }
 
             if(_monsterId != 1 && _monsterId != 13) {
                 transform.position = _waypointList[waypointType][0].transform.position;
@@ -173,6 +169,12 @@ namespace nightmareHunter {
                 waypointIndex = _waypointList[waypointType].Count - 1;
             } else if(_monsterId == 1) {
                 transform.position = new Vector3(clientTarget.transform.position.x -0.2f,clientTarget.transform.position.y,clientTarget.transform.position.z);
+                
+                // 피격 사운드 처리
+                if(AudioManager.Instance.playSound.ContainsKey(_spritesName+"_app")) {
+                    gameObject.GetComponent<AudioSource>().clip = AudioManager.Instance.playSound[_spritesName+"_app"];
+                    gameObject.GetComponent<AudioSource>().Play();
+                }
             }
             
             agent.enabled = true;
@@ -590,7 +592,7 @@ namespace nightmareHunter {
 
 
                 // 4/1 확률로 몬스터 밀림
-                int randomNumber = Random.Range(0, 4);
+                int randomNumber = Random.Range(0, 40);
 
                 if(randomNumber == 0) {
                     rePosition = new Vector3(transform.position.x - 0.5f, transform.position.y + 0.2f, transform.position.z);
@@ -637,10 +639,11 @@ namespace nightmareHunter {
                         GameObject weaPonItem = Instantiate(UiController.Instance.dropItem, transform.position, transform.rotation);
                         weaPonItem.GetComponent<WeaponItem>().SetWeaponType(weaponNum + 1);
                     }
-          
+
+                    GameObject stonObject = Instantiate(stoneAniObject, transform.position, transform.rotation);
+                    stonObject.GetComponent<WeaponItem>().stoneValue = _integer;
+                    stonObject.GetComponent<WeaponItem>().SetWeaponType(4);
                     
-                    //재화 증가
-                    UiController.Instance.integerUseSet(_integer,"+");
                     _unitController.monsterKillCount += 1;
                     
                     if(skillList["Split"]) {
@@ -654,15 +657,14 @@ namespace nightmareHunter {
                         stateName = "Idle";
                         skillList["ClientTargetFix"] = true;
 
-                        for(int i =0; i < 3; i++) {
+                        for(int i =0; i < 2; i++) {
                             _monsterId = 13;
                             GameObject copy = Instantiate(gameObject);
                             copy.GetComponent<Enemy>()._hp = _initHp;
                             copy.GetComponent<Enemy>().isDead = false; 
-                            copy.GetComponent<Enemy>().transform.position = new Vector3(transform.position.x + (i * 0.5f), transform.position.y + (i * 0.5f), transform.position.z);
-
-                            Color endColor = new Color32(0, 0, 255, 255);
-                            copy.transform.Find("Grapics").GetComponent<SkeletonMecanim>().skeleton.SetColor(endColor);
+                            copy.GetComponent<Enemy>().transform.position = new Vector3(transform.position.x + (i * 0.1f), transform.position.y + (i * 0.1f), transform.position.z);
+                            copy.GetComponent<Enemy>().transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); 
+                            
                             GameObject.Find("Canvas").GetComponent<GameMoonManager>().SplitSkillAdd(3 ,copy);
                         }
 
@@ -764,11 +766,6 @@ namespace nightmareHunter {
             endColor = new Color32(255, 255, 255, 255);
             skeletonMecanim.skeleton.SetColor(endColor);
 
-
-            if(_monsterId == 13) {
-                endColor = new Color32(0, 0, 180, 255);
-                skeletonMecanim.skeleton.SetColor(endColor);
-            } 
 
             isFalling = false;
 

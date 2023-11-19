@@ -97,10 +97,10 @@ namespace nightmareHunter {
             string sceneName = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
             if("GameSun".Equals(sceneName)) {
                 sceneMode = 0;
-                GameObject.Find("Canvas/UIGroup/Integer").SetActive(false);
+             //   GameObject.Find("Canvas/UIGroup/Integer").SetActive(false);
             }  else {
                 sceneMode = 1;
-                GameObject.Find("Canvas/UIGroup/Gold").SetActive(false);
+             //   GameObject.Find("Canvas/UIGroup/Gold").SetActive(false);
             }
 
             return sceneMode;
@@ -146,6 +146,7 @@ namespace nightmareHunter {
                 _timerText.text = string.Format("{0:00}:{1:00}", _Hour, _Min);
                 if(_Hour >= 12) {
                     if(sceneMode == 0) {
+                         Debug.Log("stage clear????");
                         _Hour=0;
                         _Min=0;
                         battleModeOn();
@@ -155,8 +156,7 @@ namespace nightmareHunter {
                             SceneMoveManager.SceneMove("GameMoon");
                         }
                     } else {
-                        _Hour=0;
-                        _Min=0;
+                        Debug.Log("stage clear!!");
                         stageClear();
                     }
                 }
@@ -166,7 +166,7 @@ namespace nightmareHunter {
         public void stageClear() {
             _Hour=0;
             _Min=0;
-            SceneMoveManager.SceneMove("GameSun");
+            GameObject.Find("Canvas").GetComponent<GameMoonManager>().moonNextTime(); 
         }
 
         public void skipTime() {

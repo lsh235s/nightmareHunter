@@ -12,7 +12,7 @@ namespace nightmareHunter {
         private SkeletonAnimation skeletonAnimation;
         private Material skeletonMaterial;
         
-        public int weaponType;
+        public int weaponType = 0;
 
         private bool isBlinking = false; // 깜박이는 중인지 여부
 
@@ -22,6 +22,7 @@ namespace nightmareHunter {
         private bool increasing = true; // 알파 값 증가 여부
 
         byte blinkCount = 255; // 깜박이를 위한 수치
+        public int stoneValue = 0;
 
 
 
@@ -32,7 +33,7 @@ namespace nightmareHunter {
         public void SetWeaponType(int type) {
             skeletonAnimation = gameObject.GetComponent<SkeletonAnimation>();
              // SkeletonAnimation에 사용된 Material 가져오기
-            skeletonMaterial = skeletonAnimation.GetComponent<Renderer>().material;
+            skeletonMaterial = skeletonAnimation.GetComponent<Renderer>().material;    
 
             weaponType = type;
 
@@ -45,6 +46,7 @@ namespace nightmareHunter {
             } else if(type == 3) {
                 skeletonAnimation.timeScale = 0.0f;
                 skeletonAnimation.AnimationState.SetAnimation(0, "machinegun_1", false);
+            } else if(type == 4) {
             } else {
                 skeletonAnimation.timeScale = 0.0f;
                 skeletonAnimation.AnimationState.SetAnimation(0, "shotgun_2", false);
@@ -57,6 +59,10 @@ namespace nightmareHunter {
             elapsedTime += Time.deltaTime; // 경과 시간 증가
             if (elapsedTime >= stateTime)
             {
+                if(stoneValue > 0 ){
+                    //재화 증가
+                    UiController.Instance.integerUseSet(stoneValue,"+");
+                }
                 Destroy(gameObject); // 오브젝트 파괴
             } else {
                 if(elapsedTime >= 4) {
@@ -81,15 +87,23 @@ namespace nightmareHunter {
                 }
 
                 Color endColor = new Color32(255, 255, 255, blinkCount);
-
-                skeletonMaterial.color = endColor;
+                
+                if(skeletonMaterial != null){
+                    skeletonMaterial.color = endColor; 
+                }
             }
         }
 
         private void OnTriggerEnter2D(Collider2D collision) {
             if(collision.gameObject.tag == "Player") {
-                collision.gameObject.GetComponent<Player>().WeaponChange(weaponType);
-                
+                if(weaponType != 4) {
+                    collision.gameObject.GetComponent<Player>().WeaponChange(weaponType);
+                }
+
+                if(stoneValue > 0 ){
+                    //재화 증가
+                    UiController.Instance.integerUseSet(stoneValue,"+");
+                }
                 Destroy(gameObject);
             }
 
