@@ -323,7 +323,14 @@ namespace nightmareHunter {
         
         private void OnTriggerExit2D(Collider2D collision)
         {
-            summonsExist = true;
+            if(UiController.Instance.systemSaveInfo.stageId != 0 || UiController.Instance.systemSaveInfo.day != 0) {
+                Debug.Log("asdsadad33333true??");
+                SuccessSummon();
+                
+            } else {
+               summonsExist = true; 
+            }
+
         }
 
         // 배치시 소환수 위치 설정
@@ -331,20 +338,32 @@ namespace nightmareHunter {
         {
             if(UiController.Instance.sceneMode == 0) {
                 if("Wall".Equals(collision.tag)) {
+                    Debug.Log("asdsadad33333");
                     FaildSummon();
                 }
             }
         }
 
         public void FaildSummon() {
-            if(!summonsExist) {
-                Color endColor = new Color32(255, 0, 0, 255);
+            if(UiController.Instance.systemSaveInfo.stageId == 0 && UiController.Instance.systemSaveInfo.day == 0) {
+                if(!summonsExist) {
+                    Debug.Log("asdsadad32223");
+                    Color endColor = new Color32(255, 0, 0, 255);
 
-                if(skeletonMecanim != null) {
-                    skeletonMecanim.skeleton.SetColor(endColor);
+                    if(skeletonMecanim != null) {
+                        skeletonMecanim.skeleton.SetColor(endColor);
+                    }
+                    summonsExist = false;
                 }
-                summonsExist = false;
+            } else {
+                    Color endColor = new Color32(255, 0, 0, 255);
+
+                    if(skeletonMecanim != null) {
+                        skeletonMecanim.skeleton.SetColor(endColor);
+                    }
+                    summonsExist = false;
             }
+         
         }
 
         public void SuccessSummon() {

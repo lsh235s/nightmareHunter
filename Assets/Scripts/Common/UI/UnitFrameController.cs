@@ -124,7 +124,7 @@ namespace nightmareHunter {
         public void OnMouseBeginDrag()
         {
             if(UiController.Instance.sceneMode == 0) {
-     
+                Debug.Log("OnMouseBeginDrag"+summon+"/"+selectSummon.GetComponent<Summons>().summonsBatchIng+"/"+TutorialSummon());
                 if(summon != null && selectSummon.GetComponent<Summons>().summonsBatchIng == false && !TutorialSummon()) {
                     if(NowSummonInfo.goldCash <= int.Parse(UiController.Instance._gold.text)) {
                         UiController.Instance.goldUseSet(NowSummonInfo.goldCash,"-");
@@ -140,6 +140,7 @@ namespace nightmareHunter {
                         selectSummon.GetComponent<Collider2D>().isTrigger = true;
                         // 생성한 Cube 오브젝트 활성화
                         selectSummon.SetActive(true);
+                        Debug.Log("_changeTime"+"/"+selectSummon.GetComponent<Summons>().summonsBatchIng+"/"+TutorialSummon());
                         selectSummon.GetComponent<Summons>().summonsBatchIng = true;
                     }
                 }
@@ -206,7 +207,7 @@ namespace nightmareHunter {
                 } else {
                     selectSummon.SetActive(false);
                     selectSummon.GetComponent<Summons>().summonsBatchIng = false;
-                    
+                    UiController.Instance.goldUseSet(NowSummonInfo.goldCash,"+");
                     _isChange = false;
 
                     string unitImage = "ui/1";
@@ -226,7 +227,9 @@ namespace nightmareHunter {
                 // 생성한 Cube 오브젝트 위치 변경
                 selectSummon.transform.position = mousePosition;
 
-                if(UiController.Instance.systemSaveInfo.stageId == 0) {
+               
+                if(UiController.Instance.systemSaveInfo.stageId == 0 && UiController.Instance.systemSaveInfo.day == 0) {
+                    Debug.Log("asdsadad22");
                     selectSummon.GetComponent<Summons>().FaildSummon();
                 }
             }

@@ -69,7 +69,7 @@ namespace nightmareHunter {
            List<PlayerInfo> existTargetInfo = GameDataManager.Instance.SummerListLoad();
            for(int i = 0; i < existTargetInfo.Count; i++)
            {
-                Debug.Log("소환수 배치 ID : " + existTargetInfo[i].id);
+               // Debug.Log("소환수 배치 ID : " + existTargetInfo[i].id);
                 SummonerGet(existTargetInfo[i]);
            }
         }

@@ -78,17 +78,17 @@ namespace nightmareHunter {
             summonerScan();
 
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vector2 hotSpot = new Vector2(AttckIcon.width * 0.9f, AttckIcon.height* 0.9f);
-                Cursor.SetCursor(AttckIcon, hotSpot, CursorMode.Auto);
-            }
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     Vector2 hotSpot = new Vector2(AttckIcon.width * 0.9f, AttckIcon.height* 0.9f);
+            //     Cursor.SetCursor(AttckIcon, hotSpot, CursorMode.Auto);
+            // }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                Vector2 hotSpot = new Vector2(NormalIcon.width * 0.9f, NormalIcon.height * 0.9f);
-                Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
-            }
+            // if (Input.GetMouseButtonUp(0))
+            // {
+            //     Vector2 hotSpot = new Vector2(NormalIcon.width * 0.9f, NormalIcon.height * 0.9f);
+            //     Cursor.SetCursor(NormalIcon, hotSpot, CursorMode.Auto);
+            // }
         }
 
         public void moonNextTime() {

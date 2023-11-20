@@ -68,7 +68,7 @@ namespace nightmareHunter {
             NormalIcon = Resources.Load<Texture2D>("ui/pointer"); 
             AttckIcon = Resources.Load<Texture2D>("ui/pointer2");
 
-            changeCursor("MainIcon");
+          //  changeCursor("MainIcon");
 
             canvasInit();
             _unitController.GameStart();
@@ -180,17 +180,17 @@ namespace nightmareHunter {
 
             }
 
-            if(storyObject.storyContentList[stroyStage].event_stage_id == 2) {
-                if(Input.GetMouseButtonDown(0))
-                {
-                    changeCursor("Attack");
-                }
+            // if(storyObject.storyContentList[stroyStage].event_stage_id == 2) {
+            //     if(Input.GetMouseButtonDown(0))
+            //     {
+            //         changeCursor("Attack");
+            //     }
 
-                if(Input.GetMouseButtonUp(0))
-                {
-                    changeCursor("AttackWait");
-                }
-            } 
+            //     if(Input.GetMouseButtonUp(0))
+            //     {
+            //         changeCursor("AttackWait");
+            //     }
+            // } 
         }
 
 
