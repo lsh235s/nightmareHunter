@@ -47,6 +47,7 @@ namespace nightmareHunter {
                 skeletonAnimation.timeScale = 0.0f;
                 skeletonAnimation.AnimationState.SetAnimation(0, "machinegun_1", false);
             } else if(type == 4) {
+                stateTime = 2f;
             } else {
                 skeletonAnimation.timeScale = 0.0f;
                 skeletonAnimation.AnimationState.SetAnimation(0, "shotgun_2", false);

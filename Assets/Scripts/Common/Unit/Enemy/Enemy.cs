@@ -632,7 +632,9 @@ namespace nightmareHunter {
                     stateName = "Die";
 
                     //무기 드랍
-                    int dropRate = Random.Range(0, 5);
+                    int dropRate = Random.Range(0, 10);
+                    //정수 드랍
+                    int stonRate = Random.Range(0, 90);
                     int weaponNum = Random.Range(0, 3);
 
                     if( dropRate == 0) {
@@ -640,9 +642,12 @@ namespace nightmareHunter {
                         weaPonItem.GetComponent<WeaponItem>().SetWeaponType(weaponNum + 1);
                     }
 
-                    GameObject stonObject = Instantiate(stoneAniObject, transform.position, transform.rotation);
-                    stonObject.GetComponent<WeaponItem>().stoneValue = _integer;
-                    stonObject.GetComponent<WeaponItem>().SetWeaponType(4);
+                    if(stonRate == 0) {
+                        GameObject stonObject = Instantiate(stoneAniObject, transform.position, transform.rotation);
+                        stonObject.GetComponent<WeaponItem>().stoneValue = _integer;
+                        stonObject.GetComponent<WeaponItem>().SetWeaponType(4);
+                    }
+
                     
                     _unitController.monsterKillCount += 1;
                     
